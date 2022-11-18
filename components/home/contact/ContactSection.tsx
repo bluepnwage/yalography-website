@@ -1,6 +1,8 @@
 import { Button, Grid, Section } from "@components/shared";
 import Image from "next/image";
 import bgImage from "@public/bg.jpg";
+import * as Icon from "./icons";
+
 export function Contact() {
   return (
     <Section>
@@ -10,14 +12,24 @@ export function Contact() {
       </header>
       <Grid width="w-11/12" gap="gap-4">
         <div className="bg-zinc-800 flex flex-col items-center justify-center gap-4 col-span-3 h-64 w-full">
-          <div className="bg-gradient-to-tr from-rose-500 to-red-600 h-16 w-16 rounded-full"></div>
+          <div
+            aria-hidden
+            className="bg-gradient-to-tr flex justify-center items-center from-rose-500 to-red-600 h-16 w-16 rounded-full"
+          >
+            <Icon.Email />
+          </div>
           <p className="font-semibold text-xl">Email</p>
           <address>
             <a href="mailto:email@gmail.com">email@gmail.com</a>
           </address>
         </div>
         <div className="bg-zinc-800 flex flex-col items-center gap-4 justify-center col-span-3 h-64 w-full">
-          <div className="bg-gradient-to-tr from-rose-500 to-red-600 h-16 w-16 rounded-full"></div>
+          <div
+            aria-hidden
+            className="bg-gradient-to-tr flex justify-center items-center from-rose-500 to-red-600 h-16 w-16 rounded-full"
+          >
+            <Icon.Location />
+          </div>
           <p className="font-semibold text-xl">Address</p>
           <address>Marigot, Saint-Martin</address>
         </div>
