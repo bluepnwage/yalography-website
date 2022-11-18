@@ -2,6 +2,7 @@ import { Button, Grid, Section } from "@components/shared";
 import Image from "next/image";
 import bgImage from "@public/bg.jpg";
 import * as Icon from "./icons";
+import { bgGradient } from "@lib/gradient";
 
 export function Contact() {
   return (
@@ -12,10 +13,7 @@ export function Contact() {
       </header>
       <Grid width="w-11/12" gap="gap-4">
         <div className="bg-zinc-800 flex flex-col items-center justify-center gap-4 col-span-3 h-64 w-full">
-          <div
-            aria-hidden
-            className="bg-gradient-to-tr flex justify-center items-center from-rose-500 to-red-600 h-16 w-16 rounded-full"
-          >
+          <div aria-hidden className={`flex justify-center items-center h-16 w-16 rounded-full ${bgGradient}`}>
             <Icon.Email />
           </div>
           <p className="font-semibold text-xl">Email</p>
@@ -24,10 +22,7 @@ export function Contact() {
           </address>
         </div>
         <div className="bg-zinc-800 flex flex-col items-center gap-4 justify-center col-span-3 h-64 w-full">
-          <div
-            aria-hidden
-            className="bg-gradient-to-tr flex justify-center items-center from-rose-500 to-red-600 h-16 w-16 rounded-full"
-          >
+          <div aria-hidden className={`flex justify-center items-center h-16 w-16 rounded-full ${bgGradient}`}>
             <Icon.Location />
           </div>
           <p className="font-semibold text-xl">Address</p>
