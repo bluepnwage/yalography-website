@@ -1,6 +1,7 @@
 import { Button, Section } from "@components/shared";
 import Image from "next/image";
 import heroImg from "@public/main-image.jpg";
+import { bgGradient } from "@lib/gradient";
 
 export function Hero() {
   return (
@@ -10,7 +11,7 @@ export function Hero() {
           <header className="mb-7">
             <h1 className="font-bold text-6xl text-gray-100">
               Capturing your <br />
-              <span className="text-red-600">special moments</span>{" "}
+              <span className={`${bgGradient} bg-clip-text text-transparent`}>special moments</span>{" "}
             </h1>
           </header>
           <p className="leading-loose mb-4 text-lg">
