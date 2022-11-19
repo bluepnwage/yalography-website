@@ -64,27 +64,30 @@ export function BoxArchive({ size }: IconProps) {
   );
 }
 
-export function Videocam({ size }: IconProps) {
+export function Maternity({ size }: IconProps) {
   return (
     <svg height={size || 24} width={size || 24} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-      <title>Video camera</title>
-      <g fill="none">
-        <path
-          d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"
-          fill="#ffffff"
-        />
+      <title>Baby Cariirage</title>
+      <g fill="none" stroke="#ffffff" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2">
+        <path d="M0 0h24v24H0z" fill="none" stroke="none" />
+        <path d="M2 5h2.5l1.632 4.897A6 6 0 0 0 11.825 14H14.5a5.5 5.5 0 0 0 0-11H14v6" />
+        <path d="M6 9h14" />
+        <path d="M9 17l1-3" />
+        <path d="M16 14l1 3" />
+        <circle cx="8" cy="19" r="2" />
+        <circle cx="18" cy="19" r="2" />
       </g>
     </svg>
   );
 }
 
-export function Palette({ size }: IconProps) {
+export function Family({ size }: IconProps) {
   return (
     <svg height={size || 24} width={size || 24} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-      <title>Palette</title>
+      <title>Family</title>
       <g fill="none">
         <path
-          d="M12 3a9 9 0 0 0 0 18c.83 0 1.5-.67 1.5-1.5 0-.39-.15-.74-.39-1.01-.23-.26-.38-.61-.38-.99 0-.83.67-1.5 1.5-1.5H16c2.76 0 5-2.24 5-5 0-4.42-4.03-8-9-8zm-5.5 9c-.83 0-1.5-.67-1.5-1.5S5.67 9 6.5 9 8 9.67 8 10.5 7.33 12 6.5 12zm3-4C8.67 8 8 7.33 8 6.5S8.67 5 9.5 5s1.5.67 1.5 1.5S10.33 8 9.5 8zm5 0c-.83 0-1.5-.67-1.5-1.5S13.67 5 14.5 5s1.5.67 1.5 1.5S15.33 8 14.5 8zm3 4c-.83 0-1.5-.67-1.5-1.5S16.67 9 17.5 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"
+          d="M16 4c0-1.11.89-2 2-2 1.11 0 2 .89 2 2 0 1.11-.89 2-2 2-1.11 0-2-.89-2-2zm4 18v-6h2.5l-2.54-7.63A2.01 2.01 0 0 0 18.06 7h-.12a2 2 0 0 0-1.9 1.37l-.86 2.58c1.08.6 1.82 1.73 1.82 3.05v8h3zm-7.5-10.5c.83 0 1.5-.67 1.5-1.5s-.67-1.5-1.5-1.5S11 9.17 11 10s.67 1.5 1.5 1.5zM5.5 6c1.11 0 2-.89 2-2 0-1.11-.89-2-2-2-1.11 0-2 .89-2 2 0 1.11.89 2 2 2zm2 16v-7H9V9c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v6h1.5v7h4zm6.5 0v-4h1v-4c0-.82-.68-1.5-1.5-1.5h-2c-.82 0-1.5.68-1.5 1.5v4h1v4h3z"
           fill="#ffffff"
         />
       </g>

@@ -5,12 +5,12 @@ import { ServiceCard } from "./ServiceCard";
 import type { PropTypes as ServiceCardProps } from "./ServiceCard";
 
 const serviceTypes: ServiceCardProps[] = [
+  { title: "Maternity Photography", Icon: Icon.Maternity },
   { title: "Wedding Photography", Icon: Icon.Bouquet },
-  { title: "Person Photography", Icon: Icon.Person },
+  { title: "Family Photography", Icon: Icon.Family },
+  { title: "Portrait Photography", Icon: Icon.Person },
   { title: "Event Photography", Icon: Icon.Ballon },
-  { title: "Product Photography", Icon: Icon.BoxArchive },
-  { title: "Videography", Icon: Icon.Videocam },
-  { title: "Creative Photography", Icon: Icon.Palette }
+  { title: "Decor Photography", Icon: Icon.BoxArchive }
 ];
 
 export function Services() {
