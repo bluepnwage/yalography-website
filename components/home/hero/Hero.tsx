@@ -3,8 +3,6 @@ import Image from "next/image";
 import heroImg from "@public/main-image.jpg";
 import styles from "./Hero.module.css";
 
-import { bgGradient } from "@lib/gradient";
-
 export function Hero() {
   return (
     <Section className={styles.hero}>
@@ -13,7 +11,9 @@ export function Hero() {
           <header className="mb-7">
             <h1 className="font-bold text-6xl text-gray-100">
               Capturing your <br />
-              <span className={`${bgGradient} bg-clip-text text-transparent`}>special moments</span>{" "}
+              <span className={`bg-gradient-to-tr from-rose-500 to-red-600 bg-clip-text text-transparent`}>
+                special moments
+              </span>{" "}
             </h1>
           </header>
           <p className="leading-loose mb-4 text-lg">
