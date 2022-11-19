@@ -12,7 +12,7 @@ export default function RootLayout({ children }: ComponentProps) {
       <head>
         <title>SXM Photography | Yalography</title>
         <meta charSet="UTF-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </head>
       <body className="bg-zinc-900 text-gray-300">
