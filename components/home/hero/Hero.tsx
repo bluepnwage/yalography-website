@@ -5,8 +5,8 @@ import { bgGradient } from "@lib/gradient";
 
 export function Hero() {
   return (
-    <Section style={{ height: "80vh" }}>
-      <div className="grid grid-cols-2 gap-5  h-full items-stretch">
+    <Section style={{ height: "calc(100vh - 64px)" }}>
+      <div className="grid grid-cols-2 gap-5 bg-zinc-800 h-full items-stretch">
         <div className="flex flex-col justify-center pl-5 ">
           <header className="mb-7">
             <h1 className="font-bold text-6xl text-gray-100">
