@@ -23,7 +23,7 @@ export function Hero() {
           <Button>Request Session</Button>
         </div>
         <figure className="h-full w-full overflow-hidden">
-          <Image src={heroImg} alt={"Official logo"} className="w-full h-full " />
+          <Image priority src={heroImg} alt={"Official logo"} className="w-full h-full " />
         </figure>
       </div>
     </Section>
