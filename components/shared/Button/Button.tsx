@@ -5,11 +5,13 @@ interface PropTypes extends ButtonHTMLAttributes<HTMLButtonElement> {
   width?: "full" | "fit";
 }
 
-export function Button({ intent, children, width, ...buttonArgs }: PropTypes) {
+export function Button({ intent, children, width, className, ...buttonProps }: PropTypes) {
   return (
     <button
-      {...buttonArgs}
-      className={`px-4 py-2 bg-red-600 text-gray-100 font-semibold rounded-md ${width === "full" ? "w-full" : "w-fit"}`}
+      {...buttonProps}
+      className={`px-4 py-2 bg-red-600 text-gray-100 font-semibold rounded-md ${className} ${
+        width === "full" ? "w-full" : "w-fit"
+      }`}
     >
       {children}
     </button>
