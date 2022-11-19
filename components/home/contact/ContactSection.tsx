@@ -17,7 +17,7 @@ export function Contact() {
           </ThemeIcon>
           <p className="font-semibold text-xl">Email</p>
           <address>
-            <a href="mailto:email@gmail.com">email@gmail.com</a>
+            <a href="mailto:yalography@gmail.com">yalography@gmail.com</a>
           </address>
         </div>
         <div className="bg-zinc-800 flex flex-col items-center gap-4 justify-center col-span-3 h-64 w-full">
