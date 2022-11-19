@@ -7,10 +7,10 @@ export function AboutSection() {
   return (
     <Section>
       <Grid width="w-11/12" gap="gap-5">
-        <figure className="col-span-4 bg-red-600">
+        <figure className="col-span-full lg:col-span-4 bg-red-600">
           <Image src={photographer} alt={""} />
         </figure>
-        <div className="col-span-7 p-5">
+        <div className="col-span-full lg:col-span-7 p-5">
           <header className="mb-7">
             <h2 className="font-bold text-red-500 text-sm mb-2">About</h2>
             <h3 className="font-bold text-3xl text-gray-100">Yalography</h3>

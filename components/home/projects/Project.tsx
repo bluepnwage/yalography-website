@@ -7,13 +7,15 @@ export interface PropTypes {
   image: StaticImageData;
   title: string;
   href: string;
-  colSpan: "col-span-4" | "col-span-8";
-  rowSpan: "row-span-2" | "row-span-1";
+  colSpan: "lg:col-span-4" | "lg:col-span-8";
+  rowSpan: "lg:row-span-2" | "lg:row-span-1";
 }
 
 export function Project({ image, title, colSpan, rowSpan }: PropTypes) {
   return (
-    <figure className={`${colSpan} ${rowSpan} bg-black flex items-end p-4 group  relative  h-full w-full`}>
+    <figure
+      className={`${colSpan} ${rowSpan} col-span-full bg-black flex items-end p-4 group  relative  h-full w-full`}
+    >
       <Image
         src={image}
         alt={""}
