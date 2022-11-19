@@ -1,4 +1,4 @@
-import { Hero, AboutSection, Services, Projects, Contact } from "@components/home";
+import { Hero, AboutSection, Services, ProjectList, Contact } from "@components/home";
 
 export default function HomePage() {
   return (
@@ -6,7 +6,7 @@ export default function HomePage() {
       <Hero />
       <AboutSection />
       <Services />
-      <Projects />
+      <ProjectList />
       <Contact />
     </main>
   );
