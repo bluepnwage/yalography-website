@@ -6,6 +6,6 @@ interface PropTypes extends HTMLAttributes<HTMLDivElement> {
   rows?: string;
   cols?: string;
 }
-export function Grid({ children, width = "", gap = "", cols = "grid-cols-12", rows = "", className }: PropTypes) {
-  return <div className={`grid ${width} ${gap} grid-cols-6 lg:${cols} ${rows} ${className}`}>{children}</div>;
+export function Grid({ children, width = "", gap = "", cols = "lg:grid-cols-12", rows = "", className }: PropTypes) {
+  return <div className={`grid ${width} ${gap} grid-cols-6 ${cols} ${rows} ${className}`}>{children}</div>;
 }
