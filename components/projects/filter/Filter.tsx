@@ -1,8 +1,9 @@
 import * as Icon from "./icons";
 import styles from "./Filter.module.css";
+
 export function Filter() {
   return (
-    <div className="border-b py-5 mb-16 px-16 justify-between flex border-zinc-700">
+    <div className="border-b py-5 mb-16 px-16 justify-between gap-5 items-center lg:items-start lg:gap-0 flex-col lg:flex-row flex border-zinc-700">
       <div className="flex gap-5 items-center">
         <div className="flex gap-2">
           <Icon.FilterIcon />
@@ -11,7 +12,7 @@ export function Filter() {
         <hr className="border border-zinc-700 h-5" />
         <button>Clear all</button>
       </div>
-      <p className="space-x-4 relative">
+      <p className="space-y-2 lg:space-y-0 lg:space-x-4 relative">
         <label htmlFor="search">Search</label>
         <input
           type={"search"}

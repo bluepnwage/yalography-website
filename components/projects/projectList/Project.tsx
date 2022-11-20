@@ -4,7 +4,7 @@ import { Badge, Anchor } from "@components/shared";
 
 export function Project() {
   return (
-    <div className="bg-zinc-800 rounded-md flex flex-col col-span-3 gap-4 overflow-hidden ">
+    <div className="bg-zinc-800 rounded-md flex flex-col col-span-full lg:col-span-3 gap-4 overflow-hidden ">
       <figure className="basis-1/3">
         <Image src={pixel} alt={""} className="h-full w-full" />
       </figure>
