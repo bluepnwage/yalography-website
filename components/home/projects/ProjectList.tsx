@@ -7,6 +7,7 @@ import pixel from "@public/pixel.jpg";
 import model from "@public/model2-sm.jpg";
 
 import type { PropTypes as ProjectProps } from "./Project";
+import Link from "next/link";
 
 const projects: ProjectProps[] = [
   { title: "Model", image: model, href: "", colSpan: "lg:col-span-4", rowSpan: "lg:row-span-2" },
@@ -24,7 +25,9 @@ export function ProjectList() {
             <h2 className="text-red-500 font-bold">Projects</h2>
             <h3 className="font-bold text-gray-100 text-2xl">Check out some of our works</h3>
           </header>
-          <Button>View all projects</Button>
+          <Link className="bg-red-600 text-gray-100 font-semibold rounded-md px-4 py-2" href={"/projects"}>
+            View all projects
+          </Link>
         </div>
         {projects.map((proj, key) => {
           return <Project {...proj} key={key} />;

@@ -1,7 +1,17 @@
 import { Button } from "./shared";
 import Link from "next/link";
 
-const navLinks = ["Home", "Reservation", "About", "Gallery"];
+interface NavLinkProps {
+  href: string;
+  text: string;
+}
+
+const navLinks: NavLinkProps[] = [
+  { href: "/", text: "Home" },
+  { text: "Reservation", href: "/" },
+  { text: "About", href: "/" },
+  { text: "Gallery", href: "/" }
+];
 
 export function Header() {
   return (
@@ -13,8 +23,8 @@ export function Header() {
             {navLinks.map((link, key) => {
               return (
                 <li key={key}>
-                  <Link href={"/"} className="hover:text-yellow-400 duration-200 ease-out font-semibold">
-                    {link}
+                  <Link href={link.href} className="hover:text-yellow-400 duration-200 ease-out font-semibold">
+                    {link.text}
                   </Link>
                 </li>
               );

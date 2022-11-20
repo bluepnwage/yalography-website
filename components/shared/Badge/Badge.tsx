@@ -6,7 +6,9 @@ interface PropTypes extends HTMLAttributes<HTMLDivElement> {
 
 export function Badge({ children, className }: PropTypes) {
   return (
-    <div className={`rounded-xl px-4 py-2 bg-indigo-600 bg-opacity-50 text-indigo-300 font-semibold ${className}`}>
+    <div
+      className={`rounded-full px-3 py-1 text-sm flex justify-center items-center bg-indigo-600 bg-opacity-50 text-indigo-300 font-semibold ${className}`}
+    >
       <span>{children}</span>
     </div>
   );
