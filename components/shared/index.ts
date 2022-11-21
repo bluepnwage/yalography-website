@@ -4,3 +4,4 @@ export * from "./Badge";
 export * from "./Grid";
 export * from "./Section";
 export * from "./ThemeIcon";
+export * from "./Title";
