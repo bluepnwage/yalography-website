@@ -5,16 +5,14 @@ import gigaChad from "@public/giga-chad.jpg";
 
 export function Bio() {
   return (
-    <Section>
-      <Grid width="w-11/12" cols="lg:grid-cols-2">
+    <Section className="mt-16">
+      <Grid lg={2}>
         <article className="pr-10">
           <header className="space-y-2 mb-5">
-            <Title order="h2" color="text-red-500">
+            <Title order="h2" size={"md"} color="red">
               About us
             </Title>
-            <Title order="h3" className="text-3xl">
-              Random title
-            </Title>
+            <Title order="h3">Random title</Title>
           </header>
           <p className="text-lg">
             Occaecat commodo amet amet laboris pariatur fugiat. Et occaecat dolore elit consectetur officia aliquip elit
@@ -24,7 +22,7 @@ export function Bio() {
             veniam nisi excepteur consectetur.
           </p>
           <strong className="block my-4">Some of my skills include:</strong>
-          <Grid cols="lg:grid-cols-2" gap="gap-2">
+          <Grid lg={2}>
             <Skill />
             <Skill />
             <Skill />

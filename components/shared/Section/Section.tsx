@@ -1,13 +1,27 @@
-import type { HTMLAttributes } from "react";
+import type { ComponentPropsWithoutRef } from "react";
+import { FlexContainer } from "../FlexContainer";
 
-interface PropTypes extends HTMLAttributes<HTMLElement> {
-  margin?: string;
-}
+import { cva } from "cva";
+import type { VariantProps } from "cva";
 
-export function Section({ children, className, margin, ...props }: PropTypes) {
+const styles = cva("items-center", {
+  variants: {
+    margin: {
+      true: "mb-20 lg:mb-48",
+      false: "mb-0 lg:mb-0"
+    }
+  },
+  defaultVariants: {
+    margin: true
+  }
+});
+
+type SectionProps = ComponentPropsWithoutRef<"section"> & VariantProps<typeof styles>;
+
+export function Section({ children, className, margin, ...props }: SectionProps) {
   return (
-    <section {...props} className={`flex flex-col items-center ${margin || "mb-48"} ${className}`}>
+    <FlexContainer direction={"column"} component={"section"} {...props} className={styles({ margin, className })}>
       {children}
-    </section>
+    </FlexContainer>
   );
 }

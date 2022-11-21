@@ -21,7 +21,7 @@ export function Hero() {
             reprehenderit consequat. Ipsum cillum consequat consectetur qui adipisicing. Incididunt do commodo
             incididunt excepteur tempor enim non incididunt magna cupidatat.
           </p>
-          <Button>Request Session</Button>
+          <Button fullWidth>Request Session</Button>
         </div>
         <figure className="h-full w-full hidden lg:block overflow-hidden col-span-full lg:col-span-1">
           <Image priority src={heroImg} alt={"Official logo"} className="w-full h-full " />

@@ -11,7 +11,7 @@ export function Project() {
       <div className="p-4 space-y-4">
         <div className="flex justify-between basis-2/3">
           <h3 className="font-bold text-2xl text-gray-100 ">Pixel art</h3>
-          <Badge color="green">Wedding</Badge>
+          <Badge color={"violet"}>Wedding</Badge>
         </div>
         <p>
           Quis nostrud velit aliquip sint aliquip consectetur. Consequat aliqua irure elit do culpa non commodo id non

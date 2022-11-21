@@ -1,13 +1,9 @@
-import { Grid } from "./shared";
+import { Grid, ThemeIcon } from "./shared";
 
 export function Footer() {
   return (
     <footer className="border-t flex flex-col items-center border-gray-600 py-10">
-      <Grid
-        width="w-11/12"
-        gap="gap-10 lg:gap-0"
-        className="place-items-center lg-place-items-start text-center lg:text-start"
-      >
+      <Grid className="place-items-center lg:place-items-start text-center lg:text-start">
         <div className="col-span-full lg:col-span-3 space-y-2">
           <p className="font-semibold text-lg">Yalography</p>
           <small className="text-gray-400">© 2022, All rights reserved</small>
@@ -28,27 +24,31 @@ export function Footer() {
         <div className="col-span-full lg:col-span-3">
           <p className="font-semibold text-lg mb-4">Follow us</p>
           <ul className="flex gap-4">
-            <li className="rounded-full flex justify-center items-center bg-zinc-800 h-12 w-12">
-              <a
-                aria-label="Facebook page"
-                title={"Facebook page"}
-                href={"https://www.facebook.com/yalographysxm"}
-                target={"_blank"}
-                rel={"noreferrer"}
-              >
-                <Facebook />
-              </a>
+            <li>
+              <ThemeIcon gradient={false} size={"sm"}>
+                <a
+                  aria-label="Facebook page"
+                  title={"Facebook page"}
+                  href={"https://www.facebook.com/yalographysxm"}
+                  target={"_blank"}
+                  rel={"noreferrer"}
+                >
+                  <Facebook />
+                </a>
+              </ThemeIcon>
             </li>
-            <li className="rounded-full flex justify-center items-center bg-zinc-800 h-12 w-12">
-              <a
-                title={"Instagram page"}
-                aria-label={"Instagram page"}
-                href={"https://instagram.com/yalography"}
-                target={"_blank"}
-                rel={"noreferrer"}
-              >
-                <Instagram />
-              </a>
+            <li>
+              <ThemeIcon gradient={false} size={"sm"}>
+                <a
+                  title={"Instagram page"}
+                  aria-label={"Instagram page"}
+                  href={"https://instagram.com/yalography"}
+                  target={"_blank"}
+                  rel={"noreferrer"}
+                >
+                  <Instagram />
+                </a>
+              </ThemeIcon>
             </li>
           </ul>
         </div>

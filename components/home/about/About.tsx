@@ -1,4 +1,4 @@
-import { Grid, Section, Button, Title } from "@components/shared";
+import { Grid, Button, Title, Section } from "@components/shared";
 import Image from "next/image";
 import photographer from "@public/photographer-lg.jpg";
 import { Stats } from "./Stats";
@@ -6,13 +6,13 @@ import { Stats } from "./Stats";
 export function AboutSection() {
   return (
     <Section>
-      <Grid width="w-11/12" gap="gap-5">
+      <Grid>
         <figure className="col-span-full lg:col-span-4 bg-red-600">
           <Image src={photographer} alt={""} />
         </figure>
         <div className="col-span-full lg:col-span-7 p-5">
           <header className="mb-7 space-y-2">
-            <Title order={"h2"} color="text-red-500">
+            <Title order={"h2"} color="red" size={"md"}>
               About
             </Title>
             <Title order={"h3"} className="text-3xl">
@@ -26,7 +26,7 @@ export function AboutSection() {
             voluptate.
           </p>
           <Stats />
-          <Button style={{ marginLeft: "auto", marginRight: "auto", display: "block" }}>View gallery</Button>
+          <Button className="mx-auto block">View gallery</Button>
         </div>
       </Grid>
     </Section>

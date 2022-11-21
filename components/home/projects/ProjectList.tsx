@@ -19,15 +19,13 @@ const projects: ProjectProps[] = [
 export function ProjectList() {
   return (
     <Section>
-      <Grid rows="grid-rows-5 lg:grid-rows-3" gap="gap-4" width="w-11/12">
+      <Grid className="grid-rows-5 lg:grid-rows-3">
         <div className="bg-zinc-800 col-span-full lg:col-span-4 p-4 h-64 flex flex-col justify-center items-center gap-10">
           <header className="text-center space-y-2">
-            <Title color={"text-red-500"} order={"h2"}>
+            <Title color={"red"} order={"h2"} size={"md"}>
               Projects
             </Title>
-            <Title order={"h3"} className="text-3xl">
-              Check out some of our works
-            </Title>
+            <Title order={"h3"}>Check out some of our works</Title>
           </header>
           <Link className="bg-red-600 text-gray-100 font-semibold rounded-md px-4 py-2" href={"/projects"}>
             View all projects

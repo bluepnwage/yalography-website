@@ -1,11 +1,36 @@
-import type { HTMLAttributes } from "react";
+import type { ComponentPropsWithoutRef } from "react";
+import { cva } from "cva";
+import type { VariantProps } from "cva";
+import { GAP_STYLES } from "@util/gap";
 
-interface PropTypes extends HTMLAttributes<HTMLDivElement> {
-  width?: string;
-  gap?: string;
-  rows?: string;
-  cols?: string;
-}
-export function Grid({ children, width = "", gap = "", cols = "lg:grid-cols-12", rows = "", className }: PropTypes) {
-  return <div className={`grid ${width} ${gap} grid-cols-6 ${cols} ${rows} ${className}`}>{children}</div>;
+const styles = cva("grid grid-cols-6 w-11/12", {
+  variants: {
+    lg: {
+      1: "lg:grid-cols-1",
+      2: "lg:grid-cols-2",
+      3: "lg:grid-cols-3",
+      4: "lg:grid-cols-4",
+      5: "lg:grid-cols-5",
+      6: "lg:grid-cols-6",
+      7: "lg:grid-cols-7",
+      8: "lg:grid-cols-8",
+      9: "lg:grid-cols-9",
+      10: "lg:grid-cols-10",
+      11: "lg:grid-cols-11",
+      12: "lg:grid-cols-12"
+    },
+    gap: {
+      ...GAP_STYLES
+    }
+  },
+  defaultVariants: {
+    lg: 12,
+    gap: "md"
+  }
+});
+
+type GridProps = ComponentPropsWithoutRef<"div"> & VariantProps<typeof styles>;
+
+export function Grid({ children, gap, lg, className }: GridProps) {
+  return <div className={styles({ gap, lg, className })}>{children}</div>;
 }

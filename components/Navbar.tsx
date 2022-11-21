@@ -35,7 +35,7 @@ export function Header() {
           <Link href={"/"} className="text-gray-300 font-semibold hover:text-yellow-400 duration-200 ease-out">
             Login
           </Link>
-          <Button>Sign up</Button>
+          <Button intent={"secondary"}>Sign up</Button>
         </div>
       </div>
     </header>

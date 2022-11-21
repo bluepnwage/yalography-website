@@ -17,14 +17,12 @@ export function Services() {
   return (
     <Section>
       <header className="space-y-2 mb-10 text-center">
-        <Title order={"h2"} color="text-red-500">
+        <Title order={"h2"} color="red" size={"md"}>
           Services
         </Title>
-        <Title order={"h3"} className="text-3xl">
-          What we offer
-        </Title>
+        <Title order={"h3"}>What we offer</Title>
       </header>
-      <Grid width="w-11/12" gap="gap-5">
+      <Grid>
         {serviceTypes.map((service, key) => {
           return <ServiceCard {...service} key={key} />;
         })}

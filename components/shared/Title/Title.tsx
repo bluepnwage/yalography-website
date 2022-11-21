@@ -1,14 +1,41 @@
+import { cva } from "cva";
+
+import type { VariantProps } from "cva";
 import type { HTMLAttributes } from "react";
 
-interface PropTypes extends Omit<HTMLAttributes<HTMLHeadingElement>, "color"> {
-  color?: "text-red-500" | "text-gray-100";
-  order?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
-}
+const styles = cva("font-bold ", {
+  variants: {
+    order: {
+      h1: "text-6xl",
+      h2: "text-4xl",
+      h3: "text-3xl",
+      h4: "text-2xl",
+      h5: "text-xl",
+      h6: "text-lg"
+    },
+    color: {
+      red: "text-red-500",
+      gray: "text-gray-100"
+    },
+    size: {
+      sm: "text-sm",
+      md: "text-base",
+      lg: "text-lg",
+      xl: "text-xl"
+    }
+  },
+  defaultVariants: {
+    color: "gray",
+    order: "h1"
+  }
+});
 
-export function Title({ order, color, children, className, ...props }: PropTypes) {
+type TitleProps = Omit<HTMLAttributes<HTMLHeadingElement>, "color"> & VariantProps<typeof styles>;
+
+export function Title({ order, color, children, className, size, ...props }: TitleProps) {
   const Component = order || "h1";
   return (
-    <Component {...props} className={`font-bold ${className} ${color}`}>
+    <Component {...props} className={styles({ color, order, className, size })}>
       {children}
     </Component>
   );
