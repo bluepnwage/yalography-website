@@ -2,8 +2,8 @@ import { Title, Grid, Section } from "@components/shared";
 
 export function Descrption() {
   return (
-    <Grid lg={2} className="mb-36 w-full">
-      <div>
+    <Grid lg={2} className="mb-10 lg:mb-36 w-full">
+      <div className="col-span-full lg:col-span-1">
         <header className="mb-5">
           <Title order={"h2"} size={"md"} color={"red"}>
             Overview
@@ -16,7 +16,7 @@ export function Descrption() {
           fugiat dolore sunt amet. Id aliqua amet nisi voluptate.
         </p>
       </div>
-      <div className="bg-zinc-800 rounded-md p-5">
+      <div className="bg-zinc-800 rounded-md p-5 col-span-full lg:col-span-1">
         <p className="text-center text-red-500 mb-5">Testimonial</p>
         <p className="text-lg mb-5">
           Consequat laborum tempor laborum enim cillum magna nulla fugiat magna et duis. Ut anim excepteur et mollit id

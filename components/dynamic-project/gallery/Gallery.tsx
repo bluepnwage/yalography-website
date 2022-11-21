@@ -14,7 +14,7 @@ export function Gallery() {
       </div>
       <Grid className="w-full">
         {images.map((_, key) => {
-          return <Image key={key} src={pixel} alt={""} className="col-span-4 object-contain" />;
+          return <Image key={key} src={pixel} alt={""} className="col-span-full lg:col-span-4 object-contain" />;
         })}
       </Grid>
     </>
