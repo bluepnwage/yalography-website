@@ -6,10 +6,10 @@ import type { HTMLAttributes } from "react";
 const styles = cva("font-bold ", {
   variants: {
     order: {
-      h1: "text-6xl",
-      h2: "text-4xl",
-      h3: "text-3xl",
-      h4: "text-2xl",
+      h1: "text-4xl lg:text-6xl",
+      h2: "text-3xl lg:text-4xl",
+      h3: "text-2xl lg:text-3xl",
+      h4: "text-xl lg:text-2xl",
       h5: "text-xl",
       h6: "text-lg"
     },
@@ -18,10 +18,10 @@ const styles = cva("font-bold ", {
       gray: "text-gray-100"
     },
     size: {
-      sm: "text-sm",
-      md: "text-base",
-      lg: "text-lg",
-      xl: "text-xl"
+      sm: "text-sm lg:text-sm",
+      md: "text-base lg:text-base",
+      lg: "text-lg lg:text-lg",
+      xl: "text-xl lg:text-xl"
     }
   },
   defaultVariants: {

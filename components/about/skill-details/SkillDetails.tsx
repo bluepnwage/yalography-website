@@ -5,7 +5,7 @@ import pixel from "@public/pixel2.jpg";
 export function SkillDetails() {
   return (
     <Section margin={false} className={`svg-background py-16 border-t border-zinc-700`}>
-      <Grid lg={1} className={"gap-36"}>
+      <Grid lg={1} className={"gap-16 lg:gap-36"}>
         <Skill />
         <Skill />
         <Skill />
@@ -16,9 +16,9 @@ export function SkillDetails() {
 
 function Skill() {
   return (
-    <article className="flex gap-10 even:flex-row-reverse">
+    <article className="flex gap-10 flex-col-reverse col-span-full lg:col-span-1 lg:flex-row lg:even:flex-row-reverse">
       <div className="basis-1/2 grow">
-        <header className="mb-5">
+        <header className="mb-5 space-y-2">
           <Title order="h2" size={"md"} color="red">
             Editing
           </Title>
