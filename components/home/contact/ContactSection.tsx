@@ -11,7 +11,7 @@ export function Contact() {
         <h3 className="font-bold text-gray-100 text-3xl">Ready to get in touch?</h3>
       </header>
       <Grid width="w-11/12" gap="gap-4">
-        <div className="bg-zinc-800 flex flex-col items-center justify-center gap-4 col-span-3 h-64 w-full">
+        <div className="bg-zinc-800 flex flex-col items-center justify-center gap-4 col-span-full lg:col-span-3 h-64 w-full">
           <ThemeIcon aria-hidden>
             <Icon.Email />
           </ThemeIcon>
@@ -20,14 +20,14 @@ export function Contact() {
             <a href="mailto:yalography@gmail.com">yalography@gmail.com</a>
           </address>
         </div>
-        <div className="bg-zinc-800 flex flex-col items-center gap-4 justify-center col-span-3 h-64 w-full">
+        <div className="bg-zinc-800 flex flex-col items-center gap-4 justify-center col-span-full lg:col-span-3 h-64 w-full">
           <ThemeIcon aria-hidden>
             <Icon.Location />
           </ThemeIcon>
           <p className="font-semibold text-xl">Address</p>
           <address>Marigot, Saint-Martin</address>
         </div>
-        <figure className="bg-zinc-800 col-span-6  w-full h-full row-span-2">
+        <figure className="bg-zinc-800 col-span-full row-start-1 lg:col-span-6  w-full h-full lg:row-span-2">
           <Image src={bgImage} alt={""} className="h-full" />
         </figure>
         <div className="bg-zinc-800 col-span-6 h-64 w-full gap-4 flex flex-col justify-center items-center">
