@@ -1,6 +1,5 @@
 .hero {
   height: calc(100vh - 64px);
-  background-image: var(--svg-bg);
 }
 
 @media screen and (max-width: 768px) {

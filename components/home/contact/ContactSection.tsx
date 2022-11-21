@@ -1,12 +1,11 @@
 import { Button, Grid, Section, ThemeIcon } from "@components/shared";
 import Image from "next/image";
 import bgImage from "@public/bg.jpg";
-import styles from "./Contact.module.css";
 import * as Icon from "./icons";
 
 export function Contact() {
   return (
-    <Section margin="mb-0" className={`${styles.contact_section} py-16 border-t border-zinc-700`}>
+    <Section margin="mb-0" className={`svg-background py-16 border-t border-zinc-700`}>
       <header className="space-y-2 text-center mb-16">
         <h2 className="text-red-500 font-bold ">Contact</h2>
         <h3 className="font-bold text-gray-100 text-3xl">Ready to get in touch?</h3>

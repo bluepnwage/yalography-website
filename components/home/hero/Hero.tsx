@@ -5,7 +5,7 @@ import styles from "./Hero.module.css";
 
 export function Hero() {
   return (
-    <Section className={`${styles.hero} border-b border-zinc-700`}>
+    <Section className={`${styles.hero} svg-background border-b border-zinc-700`}>
       <div className="grid grid-cols-2 gap-5 h-full items-stretch">
         <div className="flex flex-col justify-center p-5 lg:pl-5 col-span-full lg:col-span-1 ">
           <header className="mb-7">
