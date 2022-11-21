@@ -1,4 +1,4 @@
-import { Button, Grid, Section, ThemeIcon } from "@components/shared";
+import { Button, Grid, Section, ThemeIcon, Title } from "@components/shared";
 import Image from "next/image";
 import bgImage from "@public/bg.jpg";
 import * as Icon from "./icons";
@@ -7,8 +7,10 @@ export function Contact() {
   return (
     <Section margin="mb-0" className={`svg-background py-16 border-t border-zinc-700`}>
       <header className="space-y-2 text-center mb-16">
-        <h2 className="text-red-500 font-bold ">Contact</h2>
-        <h3 className="font-bold text-gray-100 text-3xl">Ready to get in touch?</h3>
+        <Title color="text-red-500" order={"h2"}>Contact</Title>
+        <Title order="h3" className="text-3xl">
+          Ready to get in touch?
+        </Title>
       </header>
       <Grid width="w-11/12" gap="gap-4">
         <div className="bg-zinc-800 flex flex-col items-center justify-center gap-4 col-span-full lg:col-span-3 h-64 w-full">

@@ -1,4 +1,4 @@
-import { Button, Grid, Section } from "@components/shared";
+import { Grid, Section, Title } from "@components/shared";
 import { Project } from "./Project";
 
 import airport from "@public/airport-md.jpg";
@@ -22,8 +22,12 @@ export function ProjectList() {
       <Grid rows="grid-rows-5 lg:grid-rows-3" gap="gap-4" width="w-11/12">
         <div className="bg-zinc-800 col-span-full lg:col-span-4 p-4 h-64 flex flex-col justify-center items-center gap-10">
           <header className="text-center space-y-2">
-            <h2 className="text-red-500 font-bold">Projects</h2>
-            <h3 className="font-bold text-gray-100 text-2xl">Check out some of our works</h3>
+            <Title color={"text-red-500"} order={"h2"}>
+              Projects
+            </Title>
+            <Title order={"h3"} className="text-3xl">
+              Check out some of our works
+            </Title>
           </header>
           <Link className="bg-red-600 text-gray-100 font-semibold rounded-md px-4 py-2" href={"/projects"}>
             View all projects

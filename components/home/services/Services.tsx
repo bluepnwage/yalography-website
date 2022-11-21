@@ -1,4 +1,4 @@
-import { Grid, Section } from "@components/shared";
+import { Grid, Section, Title } from "@components/shared";
 import * as Icon from "./icons/index";
 
 import { ServiceCard } from "./ServiceCard";
@@ -17,8 +17,12 @@ export function Services() {
   return (
     <Section>
       <header className="space-y-2 mb-10 text-center">
-        <h2 className="text-red-500 font-bold text-sm">Services</h2>
-        <h3 className="text-gray-100 font-bold text-3xl">What we offer</h3>
+        <Title order={"h2"} color="text-red-500">
+          Services
+        </Title>
+        <Title order={"h3"} className="text-3xl">
+          What we offer
+        </Title>
       </header>
       <Grid width="w-11/12" gap="gap-5">
         {serviceTypes.map((service, key) => {
