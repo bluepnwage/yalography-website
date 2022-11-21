@@ -17,7 +17,7 @@ export function Project() {
           Quis nostrud velit aliquip sint aliquip consectetur. Consequat aliqua irure elit do culpa non commodo id non
           voluptate qui velit reprehenderit. Ea laborum do Lorem ut consequat aute.
         </p>
-        <Anchor href={"#"} className="block">
+        <Anchor href={"/projects/random-project"} className="block">
           View project
         </Anchor>
       </div>
