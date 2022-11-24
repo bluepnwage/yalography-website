@@ -8,7 +8,7 @@ interface NavLinkProps {
 
 const navLinks: NavLinkProps[] = [
   { href: "/", text: "Home" },
-  { text: "Reservation", href: "/" },
+  { text: "Bookings", href: "/bookings" },
   { text: "About", href: "/about" },
   { text: "Gallery", href: "/" }
 ];

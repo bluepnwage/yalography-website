@@ -10,7 +10,7 @@ function crumbs(projectId: string): [Route<"Home", "/">, Route<"Projects", "/pro
   return [
     { href: "/", title: "Home" },
     { href: "/projects", title: "Projects" },
-    { href: "/project", title: projectId }
+    { href: "/projects/random-project", title: projectId }
   ];
 }
 

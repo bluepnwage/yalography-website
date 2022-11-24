@@ -10,8 +10,12 @@
   },
   "sideEffects": false,
   "dependencies": {
+    "@mantine/core": "^5.8.3",
+    "@mantine/dates": "^5.8.3",
+    "@mantine/hooks": "^5.8.3",
     "@next/font": "^13.0.4",
     "cva": "npm:class-variance-authority@^0.3.0",
+    "dayjs": "^1.11.6",
     "next": "^13.0.4",
     "react": "18.2.0",
     "react-dom": "18.2.0"

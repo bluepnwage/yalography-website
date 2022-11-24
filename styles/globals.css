@@ -12,3 +12,13 @@
   background-attachment: fixed;
   background-position: center;
 }
+
+label + input {
+  margin-top: 7px;
+  display: block;
+}
+
+label + textarea {
+  margin-top: 7px;
+  display: block;
+}
