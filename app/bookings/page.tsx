@@ -4,7 +4,7 @@ import { Section, Title } from "@components/shared";
 export default function BookingsPage() {
   return (
     <>
-      <Section>
+      <Section className="mt-10">
         <Title className="mb-5" order={"h2"}>
           Reserve a session
         </Title>
