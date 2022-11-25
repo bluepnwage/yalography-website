@@ -6,10 +6,8 @@ module.exports = {
     "./components/**/*.{js,ts,jsx,tsx}"
   ],
   theme: {
-    extend: {
-      // fontFamily: {
-      //   sans: ["var(--font-kumbh-sans)"]
-      // }
+    fontFamily: {
+      sans: ["Montserrat"]
     }
   },
   plugins: []
