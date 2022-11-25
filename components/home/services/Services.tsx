@@ -7,7 +7,7 @@ import type { PropTypes as ServiceCardProps } from "./ServiceCard";
 const serviceTypes: ServiceCardProps[] = [
   { title: "Maternity Photography", Icon: Icon.Maternity },
   { title: "Wedding Photography", Icon: Icon.Bouquet },
-  { title: "Family Photography", Icon: Icon.Family },
+  { title: "Commercial Photography", Icon: Icon.Globe },
   { title: "Portrait Photography", Icon: Icon.Person },
   { title: "Event Photography", Icon: Icon.Ballon },
   { title: "Decor Photography", Icon: Icon.BoxArchive }
