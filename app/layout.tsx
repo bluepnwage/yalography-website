@@ -1,14 +1,14 @@
 import { Footer } from "@components/Footer";
 import { Header } from "@components/Navbar";
-import { Kumbh_Sans as FontSans } from "@next/font/google";
+import { Poppins as FontSans } from "@next/font/google";
 
 import "../styles/globals.css";
 
-const kumbhSans = FontSans({ variable: "--font-kumbh-sans", subsets: ["latin"] });
+const font = FontSans({ weight: "500" });
 
 export default function RootLayout({ children }: ComponentProps) {
   return (
-    <html lang="en" className={`${kumbhSans.className}`}>
+    <html lang="en" className={`${font.className}`}>
       <head>
         <title>SXM Photography | Yalography</title>
         <meta charSet="UTF-8" />
