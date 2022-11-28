@@ -5,7 +5,7 @@ import type { ComponentPropsWithoutRef, ElementType } from "react";
 
 type CardProps<C extends ElementType> = { component?: C } & ComponentPropsWithoutRef<C>;
 
-const styles = cva("dark:bg-zinc-800 bg-white ring-black ring-1 ring-opacity-5 dark:ring-0 p-4", {
+const styles = cva("dark:bg-zinc-800 bg-white ring-black ring-1 ring-opacity-5 dark:ring-0 p-4 duration-200 ease-out", {
   variants: {
     radius: {
       xs: "rounded-xs",

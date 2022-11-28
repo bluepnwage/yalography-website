@@ -3,7 +3,7 @@ import { cva } from "cva";
 import type { VariantProps } from "cva";
 import type { HTMLAttributes } from "react";
 
-const styles = cva("font-bold ", {
+const styles = cva("font-bold", {
   variants: {
     order: {
       h1: "text-4xl lg:text-6xl",
@@ -14,8 +14,8 @@ const styles = cva("font-bold ", {
       h6: "text-lg"
     },
     color: {
-      red: "text-red-500",
-      gray: "text-gray-100"
+      red: "text-red-600 dark:text-red-500",
+      gray: "text-gray-900 dark:text-gray-100"
     },
     size: {
       sm: "text-sm lg:text-sm",

@@ -10,7 +10,7 @@ export function Stats() {
       {statList.map((stat) => {
         return (
           <div className="space-y-2 grow basis-1/3 text-center lg:text-start" key={stat.title}>
-            <p className="text-red-500 font-bold text-xl">{stat.stat}+</p>
+            <p className="text-red-600 dark:text-red-500 font-bold text-xl">{stat.stat}+</p>
             <p className="text-lg ">{stat.title}</p>
           </div>
         );

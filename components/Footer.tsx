@@ -2,7 +2,7 @@ import { Grid, ThemeIcon } from "./shared";
 
 export function Footer() {
   return (
-    <footer className="border-t flex flex-col items-center border-gray-600 py-10">
+    <footer className="border-t flex flex-col items-center  bg-white dark:bg-transparent border-gray-200 dark:border-gray-600 py-10">
       <Grid className="place-items-center lg:place-items-start text-center lg:text-start">
         <div className="col-span-full lg:col-span-3 space-y-2">
           <p className="font-semibold text-lg">Yalography</p>

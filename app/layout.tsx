@@ -5,7 +5,7 @@ import "../styles/globals.css";
 
 export default function RootLayout({ children }: ComponentProps) {
   return (
-    <html lang="en" className={`font-sans dark`}>
+    <html lang="en" className={`font-sans dark dark-mode`}>
       <head>
         <title>SXM Photography | Yalography</title>
         <meta charSet="UTF-8" />
@@ -17,7 +17,7 @@ export default function RootLayout({ children }: ComponentProps) {
         />
       </head>
 
-      <body className="bg-zinc-900 text-gray-300">
+      <body className="dark:bg-zinc-900 bg-gray-50 text-gray-900 dark:text-gray-300 duration-200 ease-out">
         <Header />
         {children}
         <Footer />
