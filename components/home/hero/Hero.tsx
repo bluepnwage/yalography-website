@@ -9,7 +9,7 @@ export function Hero() {
       className={`${styles.hero} svg-background border-b border-zinc-200 bg-white dark:bg-zinc-900 duration-200 ease-out dark:border-zinc-700`}
     >
       <div className="grid grid-cols-2 gap-5 h-full items-stretch">
-        <div className="flex flex-col justify-center p-5 lg:pl-5 col-span-full lg:col-span-1 ">
+        <div className="flex flex-col justify-center p-5 text-center lg:pl-5 col-span-full lg:col-span-1 ">
           <header className="mb-7">
             <Title className="text-6xl">
               Capturing your <br />
@@ -23,7 +23,7 @@ export function Hero() {
             reprehenderit consequat. Ipsum cillum consequat consectetur qui adipisicing. Incididunt do commodo
             incididunt excepteur tempor enim non incididunt magna cupidatat.
           </p>
-          <Button fullWidth>Request Session</Button>
+          <Button className="block mx-auto">Request Session</Button>
         </div>
         <figure className="h-full w-full hidden lg:block overflow-hidden col-span-full lg:col-span-1">
           <Image priority src={heroImg} alt={"Official logo"} className="w-full h-full " />
