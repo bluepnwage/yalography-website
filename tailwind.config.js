@@ -10,5 +10,6 @@ module.exports = {
       sans: ["Inter"]
     }
   },
+  darkMode: 'class',
   plugins: []
 };
