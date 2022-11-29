@@ -4,7 +4,7 @@ import pixel from "@public/pixel2.jpg";
 
 export function SkillDetails() {
   return (
-    <Section margin={false} className={`svg-background py-16 border-t border-zinc-700`}>
+    <Section margin={false} className={`svg-background py-16 border-t border-zinc-200 dark:border-zinc-700`}>
       <Grid lg={1} className={"gap-16 lg:gap-36"}>
         <Skill />
         <Skill />
