@@ -9,7 +9,7 @@ export function Anchor({ children, className, externalLink, href, ...props }: Pr
   const Component = externalLink ? "a" : Link;
   return (
     <>
-      <Component className={`text-yellow-500 ${className}`} href={`${href}`} {...props}>
+      <Component className={`text-yellow-600 dark:text-yellow-500 ${className}`} href={`${href}`} {...props}>
         {children}
       </Component>
     </>
