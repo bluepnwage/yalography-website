@@ -10,7 +10,9 @@ export function Project() {
       </figure>
       <div className="p-4 space-y-4">
         <div className="flex justify-between basis-2/3">
-          <Title order={'h3'} className="text-2xl">Pixel art</Title>
+          <Title order={"h3"} className="text-2xl">
+            Pixel art
+          </Title>
           <Badge color={"violet"}>Wedding</Badge>
         </div>
         <p>
