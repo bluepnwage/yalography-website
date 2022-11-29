@@ -1,7 +1,7 @@
 const statList = [
   { title: "Photos taken", stat: 5000 },
   { title: "Projects Completed", stat: 500 },
-  { title: "Happy Clients", stat: 300 }
+  { title: "Satisfied Customers", stat: 300 }
 ];
 
 export function Stats() {
