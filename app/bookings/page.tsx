@@ -1,4 +1,4 @@
-import { ContactForm, Questions } from "@components/bookings";
+import { ContactForm,  } from "@components/bookings";
 import { PriceCalculator } from "@components/bookings/client";
 import { BookingsFormContainer } from "@components/bookings/form/Form";
 import { Section, Title } from "@components/shared";
@@ -16,7 +16,6 @@ export default function BookingsPage() {
         </Title>
         <BookingsFormContainer />
       </Section>
-      <Questions />
       <ContactForm />
     </>
   );
