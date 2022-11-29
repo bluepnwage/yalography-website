@@ -1,4 +1,4 @@
-import { Title, Grid, Section } from "@components/shared";
+import { Title, Grid, Card } from "@components/shared";
 
 export function Descrption() {
   return (
@@ -16,16 +16,16 @@ export function Descrption() {
           fugiat dolore sunt amet. Id aliqua amet nisi voluptate.
         </p>
       </div>
-      <div className="bg-zinc-800 rounded-md p-5 col-span-full lg:col-span-1">
-        <p className="text-center text-red-500 mb-5">Testimonial</p>
+      <Card className="col-span-full lg:col-span-1">
+        <p className="text-center text-red-600 dark:text-red-500 mb-5">Testimonial</p>
         <p className="text-lg mb-5">
           Consequat laborum tempor laborum enim cillum magna nulla fugiat magna et duis. Ut anim excepteur et mollit id
           deserunt dolore occaecat veniam. Adipisicing deserunt ad ipsum magna id nisi aliqua eiusmod incididunt
           incididunt ea non veniam id. Nisi proident proident et fugiat cupidatat cupidatat adipisicing.
         </p>
         <strong>Agis Carty</strong>
-        <p className="text-red-500 text-sm mt-5">CEO, Bluepnwage Enterprises</p>
-      </div>
+        <p className="text-red-600 dark:text-red-500 text-sm mt-5">CEO, Bluepnwage Enterprises</p>
+      </Card>
     </Grid>
   );
 }
