@@ -17,7 +17,7 @@ export default function RootLayout({ children }: ComponentProps) {
         />
       </head>
 
-      <body className="dark:bg-zinc-900 bg-gray-50 text-gray-900 dark:text-gray-300 duration-200 ease-out">
+      <body className="dark:bg-zinc-900 bg-gray-100 text-gray-900 dark:text-gray-300 duration-200 ease-out">
         <Header />
         {children}
         <Footer />
