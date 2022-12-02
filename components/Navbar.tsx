@@ -15,7 +15,7 @@ const navLinks: NavLinkProps[] = [
 
 export function Header() {
   return (
-    <header className="flex justify-center z-20 items-center border-b bg-white border-gray-200 dark:border-gray-600 dark:bg-zinc-900 bg-opacity-80  h-16  backdrop-blur-md sticky top-0 left-0 duration-200 ease-out">
+    <header className="flex justify-center z-20 items-center border-b bg-white border-gray-200 dark:border-gray-600 dark:bg-zinc-900 bg-opacity-80 dark:bg-opacity-80  h-16  backdrop-blur-md sticky top-0 left-0 duration-200 ease-out">
       <div className="w-11/12 flex justify-between items-center">
         <p className="font-bold text-gray-900 dark:text-white text-lg">Yalography</p>
         <nav className="hidden lg:block">
