@@ -1,9 +1,13 @@
-import { cva } from "cva";
+import { cva, cx } from "cva";
 
 import type { VariantProps } from "cva";
 import type { ComponentPropsWithoutRef, ElementType } from "react";
 
-type CardProps<C extends ElementType> = { component?: C } & ComponentPropsWithoutRef<C>;
+type CardProps<C extends ElementType> = {
+  component?: C;
+  gradientBorder?: boolean;
+  containerStyles?: string;
+} & ComponentPropsWithoutRef<C>;
 
 const styles = cva("dark:bg-zinc-800 bg-white ring-black ring-1 ring-opacity-5 dark:ring-0 p-4 duration-200 ease-out", {
   variants: {
@@ -23,6 +27,8 @@ const styles = cva("dark:bg-zinc-800 bg-white ring-black ring-1 ring-opacity-5 d
 type PropTypes<C extends ElementType> = CardProps<C> & VariantProps<typeof styles>;
 
 export function Card<C extends ElementType = "div">({
+  gradientBorder,
+  containerStyles,
   children,
   component,
   radius,
@@ -31,8 +37,18 @@ export function Card<C extends ElementType = "div">({
 }: PropTypes<C>) {
   const Component = component || "div";
   return (
-    <Component {...props} className={styles({ className, radius })}>
-      {children}
-    </Component>
+    <>
+      {gradientBorder ? (
+        <div className={cx(containerStyles, "bg-gradient-to-tr p-1 from-rose-500 via-yellow-500 to-red-600")}>
+          <Component {...props} className={styles({ className, radius })}>
+            {children}
+          </Component>
+        </div>
+      ) : (
+        <Component {...props} className={styles({ className, radius })}>
+          {children}
+        </Component>
+      )}
+    </>
   );
 }
