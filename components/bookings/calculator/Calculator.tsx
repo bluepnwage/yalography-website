@@ -1,25 +1,24 @@
 "use client";
 import { useState } from "react";
-import { photoshootPricing } from "@lib/pricing";
+import { photoshootPricing } from "@lib/photoshoot";
 import { MantineProvider, Select, Radio } from "@mantine/core";
 import { Button } from "@components/shared";
+import { PriceCard } from "./PriceCard";
 
 type EnvironmentTypes = "outdoor" | "indoor";
 
 export function PriceCalculator() {
   const [selectedService, setService] = useState<string | null>(null);
   const [environment, setEnvironment] = useState<"outdoor" | "indoor">("indoor");
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
   const [showPrice, setShowPrice] = useState(false);
 
   const calculatePrice = async () => {
     if (!selectedService) return;
-    setLoading(true);
     try {
       setShowPrice(true);
     } catch (error) {
     } finally {
-      setLoading(false);
     }
   };
 
@@ -29,13 +28,13 @@ export function PriceCalculator() {
     setShowPrice(false);
   };
   const service = photoshootPricing.find((s) => s.type === selectedService);
-
   return (
     <>
       <MantineProvider theme={{ colorScheme: "dark", primaryColor: "red" }}>
         {!showPrice && (
           <div className="bg-zinc-800 rounded-md p-5">
-            <Select label={'Photoshoot type'}
+            <Select
+              label={"Photoshoot type"}
               onChange={setService}
               data={photoshootPricing.map((price) => ({ value: price.type, label: price.type }))}
             />
@@ -53,13 +52,14 @@ export function PriceCalculator() {
           </div>
         )}
         {showPrice && service && (
-          <div className="bg-zinc-800 rounded-md p-5">
-            <p>{selectedService}</p>
-            <p>{environment}</p>
-            <p>Total is ${service[environment]}</p>
-            <p>Number of pictures: {service.pictures}</p>
-            <Button onClick={resetForm}>Reset form</Button>
-          </div>
+          <PriceCard photoshoot={service} environment={environment}>
+            <div className="flex">
+              <Button className="grow" intent={"secondary"} onClick={resetForm}>
+                Resert form
+              </Button>
+              <Button className="grow">Submit</Button>
+            </div>
+          </PriceCard>
         )}
       </MantineProvider>
     </>
