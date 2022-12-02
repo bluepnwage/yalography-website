@@ -7,7 +7,11 @@ export interface PropTypes {
 
 export function ServiceCard({ Icon, title }: PropTypes) {
   return (
-    <Card className="col-span-full lg:col-span-4 rounded-md h-44 flex gap-5 items-center">
+    <Card
+      gradientBorder
+      containerStyles={"col-span-full lg:col-span-4 rounded-md h-44"}
+      className="flex gap-5 items-center w-full h-full"
+    >
       <ThemeIcon aria-hidden>
         <Icon />
       </ThemeIcon>
