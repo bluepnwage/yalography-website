@@ -34,7 +34,7 @@ export function Header() {
             })}
           </ul>
         </nav>
-        <div className="space-x-3 hidden lg:block">
+        <div className="space-x-3">
           <ThemeSwitcher />
         </div>
       </div>
