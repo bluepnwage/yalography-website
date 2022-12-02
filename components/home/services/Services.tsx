@@ -22,7 +22,7 @@ export function Services() {
         </Title>
         <Title order={"h3"}>What we offer</Title>
       </header>
-      <Grid>
+      <Grid gap={"lg"}>
         {serviceTypes.map((service, key) => {
           return <ServiceCard {...service} key={key} />;
         })}

@@ -22,7 +22,7 @@ export function Bio() {
             veniam nisi excepteur consectetur.
           </p>
           <strong className="block my-4">Some of my skills include:</strong>
-          <Grid lg={2} className="w-full">
+          <Grid gap={"lg"} lg={2} className="w-full">
             <Skill />
             <Skill />
             <Skill />

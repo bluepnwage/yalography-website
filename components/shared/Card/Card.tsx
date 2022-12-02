@@ -9,20 +9,23 @@ type CardProps<C extends ElementType> = {
   containerStyles?: string;
 } & ComponentPropsWithoutRef<C>;
 
-const styles = cva("dark:bg-zinc-800 bg-white ring-black ring-1 ring-opacity-5 dark:ring-0 p-4 duration-200 ease-out", {
-  variants: {
-    radius: {
-      xs: "rounded-xs",
-      sm: "rounded-sm",
-      md: "rounded-md",
-      lg: "rounded-lg",
-      xl: "rounded-xl"
+const styles = cva(
+  "dark:bg-zinc-800 relative bg-white ring-black ring-1 ring-opacity-5 dark:ring-0 p-4 duration-200 ease-out",
+  {
+    variants: {
+      radius: {
+        xs: "rounded-xs",
+        sm: "rounded-sm",
+        md: "rounded-md",
+        lg: "rounded-lg",
+        xl: "rounded-xl"
+      }
+    },
+    defaultVariants: {
+      radius: "md"
     }
-  },
-  defaultVariants: {
-    radius: "md"
   }
-});
+);
 
 type PropTypes<C extends ElementType> = CardProps<C> & VariantProps<typeof styles>;
 
@@ -39,7 +42,11 @@ export function Card<C extends ElementType = "div">({
   return (
     <>
       {gradientBorder ? (
-        <div className={cx(containerStyles, "bg-gradient-to-tr p-1 from-rose-500 via-yellow-500 to-red-600")}>
+        <div className={cx("relative", containerStyles)}>
+          <div
+            aria-hidden
+            className={cx("bg-gradient-to-r -inset-0.5 absolute opacity-75 rounded-md from-rose-500  to-red-600 blur")}
+          ></div>
           <Component {...props} className={styles({ className, radius })}>
             {children}
           </Component>
