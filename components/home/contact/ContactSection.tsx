@@ -7,7 +7,7 @@ export function Contact() {
   return (
     <Section
       margin={false}
-      className={`svg-background items-center py-16 border-t border-zinc-200 dark:border-zinc-700`}
+      className={`svg-background bg-gray-50 dark:bg-transparent items-center py-16 border-t border-zinc-200 dark:border-zinc-700`}
     >
       <header className="space-y-2 text-center mb-16">
         <Title color="red" order={"h2"} size={"md"}>
