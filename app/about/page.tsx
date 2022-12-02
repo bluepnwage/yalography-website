@@ -1,4 +1,4 @@
-import { Bio, SkillDetails } from "@components/about";
+import { Bio, SkillDetails, LogoCloud } from "@components/about";
 import { PageIntro } from "@components/PageIntro";
 
 export default function AboutPage() {
@@ -11,6 +11,7 @@ export default function AboutPage() {
         </span>
       </PageIntro>
       <Bio />
+      <LogoCloud />
       <SkillDetails />
     </>
   );
