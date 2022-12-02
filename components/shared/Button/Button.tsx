@@ -1,9 +1,12 @@
 "use client";
-import type { ComponentPropsWithoutRef } from "react";
+import type { ComponentPropsWithoutRef, ElementType } from "react";
 import { cva } from "cva";
 import type { VariantProps } from "cva";
+import Link from "next/link";
 
-const buttonStyles = cva("px-4 py-2 font-semibold rounded-md", {
+type PropTypes<C extends ElementType> = { component?: C } & ComponentPropsWithoutRef<C>;
+
+const styles = cva("px-4 py-2 font-semibold rounded-md inline-block", {
   variants: {
     intent: {
       primary: "bg-red-600 text-gray-100",
@@ -23,12 +26,28 @@ const buttonStyles = cva("px-4 py-2 font-semibold rounded-md", {
   }
 });
 
-type ButtonProps = ComponentPropsWithoutRef<"button"> & VariantProps<typeof buttonStyles>;
+type ButtonProps<C extends ElementType> = PropTypes<C> & VariantProps<typeof styles>;
 
-export function Button({ intent, children, fullWidth, className, disabled, ...buttonProps }: ButtonProps) {
+export function Button<C extends ElementType = "button">({
+  intent,
+  children,
+  fullWidth,
+  className,
+  component,
+  disabled,
+  ...buttonProps
+}: ButtonProps<C>) {
   return (
-    <button {...buttonProps} className={buttonStyles({ fullWidth, intent, className, disabled })}>
-      {children}
-    </button>
+    <>
+      {component === "a" ? (
+        <Link {...buttonProps} href={buttonProps.href} className={styles({ fullWidth, intent, className, disabled })}>
+          {children}
+        </Link>
+      ) : (
+        <button {...buttonProps} className={styles({ fullWidth, intent, className, disabled })}>
+          {children}
+        </button>
+      )}
+    </>
   );
 }
