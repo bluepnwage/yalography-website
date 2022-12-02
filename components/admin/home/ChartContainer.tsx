@@ -10,7 +10,10 @@ export function Stats() {
           <Title order={"h3"}>Reservations</Title>
           <Chart />
         </Card>
-        <Todo />
+        <Card style={{ maxHeight: "540px" }} className="col-span-8 overflow-y-scroll">
+          <Title order={"h3"}>Tasks</Title>
+          <Todo />
+        </Card>
       </Grid>
     </Section>
   );
