@@ -10,7 +10,7 @@ const navLinks: NavLinkProps[] = [
   { href: "/", text: "Home" },
   { text: "Bookings", href: "/bookings" },
   { text: "About", href: "/about" },
-  { text: "Gallery", href: "/" }
+  { text: "Gallery", href: "/gallery" }
 ];
 
 export function Header() {
