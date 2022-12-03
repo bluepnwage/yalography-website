@@ -33,8 +33,10 @@ export default function ReservationPage() {
                   <FlexContainer className="justify-between grow">
                     <Badge className="mr-auto inline-block">Marriage</Badge>
                     <FlexContainer className="justify-between items-center ">
-                      <Button className="h-fit">Accept</Button>
-                      <Button intent="secondary" className="h-fit">
+                      <Button intent="accept" className="h-fit">
+                        Accept
+                      </Button>
+                      <Button intent="reject" className="h-fit">
                         Reject
                       </Button>
                     </FlexContainer>
