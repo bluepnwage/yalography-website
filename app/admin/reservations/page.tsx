@@ -25,12 +25,12 @@ export default function ReservationPage() {
                 return (
                   <div
                     key={key}
-                    className="border-b border-gray-600 -mx-4 mb-5 px-4 pb-4 last-of-type:mb-0 last-of-type:border-none flex flex-col justify-between gap-5"
+                    className="border-b border-gray-300 dark:border-gray-600 -mx-4 mb-5 px-4 pb-4 last-of-type:mb-0 last-of-type:border-none flex flex-col justify-between gap-5"
                   >
                     <FlexContainer className="justify-between w-full">
                       <div>
                         <p>Agis Carty</p>
-                        <time>21/07/2022, 13:00h</time>
+                        <time className="font-semibold text-gray-500">21/07/2022, 13:00h</time>
                       </div>
                       <Anchor href={"/admin/reservations/4"}>View details</Anchor>
                     </FlexContainer>
@@ -52,19 +52,21 @@ export default function ReservationPage() {
           </Card>
           <Card style={{ padding: 0 }} className="col-span-6 overflow-hidden">
             <header className="bg-red-600  p-4">
-              <Title order={"h2"}>Accepted Reservations</Title>
+              <Title order={"h2"} className="text-gray-100">
+                Accepted Reservations
+              </Title>
             </header>
             <ScrollAreaDemo orientation="vertical" height={500}>
               {array.map((_, key) => {
                 return (
                   <div
                     key={key}
-                    className="border-b border-gray-600 -mx-4 px-4 pb-4 last-of-type:border-none flex flex-col justify-between gap-5"
+                    className="border-b border-gray-300 dark:border-gray-600 -mx-4 px-4 pb-4 mb-5 last-of-type:mb-0 last-of-type:border-none flex flex-col justify-between gap-5"
                   >
                     <FlexContainer className="justify-between w-full">
                       <div>
                         <p>Agis Carty</p>
-                        <time>21/07/2022, 13:00h</time>
+                        <time className="text-gray-500 font-semibold">21/07/2022, 13:00h</time>
                       </div>
                       <Anchor href={"/admin/reservations/4"}>View details</Anchor>
                     </FlexContainer>
