@@ -20,7 +20,9 @@ function WelcomeCard() {
       <p>
         You currently have <strong>45</strong> upcoming reservations.
       </p>
-      <Button>View reservations</Button>
+      <Button component="a" href={"/admin/reservations"}>
+        View reservations
+      </Button>
     </Card>
   );
 }
