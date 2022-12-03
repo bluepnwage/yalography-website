@@ -7,15 +7,26 @@ export function Table() {
       <Title order={"h2"} className="mb-10">
         Recent Orders
       </Title>
-      <Grid gap={"none"} lg={5} className="w-full rounded-md text-center overflow-hidden ring-1 ring-zinc-700 ">
-        <p className="border-r border-b border-zinc-600 py-2">Name</p>
-        <p className="border-r border-b border-zinc-600 py-2">Type</p>
-        <p className="border-r border-b border-zinc-600 py-2">Email</p>
-        <p className="border-r border-b border-zinc-600 py-2">Date</p>
-        <p className="border-b py-2 border-zinc-600">Amount</p>
+      <Grid
+        gap={"none"}
+        lg={5}
+        fullWidth
+        className="bg-white dark:bg-transparent rounded-md text-center overflow-hidden ring-1 ring-zinc-200 dark:ring-zinc-700 "
+      >
+        <p className="border-r border-b border-zinc-300 dark:border-zinc-600 py-2">Name</p>
+        <p className="border-r border-b border-zinc-300 dark:border-zinc-600 py-2">Type</p>
+        <p className="border-r border-b border-zinc-300 dark:border-zinc-600 py-2">Email</p>
+        <p className="border-r border-b border-zinc-300 dark:border-zinc-600 py-2">Date</p>
+        <p className="border-b py-2 border-zinc-300 dark:border-zinc-600">Amount</p>
         {tableData.map((_, key) => {
           return (
-            <Grid gap={"none"} lg={5} key={key} className="text-center w-full col-span-full odd:bg-zinc-800">
+            <Grid
+              fullWidth
+              gap={"none"}
+              lg={5}
+              key={key}
+              className="text-center col-span-full odd:bg-gray-200 dark:odd:bg-zinc-800"
+            >
               <p className="py-2">Agis Carty</p>
               <p className="py-2">Wedding</p>
               <p className="py-2">a.carty2555@gmail.com</p>

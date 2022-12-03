@@ -1,4 +1,5 @@
 import * as Icon from "./icons";
+import Link from "next/link";
 
 export function Nav() {
   return (
@@ -8,17 +9,17 @@ export function Nav() {
           <div className="basis-1/4 flex justify-center">
             <Icon.Home />
           </div>
-          <a href={"#"} className="basis-3/4">
+          <Link href={"/admin"} className="basis-3/4">
             Dashboard
-          </a>
+          </Link>
         </li>
         <li className="flex w-4/5 py-2 rounded-md hover:bg-red-600 hover:bg-opacity-50 hover:text-red-200 duration-200 ease-out">
           <div className="basis-1/4 flex justify-center">
             <Icon.Books />
           </div>
-          <a href={"#"} className="basis-3/4">
+          <Link href={"/admin/reservations"} className="basis-3/4">
             Reservations
-          </a>
+          </Link>
         </li>
       </ul>
     </div>

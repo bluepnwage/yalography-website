@@ -3,7 +3,7 @@ import { cva } from "cva";
 import type { VariantProps } from "cva";
 import { GAP_STYLES } from "@util/gap";
 
-const styles = cva("grid grid-cols-6 w-11/12", {
+const styles = cva("grid grid-cols-6 ", {
   variants: {
     lg: {
       1: "lg:grid-cols-1",
@@ -21,16 +21,21 @@ const styles = cva("grid grid-cols-6 w-11/12", {
     },
     gap: {
       ...GAP_STYLES
+    },
+    fullWidth: {
+      false: "w-11/12",
+      true: "w-full"
     }
   },
   defaultVariants: {
     lg: 12,
-    gap: "md"
+    gap: "md",
+    fullWidth: false
   }
 });
 
 type GridProps = ComponentPropsWithoutRef<"div"> & VariantProps<typeof styles>;
 
-export function Grid({ children, gap, lg, className }: GridProps) {
-  return <div className={styles({ gap, lg, className })}>{children}</div>;
+export function Grid({ children, gap, lg, className, fullWidth }: GridProps) {
+  return <div className={styles({ gap, lg, fullWidth, className })}>{children}</div>;
 }
