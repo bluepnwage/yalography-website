@@ -12,7 +12,8 @@ const styles = cva("px-4 py-2 font-semibold rounded-md inline-block relative act
       primary: "bg-red-600 text-gray-100",
       secondary: "bg-zinc-800 text-red-500",
       accept: "bg-emerald-600 text-gray-100",
-      reject: "text-red-500 ring-1 ring-red-500"
+      reject: "text-red-500 ring-1 ring-red-500",
+      warn: "bg-yellow-600 text-gray-100"
     },
     fullWidth: {
       true: "w-full",
