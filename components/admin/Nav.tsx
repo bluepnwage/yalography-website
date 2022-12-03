@@ -15,12 +15,12 @@ const links = [
   {
     href: "/admin/gallery",
     label: "Gallery",
-    Icon: <Icon.Home />
+    Icon: <Icon.Photo />
   },
   {
     href: "/admin/tasks",
     label: "Tasks",
-    Icon: <Icon.Home />
+    Icon: <Icon.ListCheck />
   }
 ];
 
