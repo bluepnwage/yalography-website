@@ -27,7 +27,7 @@ export function BookingsCard({ status, bookings }: PropTypes) {
                   <p>Agis Carty</p>
                   <time className="font-semibold text-gray-500 dark:text-gray-200">21/07/2022, 13:00h</time>
                 </div>
-                <Anchor href={"/admin/reservations/4"}>View details</Anchor>
+                <Anchor href={`/admin/reservations/${status}/4`}>View details</Anchor>
               </FlexContainer>
               <FlexContainer className="justify-between grow">
                 <Badge className="mr-auto inline-block">Marriage</Badge>

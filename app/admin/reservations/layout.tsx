@@ -13,8 +13,8 @@ export default function Layout({ children }: PropTypes) {
             <Anchor href={"/admin/reservations/pending"}>View pending reservations</Anchor>
           </div>
           <div>
-            <p>Accepted reservations: 30</p>
-            <Anchor href={"/admin/reservations/accepted"}>View accepted reservations</Anchor>
+            <p>Approved reservations: 30</p>
+            <Anchor href={"/admin/reservations/approved"}>View approved reservations</Anchor>
           </div>
           <Button>Create Reservation</Button>
         </FlexContainer>
