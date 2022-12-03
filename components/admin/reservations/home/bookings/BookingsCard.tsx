@@ -25,7 +25,7 @@ export function BookingsCard({ status, bookings }: PropTypes) {
               <FlexContainer className="justify-between w-full">
                 <div>
                   <p>Agis Carty</p>
-                  <time className="font-semibold text-gray-500">21/07/2022, 13:00h</time>
+                  <time className="font-semibold text-gray-500 dark:text-gray-200">21/07/2022, 13:00h</time>
                 </div>
                 <Anchor href={"/admin/reservations/4"}>View details</Anchor>
               </FlexContainer>

@@ -1,6 +1,6 @@
 import { Title, Card, Section } from "@components/shared";
-import { Bookings } from "@components/admin/reservations/index";
-import { ScheduleTracker } from "@components/admin/reservations/index/ScheduleTracker/ScheduleTracker";
+import { Bookings } from "@components/admin/reservations/home/bookings/Bookings";
+import { ScheduleTracker } from "@components/admin/reservations/home/ScheduleTracker/ScheduleTracker";
 
 export default function ReservationPage() {
   return (
