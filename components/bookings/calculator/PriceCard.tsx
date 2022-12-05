@@ -3,7 +3,7 @@ import type { Photoshoot } from "@lib/photoshoot";
 import { useState } from "react";
 import type { ChangeEventHandler, ComponentPropsWithoutRef } from "react";
 import { capitalize } from "@util/capitalize";
-
+import type { FeatureSpec, FeatureType } from "@lib/features";
 type PropTypes = {
   environment: "outdoor" | "indoor";
   children?: React.ReactNode;
@@ -13,8 +13,8 @@ type PropTypes = {
 export function PriceCard({ photoshoot, environment, children }: PropTypes) {
   const [numOfPictures, setPictures] = useState(photoshoot.pictures);
   const [hours, setHours] = useState(1);
-  const totalPrice = photoshoot.total(environment, numOfPictures, hours);
-
+  const [features, setFeatures] = useState<{ [name: string]: boolean }>({});
+  const totalPrice = photoshoot.total(environment, numOfPictures, hours, features);
   const environmentLabel = capitalize(environment);
 
   const handleChange: ChangeEventHandler<HTMLInputElement> = (e) => {
@@ -26,8 +26,13 @@ export function PriceCard({ photoshoot, environment, children }: PropTypes) {
     }
   };
 
+  const addFeatures: ChangeEventHandler<HTMLInputElement> = (e) => {
+    const { name, checked } = e.currentTarget;
+    setFeatures((prev) => ({ ...prev, [name]: checked }));
+  };
+
   return (
-    <div className="bg-zinc-800 rounded-md p-4 space-y-4">
+    <div className="bg-white ring-1 ring-black ring-opacity-5 dark:ring-0 dark:bg-zinc-800 rounded-md p-4 space-y-4">
       <p className="font-semibold text-xl text-center">{photoshoot.type}</p>
       {typeof photoshoot[environment] === "number" && (
         <RangeInput
@@ -56,6 +61,27 @@ export function PriceCard({ photoshoot, environment, children }: PropTypes) {
       )}
 
       <p>{`${environmentLabel} price: $${photoshoot[environment]}`}</p>
+      <fieldset className="space-y-5">
+        <legend className="font-semibold text-xl">Features:</legend>
+        {photoshoot.features.map((feature, key) => {
+          const inputId = feature.label.toLowerCase().replaceAll(" ", "_");
+          return (
+            <p key={key}>
+              <label htmlFor={inputId}>{feature.label}</label>
+              <input
+                onChange={addFeatures}
+                aria-describedby={`${inputId}-description`}
+                id={inputId}
+                name={inputId}
+                value={feature.price}
+                className="accent-red-600 w-7 h-7"
+                type={"checkbox"}
+              />
+              <span id={`${inputId}-description`}>{feature.description}</span>
+            </p>
+          );
+        })}
+      </fieldset>
       <p>Total: ${totalPrice}</p>
       {children}
     </div>
