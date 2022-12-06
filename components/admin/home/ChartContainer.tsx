@@ -1,7 +1,7 @@
 import { Chart } from "./Chart";
 import { Section, Grid, Card, Title } from "@components/shared";
 import { Todo } from "./Todo";
-
+import { ScrollAreaDemo } from "@components/shared/ScrollArea";
 export function Stats() {
   return (
     <Section>
@@ -10,9 +10,13 @@ export function Stats() {
           <Title order={"h3"}>Reservations</Title>
           <Chart />
         </Card>
-        <Card style={{ maxHeight: "540px" }} className="col-span-8 overflow-y-scroll">
-          <Title order={"h3"}>Tasks</Title>
-          <Todo />
+        <Card className="col-span-8">
+          <Title order={"h3"} className="text-center">
+            Tasks
+          </Title>
+          <ScrollAreaDemo height={540} orientation={"vertical"}>
+            <Todo />
+          </ScrollAreaDemo>
         </Card>
       </Grid>
     </Section>
