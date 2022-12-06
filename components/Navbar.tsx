@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ThemeSwitcher } from "./ThemeSwitcher";
-
+import logo from "@public/logo.png";
+import Image from "next/image";
 interface NavLinkProps {
   href: string;
   text: string;
@@ -17,7 +18,10 @@ export function Header() {
   return (
     <header className="flex justify-center z-20 items-center border-b bg-white border-gray-200 dark:border-gray-600 dark:bg-zinc-900 bg-opacity-80 dark:bg-opacity-80  h-16  backdrop-blur-md sticky top-0 left-0 duration-200 ease-out">
       <div className="w-11/12 flex justify-between items-center">
-        <p className="font-bold text-gray-900 dark:text-white text-lg">Yalography</p>
+        <div className="flex gap-4 items-center">
+          <Image src={logo} alt={""} className="h-10 w-10" />
+          <p className="font-bold text-gray-900 dark:text-white text-lg">Yalography</p>
+        </div>
         <nav className="hidden lg:block">
           <ul className="flex gap-4 items-center h-full text-gray-700 dark:text-gray-300">
             {navLinks.map((link, key) => {
