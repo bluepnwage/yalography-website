@@ -1,4 +1,5 @@
 import { Grid, ThemeIcon } from "./shared";
+import Link from "next/link";
 
 export function Footer() {
   return (
@@ -10,14 +11,22 @@ export function Footer() {
         </div>
         <div className="col-span-full lg:col-span-3">
           <ul className="space-y-4">
-            <li>About </li>
-            <li>Projects</li>
-            <li>Gallery</li>
+            <li>
+              <Link href={"/about"}>About</Link>{" "}
+            </li>
+            <li>
+              <Link href={"/projects"}>Projects</Link>
+            </li>
+            <li>
+              <Link href={"/gallery"}>Gallery</Link>
+            </li>
           </ul>
         </div>
         <div className="col-span-full lg:col-span-3">
           <ul className="space-y-4">
-            <li>Contact </li>
+            <li>
+              <Link href={"/bookings"}>Bookings</Link>{" "}
+            </li>
             <li>FAQ</li>
           </ul>
         </div>

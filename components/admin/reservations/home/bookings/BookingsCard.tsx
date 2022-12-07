@@ -11,7 +11,7 @@ export function BookingsCard({ status, bookings }: PropTypes) {
   return (
     <Card style={{ padding: 0 }} className="col-span-6 w-full p-0 overflow-hidden">
       <header className="bg-red-600 p-4">
-        <Title order={"h2"} className="text-gray-100">
+        <Title size={"xl"} order={"h2"} className="text-gray-100">
           {capitalize(status)} Reservations
         </Title>
       </header>
