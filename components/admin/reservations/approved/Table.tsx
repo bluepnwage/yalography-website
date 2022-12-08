@@ -27,7 +27,7 @@ export function Table({ reservations }: PropTypes) {
               <td>Marriage</td>
               <td>a.carty2555@gmail.com</td>
               <td>
-                <Link className={`text-yellow-600 dark:text-yellow-500`} href={"/admin/reservations/accepted/2"}>
+                <Link className={`text-yellow-600 dark:text-yellow-500`} href={"/admin/reservations/approved/2"}>
                   View details
                 </Link>
               </td>
@@ -35,21 +35,24 @@ export function Table({ reservations }: PropTypes) {
           );
         })}
       </table>
-      <div className="flex gap-2">
-        {pages.map((_, key) => {
-          return (
-            <button
-              onClick={() => setCurrentPage(key + 1)}
-              className={cx(
-                "h-10 w-10 rounded-full flex justify-center items-center",
-                currentPage === key + 1 ? "bg-red-600 text-gray-100" : "bg-zinc-800 text-red-500"
-              )}
-              key={key}
-            >
-              {key + 1}
-            </button>
-          );
-        })}
+      <div className="flex w-full justify-between">
+        <div className="flex gap-2">
+          {pages.map((_, key) => {
+            return (
+              <button
+                onClick={() => setCurrentPage(key + 1)}
+                className={cx(
+                  "h-10 w-10 rounded-full flex justify-center items-center",
+                  currentPage === key + 1 ? "bg-red-600 text-gray-100" : "bg-zinc-800 text-red-500"
+                )}
+                key={key}
+              >
+                {key + 1}
+              </button>
+            );
+          })}
+        </div>
+        <p className="text-gray-100">Total items: {totalItems}</p>
       </div>
     </>
   );
