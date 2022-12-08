@@ -1,9 +1,10 @@
 "use client";
 import { useState } from "react";
 import { Button } from "@components/shared";
-export function ScheduleTracker() {
-  const [date, setDate] = useState(new Date());
 
+export function Calendar() {
+  const [date, setDate] = useState(new Date());
+  console.log(1 + 1);
   const nextDate = () => {};
 
   return (
@@ -11,11 +12,20 @@ export function ScheduleTracker() {
       <div className="flex justify-end">
         <p>Icon</p>
       </div>
-      <p className="text-center">You have 0 reservations sheduled for today</p>
+      <div>
+        <p className="text-center font-bold text-2xl">{formatDate(date)}</p>
+
+        <p className="text-center">You have 0 reservations sheduled for today</p>
+      </div>
       <div className="flex justify-between">
         <Button intent={"secondary"}>Previous</Button>
         <Button>Next</Button>
       </div>
     </>
   );
+}
+
+function formatDate(date: Date) {
+  const formatter = Intl.DateTimeFormat("en", { dateStyle: "long" });
+  return formatter.format(date);
 }

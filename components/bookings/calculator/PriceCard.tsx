@@ -17,6 +17,9 @@ export function PriceCard({ photoshoot, environment, children }: PropTypes) {
   const totalPrice = photoshoot.total(environment, numOfPictures, hours, features);
   const environmentLabel = capitalize(environment);
 
+  const paidFeatures = photoshoot.features.paid;
+  const includedFeatures = photoshoot.features.included;
+
   const handleChange: ChangeEventHandler<HTMLInputElement> = (e) => {
     console.log(e.currentTarget.name);
     if (e.currentTarget.name === "pictures") {
@@ -61,27 +64,44 @@ export function PriceCard({ photoshoot, environment, children }: PropTypes) {
       )}
 
       <p>{`${environmentLabel} price: $${photoshoot[environment]}`}</p>
-      <fieldset className="space-y-5">
-        <legend className="font-semibold text-xl">Features:</legend>
-        {photoshoot.features.map((feature, key) => {
-          const inputId = feature.label.toLowerCase().replaceAll(" ", "_");
-          return (
-            <p key={key}>
-              <label htmlFor={inputId}>{feature.label}</label>
-              <input
-                onChange={addFeatures}
-                aria-describedby={`${inputId}-description`}
-                id={inputId}
-                name={inputId}
-                value={feature.price}
-                className="accent-red-600 w-7 h-7"
-                type={"checkbox"}
-              />
-              <span id={`${inputId}-description`}>{feature.description}</span>
-            </p>
-          );
-        })}
-      </fieldset>
+      {paidFeatures.length > 0 && (
+        <fieldset className="space-y-5">
+          <legend className="font-semibold text-xl">Additional Features:</legend>
+          {paidFeatures.map((feature, key) => {
+            const inputId = feature.label.toLowerCase().replaceAll(" ", "_");
+            return (
+              <p key={key}>
+                <label htmlFor={inputId}>{feature.label}</label>
+                <input
+                  onChange={addFeatures}
+                  aria-describedby={`${inputId}-description`}
+                  id={inputId}
+                  name={inputId}
+                  value={feature.price}
+                  className="accent-red-600 w-7 h-7"
+                  type={"checkbox"}
+                />
+                <span id={`${inputId}-description`}>{feature.description}</span>
+              </p>
+            );
+          })}
+        </fieldset>
+      )}
+      {includedFeatures.length > 0 && (
+        <div>
+          <p className="font-semibold text-xl mb-2">Included Features:</p>
+          <ul className="list-disc pl-4">
+            {includedFeatures.map((feature, key) => {
+              return (
+                <li key={key}>
+                  <p>{feature.label}</p>
+                  <p>{feature.description}</p>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      )}
       <p>Total: ${totalPrice}</p>
       {children}
     </div>

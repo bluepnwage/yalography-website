@@ -22,7 +22,7 @@ export class Photoshoot {
   indoor: number | string;
   outdoor: number | string;
   pictures: number;
-  features: FeatureSpec[];
+  private _features: FeatureSpec[];
   maxPictures: number;
   private _time: PhotoShootTime;
   constructor(
@@ -37,15 +37,25 @@ export class Photoshoot {
     this.indoor = indoorPricing;
     this.outdoor = outdoorPricing;
     this.pictures = pictureAmount;
-    this.features = [
-      photoshootFeatures.get("extra_pictures")!,
-      ...features.map((feature) => photoshootFeatures.get(feature)!)
-    ];
+    this._features = features.map((feature) => photoshootFeatures.get(feature)!);
     this._time = time;
     this.maxPictures = this.pictures < 100 ? this.pictures + (100 - this.pictures) : this.pictures + 100;
   }
   get time() {
     return typeof this._time === "number" ? `${this._time / 3600}h` : capitalize(this._time);
+  }
+  get features() {
+    const included: FeatureSpec[] = [];
+    const paid: FeatureSpec[] = [];
+
+    for (const feature of this._features) {
+      if (feature.price === 0) {
+        included.push(feature);
+      } else {
+        paid.push(feature);
+      }
+    }
+    return { included, paid };
   }
   total(
     environment: "outdoor" | "indoor",
