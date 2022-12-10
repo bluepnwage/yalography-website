@@ -1,9 +1,13 @@
-import { Anchor, Button, Title, Card, Grid } from "@components/shared";
+import { Anchor, Button, Title, Card, Grid, Breadcrumbs } from "@components/shared";
 
 export default function ApprovedReservation() {
   return (
     <>
-      <Anchor href={"/admin/reservations/approved"}>← Go back</Anchor>
+      <Breadcrumbs>
+        <Anchor href={"/admin/reservations"}>Reservations</Anchor>
+        <Anchor href={"/admin/reservations/approved"}>Approved</Anchor>
+        <Anchor href={"/admin/reservations/approved/test"}>Random reservation</Anchor>
+      </Breadcrumbs>
       <div className="flex ml-auto mb-16 mt-10 justify-between">
         <Title order={"h1"} className="text-3xl">
           Dec, 10 2022
