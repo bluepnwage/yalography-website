@@ -10,7 +10,10 @@ export function Gallery() {
         {folders.map((_, key) => {
           return (
             <Card key={key} className="col-span-4">
-              <p>(Folder icon) Marriage 2019</p>
+              <p>
+                <Folders />
+                Marriage 2019
+              </p>
             </Card>
           );
         })}
@@ -35,5 +38,23 @@ export function Gallery() {
         })}
       </Grid>
     </>
+  );
+}
+
+function Folders() {
+  return (
+    <svg
+      height="24"
+      width="24"
+      className="stroke-gray-900 dark:stroke-gray-200"
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <g fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2">
+        <path d="M0 0h24v24H0z" fill="none" stroke="none" />
+        <path d="M9 4h3l2 2h5a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2" />
+        <path d="M17 17v2a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-9a2 2 0 0 1 2-2h2" />
+      </g>
+    </svg>
   );
 }
