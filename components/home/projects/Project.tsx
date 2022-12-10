@@ -19,7 +19,7 @@ export function Project({ image, title, colSpan, rowSpan }: PropTypes) {
       <Image
         src={image}
         alt={""}
-        className="h-full w-full absolute top-0 left-0 duration-200 ease-out group-hover:opacity-20"
+        className="h-full w-full object-cover  absolute top-0 left-0 duration-200 ease-out group-hover:opacity-20"
       />
       <figcaption className="space-y-5 z-10 opacity-0 group-hover:opacity-100 duration-200 ease-out">
         <p className="font-bold text-xl">{title}</p>

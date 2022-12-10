@@ -32,8 +32,8 @@ export function Contact() {
           <p className="font-semibold text-xl">Address</p>
           <address>Marigot, Saint-Martin</address>
         </div>
-        <figure className="bg-white ring-1 ring-black ring-opacity-5 dark:ring-0 dark:bg-zinc-800 col-span-full row-start-1 lg:col-span-6  w-full h-full lg:row-span-2">
-          <Image src={bgImage} alt={""} className="h-full" />
+        <figure className="bg-white ring-1  ring-black  ring-opacity-5 dark:ring-0 dark:bg-zinc-800 col-span-full row-start-1 lg:col-span-6  w-full h-full lg:row-span-2">
+          <Image src={bgImage} alt={""} className="h-full w-full object-cover" />
         </figure>
         <div className="bg-white ring-1 duration-200 ease-out ring-black ring-opacity-5 dark:ring-0 dark:bg-zinc-800 col-span-6 h-64 w-full gap-4 flex flex-col justify-center items-center">
           <p className="font-bold text-xl">Book a reservation</p>

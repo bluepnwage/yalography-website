@@ -8,8 +8,8 @@ export function Project() {
       <figure className="basis-1/3 -m-4">
         <Image src={pixel} alt={""} className="h-full w-full" />
       </figure>
-      <div className="p-4 space-y-4">
-        <div className="flex justify-between basis-2/3">
+      <div className="p-2 space-y-4">
+        <div className="flex flex-wrap grow justify-between basis-2/3">
           <Title order={"h3"} className="text-2xl">
             Pixel art
           </Title>
