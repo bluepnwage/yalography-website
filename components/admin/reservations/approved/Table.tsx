@@ -22,7 +22,7 @@ export function Table({ reservations }: PropTypes) {
         </tr>
         {paginatedList.map((_, key) => {
           return (
-            <tr key={key} className="text-center py-2 even:bg-zinc-800">
+            <tr key={key} className="text-center py-2 even:bg-gray-200 dark:even:bg-zinc-800">
               <td className="flex justify-between p-2">Agis Carty</td>
               <td>Marriage</td>
               <td>a.carty2555@gmail.com</td>
