@@ -27,7 +27,6 @@ export function Footer() {
             <li>
               <Link href={"/bookings"}>Bookings</Link>{" "}
             </li>
-            <li>FAQ</li>
           </ul>
         </div>
         <div className="col-span-full lg:col-span-3">
