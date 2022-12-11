@@ -57,40 +57,6 @@ export class Photoshoot {
     }
     return { included, paid };
   }
-  total(
-    environment: "outdoor" | "indoor",
-    pictureAmount: number,
-    hours: number,
-    features: { [name: string]: boolean }
-  ) {
-    let environmentPricing = this[environment];
-    if (this._time === "hourly" && typeof environmentPricing === "string") {
-      return this.hourlyTotal(hours, environmentPricing);
-    }
-    if (typeof environmentPricing === "string") return environmentPricing;
-    if (this.pictures === pictureAmount) return environmentPricing + this.featuresTotal(features);
-    let addedPictures = pictureAmount - this.pictures;
-    for (let i = 0; i < addedPictures; i++) {
-      environmentPricing += 15;
-    }
-    return environmentPricing + this.featuresTotal(features);
-  }
-  private hourlyTotal(hours: number, environmentPricing: string) {
-    return parseInt(environmentPricing) * hours;
-  }
-
-  private featuresTotal(features: { [name: string]: boolean }) {
-    const total = Object.entries(features)
-      .filter((feature) => feature[1])
-      .map((feature) => {
-        const { price } = photoshootFeatures.get(feature[0] as FeatureType)!;
-        return price;
-      })
-      .reduce((a, c) => {
-        return a + c;
-      }, 0);
-    return total;
-  }
 }
 
 const adShoot = new Photoshoot("Ad shoot", "200/h", "200/h", 50, "hourly");
