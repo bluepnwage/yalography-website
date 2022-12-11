@@ -1,4 +1,4 @@
-import { Anchor, Badge, Button, Card, FlexContainer, Title } from "@components/shared";
+import { Badge, Button, Card, FlexContainer, Title } from "@components/shared";
 import { ScrollAreaDemo } from "@components/shared/ScrollArea";
 import { capitalize } from "@util/capitalize";
 
@@ -10,8 +10,8 @@ type PropTypes = {
 export function BookingsCard({ status, bookings }: PropTypes) {
   return (
     <Card style={{ padding: 0 }} className="col-span-6 w-full p-0 overflow-hidden">
-      <header className="bg-red-600 p-4">
-        <Title size={"xl"} order={"h2"} className="text-gray-100">
+      <header className="bg-slate-200 dark:bg-zinc-700 p-4">
+        <Title size={"xl"} order={"h2"}>
           {capitalize(status)} Reservations
         </Title>
       </header>
@@ -27,26 +27,12 @@ export function BookingsCard({ status, bookings }: PropTypes) {
                   <p>Agis Carty</p>
                   <time className="font-semibold text-gray-500 dark:text-gray-200">21/07/2022, 13:00h</time>
                 </div>
-                <Anchor href={`/admin/reservations/${status}/4`}>View details</Anchor>
+                <Badge className="inline-block">Marriage</Badge>
               </FlexContainer>
               <FlexContainer className="justify-between grow">
-                <Badge className="mr-auto inline-block">Marriage</Badge>
-                <FlexContainer className="justify-between items-center ">
-                  {status === "pending" ? (
-                    <>
-                      <Button intent="accept" className="h-fit">
-                        Accept
-                      </Button>
-                      <Button intent="reject" className="h-fit">
-                        Reject
-                      </Button>
-                    </>
-                  ) : (
-                    <Button intent="secondary" className="h-fit">
-                      Cancel
-                    </Button>
-                  )}
-                </FlexContainer>
+                <Button component="a" href={`/admin/reservations/${status}/3`} intent={"primary"}>
+                  View details
+                </Button>
               </FlexContainer>
             </div>
           );
