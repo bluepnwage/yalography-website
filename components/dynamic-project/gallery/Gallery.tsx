@@ -12,7 +12,7 @@ export function Gallery() {
         </Title>
         <Title order={"h3"}>See the images that brought this project to life</Title>
       </div>
-      <Grid className="w-full">
+      <Grid fullWidth>
         {images.map((_, key) => {
           return <Image key={key} src={pixel} alt={""} className="col-span-full lg:col-span-4 object-contain" />;
         })}
