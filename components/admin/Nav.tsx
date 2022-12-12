@@ -21,6 +21,11 @@ const links = [
     href: "/admin/tasks",
     label: "Tasks",
     Icon: <Icon.ListCheck />
+  },
+  {
+    href: "/admin/projects",
+    label: "Projects",
+    Icon: <Icon.Ballot />
   }
 ];
 
