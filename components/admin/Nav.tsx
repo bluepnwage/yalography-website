@@ -1,31 +1,31 @@
-import * as Icon from "./icons";
 import { NavLink } from "./NavLink";
+import { ListCheck, Home, Ballot, Books, Photo } from "@lib/icons";
 
 const links = [
   {
     href: "/admin",
     label: "Home",
-    Icon: <Icon.Home />
+    Icon: <Home />
   },
   {
     href: "/admin/reservations",
     label: "Reservations",
-    Icon: <Icon.Books />
+    Icon: <Books className={"fill-gray-500 dark:fill-gray-100"} />
   },
   {
     href: "/admin/gallery",
     label: "Gallery",
-    Icon: <Icon.Photo />
+    Icon: <Photo />
   },
   {
     href: "/admin/tasks",
     label: "Tasks",
-    Icon: <Icon.ListCheck />
+    Icon: <ListCheck />
   },
   {
     href: "/admin/projects",
     label: "Projects",
-    Icon: <Icon.Ballot />
+    Icon: <Ballot className={"fill-gray-500 dark:fill-gray-100"} />
   }
 ];
 
