@@ -1,7 +1,7 @@
 import { Button, Grid, Section, ThemeIcon, Title } from "@components/shared";
 import Image from "next/image";
 import bgImage from "@public/bg.jpg";
-import * as Icon from "./icons";
+import { Email, Location } from "@lib/icons";
 
 export function Contact() {
   return (
@@ -18,7 +18,7 @@ export function Contact() {
       <Grid>
         <div className="bg-white ring-1 duration-200 ease-out ring-black ring-opacity-5 dark:ring-0 dark:bg-zinc-800 flex flex-col items-center justify-center gap-4 col-span-full lg:col-span-3 h-64 w-full">
           <ThemeIcon aria-hidden>
-            <Icon.Email />
+            <Email className="fill-gray-100" />
           </ThemeIcon>
           <p className="font-semibold text-xl">Email</p>
           <address>
@@ -27,7 +27,7 @@ export function Contact() {
         </div>
         <div className="bg-white ring-1 duration-200 ease-out ring-black ring-opacity-5 dark:ring-0 dark:bg-zinc-800 flex flex-col items-center gap-4 justify-center col-span-full lg:col-span-3 h-64 w-full">
           <ThemeIcon aria-hidden>
-            <Icon.Location />
+            <Location className="fill-gray-100" />
           </ThemeIcon>
           <p className="font-semibold text-xl">Address</p>
           <address>Marigot, Saint-Martin</address>

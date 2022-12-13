@@ -1,16 +1,16 @@
 import { Grid, Section, Title } from "@components/shared";
-import * as Icon from "./icons/index";
+import { Ballon, Bouquet, BoxArchive, Globe, Maternity, Person } from "@lib/icons";
 
 import { ServiceCard } from "./ServiceCard";
 import type { PropTypes as ServiceCardProps } from "./ServiceCard";
 
 const serviceTypes: ServiceCardProps[] = [
-  { title: "Maternity Photography", Icon: Icon.Maternity },
-  { title: "Wedding Photography", Icon: Icon.Bouquet },
-  { title: "Commercial Photography", Icon: Icon.Globe },
-  { title: "Portrait Photography", Icon: Icon.Person },
-  { title: "Event Photography", Icon: Icon.Ballon },
-  { title: "Decor Photography", Icon: Icon.BoxArchive }
+  { title: "Maternity Photography", Icon: <Maternity className={"stroke-gray-100"} /> },
+  { title: "Wedding Photography", Icon: <Bouquet className="fill-gray-100" /> },
+  { title: "Commercial Photography", Icon: <Globe className="fill-gray-100" /> },
+  { title: "Portrait Photography", Icon: <Person className={"fill-gray-100"} /> },
+  { title: "Event Photography", Icon: <Ballon className="stroke-gray-100" /> },
+  { title: "Decor Photography", Icon: <BoxArchive className="fill-gray-100" /> }
 ];
 
 export function Services() {
