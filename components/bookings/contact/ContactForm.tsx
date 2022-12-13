@@ -1,7 +1,7 @@
 import { Grid, Section, Title, Button } from "@components/shared";
-import * as Icon from "./icons";
 
 import type { ComponentPropsWithoutRef } from "react";
+import { Email, Facebook, Instagram, Location, Phone } from "@lib/icons";
 
 export function ContactForm() {
   return (
@@ -15,20 +15,20 @@ export function ContactForm() {
             Contact information
           </Title>
           <div className="flex gap-2">
-            <Icon.Phone />
+            <Phone className="fill-gray-100" />
             <address>0690 555 5555</address>
           </div>
           <div className="flex gap-2">
-            <Icon.Mail />
+            <Email className="fill-gray-100" />
             <address>email@gmail.com</address>
           </div>
           <div className="flex gap-2">
-            <Icon.Location />
+            <Location className="fill-gray-100" />
             <address>Marigot, Saint Martin</address>
           </div>
           <div className="flex gap-4">
-            <Icon.Instagram />
-            <Icon.Facebook />
+            <Instagram className="stroke-gray-100" />
+            <Facebook className="fill-gray-100" />
           </div>
         </div>
         <div className="col-span-8 rounded-md p-6">
