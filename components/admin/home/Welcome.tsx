@@ -1,12 +1,12 @@
 import { Button, Title, Card } from "@components/shared";
-import * as Icon from "../icons";
+import { ClipboardCheck, ClipboardMoney } from "@lib/icons";
 
 export function Welcome() {
   return (
     <div className="flex gap-4 items-stretch mb-20">
       <WelcomeCard />
-      <StatCard Icon={<Icon.ClipboardCheck />} title="Orders completed" stat={87} />
-      <StatCard Icon={<Icon.ClipboardMoney />} title="Total revenue" stat={"$87k"} />
+      <StatCard Icon={<ClipboardCheck size={48} />} title="Orders completed" stat={87} />
+      <StatCard Icon={<ClipboardMoney size={48} />} title="Total revenue" stat={"$87k"} />
     </div>
   );
 }

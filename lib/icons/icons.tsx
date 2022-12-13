@@ -4,12 +4,13 @@ type PropTypes = {
 };
 
 const defaultStyles = "stroke-gray-500 dark:stroke-gray-100";
+const defaultSize = 24;
 
 export function ClipboardCheck({ className, size }: PropTypes) {
   return (
     <svg
-      height={size || 24}
-      width={size || 24}
+      height={size || defaultSize}
+      width={size || defaultSize}
       className={className ? className : defaultStyles}
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
@@ -27,8 +28,8 @@ export function ClipboardCheck({ className, size }: PropTypes) {
 export function ClipboardMoney({ className, size }: PropTypes) {
   return (
     <svg
-      height={size || 24}
-      width={size || 24}
+      height={size || defaultSize}
+      width={size || defaultSize}
       className={className ? className : defaultStyles}
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
@@ -47,8 +48,8 @@ export function ClipboardMoney({ className, size }: PropTypes) {
 export function Home({ className, size }: PropTypes) {
   return (
     <svg
-      height={size || 24}
-      width={size || 24}
+      height={size || defaultSize}
+      width={size || defaultSize}
       className={className ? className : defaultStyles}
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
@@ -66,8 +67,8 @@ export function Home({ className, size }: PropTypes) {
 export function Books({ className, size }: PropTypes) {
   return (
     <svg
-      height={size || 24}
-      width={size || 24}
+      height={size || defaultSize}
+      width={size || defaultSize}
       className={className ? className : defaultStyles}
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
@@ -82,8 +83,8 @@ export function Books({ className, size }: PropTypes) {
 export function Photo({ className, size }: PropTypes) {
   return (
     <svg
-      height={size || 24}
-      width={size || 24}
+      height={size || defaultSize}
+      width={size || defaultSize}
       className={className ? className : defaultStyles}
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
@@ -102,8 +103,8 @@ export function Photo({ className, size }: PropTypes) {
 export function ListCheck({ className, size }: PropTypes) {
   return (
     <svg
-      height={size || 24}
-      width={size || 24}
+      height={size || defaultSize}
+      width={size || defaultSize}
       className={className ? className : defaultStyles}
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
@@ -124,14 +125,128 @@ export function ListCheck({ className, size }: PropTypes) {
 export function Ballot({ className, size }: PropTypes) {
   return (
     <svg
-      height={size || 24}
-      width={size || 24}
+      height={size || defaultSize}
+      width={size || defaultSize}
       className={className ? className : defaultStyles}
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
     >
       <g>
         <path d="M13 7.5h5v2h-5v-2zm0 7h5v2h-5v-2zM19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zM11 6H6v5h5V6zm-1 4H7V7h3v3zm1 3H6v5h5v-5zm-1 4H7v-3h3v3z" />
+      </g>
+    </svg>
+  );
+}
+
+export function Folders({ className, size }: PropTypes) {
+  return (
+    <svg
+      height={size || defaultSize}
+      width={size || defaultSize}
+      className={className ? className : defaultStyles}
+      viewBox="0 0 24 24"
+      xmlns="http:www.w3.org/2000/svg"
+    >
+      <g fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2">
+        <path d="M0 0h24v24H0z" fill="none" stroke="none" />
+        <path d="M9 4h3l2 2h5a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2" />
+        <path d="M17 17v2a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-9a2 2 0 0 1 2-2h2" />
+      </g>
+    </svg>
+  );
+}
+export function DotsVertical({ className, size }: PropTypes) {
+  return (
+    <svg
+      height={size || defaultSize}
+      width={size || defaultSize}
+      className={className ? className : defaultStyles}
+      viewBox="0 0 24 24"
+      xmlns="http:www.w3.org/2000/svg"
+    >
+      <g fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2">
+        <path d="M0 0h24v24H0z" fill="none" stroke="none" />
+        <circle cx="12" cy="12" r="1" />
+        <circle cx="12" cy="19" r="1" />
+        <circle cx="12" cy="5" r="1" />
+      </g>
+    </svg>
+  );
+}
+
+export function Trash({ className, size }: PropTypes) {
+  return (
+    <svg
+      height={size || defaultSize}
+      width={size || defaultSize}
+      className={className ? className : defaultStyles}
+      viewBox="0 0 24 24"
+      xmlns="http:www.w3.org/2000/svg"
+    >
+      <g fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2">
+        <path d="M0 0h24v24H0z" fill="none" stroke="none" />
+        <path d="M4 7h16" />
+        <path d="M10 11v6" />
+        <path d="M14 11v6" />
+        <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2l1-12" />
+        <path d="M9 7V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3" />
+      </g>
+    </svg>
+  );
+}
+
+export function Upload({ className, size }: PropTypes) {
+  return (
+    <svg
+      height={size || defaultSize}
+      width={size || defaultSize}
+      className={className ? className : defaultStyles}
+      viewBox="0 0 24 24"
+      xmlns="http:www.w3.org/2000/svg"
+    >
+      <g fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2">
+        <path d="M0 0h24v24H0z" fill="none" stroke="none" />
+        <path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" />
+        <path d="M7 9l5-5 5 5" />
+        <path d="M12 4v12" />
+      </g>
+    </svg>
+  );
+}
+
+export function Download({ className, size }: PropTypes) {
+  return (
+    <svg
+      height={size || defaultSize}
+      width={size || defaultSize}
+      className={className ? className : defaultStyles}
+      viewBox="0 0 24 24"
+      xmlns="http:www.w3.org/2000/svg"
+    >
+      <g fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2">
+        <path d="M0 0h24v24H0z" fill="none" stroke="none" />
+        <path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" />
+        <path d="M7 11l5 5 5-5" />
+        <path d="M12 4v12" />
+      </g>
+    </svg>
+  );
+}
+
+export function Edit({ className, size }: PropTypes) {
+  return (
+    <svg
+      height={size || defaultSize}
+      width={size || defaultSize}
+      className={className ? className : defaultStyles}
+      viewBox="0 0 24 24"
+      xmlns="http:www.w3.org/2000/svg"
+    >
+      <g fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2">
+        <path d="M0 0h24v24H0z" fill="none" stroke="none" />
+        <path d="M7 7H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2v-1" />
+        <path d="M20.385 6.585a2.1 2.1 0 0 0-2.97-2.97L9 12v3h3l8.385-8.415z" />
+        <path d="M16 5l3 3" />
       </g>
     </svg>
   );
