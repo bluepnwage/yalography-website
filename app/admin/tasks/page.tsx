@@ -66,7 +66,9 @@ export default function TasksPage() {
                     <p className="font-semibold text-lg">Wedding 2019</p>
                     <p>21/07/2022</p>
                   </div>
-                  <Button className="h-fit">View list</Button>
+                  <Button component="a" href={"/admin/tasks/random-task-list"} className="h-fit">
+                    View list
+                  </Button>
                 </div>
               );
             })}
