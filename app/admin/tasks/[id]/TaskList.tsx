@@ -5,7 +5,7 @@ import { Pagination } from "@components/shared/Pagination";
 const tasks = Array(40).fill(null);
 
 export function TaskList() {
-  const { totalPages, paginatedList, currentPage, pageChange } = usePagination(10, tasks);
+  const { paginatedList, ...props } = usePagination(10, tasks);
   return (
     <>
       {paginatedList.map((_, key) => {
@@ -23,7 +23,7 @@ export function TaskList() {
           </div>
         );
       })}
-      <Pagination onPageChange={pageChange} currentPage={currentPage} totalPages={totalPages} />
+      <Pagination {...props} />
     </>
   );
 }

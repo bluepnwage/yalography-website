@@ -1,16 +1,14 @@
 "use client";
-import { useState } from "react";
 import Link from "next/link";
-import { cx } from "cva";
+import { usePagination } from "@lib/hooks/usePagination";
+import { Pagination } from "@components/shared/Pagination";
 
 type PropTypes = {
   reservations: any[];
 };
 
 export function Table({ reservations }: PropTypes) {
-  const [currentPage, setCurrentPage] = useState(1);
-  const { paginatedList, total, totalItems } = pagination(reservations, currentPage, 10);
-  const pages = Array(total).fill(null);
+  const { paginatedList, ...props } = usePagination(10, reservations);
 
   return (
     <>
@@ -36,30 +34,9 @@ export function Table({ reservations }: PropTypes) {
         })}
       </table>
       <div className="flex w-full justify-between">
-        <div className="flex gap-2">
-          {pages.map((_, key) => {
-            return (
-              <button
-                onClick={() => setCurrentPage(key + 1)}
-                className={cx(
-                  "h-10 w-10 rounded-full flex justify-center items-center",
-                  currentPage === key + 1 ? "bg-red-600 text-gray-100" : "bg-zinc-800 text-red-500"
-                )}
-                key={key}
-              >
-                {key + 1}
-              </button>
-            );
-          })}
-        </div>
-        <p className="text-gray-100">Total items: {totalItems}</p>
+        <Pagination {...props} />
+        <p className="text-gray-100">Total items: {reservations.length}</p>
       </div>
     </>
   );
-}
-function pagination<T>(list: T[], currentPage: number, rowsPerPage: number) {
-  const indexOfLast = currentPage * rowsPerPage;
-  const indexOfFirst = indexOfLast - rowsPerPage;
-  const paginatedList = list.slice(indexOfFirst, indexOfLast);
-  return { paginatedList, total: Math.ceil(list.length / rowsPerPage), totalItems: list.length };
 }

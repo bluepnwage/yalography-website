@@ -7,9 +7,9 @@ export function usePagination<T>(rowsPerPage: number, list: T[]) {
   const paginatedList = list.slice(indexOfFirst, indexOfLast);
   const totalPages = Math.ceil(list.length / rowsPerPage);
 
-  const pageChange = (page: number) => {
+  const onPageChange = (page: number) => {
     setCurrentPage(page);
   };
 
-  return { paginatedList, totalPages, pageChange, currentPage };
+  return { paginatedList, totalPages, onPageChange, currentPage };
 }
