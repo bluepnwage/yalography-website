@@ -1,6 +1,8 @@
 import { Title, Card, Button, Grid } from "@components/shared";
 import { Dropdown } from "@components/shared/Dropdown";
 import { ScrollAreaDemo } from "@components/shared/ScrollArea";
+import { DotsVertical } from "@lib/icons";
+
 const pinnedCards = Array(3).fill(null);
 const tasks = Array(30).fill(null);
 const groupedTasks = Array(30).fill(null);
@@ -19,7 +21,9 @@ export default function TasksPage() {
                 <p className="font-semibold text-lg">Wedding 2019</p>
                 <Dropdown.Root>
                   <Dropdown.Trigger>
-                    <button>T</button>
+                    <button>
+                      <DotsVertical size={16} />
+                    </button>
                   </Dropdown.Trigger>
                   <Dropdown.Content>
                     <Dropdown.Item>Delete</Dropdown.Item>
@@ -34,14 +38,16 @@ export default function TasksPage() {
         })}
       </Grid>
       <Grid fullWidth>
-        <Card className="col-span-7 overflow-hidden p-0">
-          <div className="flex justify-between  p-2  bg-zinc-700">
+        <Card style={{ padding: 0 }} className="col-span-7 overflow-hidden p-0">
+          <div className="flex justify-between  p-2 bg-slate-200 dark:bg-zinc-700">
             <Title size={"xl"} order={"h2"}>
               Grouped tasks
             </Title>
             <Dropdown.Root>
               <Dropdown.Trigger>
-                <button>T</button>
+                <button>
+                  <DotsVertical size={16} />
+                </button>
               </Dropdown.Trigger>
               <Dropdown.Content>
                 <Dropdown.Item>Create list</Dropdown.Item>
@@ -54,7 +60,7 @@ export default function TasksPage() {
               return (
                 <div
                   key={key}
-                  className="flex justify-between border-b py-2 -mx-4 px-2 items-center  border-zinc-700 last-of-type:border-b-0"
+                  className="flex justify-between border-b py-2 -mx-4 px-2 items-center border-gray-300 dark:border-gray-600 last-of-type:border-b-0"
                 >
                   <div>
                     <p className="font-semibold text-lg">Wedding 2019</p>
@@ -66,14 +72,16 @@ export default function TasksPage() {
             })}
           </ScrollAreaDemo>
         </Card>
-        <Card className="col-span-5 p-0 overflow-hidden">
-          <div className="bg-zinc-700 flex justify-between p-2">
+        <Card style={{ padding: 0 }} className="col-span-5 p-0 overflow-hidden">
+          <div className="dark:bg-zinc-700 bg-slate-200 flex justify-between p-2">
             <Title size={"xl"} order={"h2"}>
               Tasks
             </Title>
             <Dropdown.Root>
               <Dropdown.Trigger>
-                <button>T</button>
+                <button>
+                  <DotsVertical size={16} />
+                </button>
               </Dropdown.Trigger>
               <Dropdown.Content>
                 <Dropdown.Item>Create task</Dropdown.Item>
@@ -86,7 +94,7 @@ export default function TasksPage() {
               return (
                 <div
                   key={key}
-                  className="flex justify-between items-center border-b -mx-4 p-2 border-zinc-700 last-of-type:border-b-0"
+                  className="flex justify-between items-center border-b -mx-4 p-2  border-gray-300 dark:border-gray-600 last-of-type:border-b-0"
                 >
                   <button className="h-5 w-5 rounded-full border border-zinc-700"></button>
                   <p>Edit photos</p>
