@@ -3,7 +3,6 @@ type PropTypes = {
   className?: string;
 };
 
-const defaultStyles = "stroke-gray-500 dark:stroke-gray-100";
 const defaultSize = 24;
 
 export function ClipboardCheck({ className, size }: PropTypes) {
@@ -11,7 +10,7 @@ export function ClipboardCheck({ className, size }: PropTypes) {
     <svg
       height={size || defaultSize}
       width={size || defaultSize}
-      className={className ? className : defaultStyles}
+      className={className ? className : "stroke-gray-500 dark:stroke-gray-100"}
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
     >
@@ -30,7 +29,7 @@ export function ClipboardMoney({ className, size }: PropTypes) {
     <svg
       height={size || defaultSize}
       width={size || defaultSize}
-      className={className ? className : defaultStyles}
+      className={className ? className : "stroke-gray-500 dark:stroke-gray-100"}
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
     >
@@ -50,7 +49,7 @@ export function Home({ className, size }: PropTypes) {
     <svg
       height={size || defaultSize}
       width={size || defaultSize}
-      className={className ? className : defaultStyles}
+      className={className ? className : "stroke-gray-500 dark:stroke-gray-100"}
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
     >
@@ -69,7 +68,7 @@ export function Books({ className, size }: PropTypes) {
     <svg
       height={size || defaultSize}
       width={size || defaultSize}
-      className={className ? className : defaultStyles}
+      className={className ? className : "stroke-gray-500 dark:stroke-gray-100"}
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
     >
@@ -85,7 +84,7 @@ export function Photo({ className, size }: PropTypes) {
     <svg
       height={size || defaultSize}
       width={size || defaultSize}
-      className={className ? className : defaultStyles}
+      className={className ? className : "stroke-gray-500 dark:stroke-gray-100"}
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
     >
@@ -105,7 +104,7 @@ export function ListCheck({ className, size }: PropTypes) {
     <svg
       height={size || defaultSize}
       width={size || defaultSize}
-      className={className ? className : defaultStyles}
+      className={className ? className : "stroke-gray-500 dark:stroke-gray-100"}
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
     >
@@ -127,7 +126,7 @@ export function Ballot({ className, size }: PropTypes) {
     <svg
       height={size || defaultSize}
       width={size || defaultSize}
-      className={className ? className : defaultStyles}
+      className={className ? className : "stroke-gray-500 dark:stroke-gray-100"}
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
     >
@@ -143,7 +142,7 @@ export function Folders({ className, size }: PropTypes) {
     <svg
       height={size || defaultSize}
       width={size || defaultSize}
-      className={className ? className : defaultStyles}
+      className={className ? className : "stroke-gray-500 dark:stroke-gray-100"}
       viewBox="0 0 24 24"
       xmlns="http:www.w3.org/2000/svg"
     >
@@ -160,7 +159,7 @@ export function DotsVertical({ className, size }: PropTypes) {
     <svg
       height={size || defaultSize}
       width={size || defaultSize}
-      className={className ? className : defaultStyles}
+      className={className ? className : "stroke-gray-500 dark:stroke-gray-100"}
       viewBox="0 0 24 24"
       xmlns="http:www.w3.org/2000/svg"
     >
@@ -179,7 +178,7 @@ export function Trash({ className, size }: PropTypes) {
     <svg
       height={size || defaultSize}
       width={size || defaultSize}
-      className={className ? className : defaultStyles}
+      className={className ? className : "stroke-gray-500 dark:stroke-gray-100"}
       viewBox="0 0 24 24"
       xmlns="http:www.w3.org/2000/svg"
     >
@@ -200,7 +199,7 @@ export function Upload({ className, size }: PropTypes) {
     <svg
       height={size || defaultSize}
       width={size || defaultSize}
-      className={className ? className : defaultStyles}
+      className={className ? className : "stroke-gray-500 dark:stroke-gray-100"}
       viewBox="0 0 24 24"
       xmlns="http:www.w3.org/2000/svg"
     >
@@ -219,7 +218,7 @@ export function Download({ className, size }: PropTypes) {
     <svg
       height={size || defaultSize}
       width={size || defaultSize}
-      className={className ? className : defaultStyles}
+      className={className ? className : "stroke-gray-500 dark:stroke-gray-100"}
       viewBox="0 0 24 24"
       xmlns="http:www.w3.org/2000/svg"
     >
@@ -238,7 +237,7 @@ export function Edit({ className, size }: PropTypes) {
     <svg
       height={size || defaultSize}
       width={size || defaultSize}
-      className={className ? className : defaultStyles}
+      className={className ? className : "stroke-gray-500 dark:stroke-gray-100"}
       viewBox="0 0 24 24"
       xmlns="http:www.w3.org/2000/svg"
     >
@@ -256,7 +255,7 @@ export function Bouquet({ size, className }: PropTypes) {
     <svg
       height={size || defaultSize}
       width={size || defaultSize}
-      className={className ? className : defaultStyles}
+      className={className ? className : "stroke-gray-500 dark:stroke-gray-100"}
       viewBox="0 0 64 64"
       xmlns="http://www.w3.org/2000/svg"
     >
@@ -277,7 +276,7 @@ export function Person({ size, className }: PropTypes) {
     <svg
       height={size || defaultSize}
       width={size || defaultSize}
-      className={className ? className : defaultStyles}
+      className={className ? className : "stroke-gray-500 dark:stroke-gray-100"}
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
     >
@@ -294,7 +293,7 @@ export function Ballon({ size, className }: PropTypes) {
     <svg
       height={size || defaultSize}
       width={size || defaultSize}
-      className={className ? className : defaultStyles}
+      className={className ? className : "stroke-gray-500 dark:stroke-gray-100"}
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
     >
@@ -313,7 +312,7 @@ export function BoxArchive({ size, className }: PropTypes) {
     <svg
       height={size || defaultSize}
       width={size || defaultSize}
-      className={className ? className : defaultStyles}
+      className={className ? className : "stroke-gray-500 dark:stroke-gray-100"}
       viewBox="0 0 512 512"
       xmlns="http://www.w3.org/2000/svg"
     >
@@ -329,7 +328,7 @@ export function Maternity({ size, className }: PropTypes) {
     <svg
       height={size || defaultSize}
       width={size || defaultSize}
-      className={className ? className : defaultStyles}
+      className={className ? className : "stroke-gray-500 dark:stroke-gray-100"}
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
     >
@@ -351,7 +350,7 @@ export function Globe({ size, className }: PropTypes) {
     <svg
       height={size || defaultSize}
       width={size || defaultSize}
-      className={className ? className : defaultStyles}
+      className={className ? className : "stroke-gray-500 dark:stroke-gray-100"}
       viewBox="0 0 512 512"
       xmlns="http://www.w3.org/2000/svg"
     >
@@ -367,7 +366,7 @@ export function Email({ size, className }: PropTypes) {
     <svg
       height={size || defaultSize}
       width={size || defaultSize}
-      className={className ? className : defaultStyles}
+      className={className ? className : "stroke-gray-500 dark:stroke-gray-100"}
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
     >
@@ -383,7 +382,7 @@ export function Location({ size, className }: PropTypes) {
     <svg
       height={size || defaultSize}
       width={size || defaultSize}
-      className={className ? className : defaultStyles}
+      className={className ? className : "stroke-gray-500 dark:stroke-gray-100"}
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
     >
@@ -399,7 +398,7 @@ export function Phone({ size, className }: PropTypes) {
     <svg
       height={size || defaultSize}
       width={size || defaultSize}
-      className={className ? className : defaultStyles}
+      className={className ? className : "stroke-gray-500 dark:stroke-gray-100"}
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
     >
@@ -415,7 +414,7 @@ export function Facebook({ className, size }: PropTypes) {
     <svg
       height={size || defaultSize}
       width={size || defaultSize}
-      className={className ? className : defaultStyles}
+      className={className ? className : "stroke-gray-500 dark:stroke-gray-100"}
       viewBox="0 0 320 512"
       xmlns="http://www.w3.org/2000/svg"
     >
@@ -431,7 +430,7 @@ export function Instagram({ className, size }: PropTypes) {
     <svg
       height={size || defaultSize}
       width={size || defaultSize}
-      className={className ? className : defaultStyles}
+      className={className ? className : "stroke-gray-500 dark:stroke-gray-100"}
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
     >
