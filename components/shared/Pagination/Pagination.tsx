@@ -2,16 +2,19 @@
 import { cx } from "cva";
 
 type PropTypes = {
-  pages: number[];
+  totalPages: number;
   currentPage: number;
+  onPageChange: (n: number) => void;
 };
 
-export function Pagination({ currentPage, pages }: PropTypes) {
+export function Pagination({ currentPage, totalPages, onPageChange }: PropTypes) {
+  const pages = Array(totalPages).fill(null);
   return (
     <div className="flex gap-2">
       {pages.map((_, key) => {
         return (
           <button
+            onClick={() => onPageChange(key + 1)}
             className={cx(
               "h-10 w-10 rounded-full flex justify-center items-center",
               currentPage === key + 1 ? "bg-red-600 text-gray-100" : "bg-zinc-800 text-red-500"
