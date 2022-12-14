@@ -1,7 +1,7 @@
 import { Title, FlexContainer, Card, Button } from "@components/shared";
 import { Dropdown } from "@components/shared/Dropdown";
 import { DotsVertical } from "@lib/icons";
-
+import { Pagination } from "@components/shared/Pagination";
 const tasks = Array(9).fill(null);
 
 export default function TaskListPage() {
@@ -32,6 +32,7 @@ export default function TaskListPage() {
           </Card>
         );
       })}
+      <Pagination currentPage={1} pages={[1, 1, 1, 1, 1]} />
     </>
   );
 }
