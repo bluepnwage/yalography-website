@@ -2,7 +2,7 @@ import { Title, Grid, Card } from "@components/shared";
 
 export function Descrption() {
   return (
-    <Grid lg={2} className="mb-10 lg:mb-36 w-full">
+    <Grid lg={2} fullWidth className="mb-10 lg:mb-36">
       <div className="col-span-full lg:col-span-1">
         <header className="mb-5">
           <Title order={"h2"} size={"md"} color={"red"}>
