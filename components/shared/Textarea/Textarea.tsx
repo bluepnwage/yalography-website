@@ -13,21 +13,25 @@ const styles = cva(
         lg: "rounded-lg",
         xl: "rounded-xl",
         none: "rounded-none"
+      },
+      resize: {
+        false: "resize-none"
       }
     },
     defaultVariants: {
-      radius: "md"
+      radius: "md",
+      resize: false
     }
   }
 );
 
 type PropTypes = ComponentPropsWithoutRef<"textarea"> & VariantProps<typeof styles> & { label: string };
 
-export function Textarea({ label, className, radius }: PropTypes) {
+export function Textarea({ label, className, radius, resize, ...props }: PropTypes) {
   return (
     <p>
       <label>{label}</label>
-      <textarea className={styles({ className, radius })} />
+      <textarea {...props} className={styles({ className, radius, resize })} />
     </p>
   );
 }

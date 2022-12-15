@@ -6,7 +6,7 @@ import Link from "next/link";
 
 type PropTypes<C extends ElementType> = { component?: C } & ComponentPropsWithoutRef<C>;
 
-const styles = cva("px-4 py-2 font-semibold rounded-md inline-block relative active:top-[2px]", {
+const styles = cva("px-4 py-2 font-semibold rounded-md inline-block active:top-[2px]", {
   variants: {
     intent: {
       primary: "bg-red-600 text-gray-100",
@@ -20,12 +20,14 @@ const styles = cva("px-4 py-2 font-semibold rounded-md inline-block relative act
       false: "w-fit"
     },
     disabled: {
-      true: "cursor-not-allowed grayscale"
+      true: "cursor-not-allowed grayscale static",
+      false: "relative"
     }
   },
   defaultVariants: {
     intent: "primary",
-    fullWidth: false
+    fullWidth: false,
+    disabled: false
   }
 });
 

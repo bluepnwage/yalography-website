@@ -73,7 +73,7 @@ function BookingsForm() {
                 }}
               />
               <Input label="Time" type={"time"} className="accent-red-600 w-full" />
-              <Textarea label="Description" />
+              <Textarea rows={3} label="Description" className="w-full" />
             </section>
           </Stepper.Step>
           <Stepper.Step label="Confirmation" description="Confirm information"></Stepper.Step>
