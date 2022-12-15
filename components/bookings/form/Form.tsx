@@ -1,10 +1,11 @@
 "use client";
-import { MantineProvider, Stepper, Textarea } from "@mantine/core";
-import { DatePicker, TimeInput } from "@mantine/dates";
+import { MantineProvider, Stepper } from "@mantine/core";
+import { DatePicker } from "@mantine/dates";
 import { FormEvent, useState } from "react";
 import { Button } from "@components/shared";
 import { Input } from "@components/shared/Input";
 import { Select } from "@components/shared/Select";
+import { Textarea } from "@components/shared/Textarea";
 
 export function BookingsFormContainer() {
   return (
@@ -72,11 +73,7 @@ function BookingsForm() {
                 }}
               />
               <Input label="Time" type={"time"} className="accent-red-600 w-full" />
-              <Textarea
-                label="Description"
-                classNames={{ input: "bg-zinc-100 border-gray-400 dark:border-gray-700 dark:bg-zinc-700" }}
-                className=""
-              />
+              <Textarea label="Description" />
             </section>
           </Stepper.Step>
           <Stepper.Step label="Confirmation" description="Confirm information"></Stepper.Step>
