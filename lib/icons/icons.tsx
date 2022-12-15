@@ -444,3 +444,37 @@ export function Instagram({ className, size, fill }: PropTypes) {
     </svg>
   );
 }
+
+export function ChevronDown({ className, fill, size }: PropTypes) {
+  return (
+    <svg
+      height={size || defaultSize}
+      width={size || defaultSize}
+      className={className ? className : fill ? "icon-fill" : "icon-stroke"}
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <g fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2">
+        <path d="M0 0h24v24H0z" fill="none" stroke="none" />
+        <path d="M6 9l6 6 6-6" />
+      </g>
+    </svg>
+  );
+}
+
+export function Check({ className, fill, size }: PropTypes) {
+  return (
+    <svg
+      height={size || defaultSize}
+      width={size || defaultSize}
+      className={className ? className : fill ? "icon-fill" : "icon-stroke"}
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <g fill="none" stroke="#ffffff" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2">
+        <path d="M0 0h24v24H0z" fill="none" stroke="none" />
+        <path d="M5 12l5 5L20 7" />
+      </g>
+    </svg>
+  );
+}

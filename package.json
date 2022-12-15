@@ -16,6 +16,7 @@
     "@next/font": "^13.0.4",
     "@radix-ui/react-dropdown-menu": "^2.0.1",
     "@radix-ui/react-scroll-area": "^1.0.2",
+    "@radix-ui/react-select": "^1.1.2",
     "cva": "npm:class-variance-authority@^0.3.0",
     "dayjs": "^1.11.6",
     "next": "^13.0.4",

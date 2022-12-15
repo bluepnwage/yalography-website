@@ -2,7 +2,7 @@ import { ContactForm } from "@components/bookings";
 import { BookingsFormContainer } from "@components/bookings/form/Form";
 import { Section, Title } from "@components/shared";
 import { PageIntro } from "@components/PageIntro";
-
+import { Card } from "@components/shared";
 export default function BookingsPage() {
   return (
     <>
@@ -16,7 +16,9 @@ export default function BookingsPage() {
         <Title className="mb-5" order={"h2"}>
           Reserve a session
         </Title>
-        <BookingsFormContainer />
+        <Card>
+          <BookingsFormContainer />
+        </Card>
       </Section>
       <ContactForm />
     </>

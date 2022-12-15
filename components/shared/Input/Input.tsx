@@ -4,7 +4,7 @@ import { cva } from "cva";
 import type { VariantProps } from "cva";
 
 const styles = cva(
-  "border appearance-none outline-none px-4 py-1 focus:border-red-500 border-gray-300 dark:border-gray-600 bg-zinc-600",
+  "appearance-none outline-none border px-4 py-1 focus:border-red-600 dark:focus:border-red-500 border-gray-400 dark:border-gray-700 bg-zinc-100 dark:bg-zinc-700",
   {
     variants: {
       radius: {
