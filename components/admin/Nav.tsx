@@ -10,7 +10,7 @@ const links = [
   {
     href: "/admin/reservations",
     label: "Reservations",
-    Icon: <Books className={"fill-gray-500 dark:fill-gray-100"} />
+    Icon: <Books fill />
   },
   {
     href: "/admin/gallery",
@@ -25,7 +25,7 @@ const links = [
   {
     href: "/admin/projects",
     label: "Projects",
-    Icon: <Ballot className={"fill-gray-500 dark:fill-gray-100"} />
+    Icon: <Ballot fill />
   }
 ];
 

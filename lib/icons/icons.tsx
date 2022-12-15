@@ -1,16 +1,17 @@
 type PropTypes = {
   size?: number | string;
   className?: string;
+  fill?: boolean;
 };
 
 const defaultSize = 24;
 
-export function ClipboardCheck({ className, size }: PropTypes) {
+export function ClipboardCheck({ className, size, fill }: PropTypes) {
   return (
     <svg
       height={size || defaultSize}
       width={size || defaultSize}
-      className={className ? className : "stroke-gray-500 dark:stroke-gray-100"}
+      className={className ? className : fill ? "icon-fill" : "icon-stroke"}
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
     >
@@ -24,12 +25,12 @@ export function ClipboardCheck({ className, size }: PropTypes) {
   );
 }
 
-export function ClipboardMoney({ className, size }: PropTypes) {
+export function ClipboardMoney({ className, size, fill }: PropTypes) {
   return (
     <svg
       height={size || defaultSize}
       width={size || defaultSize}
-      className={className ? className : "stroke-gray-500 dark:stroke-gray-100"}
+      className={className ? className : fill ? "icon-fill" : "icon-stroke"}
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
     >
@@ -44,12 +45,12 @@ export function ClipboardMoney({ className, size }: PropTypes) {
   );
 }
 
-export function Home({ className, size }: PropTypes) {
+export function Home({ className, size, fill }: PropTypes) {
   return (
     <svg
       height={size || defaultSize}
       width={size || defaultSize}
-      className={className ? className : "stroke-gray-500 dark:stroke-gray-100"}
+      className={className ? className : fill ? "icon-fill" : "icon-stroke"}
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
     >
@@ -63,12 +64,12 @@ export function Home({ className, size }: PropTypes) {
   );
 }
 
-export function Books({ className, size }: PropTypes) {
+export function Books({ className, size, fill }: PropTypes) {
   return (
     <svg
       height={size || defaultSize}
       width={size || defaultSize}
-      className={className ? className : "stroke-gray-500 dark:stroke-gray-100"}
+      className={className ? className : fill ? "icon-fill" : "icon-stroke"}
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
     >
@@ -79,12 +80,12 @@ export function Books({ className, size }: PropTypes) {
   );
 }
 
-export function Photo({ className, size }: PropTypes) {
+export function Photo({ className, size, fill }: PropTypes) {
   return (
     <svg
       height={size || defaultSize}
       width={size || defaultSize}
-      className={className ? className : "stroke-gray-500 dark:stroke-gray-100"}
+      className={className ? className : fill ? "icon-fill" : "icon-stroke"}
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
     >
@@ -99,12 +100,12 @@ export function Photo({ className, size }: PropTypes) {
   );
 }
 
-export function ListCheck({ className, size }: PropTypes) {
+export function ListCheck({ className, size, fill }: PropTypes) {
   return (
     <svg
       height={size || defaultSize}
       width={size || defaultSize}
-      className={className ? className : "stroke-gray-500 dark:stroke-gray-100"}
+      className={className ? className : fill ? "icon-fill" : "icon-stroke"}
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
     >
@@ -121,12 +122,12 @@ export function ListCheck({ className, size }: PropTypes) {
   );
 }
 
-export function Ballot({ className, size }: PropTypes) {
+export function Ballot({ className, size, fill }: PropTypes) {
   return (
     <svg
       height={size || defaultSize}
       width={size || defaultSize}
-      className={className ? className : "stroke-gray-500 dark:stroke-gray-100"}
+      className={className ? className : fill ? "icon-fill" : "icon-stroke"}
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
     >
@@ -137,12 +138,12 @@ export function Ballot({ className, size }: PropTypes) {
   );
 }
 
-export function Folders({ className, size }: PropTypes) {
+export function Folders({ className, size, fill }: PropTypes) {
   return (
     <svg
       height={size || defaultSize}
       width={size || defaultSize}
-      className={className ? className : "stroke-gray-500 dark:stroke-gray-100"}
+      className={className ? className : fill ? "icon-fill" : "icon-stroke"}
       viewBox="0 0 24 24"
       xmlns="http:www.w3.org/2000/svg"
     >
@@ -154,12 +155,12 @@ export function Folders({ className, size }: PropTypes) {
     </svg>
   );
 }
-export function DotsVertical({ className, size }: PropTypes) {
+export function DotsVertical({ className, size, fill }: PropTypes) {
   return (
     <svg
       height={size || defaultSize}
       width={size || defaultSize}
-      className={className ? className : "stroke-gray-500 dark:stroke-gray-100"}
+      className={className ? className : fill ? "icon-fill" : "icon-stroke"}
       viewBox="0 0 24 24"
       xmlns="http:www.w3.org/2000/svg"
     >
@@ -173,12 +174,12 @@ export function DotsVertical({ className, size }: PropTypes) {
   );
 }
 
-export function Trash({ className, size }: PropTypes) {
+export function Trash({ className, size, fill }: PropTypes) {
   return (
     <svg
       height={size || defaultSize}
       width={size || defaultSize}
-      className={className ? className : "stroke-gray-500 dark:stroke-gray-100"}
+      className={className ? className : fill ? "icon-fill" : "icon-stroke"}
       viewBox="0 0 24 24"
       xmlns="http:www.w3.org/2000/svg"
     >
@@ -194,12 +195,12 @@ export function Trash({ className, size }: PropTypes) {
   );
 }
 
-export function Upload({ className, size }: PropTypes) {
+export function Upload({ className, size, fill }: PropTypes) {
   return (
     <svg
       height={size || defaultSize}
       width={size || defaultSize}
-      className={className ? className : "stroke-gray-500 dark:stroke-gray-100"}
+      className={className ? className : fill ? "icon-fill" : "icon-stroke"}
       viewBox="0 0 24 24"
       xmlns="http:www.w3.org/2000/svg"
     >
@@ -213,12 +214,12 @@ export function Upload({ className, size }: PropTypes) {
   );
 }
 
-export function Download({ className, size }: PropTypes) {
+export function Download({ className, size, fill }: PropTypes) {
   return (
     <svg
       height={size || defaultSize}
       width={size || defaultSize}
-      className={className ? className : "stroke-gray-500 dark:stroke-gray-100"}
+      className={className ? className : fill ? "icon-fill" : "icon-stroke"}
       viewBox="0 0 24 24"
       xmlns="http:www.w3.org/2000/svg"
     >
@@ -232,12 +233,12 @@ export function Download({ className, size }: PropTypes) {
   );
 }
 
-export function Edit({ className, size }: PropTypes) {
+export function Edit({ className, size, fill }: PropTypes) {
   return (
     <svg
       height={size || defaultSize}
       width={size || defaultSize}
-      className={className ? className : "stroke-gray-500 dark:stroke-gray-100"}
+      className={className ? className : fill ? "icon-fill" : "icon-stroke"}
       viewBox="0 0 24 24"
       xmlns="http:www.w3.org/2000/svg"
     >
@@ -250,12 +251,12 @@ export function Edit({ className, size }: PropTypes) {
     </svg>
   );
 }
-export function Bouquet({ size, className }: PropTypes) {
+export function Bouquet({ className, size, fill }: PropTypes) {
   return (
     <svg
       height={size || defaultSize}
       width={size || defaultSize}
-      className={className ? className : "stroke-gray-500 dark:stroke-gray-100"}
+      className={className ? className : fill ? "icon-fill" : "icon-stroke"}
       viewBox="0 0 64 64"
       xmlns="http://www.w3.org/2000/svg"
     >
@@ -271,12 +272,12 @@ export function Bouquet({ size, className }: PropTypes) {
   );
 }
 
-export function Person({ size, className }: PropTypes) {
+export function Person({ className, size, fill }: PropTypes) {
   return (
     <svg
       height={size || defaultSize}
       width={size || defaultSize}
-      className={className ? className : "stroke-gray-500 dark:stroke-gray-100"}
+      className={className ? className : fill ? "icon-fill" : "icon-stroke"}
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
     >
@@ -288,12 +289,12 @@ export function Person({ size, className }: PropTypes) {
   );
 }
 
-export function Ballon({ size, className }: PropTypes) {
+export function Ballon({ className, size, fill }: PropTypes) {
   return (
     <svg
       height={size || defaultSize}
       width={size || defaultSize}
-      className={className ? className : "stroke-gray-500 dark:stroke-gray-100"}
+      className={className ? className : fill ? "icon-fill" : "icon-stroke"}
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
     >
@@ -307,12 +308,12 @@ export function Ballon({ size, className }: PropTypes) {
   );
 }
 
-export function BoxArchive({ size, className }: PropTypes) {
+export function BoxArchive({ className, size, fill }: PropTypes) {
   return (
     <svg
       height={size || defaultSize}
       width={size || defaultSize}
-      className={className ? className : "stroke-gray-500 dark:stroke-gray-100"}
+      className={className ? className : fill ? "icon-fill" : "icon-stroke"}
       viewBox="0 0 512 512"
       xmlns="http://www.w3.org/2000/svg"
     >
@@ -323,12 +324,12 @@ export function BoxArchive({ size, className }: PropTypes) {
   );
 }
 
-export function Maternity({ size, className }: PropTypes) {
+export function Maternity({ className, size, fill }: PropTypes) {
   return (
     <svg
       height={size || defaultSize}
       width={size || defaultSize}
-      className={className ? className : "stroke-gray-500 dark:stroke-gray-100"}
+      className={className ? className : fill ? "icon-fill" : "icon-stroke"}
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
     >
@@ -345,12 +346,12 @@ export function Maternity({ size, className }: PropTypes) {
   );
 }
 
-export function Globe({ size, className }: PropTypes) {
+export function Globe({ className, size, fill }: PropTypes) {
   return (
     <svg
       height={size || defaultSize}
       width={size || defaultSize}
-      className={className ? className : "stroke-gray-500 dark:stroke-gray-100"}
+      className={className ? className : fill ? "icon-fill" : "icon-stroke"}
       viewBox="0 0 512 512"
       xmlns="http://www.w3.org/2000/svg"
     >
@@ -361,12 +362,12 @@ export function Globe({ size, className }: PropTypes) {
   );
 }
 
-export function Email({ size, className }: PropTypes) {
+export function Email({ className, size, fill }: PropTypes) {
   return (
     <svg
       height={size || defaultSize}
       width={size || defaultSize}
-      className={className ? className : "stroke-gray-500 dark:stroke-gray-100"}
+      className={className ? className : fill ? "icon-fill" : "icon-stroke"}
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
     >
@@ -377,12 +378,12 @@ export function Email({ size, className }: PropTypes) {
   );
 }
 
-export function Location({ size, className }: PropTypes) {
+export function Location({ className, size, fill }: PropTypes) {
   return (
     <svg
       height={size || defaultSize}
       width={size || defaultSize}
-      className={className ? className : "stroke-gray-500 dark:stroke-gray-100"}
+      className={className ? className : fill ? "icon-fill" : "icon-stroke"}
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
     >
@@ -393,12 +394,12 @@ export function Location({ size, className }: PropTypes) {
   );
 }
 
-export function Phone({ size, className }: PropTypes) {
+export function Phone({ className, size, fill }: PropTypes) {
   return (
     <svg
       height={size || defaultSize}
       width={size || defaultSize}
-      className={className ? className : "stroke-gray-500 dark:stroke-gray-100"}
+      className={className ? className : fill ? "icon-fill" : "icon-stroke"}
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
     >
@@ -409,12 +410,12 @@ export function Phone({ size, className }: PropTypes) {
   );
 }
 
-export function Facebook({ className, size }: PropTypes) {
+export function Facebook({ className, size, fill }: PropTypes) {
   return (
     <svg
       height={size || defaultSize}
       width={size || defaultSize}
-      className={className ? className : "stroke-gray-500 dark:stroke-gray-100"}
+      className={className ? className : fill ? "icon-fill" : "icon-stroke"}
       viewBox="0 0 320 512"
       xmlns="http://www.w3.org/2000/svg"
     >
@@ -425,12 +426,12 @@ export function Facebook({ className, size }: PropTypes) {
   );
 }
 
-export function Instagram({ className, size }: PropTypes) {
+export function Instagram({ className, size, fill }: PropTypes) {
   return (
     <svg
       height={size || defaultSize}
       width={size || defaultSize}
-      className={className ? className : "stroke-gray-500 dark:stroke-gray-100"}
+      className={className ? className : fill ? "icon-fill" : "icon-stroke"}
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
     >
