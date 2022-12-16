@@ -4,7 +4,7 @@ import { cva } from "cva";
 import type { VariantProps } from "cva";
 
 const styles = cva(
-  "appearance-none outline-none border px-4 py-1 focus:border-red-600 dark:focus:border-red-500 border-gray-400 dark:border-gray-700 bg-zinc-100 dark:bg-zinc-700",
+  "appearance-none outline-none border w-full px-4 py-1 focus:border-red-600 dark:focus:border-red-500 border-gray-400 dark:border-gray-700 bg-zinc-100 dark:bg-zinc-700",
   {
     variants: {
       radius: {
@@ -21,11 +21,12 @@ const styles = cva(
   }
 );
 
-type InputProps = { label: string } & VariantProps<typeof styles> & ComponentPropsWithoutRef<"input">;
+type InputProps = { label: string; wrapperClassName?: string } & VariantProps<typeof styles> &
+  ComponentPropsWithoutRef<"input">;
 
-export function Input({ label, className, radius, ...props }: InputProps) {
+export function Input({ label, className, radius, wrapperClassName, ...props }: InputProps) {
   return (
-    <p>
+    <p className={wrapperClassName || "w-full"}>
       <label>{label}</label>
       <input {...props} className={styles({ className, radius })} />
     </p>

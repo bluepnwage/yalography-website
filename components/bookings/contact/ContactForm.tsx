@@ -37,17 +37,22 @@ export function ContactForm() {
           </Title>
           <form className="flex flex-col items-center justify-evenly gap-4">
             <div className="flex w-full gap-4 grow basis-full">
-              <Input label="First name" name="first_name" id="first_name" />
-              <Input label="Last name" id={"last_name"} autoComplete={"family-name"} />
+              <Input wrapperClassName="basis-2/4 grow" label="First name" name="first_name" id="first_name" />
+              <Input
+                wrapperClassName="basis-2/4 grow"
+                label="Last name"
+                id={"last_name"}
+                autoComplete={"family-name"}
+              />
             </div>
             <div className="flex w-full gap-4 grow basis-full">
-              <Input type={"email"} label={"Email"} name={"email"} id={"email"} />
-              <Input type={"number"} label={"Phone"} name={"number"} id={"number"} />
+              <Input wrapperClassName="basis-2/4 grow" type={"email"} label={"Email"} name={"email"} id={"email"} />
+              <Input wrapperClassName="basis-2/4 grow" type={"number"} label={"Phone"} name={"number"} id={"number"} />
             </div>
             <div className="flex w-full gap-4 grow basis-full">
-              <Input label="Subject" name={"subject"} id={"subject"} />
+              <Input wrapperClassName="basis-2/4 grow" label="Subject" name={"subject"} id={"subject"} />
             </div>
-            <Textarea label="Message" />
+            <Textarea rows={5} label="Message" />
             <Button className="self-end">Submit message</Button>
           </form>
         </div>
