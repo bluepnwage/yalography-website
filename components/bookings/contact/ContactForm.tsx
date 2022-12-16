@@ -27,8 +27,8 @@ export function ContactForm() {
             <address>Marigot, Saint Martin</address>
           </div>
           <div className="flex gap-4">
-            <Instagram className="stroke-gray-100" />
-            <Facebook className="fill-gray-100" />
+            <Instagram size={36} className="stroke-gray-100" />
+            <Facebook size={36} className="stroke-gray-100" />
           </div>
         </div>
         <div className="col-span-full lg:col-span-8 rounded-md p-6">

@@ -1,5 +1,6 @@
 import { Grid, ThemeIcon } from "./shared";
 import Link from "next/link";
+import { Facebook, Instagram } from "@lib/icons";
 
 export function Footer() {
   return (
@@ -41,7 +42,7 @@ export function Footer() {
                   target={"_blank"}
                   rel={"noreferrer"}
                 >
-                  <Facebook />
+                  <Facebook className="stroke-gray-100" />
                 </a>
               </ThemeIcon>
             </li>
@@ -54,7 +55,7 @@ export function Footer() {
                   target={"_blank"}
                   rel={"noreferrer"}
                 >
-                  <Instagram />
+                  <Instagram className="stroke-gray-100" />
                 </a>
               </ThemeIcon>
             </li>
@@ -62,28 +63,5 @@ export function Footer() {
         </div>
       </Grid>
     </footer>
-  );
-}
-
-function Facebook() {
-  return (
-    <svg height={24} width={24} viewBox="0 0 320 512" xmlns="http://www.w3.org/2000/svg">
-      <g fill="#ffffff">
-        <path d="M279.14 288l14.22-92.66h-88.91v-60.13c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S260.43 0 225.36 0c-73.22 0-121.08 44.38-121.08 124.72v70.62H22.89V288h81.39v224h100.17V288z" />
-      </g>
-    </svg>
-  );
-}
-
-function Instagram() {
-  return (
-    <svg height="24" width="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-      <g fill="none" stroke="#ffffff" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2">
-        <path d="M0 0h24v24H0z" fill="none" stroke="none" />
-        <path d="M16.5 7.5v.001" />
-        <rect height="16" width="16" rx="4" x="4" y="4" />
-        <circle cx="12" cy="12" r="3" />
-      </g>
-    </svg>
   );
 }
