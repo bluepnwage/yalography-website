@@ -1,6 +1,6 @@
 "use client";
 import { MantineProvider, Stepper } from "@mantine/core";
-import { DatePicker } from "@mantine/dates";
+import { DatePicker } from "../DatePicker/DatePicker";
 import { FormEvent, useState } from "react";
 import { Button } from "@components/shared";
 import { Input } from "@components/shared/Input";
@@ -130,19 +130,7 @@ function BookingsForm() {
                   })}
                 </fieldset>
               )}
-              <DatePicker
-                value={date}
-                onChange={setDate}
-                label="Date"
-                classNames={{
-                  input: "border-gray-400 dark:border-gray-700 bg-zinc-100 dark:bg-zinc-700 rounded-md",
-                  label: "text-gray-900 dark:text-gray-300 text-md",
-                  dropdown: "bg-white border-gray-400 dark:border-gray-700 dark:bg-zinc-800",
-                  day: "text-gray-900 dark:text-gray-100 hover:bg-gray-300 dark:hover:bg-zinc-600 data-[outside=true]:text-gray-300 data-[outside=true]:dark:text-gray-500 data-[weekend=true]:dark:text-red-500 data-[weekend=true]:text-red-600",
-                  weekday: "text-gray-500 dark:text-gray-400",
-                  month: "text-red-500 dark:text-gray-400"
-                }}
-              />
+              <DatePicker date={date} onChange={setDate} />
               <Input
                 value={form?.time}
                 onChange={handleChange}
