@@ -15,8 +15,19 @@ export function BookingsFormContainer() {
   );
 }
 
+type Form = {
+  name: string;
+  email: string;
+  phone: string;
+  time: string;
+  description: string;
+};
+
 function BookingsForm() {
   const [active, setActive] = useState(0);
+  const [form, setForm] = useState<Partial<Form>>({});
+  const [shootType, setShootType] = useState("");
+  const [date, setDate] = useState<Date | null>(null);
 
   const prevStep = (e: FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -28,6 +39,11 @@ function BookingsForm() {
     e.preventDefault();
     if (active === 3) return;
     setActive((prev) => prev + 1);
+  };
+
+  const handleChange = (e: FormEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.currentTarget;
+    setForm((prev) => ({ ...prev, [name]: value }));
   };
 
   return (
@@ -47,14 +63,30 @@ function BookingsForm() {
         >
           <Stepper.Step label="Contact information" description="Enter contact info">
             <section className="space-y-4">
-              <Input label="Name" name="name" className="w-full" />
-              <Input label="Email" type={"email"} name="email" className="w-full" />
-              <Input label="Phone" type={"tel"} name="phone" className="w-full" />
+              <Input value={form?.name} onChange={handleChange} label="Name" name="name" className="w-full" />
+              <Input
+                value={form?.email}
+                onChange={handleChange}
+                label="Email"
+                type={"email"}
+                name="email"
+                className="w-full"
+              />
+              <Input
+                value={form?.phone}
+                onChange={handleChange}
+                label="Phone"
+                type={"tel"}
+                name="phone"
+                className="w-full"
+              />
             </section>
           </Stepper.Step>
           <Stepper.Step label="Reservation details" description="Enter reservation details">
             <section className="space-y-4">
               <Select
+                value={shootType}
+                onValueChange={setShootType}
                 placeholder="Service type"
                 data={[
                   { value: "wedding", label: "Wedding" },
@@ -62,6 +94,8 @@ function BookingsForm() {
                 ]}
               />
               <DatePicker
+                value={date}
+                onChange={setDate}
                 label="Date"
                 classNames={{
                   input: "border-gray-400 dark:border-gray-700 bg-zinc-100 dark:bg-zinc-700 rounded-md",
@@ -72,11 +106,33 @@ function BookingsForm() {
                   month: "text-red-500 dark:text-gray-400"
                 }}
               />
-              <Input label="Time" type={"time"} className="accent-red-600 w-full" />
-              <Textarea rows={3} label="Description" className="w-full" />
+              <Input
+                value={form?.time}
+                onChange={handleChange}
+                name={"time"}
+                label="Time"
+                type={"time"}
+                className="accent-red-600 w-full"
+              />
+              <Textarea
+                value={form?.description}
+                onChange={handleChange}
+                rows={3}
+                name={"description"}
+                label="Description"
+                className="w-full"
+              />
             </section>
           </Stepper.Step>
-          <Stepper.Step label="Confirmation" description="Confirm information"></Stepper.Step>
+          <Stepper.Step label="Confirmation" description="Confirm information">
+            <p>{form?.name}</p>
+            <p>{form?.email}</p>
+            <p>{form?.phone}</p>
+            <p>{shootType}</p>
+            <p>{date?.toDateString()}</p>
+            <p>{form?.time}</p>
+            <p>{form?.description}</p>
+          </Stepper.Step>
           <Stepper.Completed>Your reservation has been booked!</Stepper.Completed>
         </Stepper>
       </form>
