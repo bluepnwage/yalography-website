@@ -4,6 +4,7 @@
 
 :root {
   transition: all 200ms ease-out;
+  scroll-padding-top: 100px;
 }
 
 :root.dark-mode {

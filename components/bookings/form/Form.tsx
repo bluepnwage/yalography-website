@@ -1,7 +1,7 @@
 "use client";
 import { MantineProvider, Stepper } from "@mantine/core";
 import { DatePicker } from "../DatePicker/DatePicker";
-import { FormEvent, useState } from "react";
+import { FormEvent, useState, useRef } from "react";
 import { Button } from "@components/shared";
 import { Input } from "@components/shared/Input";
 import { Select } from "@components/shared/Select";
@@ -34,16 +34,23 @@ function BookingsForm() {
   const [shootType, setShootType] = useState<Lowercase<ShootTypes> | "">("");
   const [date, setDate] = useState<Date | null>(null);
   const [selectedFeatures, setFeatures] = useState<string[]>([]);
+  const formRef = useRef<HTMLFormElement | null>(null);
 
   const shootDetails = shootType ? photoshootTypes.get(shootType)! : "";
 
   const prevStep = () => {
     if (active === 0) return;
+    formRef.current?.scrollIntoView({ behavior: "smooth" });
     setActive((prev) => prev - 1);
   };
 
   const nextStep = () => {
     if (active === 3) return;
+
+    //prevent user from going to next step without filling out information for current step
+    if (active === 0 && (!form.name || !form.email || !form.phone)) return;
+    if (active === 1 && (!shootType || !date || !form.time)) return;
+    formRef.current?.scrollIntoView({ behavior: "smooth" });
     setActive((prev) => prev + 1);
   };
 
@@ -63,7 +70,7 @@ function BookingsForm() {
 
   return (
     <>
-      <form>
+      <form ref={formRef}>
         <Stepper
           breakpoint={"sm"}
           classNames={{
@@ -118,7 +125,7 @@ function BookingsForm() {
                         <input
                           checked={selectedFeatures.includes(feature.label.toLowerCase())}
                           onChange={onFeatureChange}
-                          className="w-7 h-7 accent-red-500"
+                          className="w-7 h-7 accent-red-600"
                           key={key}
                           id={feature.label.toLowerCase()}
                           name={"feature"}

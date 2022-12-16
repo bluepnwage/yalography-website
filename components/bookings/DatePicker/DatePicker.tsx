@@ -15,7 +15,7 @@ export function DatePicker({ onChange, date }: PropTypes) {
       classNames={{
         input: `border-gray-400 dark:text-gray-400 text-gray-600 font-sans dark:border-gray-700
          bg-zinc-100 dark:bg-zinc-700 rounded-md`,
-        label: "text-gray-900 font-sans dark:text-gray-300 text-md",
+        label: "text-gray-900 font-sans dark:text-gray-300 text-base",
         dropdown: "bg-white border-gray-400 dark:border-gray-700 dark:bg-zinc-800",
         day: `text-gray-900 dark:text-gray-100 hover:bg-gray-300 dark:hover:bg-zinc-600
         data-[outside=true]:text-gray-300 data-[outside=true]:dark:text-gray-500 data-[weekend=true]:dark:text-red-500
