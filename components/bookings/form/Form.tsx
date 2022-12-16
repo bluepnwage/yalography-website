@@ -6,6 +6,11 @@ import { Button } from "@components/shared";
 import { Input } from "@components/shared/Input";
 import { Select } from "@components/shared/Select";
 import { Textarea } from "@components/shared/Textarea";
+import { photoshootTypes } from "@lib/photoshoot";
+
+import type { ShootTypes } from "@lib/photoshoot";
+
+const selectData = Array.from(photoshootTypes).map(([key, value]) => ({ label: value.label, value: key }));
 
 export function BookingsFormContainer() {
   return (
@@ -26,17 +31,18 @@ type Form = {
 function BookingsForm() {
   const [active, setActive] = useState(0);
   const [form, setForm] = useState<Partial<Form>>({});
-  const [shootType, setShootType] = useState("");
+  const [shootType, setShootType] = useState<Lowercase<ShootTypes> | "">("");
   const [date, setDate] = useState<Date | null>(null);
+  const [selectedFeatures, setFeatures] = useState<string[]>([]);
 
-  const prevStep = (e: FormEvent<HTMLButtonElement>) => {
-    e.preventDefault();
+  const shootDetails = shootType ? photoshootTypes.get(shootType)! : "";
+
+  const prevStep = () => {
     if (active === 0) return;
     setActive((prev) => prev - 1);
   };
 
-  const nextStep = (e: FormEvent<HTMLButtonElement>) => {
-    e.preventDefault();
+  const nextStep = () => {
     if (active === 3) return;
     setActive((prev) => prev + 1);
   };
@@ -44,6 +50,15 @@ function BookingsForm() {
   const handleChange = (e: FormEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.currentTarget;
     setForm((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const onFeatureChange = (e: FormEvent<HTMLInputElement>) => {
+    const { checked, value } = e.currentTarget;
+    if (checked) {
+      setFeatures((prev) => [...prev, value]);
+    } else {
+      setFeatures((prev) => prev.filter((v) => v !== value));
+    }
   };
 
   return (
@@ -86,13 +101,34 @@ function BookingsForm() {
             <section className="space-y-4">
               <Select
                 value={shootType}
-                onValueChange={setShootType}
+                onValueChange={(value: Lowercase<ShootTypes>) => setShootType(value)}
                 placeholder="Photoshoot type"
-                data={[
-                  { value: "wedding", label: "Wedding" },
-                  { value: "portrait", label: "Portrait" }
-                ]}
+                data={selectData}
               />
+              {shootDetails && (
+                <fieldset>
+                  <legend className="font-semibold text-xl">Features:</legend>
+                  {shootDetails.features.map((feature, key) => {
+                    return (
+                      <p className="inline-block mr-5 last-of-type:mr-0">
+                        <label className="select-none" htmlFor={feature.label.toLowerCase()}>
+                          {feature.label}
+                        </label>
+                        <input
+                          checked={selectedFeatures.includes(feature.label.toLowerCase())}
+                          onChange={onFeatureChange}
+                          className="w-7 h-7 accent-red-500"
+                          key={key}
+                          id={feature.label.toLowerCase()}
+                          name={"feature"}
+                          type={"checkbox"}
+                          value={feature.label.toLowerCase()}
+                        />
+                      </p>
+                    );
+                  })}
+                </fieldset>
+              )}
               <DatePicker
                 value={date}
                 onChange={setDate}
@@ -125,30 +161,51 @@ function BookingsForm() {
             </section>
           </Stepper.Step>
           <Stepper.Step label="Confirmation" description="Confirm information">
-            <section className="text-center text-lg">
-              <p className="font-bold text-2xl mb-4">Contact information</p>
-              <p>
-                <span className="font-semibold">Name:</span> {form?.name}
-              </p>
-              <p>
-                <span className="font-semibold">Email:</span> {form?.email}
-              </p>
-              <p>
-                <span className="font-semibold">Phone number:</span> {form?.phone}
-              </p>
-              <p className="font-bold text-2xl my-4">Reservation details</p>
-              <p>
-                <span className="font-semibold">Photoshoot type:</span> {shootType}
-              </p>
-              <p>
-                <span className="font-semibold">Date:</span> {date?.toDateString()}
-              </p>
-              <p>
-                <span className="font-semibold">Time:</span> {form?.time}
-              </p>
-              <p>
-                <span className="font-semibold">Comments:</span> {form?.description}
-              </p>
+            <section className="grid grid-cols-2 gap-2 text-lg">
+              <div>
+                <p className="font-bold text-2xl mb-4">Contact information</p>
+                <p>
+                  <span className="font-semibold">Name:</span> {form?.name}
+                </p>
+                <p>
+                  <span className="font-semibold">Email:</span> {form?.email}
+                </p>
+                <p>
+                  <span className="font-semibold">Phone number:</span> {form?.phone}
+                </p>
+              </div>
+              <div>
+                <p className="font-bold text-2xl mb-4">Reservation details</p>
+                <p>
+                  <span className="font-semibold">Photoshoot type:</span> {shootType}
+                </p>
+                <p>
+                  <span className="font-semibold">Date:</span> {date?.toDateString()}
+                </p>
+                <p>
+                  <span className="font-semibold">Time:</span> {form?.time}
+                </p>
+                <p>
+                  <span className="font-semibold">Comments:</span> {form?.description}
+                </p>
+              </div>
+              {shootDetails && (
+                <div className="col-span-full">
+                  <p className="font-semibold text-2xl">Photoshoot details</p>
+                  <p>{shootDetails.label}</p>
+                  <p>Time: {formatTime(shootDetails.time)}</p>
+                  <p>Features:</p>
+                  <ul className="list-disc pl-4">
+                    {selectedFeatures.map((value, key) => {
+                      return (
+                        <li key={key}>
+                          <p>{value}</p>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </div>
+              )}
             </section>
           </Stepper.Step>
           <Stepper.Completed>
@@ -169,4 +226,9 @@ function BookingsForm() {
       </div>
     </>
   );
+}
+
+function formatTime(time: number | string) {
+  if (typeof time === "string") return time;
+  return `${time / 60 / 60}h`;
 }

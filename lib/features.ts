@@ -18,7 +18,7 @@ export type FeatureSpec = {
   label: string;
 };
 
-export const photoshootFeatures = new Map<FeatureType, FeatureSpec>();
+const photoshootFeatures = new Map<FeatureType, FeatureSpec>();
 
 photoshootFeatures.set("added_person", {
   price: 15,
@@ -58,7 +58,7 @@ photoshootFeatures.set("headpiece", {
 photoshootFeatures.set("proposal_video", {
   price: 150,
   description: "Option to request proposal to go along with photoshoot",
-  label: "Propsal Video"
+  label: "Proposal Video"
 });
 photoshootFeatures.set("quick_hairstyles", {
   price: 40,
@@ -80,3 +80,11 @@ photoshootFeatures.set("wig_rental", {
   description: "Option to rent wig for photoshoot",
   label: "Wig Rental"
 });
+
+export function getFeatures(...features: FeatureType[]) {
+  const shootTypeFeatures: FeatureSpec[] = [];
+  for (const feature of features) {
+    shootTypeFeatures.push(photoshootFeatures.get(feature)!);
+  }
+  return shootTypeFeatures;
+}

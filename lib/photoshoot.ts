@@ -1,8 +1,6 @@
-import { capitalize } from "@util/capitalize";
-import { photoshootFeatures } from "./features";
-import type { FeatureType, FeatureSpec } from "./features";
+import { getFeatures } from "./features";
 
-type ShootTypes =
+export type ShootTypes =
   | "Sweet 16"
   | "Babyshoot"
   | "Engagement shoot"
@@ -17,120 +15,100 @@ type ShootTypes =
 type WeddingTypes = "Wedding Bronze" | "Wedding Silver" | "Wedding Gold" | "Wedding Signing" | "Destination Wedding";
 type PhotoShootTime = number | "hourly" | "day";
 
-export class Photoshoot {
-  type: ShootTypes;
-  indoor: number | string;
-  outdoor: number | string;
-  pictures: number;
-  private _features: FeatureSpec[];
-  maxPictures: number;
-  private _time: PhotoShootTime;
-  constructor(
-    type: ShootTypes,
-    indoorPricing: number | string,
-    outdoorPricing: number | string,
-    pictureAmount: number,
-    time: PhotoShootTime,
-    ...features: FeatureType[]
-  ) {
-    this.type = type;
-    this.indoor = indoorPricing;
-    this.outdoor = outdoorPricing;
-    this.pictures = pictureAmount;
-    this._features = features.map((feature) => photoshootFeatures.get(feature)!);
-    this._time = time;
-    this.maxPictures = this.pictures < 100 ? this.pictures + (100 - this.pictures) : this.pictures + 100;
-  }
-  get time() {
-    return typeof this._time === "number" ? `${this._time / 3600}h` : capitalize(this._time);
-  }
-  get features() {
-    const included: FeatureSpec[] = [];
-    const paid: FeatureSpec[] = [];
+type PhotoShootType = {
+  label: ShootTypes;
+  features: ReturnType<typeof getFeatures>;
+  time: PhotoShootTime; //Time in seconds
+  environmentPrice: {
+    outdoor: number | "N/A";
+    indoor: number | "N/A";
+  };
+};
 
-    for (const feature of this._features) {
-      if (feature.price === 0) {
-        included.push(feature);
-      } else {
-        paid.push(feature);
-      }
-    }
-    return { included, paid };
-  }
+function setEnvironmentPricing(indoor: number, outdoor: number) {
+  return {
+    indoor,
+    outdoor
+  };
 }
 
-const adShoot = new Photoshoot("Ad shoot", "200/h", "200/h", 50, "hourly");
-const babyshoot = new Photoshoot("Babyshoot", 150, 200, 8, 60 * 60 * 2, "decor");
-const familyShoot = new Photoshoot("Family", 300, 400, 8, 60 * 60, "added_person");
-const eventShoot = new Photoshoot("Event", "200/h", "200/h", 100, "hourly", "flash_drive");
-const pregnancyShoot = new Photoshoot(
-  "Pregnancy",
-  200,
-  225,
-  8,
-  60 * 60 * 1.5,
-  "decor",
-  "headpiece",
-  "soft_glam_makeup",
-  "quick_hairstyles",
-  "spouse",
-  "wig_rental"
-);
-const sweetSixTeenShoot = new Photoshoot("Sweet 16", 150, 200, 8, 60 * 60, "decor");
-const regularShoot = new Photoshoot("Regular shoot", 200, 250, 8, 60 * 60);
-const kidsParty = new Photoshoot("Kids party shoot", "150/h", "150/h", 100, "hourly", "flash_drive");
-const weddingBronze = new Photoshoot(
-  "Wedding Bronze",
-  1500,
-  1500,
-  200,
-  "day",
-  "flash_drive",
-  "quick_hairstyles",
-  "assistant"
-);
-const weddingSilver = new Photoshoot(
-  "Wedding Silver",
-  2000,
-  2000,
-  250,
-  "day",
-  "flash_drive",
-  "quick_hairstyles",
-  "assistant"
-);
-const weddingGold = new Photoshoot(
-  "Wedding Gold",
-  2500,
-  2500,
-  300,
-  "day",
-  "flash_drive",
-  "quick_hairstyles",
-  "assistant"
-);
-const weddingSignin = new Photoshoot(
-  "Wedding Signing",
-  400,
-  400,
-  50,
-  "day",
-  "flash_drive",
-  "quick_hairstyles",
-  "assistant"
-);
+export const photoshootTypes = new Map<Lowercase<ShootTypes>, PhotoShootType>();
 
-export const photoshootPricing = [
-  adShoot,
-  babyshoot,
-  familyShoot,
-  eventShoot,
-  pregnancyShoot,
-  sweetSixTeenShoot,
-  regularShoot,
-  kidsParty,
-  weddingBronze,
-  weddingSilver,
-  weddingGold,
-  weddingSignin
-];
+photoshootTypes.set("ad shoot", {
+  label: "Ad shoot",
+  features: [],
+  time: "hourly",
+  environmentPrice: setEnvironmentPricing(200, 200)
+});
+photoshootTypes.set("babyshoot", {
+  label: "Babyshoot",
+  features: getFeatures("decor"),
+  time: 60 * 60 * 2,
+  environmentPrice: setEnvironmentPricing(150, 200)
+});
+photoshootTypes.set("engagement shoot", {
+  label: "Engagement shoot",
+  features: getFeatures("decor", "proposal_video", "quick_hairstyles"),
+  time: 60 * 60,
+  environmentPrice: setEnvironmentPricing(300, 300)
+});
+photoshootTypes.set("event", {
+  label: "Event",
+  features: getFeatures("flash_drive"),
+  time: 0,
+  environmentPrice: setEnvironmentPricing(200, 200)
+});
+photoshootTypes.set("family", {
+  label: "Family",
+  features: getFeatures("added_person"),
+  time: 60 * 60,
+  environmentPrice: setEnvironmentPricing(300, 400)
+});
+photoshootTypes.set("kids party shoot", {
+  label: "Kids party shoot",
+  features: getFeatures("flash_drive"),
+  time: "hourly",
+  environmentPrice: setEnvironmentPricing(150, 150)
+});
+photoshootTypes.set("pregnancy", {
+  label: "Pregnancy",
+  features: getFeatures("dress_rental", "headpiece", "wig_rental", "quick_hairstyles", "spouse", "soft_glam_makeup"),
+  time: 60 * 60 * 1.5,
+  environmentPrice: setEnvironmentPricing(200, 225)
+});
+photoshootTypes.set("regular shoot", {
+  label: "Regular shoot",
+  features: [],
+  time: 60 * 60,
+  environmentPrice: setEnvironmentPricing(200, 250)
+});
+photoshootTypes.set("sweet 16", {
+  label: "Sweet 16",
+  features: getFeatures("decor"),
+  time: 60 * 60,
+  environmentPrice: setEnvironmentPricing(150, 200)
+});
+photoshootTypes.set("wedding bronze", {
+  label: "Wedding Bronze",
+  features: getFeatures("assistant", "quick_hairstyles", "flash_drive"),
+  time: "day",
+  environmentPrice: setEnvironmentPricing(1500, 1500)
+});
+photoshootTypes.set("wedding silver", {
+  label: "Wedding Silver",
+  features: getFeatures("assistant", "quick_hairstyles", "flash_drive"),
+  time: "day",
+  environmentPrice: setEnvironmentPricing(2000, 2000)
+});
+photoshootTypes.set("wedding gold", {
+  label: "Wedding Gold",
+  features: getFeatures("assistant", "quick_hairstyles", "flash_drive"),
+  time: "day",
+  environmentPrice: setEnvironmentPricing(2500, 2500)
+});
+photoshootTypes.set("destination wedding", {
+  label: "Destination Wedding",
+  features: [],
+  time: "day",
+  environmentPrice: setEnvironmentPricing(5000, 5000)
+});
