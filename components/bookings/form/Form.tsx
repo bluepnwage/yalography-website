@@ -125,15 +125,38 @@ function BookingsForm() {
             </section>
           </Stepper.Step>
           <Stepper.Step label="Confirmation" description="Confirm information">
-            <p>{form?.name}</p>
-            <p>{form?.email}</p>
-            <p>{form?.phone}</p>
-            <p>{shootType}</p>
-            <p>{date?.toDateString()}</p>
-            <p>{form?.time}</p>
-            <p>{form?.description}</p>
+            <section className="text-center text-lg">
+              <p className="font-bold text-2xl mb-4">Contact information</p>
+              <p>
+                <span className="font-semibold">Name:</span> {form?.name}
+              </p>
+              <p>
+                <span className="font-semibold">Email:</span> {form?.email}
+              </p>
+              <p>
+                <span className="font-semibold">Phone number:</span> {form?.phone}
+              </p>
+              <p className="font-bold text-2xl my-4">Reservation details</p>
+              <p>
+                <span className="font-semibold">Photoshoot type:</span> {shootType}
+              </p>
+              <p>
+                <span className="font-semibold">Date:</span> {date?.toDateString()}
+              </p>
+              <p>
+                <span className="font-semibold">Time:</span> {form?.time}
+              </p>
+              <p>
+                <span className="font-semibold">Comments:</span> {form?.description}
+              </p>
+            </section>
           </Stepper.Step>
-          <Stepper.Completed>Your reservation has been booked!</Stepper.Completed>
+          <Stepper.Completed>
+            <p className="text-lg">
+              Your request has been confirmed. <br /> We will get back to you as soon as possible to confirm your
+              request
+            </p>
+          </Stepper.Completed>
         </Stepper>
       </form>
       <div className="flex justify-between mt-5">
