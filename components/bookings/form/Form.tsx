@@ -82,12 +82,12 @@ function BookingsForm() {
               />
             </section>
           </Stepper.Step>
-          <Stepper.Step label="Reservation details" description="Enter reservation details">
+          <Stepper.Step label="Booking details" description="Enter booking details">
             <section className="space-y-4">
               <Select
                 value={shootType}
                 onValueChange={setShootType}
-                placeholder="Service type"
+                placeholder="Photoshoot type"
                 data={[
                   { value: "wedding", label: "Wedding" },
                   { value: "portrait", label: "Portrait" }

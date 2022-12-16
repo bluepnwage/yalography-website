@@ -7,14 +7,14 @@ export default function BookingsPage() {
   return (
     <>
       <PageIntro>
-        Reserve your{" "}
+        Book your{" "}
         <span className="bg-gradient-to-tr from-rose-500 to-red-600 bg-clip-text text-transparent">
           photoshoot today
         </span>
       </PageIntro>
       <Section className="mt-10">
         <Title className="mb-5" order={"h2"}>
-          Reserve a session
+          Book a session
         </Title>
         <Card>
           <BookingsFormContainer />

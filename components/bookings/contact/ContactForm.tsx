@@ -1,7 +1,7 @@
 import { Grid, Section, Title, Button } from "@components/shared";
-
-import type { ComponentPropsWithoutRef } from "react";
 import { Email, Facebook, Instagram, Location, Phone } from "@lib/icons";
+import { Input } from "@components/shared/Input";
+import { Textarea } from "@components/shared/Textarea";
 
 export function ContactForm() {
   return (
@@ -47,43 +47,11 @@ export function ContactForm() {
             <div className="flex w-full gap-4 grow basis-full">
               <Input label="Subject" name={"subject"} id={"subject"} />
             </div>
-
-            <Textarea />
+            <Textarea label="Message" />
             <Button className="self-end">Submit message</Button>
           </form>
         </div>
       </Grid>
     </Section>
-  );
-}
-
-interface PropTypes extends ComponentPropsWithoutRef<"input"> {
-  label: string;
-}
-
-function Input({ label, id, ...props }: PropTypes) {
-  return (
-    <p className="grow basis-2/4">
-      <label htmlFor={id} className="block">
-        {label}
-      </label>
-      <input
-        // autoComplete={""}
-        {...props}
-        className="appearance-none w-full outline-none border border-gray-400 dark:border-gray-700 rounded-md px-4 py-2 bg-zinc-100 dark:bg-zinc-700"
-      />
-    </p>
-  );
-}
-
-function Textarea() {
-  return (
-    <p className="w-full">
-      <label className="block">Message</label>
-      <textarea
-        rows={5}
-        className="bg-zinc-100 dark:bg-zinc-700 resize-none border w-full border-gray-400 dark:border-gray-700 rounded-md px-2 py-1 outline-none appearance-none"
-      />
-    </p>
   );
 }
