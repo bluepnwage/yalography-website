@@ -110,7 +110,7 @@ function BookingsForm() {
                   <legend className="font-semibold text-xl">Features:</legend>
                   {shootDetails.features.map((feature, key) => {
                     return (
-                      <p className="inline-block mr-5 last-of-type:mr-0">
+                      <p key={key} className="inline-block mr-5 last-of-type:mr-0">
                         <label className="select-none" htmlFor={feature.label.toLowerCase()}>
                           {feature.label}
                         </label>
