@@ -16,7 +16,7 @@ export default function BookingsPage() {
         <Title className="mb-5" order={"h2"}>
           Book a session
         </Title>
-        <Card>
+        <Card className="w-11/12 lg:w-fit">
           <BookingsFormContainer />
         </Card>
       </Section>

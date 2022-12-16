@@ -65,6 +65,7 @@ function BookingsForm() {
     <>
       <form>
         <Stepper
+          breakpoint={"sm"}
           classNames={{
             stepLabel: "text-gray-900 dark:text-gray-100",
             stepDescription: "text-gray-600 dark:text-gray-300",
@@ -161,8 +162,8 @@ function BookingsForm() {
             </section>
           </Stepper.Step>
           <Stepper.Step label="Confirmation" description="Confirm information">
-            <section className="grid grid-cols-2 gap-2 text-lg">
-              <div>
+            <section className="grid grid-cols-6 lg:grid-cols-2 gap-2 text-lg">
+              <div className="col-span-full lg:col-span-1">
                 <p className="font-bold text-2xl mb-4">Contact information</p>
                 <p>
                   <span className="font-semibold">Name:</span> {form?.name}
@@ -174,7 +175,7 @@ function BookingsForm() {
                   <span className="font-semibold">Phone number:</span> {form?.phone}
                 </p>
               </div>
-              <div>
+              <div className="col-span-full lg:col-span-1">
                 <p className="font-bold text-2xl mb-4">Reservation details</p>
                 <p>
                   <span className="font-semibold">Photoshoot type:</span> {shootType}
