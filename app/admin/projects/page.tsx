@@ -1,4 +1,6 @@
 import { Card, Grid, Title, Badge, Button, Section } from "@components/shared";
+import Image from "next/image";
+import pixel from "@public/pixel.jpg";
 
 const array = Array(9).fill(null);
 
@@ -25,8 +27,11 @@ export default function AdminProjectsPage() {
         {array.map((_, key) => {
           const published = key % 2 === 0;
           return (
-            <Card key={key} className="col-span-4">
-              <div className="flex justify-between">
+            <Card key={key} className="col-span-4 overflow-hidden">
+              <figure className="-mx-4 overflow-hidden h-48 mb-5 -mt-4 ">
+                <Image src={pixel} className="w-full h-full object-cover" alt={"Project thumbnail"} />
+              </figure>
+              <div className="flex justify-between items-center">
                 <Title order={"h2"} size={"lg"}>
                   Random title
                 </Title>
