@@ -36,6 +36,9 @@ function BookingsForm() {
   const [selectedFeatures, setFeatures] = useState<string[]>([]);
   const formRef = useRef<HTMLFormElement | null>(null);
 
+  const stepOneIncomplete = !form.name || !form.email || !form.phone;
+  const stepTwoIncomplete = !date || !form.time || !shootType;
+
   const shootDetails = shootType ? photoshootTypes.get(shootType)! : "";
 
   const prevStep = () => {
@@ -48,8 +51,8 @@ function BookingsForm() {
     if (active === 3) return;
 
     //prevent user from going to next step without filling out information for current step
-    if (active === 0 && (!form.name || !form.email || !form.phone)) return;
-    if (active === 1 && (!shootType || !date || !form.time)) return;
+    if (active === 0 && stepOneIncomplete) return;
+    if (active === 1 && stepTwoIncomplete) return;
     formRef.current?.scrollIntoView({ behavior: "smooth" });
     setActive((prev) => prev + 1);
   };
@@ -105,7 +108,11 @@ function BookingsForm() {
               />
             </section>
           </Stepper.Step>
-          <Stepper.Step label="Booking details" description="Enter booking details">
+          <Stepper.Step
+            allowStepSelect={!stepOneIncomplete}
+            label="Booking details"
+            description="Enter booking details"
+          >
             <section className="space-y-4">
               <Select
                 value={shootType}
@@ -156,7 +163,7 @@ function BookingsForm() {
               />
             </section>
           </Stepper.Step>
-          <Stepper.Step label="Confirmation" description="Confirm information">
+          <Stepper.Step allowStepSelect={!stepTwoIncomplete} label="Confirmation" description="Confirm information">
             <section className="grid grid-cols-6 lg:grid-cols-2 gap-2 text-lg">
               <div className="col-span-full lg:col-span-1">
                 <p className="font-bold text-2xl mb-4">Contact information</p>
