@@ -1,7 +1,6 @@
 import { Todo } from "./Todo";
-import { Card, Title } from "@components/shared";
+import { Card, Skeleton, Title } from "@components/shared";
 import { ScrollAreaDemo } from "@components/shared/ScrollArea";
-import { handlePromise } from "@util/handle-promise";
 import prisma from "@lib/prisma";
 
 async function getLists() {
@@ -34,10 +33,11 @@ export async function TaskList() {
 
 export function TaskListLoading() {
   return (
-    <Card className="col-span-8">
-      <Title order={"h3"} className="text-center">
-        Tasks
-      </Title>
+    <Card className="col-span-8 relative overflow-hidden">
+      <Skeleton.Shimmer />
+      <div className="flex justify-center">
+        <Skeleton className="h-6 w-36" />
+      </div>
       <TodoLoading />
     </Card>
   );
@@ -59,10 +59,10 @@ function Task() {
   return (
     <div className="flex justify-between border-b -mx-4 px-4 py-4 border-gray-300 dark:border-gray-600 items-end last-of-type:border-b-0">
       <div className="space-y-2">
-        <div className="grayscale bg-red-600 h-3 w-48 rounded-xl animate-pulse"></div>
-        <div className="grayscale bg-red-600 h-3 w-24 rounded-xl animate-pulse"></div>
+        <Skeleton className="h-3 w-48" />
+        <Skeleton className="h-3 w-24" />
       </div>
-      <div className="h-10 w-24 grayscale bg-red-600 rounded-md animate-pulse"></div>
+      <Skeleton className="h-10 w-24" />
     </div>
   );
 }

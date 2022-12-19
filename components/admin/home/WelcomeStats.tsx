@@ -1,4 +1,4 @@
-import { Button, Card, Title } from "@components/shared";
+import { Button, Card, Title, Skeleton } from "@components/shared";
 import { StatCard } from "./StatCard";
 import { ClipboardCheck, ClipboardMoney } from "@lib/icons";
 
@@ -68,10 +68,11 @@ function WelcomeCard({ stat }: PropTypes) {
 
 function WelcomeCardLoading() {
   return (
-    <Card className="space-y-2 basis-3/6">
-      <div className="animate-pulse grayscale bg-red-600 h-3 rounded-xl w-1/4" />
-      <div className="animate-pulse grayscale bg-red-600 h-3 rounded-xl w-2/3" />
-      <div className="animate-pulse grayscale bg-red-600 rounded-xl w-24 h-10" />
+    <Card className="space-y-2 basis-3/6 relative overflow-hidden">
+      <Skeleton.Shimmer />
+      <Skeleton className="h-3 w-1/4" />
+      <Skeleton className="h-3 w-2/3" />
+      <Skeleton className="w-24 h-10" />
     </Card>
   );
 }
@@ -92,13 +93,14 @@ function Orders({ stat }: PropTypes) {
 
 function OrdersLoading() {
   return (
-    <Card className="basis-1/6 grow flex items-center">
+    <Card className="basis-1/6 grow flex items-center relative overflow-hidden">
+      <Skeleton.Shimmer />
       <p className="basis-1/4">
         <ClipboardCheck size={48} />
       </p>
       <div className="basis-3/4 flex flex-col items-end gap-2">
-        <div className="grayscale bg-red-600 animate-pulse h-3 w-10 rounded-xl" />
-        <div className="grayscale bg-red-600 animate-pulse h-10 w-20 rounded-xl"></div>
+        <Skeleton className="h-3 w-10" />
+        <Skeleton className="h-10 w-20" />
       </div>
     </Card>
   );

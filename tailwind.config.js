@@ -8,8 +8,20 @@ module.exports = {
   theme: {
     fontFamily: {
       sans: ["Inter"]
+    },
+    extend: {
+      keyframes: {
+        shimmer: {
+          "100%": {
+            transform: "translateX(100%)"
+          }
+        },
+        animation: {
+          shimmer: "shimmer 2s linear infinite"
+        }
+      }
     }
   },
-  darkMode: 'class',
+  darkMode: "class",
   plugins: []
 };
