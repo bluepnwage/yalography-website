@@ -1,9 +1,13 @@
 import { Footer } from "@components/Footer";
 import { Header } from "@components/Navbar";
+import React from "react";
 
 import "../styles/globals.css";
 
-export default function RootLayout({ children }: ComponentProps) {
+type PropTypes = {
+  children: React.ReactNode;
+};
+export default function RootLayout({ children }: PropTypes) {
   return (
     <html lang="en" className={`font-sans dark dark-mode`}>
       <head>
