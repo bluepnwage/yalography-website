@@ -41,7 +41,7 @@ export async function WelcomeStatsLoading() {
     <div className="flex gap-4 items-stretch mb-20">
       <WelcomeCardLoading />
       <OrdersLoading />
-      <StatCard Icon={<ClipboardMoney size={48} />} title="Total revenue" stat={"$87k"} />
+      <OrdersLoading />
     </div>
   );
 }
@@ -95,9 +95,9 @@ function OrdersLoading() {
   return (
     <Card className="basis-1/6 grow flex items-center relative overflow-hidden">
       <Skeleton.Shimmer />
-      <p className="basis-1/4">
-        <ClipboardCheck size={48} />
-      </p>
+      <div className="basis-1/4">
+        <Skeleton radius={"full"} className={"w-16 h-16"} />
+      </div>
       <div className="basis-3/4 flex flex-col items-end gap-2">
         <Skeleton className="h-3 w-10" />
         <Skeleton className="h-10 w-20" />
