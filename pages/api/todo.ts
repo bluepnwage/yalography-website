@@ -5,6 +5,7 @@ import { handlePromise } from "@util/handle-promise";
 async function deleteTodo(id: number) {
   await prisma.$connect();
   await prisma.tasks.delete({ where: { id } });
+  await prisma.$disconnect();
 }
 
 const handler: NextApiHandler = async (req, res) => {
