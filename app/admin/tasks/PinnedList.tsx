@@ -5,7 +5,7 @@ import prisma from "@lib/prisma";
 
 async function getPinnedLists() {
   await prisma.$connect();
-  const lists = await prisma.taskLists.findMany({ where: { pinned: {equals:true} }, take: 3 });
+  const lists = await prisma.taskLists.findMany();
   await prisma.$disconnect();
   return lists;
 }
