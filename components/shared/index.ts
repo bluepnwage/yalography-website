@@ -8,5 +8,6 @@ export * from "./Title";
 export * from "./FlexContainer";
 export * from "./Card";
 export * from "./Breadcrumbs";
+export * from "./Skeleton";
 // export * from "./Input";
 // export * from "./ScrollArea";
