@@ -11,10 +11,10 @@ export function Stats() {
           <Title order={"h3"}>Reservations</Title>
           <Chart />
         </Card>
-        {/* <TaskListLoading /> */}
-        <Suspense fallback={<TaskListLoading />}>
+        <TaskListLoading />
+        {/* <Suspense fallback={<TaskListLoading />}>
           <TaskList />
-        </Suspense>
+        </Suspense> */}
       </Grid>
     </Section>
   );

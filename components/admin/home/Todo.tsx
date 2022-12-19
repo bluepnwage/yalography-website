@@ -1,7 +1,6 @@
 "use client";
 import { Button } from "@components/shared/client";
-import { useTransition } from "react";
-import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { cx } from "cva";
 
 import type { Tasks } from "@prisma/client";
@@ -17,50 +16,64 @@ type TodoProps = {
 };
 
 export function Todo({ tasks }: TodoProps) {
-  const [isNavigating, startTransition] = useTransition();
-  const router = useRouter();
-  const handleClick = async (todoId: number) => {
-    const res = await fetch("/api/todo", {
-      method: "DELETE",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id: todoId })
-    });
-    if (res.ok) {
-      startTransition(() => {
-        router.refresh();
-      });
-    }
+  const [list, setList] = useState<TaskList[]>(tasks);
+
+  const filterList = (taskId: number) => {
+    setList((prev) => prev.filter((task) => task.id !== taskId));
   };
+
   return (
     <>
-      {tasks.length === 0 && (
+      {list.length === 0 && (
         <div style={{ height: 400 }} className="flex justify-center items-center">
           <p className="text-2xl font-semibold">You don&apos;t have any tasks.</p>
         </div>
       )}
-      {tasks.length > 0 &&
-        tasks.map((task, key) => {
-          return (
-            <Task task={task} key={key}>
-              {isNavigating && <p>Loading...</p>}
-              <Button onClick={() => handleClick(task.id)} intent="secondary">
-                Delete
-              </Button>
-            </Task>
-          );
+      {list.length > 0 &&
+        list.map((task, key) => {
+          return <Task task={task} key={key} onFilter={filterList} />;
         })}
     </>
   );
 }
 
 type PropTypes = {
-  children: React.ReactNode;
   task: TaskList;
+  onFilter: (taskId: number) => void;
 };
 
-function Task({ children, task }: PropTypes) {
+function Task({ task, onFilter }: PropTypes) {
+  const [loading, setLoading] = useState(false);
+
+  const handleClick = async () => {
+    setLoading(true);
+    try {
+      const res = await fetch("/api/todo", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: task.id })
+      });
+      if (res.ok) {
+        onFilter(task.id);
+      } else {
+        const json = await res.json();
+        throw new Error(json.message);
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        console.error(error.message);
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
-    <div className="flex justify-between border-b -mx-4 px-4 py-2 border-gray-300 dark:border-gray-600 items-end last-of-type:border-b-0">
+    <div
+      className={cx(
+        `flex justify-between border-b -mx-4 px-4 py-2 border-gray-300 dark:border-gray-600 items-end last-of-type:border-b-0`,
+        loading ? "animate-pulse" : ""
+      )}
+    >
       <div className="space-y-4">
         <p>
           {task.name}
@@ -77,7 +90,9 @@ function Task({ children, task }: PropTypes) {
         </p>
         <time className="text-gray-600 dark:text-gray-400">{task.createdAt}</time>
       </div>
-      {children}
+      <Button onClick={handleClick} intent="secondary">
+        Delete
+      </Button>
     </div>
   );
 }

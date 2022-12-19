@@ -17,8 +17,7 @@ async function getLists() {
 }
 
 export async function TaskList() {
-  const [data, error] = await handlePromise(getLists());
-  if (!data || error) return;
+  const data = await getLists();
   return (
     <>
       <Card className="col-span-8">
@@ -58,10 +57,10 @@ function TodoLoading() {
 
 function Task() {
   return (
-    <div className="flex justify-between border-b -mx-4 px-4 py-2 border-gray-300 dark:border-gray-600 items-end last-of-type:border-b-0">
-      <div className="space-y-4">
-        <div className="grayscale bg-red-600 h-4 w-48 rounded-xl animate-pulse"></div>
-        <div className="grayscale bg-red-600 h-4 w-48 rounded-xl animate-pulse"></div>
+    <div className="flex justify-between border-b -mx-4 px-4 py-4 border-gray-300 dark:border-gray-600 items-end last-of-type:border-b-0">
+      <div className="space-y-2">
+        <div className="grayscale bg-red-600 h-3 w-48 rounded-xl animate-pulse"></div>
+        <div className="grayscale bg-red-600 h-3 w-24 rounded-xl animate-pulse"></div>
       </div>
       <div className="h-10 w-24 grayscale bg-red-600 rounded-md animate-pulse"></div>
     </div>
