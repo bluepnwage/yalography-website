@@ -1,4 +1,5 @@
 import { Anchor, Button, FlexContainer } from "@components/shared";
+import prisma from "@lib/prisma"
 
 type PropTypes = {
   children: React.ReactNode;
