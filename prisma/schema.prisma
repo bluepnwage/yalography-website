@@ -1,0 +1,62 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+model Bookings {
+  id Int @id @default(autoincrement())
+  email String
+  firstName String 
+  lastName String 
+  date DateTime 
+  time String
+  phone String @db.VarChar(40)
+  type String 
+  description String? @db.Text @default("")
+  status BookingsStatus? @default(pending)
+  @@map("bookings")
+}
+
+enum BookingsStatus {
+  completed
+  pending
+  approved
+}
+
+model TaskLists {
+  id Int @id @default(autoincrement())
+  name String @db.VarChar(255)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+  tasks Tasks[] 
+  @@map("task_lists")
+}
+
+model Tasks {
+  id Int @id @default(autoincrement())
+  name String
+  group TaskLists? @relation(references: [id],  fields: [groupId], onDelete: Cascade)
+  groupId Int?
+  deadline DateTime? 
+  description String? @db.Text @default("")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+  status Boolean @default(false)
+  priority TaskPriority @default(medium)
+  @@index([groupId])
+  @@map("tasks")
+}
+
+enum TaskPriority {
+  low
+  medium
+  high
+}
