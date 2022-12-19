@@ -37,6 +37,7 @@ model TaskLists {
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
   tasks Tasks[] 
+  pinned Boolean @default(false)
   @@map("task_lists")
 }
 
