@@ -20,8 +20,10 @@ model Bookings {
   time String
   phone String @db.VarChar(40)
   type String 
+  environment Boolean //if true then shoot will be taken inside, else outside
   description String? @db.Text @default("")
   status BookingsStatus? @default(pending)
+  tasks Tasks[]
   @@map("bookings")
 }
 
@@ -29,6 +31,32 @@ enum BookingsStatus {
   completed
   pending
   approved
+}
+
+model Projects {
+  id Int @id @default(autoincrement())
+  title String
+  description String @db.Text
+  thumbnail String
+  createdAt DateTime @default(now())
+  testimonial String? @db.Text @default("")
+  companyName String? @default("")
+  customerName String
+  images Images[]
+  @@map("projects")
+}
+
+model Images {
+  id Int @id @default(autoincrement())
+  width Int
+  height Int
+  url String
+  alt String? @db.Text @default("")
+  published Boolean @default(false) 
+  project Projects? @relation(references: [id], fields: [projectId])
+  projectId Int?
+  @@index([projectId])
+  @@map("images")
 }
 
 model TaskLists {
@@ -44,15 +72,18 @@ model TaskLists {
 model Tasks {
   id Int @id @default(autoincrement())
   name String
-  group TaskLists? @relation(references: [id],  fields: [groupId], onDelete: Cascade)
-  groupId Int?
   deadline DateTime? 
   description String? @db.Text @default("")
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
   status Boolean @default(false)
   priority TaskPriority @default(medium)
+  group TaskLists? @relation(references: [id],  fields: [groupId], onDelete: Cascade)
+  groupId Int?
+  booking Bookings? @relation(fields: [bookingId], references: [id])
+  bookingId Int?
   @@index([groupId])
+  @@index([bookingId])
   @@map("tasks")
 }
 

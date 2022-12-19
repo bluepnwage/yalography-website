@@ -6,12 +6,14 @@ const prisma = new PrismaClient();
 async function createBookings() {
   await prisma.$connect();
   await prisma.bookings.deleteMany();
-  /**@type {import('@prisma/client').Bookings} */
+  /**@type {import('@prisma/client').Bookings[]} */
   const data = bookingsData.map(({ id, ...data }) => {
+    const environment = Math.random() > 0.5;
     return {
       ...data,
       date: new Date(data.date),
-      description: data.description || ""
+      description: data.description || "",
+      environment
     };
   });
   await prisma.bookings.createMany({ data });
