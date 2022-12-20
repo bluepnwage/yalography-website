@@ -1,4 +1,4 @@
-import { Grid, Section } from "@components/shared";
+import { Grid } from "@components/shared";
 import { BookingsCard } from "./BookingsCard";
 
 const array = Array(9).fill(null);
