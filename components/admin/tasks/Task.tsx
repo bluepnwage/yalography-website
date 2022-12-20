@@ -6,12 +6,13 @@ import { Button } from "@components/shared";
 import { cx } from "cva";
 
 type PropTypes = {
-  task: GetTasks[0];
+  data: GetTasks[0];
 };
 
-export function Task({ task }: PropTypes) {
+export function Task({ data }: PropTypes) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
+  const [task, setTask] = useState(data);
   const [loading, setLoading] = useState(false);
 
   const onDelete = async () => {
@@ -20,7 +21,7 @@ export function Task({ task }: PropTypes) {
       const res = await fetch("/api/todo", {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id: task.id })
+        body: JSON.stringify({ id: data.id })
       });
       if (res.ok) {
         startTransition(() => {
@@ -37,17 +38,16 @@ export function Task({ task }: PropTypes) {
 
   const onToggleCheck = async () => {
     setLoading(true);
+    const prevTask = task;
+    setTask((prev) => ({ ...prev, status: !prev.status }));
     try {
       const res = await fetch("/api/todo", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id: task.id, data: { status: !task.status } })
+        body: JSON.stringify({ id: data.id, data: { status: !data.status } })
       });
-      if (res.ok) {
-        startTransition(() => {
-          router.refresh();
-        });
-      } else {
+      if (!res.ok) {
+        setTask(prevTask);
         const json = await res.json();
         throw new Error(json.message);
       }

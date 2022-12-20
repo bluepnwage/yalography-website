@@ -43,7 +43,7 @@ export async function Tasks() {
       </div>
       <ScrollAreaDemo height={300} orientation={"vertical"}>
         {tasks.map((task, key) => {
-          return <Task key={key} task={task} />;
+          return <Task key={key} data={task} />;
         })}
       </ScrollAreaDemo>
     </Card>
