@@ -8,6 +8,18 @@ async function deleteTodo(id: number) {
   await prisma.$disconnect();
 }
 
+type Data = {
+  name: string;
+  description?: string;
+};
+
+async function addTodo(data: Data) {
+  await prisma.$connect();
+  const task = await prisma.tasks.create({ data });
+  await prisma.$disconnect();
+  return task;
+}
+
 const handler: NextApiHandler = async (req, res) => {
   try {
     if (req.method === "DELETE") {
@@ -21,10 +33,16 @@ const handler: NextApiHandler = async (req, res) => {
       } else {
         res.status(200).json({ message: "Todo deleted" });
       }
+    } else if (req.method === "POST") {
+      const [data, error] = await handlePromise(addTodo(req.body));
+      if (error) throw new Error(error);
+      console.log(data);
+      res.status(201).json({ message: "Task created", data });
     } else {
       res.status(405).json({ message: "Method not allowed" });
     }
   } catch (error) {
+    console.log(error);
     res.status(500).json({ message: "An error ocurred on the server", error });
   }
 };

@@ -23,7 +23,7 @@ export function Select({ data, placeholder, ...props }: SelectProps) {
         </RadixSelect.Icon>
       </RadixSelect.Trigger>
       <RadixSelect.Portal>
-        <RadixSelect.Content className="bg-white ring-1 ring-gray-400 text-gray-100 dark:ring-gray-600 dark:bg-zinc-700 w-full rounded-md">
+        <RadixSelect.Content className="bg-white ring-1 z-[9999] ring-gray-400 text-gray-100 dark:ring-gray-600 dark:bg-zinc-700 w-full rounded-md">
           <RadixSelect.Viewport>
             {data.map((option, key) => {
               return (

@@ -1,19 +1,15 @@
 /* reset */
-button,
-fieldset,
-input {
-  all: unset;
-}
 
 .DialogOverlay {
   background-color: rgba(0, 0, 0, 0.562);
   position: fixed;
   inset: 0;
   animation: overlayShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 5000;
 }
 
 .DialogContent {
-  background-color: white;
+  background-color: black;
   border-radius: 6px;
   box-shadow: hsl(206 22% 7% / 35%) 0px 10px 38px -10px, hsl(206 22% 7% / 20%) 0px 10px 20px -15px;
   position: fixed;
@@ -25,6 +21,7 @@ input {
   max-height: 85vh;
   padding: 25px;
   animation: contentShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 5001;
 }
 .DialogContent:focus {
   outline: none;
