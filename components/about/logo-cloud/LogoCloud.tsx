@@ -15,8 +15,9 @@ export function LogoCloud() {
         <div className="basis-3/5 grow pr-5 space-y-4">
           <Title order={"h2"}>The world&apos;s most innovative companies use Yalography</Title>
           <p className="text-xl">
-            Sunt eu sunt duis commodo ad irure. In enim enim labore occaecat irure excepteur enim cupidatat sit commodo
-            qui ipsum elit. Aliqua sunt aute excepteur fugiat dolor commodo.
+            Each of these companies have been able to take advantage of my photography services, and have been satisfied
+            with the results. I am proud to have been able to work with these companies, and I look forward to the
+            opportunity of working with more businesses in the future.
           </p>
           <Button component={"a"} href={"/"} className="py-4 px-6">
             Contact me

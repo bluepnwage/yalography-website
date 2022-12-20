@@ -19,9 +19,9 @@ export function Hero() {
             </Title>
           </header>
           <p className="leading-loose mb-4 text-xl">
-            Magna in sit ea aliquip nostrud ex nostrud in dolore Lorem aliquip ut. Anim quis consequat nisi
-            reprehenderit consequat. Ipsum cillum consequat consectetur qui adipisicing. Incididunt do commodo
-            incididunt excepteur tempor enim non incididunt magna cupidatat.
+            Are you looking for a photographer to capture your special moments? Look no further! With my years of
+            professional experience and an eye for detail, I can ensure that your photos will be of the highest quality
+            and truly capture the beauty of the moment.
           </p>
           <Button className="block mx-auto">Request Session</Button>
         </div>

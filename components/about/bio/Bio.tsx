@@ -12,14 +12,15 @@ export function Bio() {
             <Title order="h2" size={"md"} color="red">
               About us
             </Title>
-            <Title order="h3">Random title</Title>
+            <Title order="h3">Capturing the Beauty of the World</Title>
           </header>
           <p className="text-lg">
-            Occaecat commodo amet amet laboris pariatur fugiat. Et occaecat dolore elit consectetur officia aliquip elit
-            veniam occaecat aliquip dolore id et elit. Duis commodo eiusmod minim nostrud adipisicing officia anim
-            ipsum. Culpa do aute consectetur irure voluptate non excepteur anim non anim. Ad mollit mollit eiusmod est.
-            Qui magna esse nisi proident consequat exercitation. Velit nostrud proident exercitation proident qui dolore
-            veniam nisi excepteur consectetur.
+            I am a self-taught photographer who has been taking photos since I was a teenager. Growing up, I was always
+            drawn to the beauty of nature and the way that a camera could capture it. I quickly became obsessed with
+            taking photos and learning as much as I could about photography. I have been honing my craft ever since,
+            learning through both trial and error and taking courses to further my knowledge. I have a passion for
+            portrait photography, as well as capturing candid moments and telling stories through my images. I am
+            constantly striving to create unique and captivating photos that will inspire and move others.
           </p>
           <strong className="block my-4">Some of my skills include:</strong>
           <Grid lg={2} className="w-full">
