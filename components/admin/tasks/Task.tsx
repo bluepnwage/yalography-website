@@ -34,6 +34,30 @@ export function Task({ task }: PropTypes) {
     }
   };
   const isLoading = isPending || loading;
+
+  const onToggleCheck = async () => {
+    setLoading(true);
+    try {
+      const res = await fetch("/api/todo", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: task.id, data: { status: !task.status } })
+      });
+      if (res.ok) {
+        startTransition(() => {
+          router.refresh();
+        });
+      } else {
+        const json = await res.json();
+        throw new Error(json.message);
+      }
+    } catch (error) {
+      console.error("WTF!!", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div
       className={cx(
@@ -41,11 +65,16 @@ export function Task({ task }: PropTypes) {
         isLoading ? "animate-pulse" : ""
       )}
     >
-      <button
-        aria-label={task.status ? "Uncheck task" : "Complete task"}
-        className={cx("h-5 w-5 rounded-full border border-zinc-700", task.status ? "bg-emerald-500" : "")}
-      ></button>
-      <p>{task.name}</p>
+      <div className="basis-2/3 flex  items-center gap-4">
+        <button
+          onClick={onToggleCheck}
+          style={{ maxHeight: 20, maxWidth: 20, minWidth: 20, minHeight: 20 }}
+          aria-label={task.status ? "Uncheck task" : "Complete task"}
+          className={cx("self-center rounded-full border border-zinc-700", task.status ? "bg-emerald-500" : "")}
+        ></button>
+        <p>{task.name}</p>
+      </div>
+
       <Button onClick={onDelete} intent="secondary">
         Delete task
       </Button>

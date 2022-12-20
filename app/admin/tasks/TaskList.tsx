@@ -29,7 +29,7 @@ export async function TaskList() {
         </Title>
         <Dropdown.Root>
           <Dropdown.Trigger>
-            <button>
+            <button aria-label="Open menu">
               <DotsVertical size={16} />
             </button>
           </Dropdown.Trigger>

@@ -31,7 +31,7 @@ export async function Tasks() {
         </Title>
         <Dropdown.Root>
           <Dropdown.Trigger>
-            <button>
+            <button aria-label="Open task menu">
               <DotsVertical size={16} />
             </button>
           </Dropdown.Trigger>

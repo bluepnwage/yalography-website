@@ -1,6 +1,7 @@
 import type { NextApiHandler } from "next";
 import prisma from "@lib/prisma";
 import { handlePromise } from "@util/handle-promise";
+import type { Tasks } from "@prisma/client";
 
 async function deleteTodo(id: number) {
   await prisma.$connect();
@@ -17,6 +18,13 @@ async function addTodo(data: Data) {
   await prisma.$connect();
   const task = await prisma.tasks.create({ data });
   await prisma.$disconnect();
+  return task;
+}
+
+async function updateTodo(id: number, data: Tasks) {
+  await prisma.$connect();
+  const task = await prisma.tasks.update({ where: { id }, data });
+  await prisma.$connect();
   return task;
 }
 
@@ -38,6 +46,12 @@ const handler: NextApiHandler = async (req, res) => {
       if (error) throw new Error(error);
       console.log(data);
       res.status(201).json({ message: "Task created", data });
+    } else if (req.method === "PUT") {
+      const { id, data } = req.body;
+      const [taskData, error] = await handlePromise(updateTodo(id, data));
+      if (error) throw new Error(error);
+
+      res.status(200).json({ message: "Task updated", data: taskData });
     } else {
       res.status(405).json({ message: "Method not allowed" });
     }
