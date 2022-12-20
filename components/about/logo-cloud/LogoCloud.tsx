@@ -15,9 +15,9 @@ export function LogoCloud() {
         <div className="basis-3/5 grow pr-5 space-y-4">
           <Title order={"h2"}>The world&apos;s most innovative companies use Yalography</Title>
           <p className="text-xl">
-            Each of these companies have been able to take advantage of my photography services, and have been satisfied
-            with the results. I am proud to have been able to work with these companies, and I look forward to the
-            opportunity of working with more businesses in the future.
+            My experience and passion for photography have allowed me to create stunning images and to help these
+            companies tell their stories in an impactful way. I strive to provide the best services to my clients and I
+            am committed to delivering results that exceed their expectations.
           </p>
           <Button component={"a"} href={"/"} className="py-4 px-6">
             Contact me
