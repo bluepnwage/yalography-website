@@ -37,7 +37,6 @@ export function Task({ data }: PropTypes) {
   const isLoading = isPending || loading;
 
   const onToggleCheck = async () => {
-    setLoading(true);
     const prevTask = task;
     setTask((prev) => ({ ...prev, status: !prev.status }));
     try {
@@ -53,8 +52,6 @@ export function Task({ data }: PropTypes) {
       }
     } catch (error) {
       console.error("WTF!!", error);
-    } finally {
-      setLoading(false);
     }
   };
 
