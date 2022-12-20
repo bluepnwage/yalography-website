@@ -1,14 +1,15 @@
-import { Button, Card, Title, Skeleton } from "@components/shared";
+import { Card, Title, Skeleton } from "@components/shared";
 import { Dropdown } from "@components/shared/Dropdown";
 import { ScrollAreaDemo } from "@components/shared/ScrollArea";
 import { DotsVertical } from "@lib/icons";
-import { cx } from "cva";
-
+import { Task } from "@components/admin/tasks/Task";
 import prisma from "@lib/prisma";
+
+export type GetTasks = Awaited<ReturnType<typeof getTasks>>;
 
 async function getTasks() {
   await prisma.$connect();
-  const tasks = await prisma.tasks.findMany();
+  const tasks = await prisma.tasks.findMany({ orderBy: { createdAt: "desc" } });
   await prisma.$disconnect();
   return tasks.map((task) => {
     return {
@@ -42,19 +43,7 @@ export async function Tasks() {
       </div>
       <ScrollAreaDemo height={300} orientation={"vertical"}>
         {tasks.map((task, key) => {
-          return (
-            <div
-              key={key}
-              className="flex justify-between items-center border-b -mx-4 p-2  border-gray-300 dark:border-gray-600 last-of-type:border-b-0"
-            >
-              <button
-                aria-label={task.status ? "Uncheck task" : "Complete task"}
-                className={cx("h-5 w-5 rounded-full border border-zinc-700", task.status ? "bg-emerald-500" : "")}
-              ></button>
-              <p>{task.name}</p>
-              <Button intent="secondary">Delete task</Button>
-            </div>
-          );
+          return <Task key={key} task={task} />;
         })}
       </ScrollAreaDemo>
     </Card>
