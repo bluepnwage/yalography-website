@@ -1,21 +1,19 @@
+import "../styles/globals.css";
 import { Footer } from "@components/Footer";
 import { Header } from "@components/Navbar";
 import React from "react";
-
-import "../styles/globals.css";
 
 type PropTypes = {
   children: React.ReactNode;
 };
 export default function RootLayout({ children }: PropTypes) {
   return (
-    <html lang="en" className={`font-sans dark dark-mode`}>
+    <html lang="en" className="font-sans dark dark-mode">
       <head>
-        <title>SXM Photography | Yalography</title>
         <meta charSet="UTF-8" />
-        <link rel="icon" href={"/logo.png"} type={"image/png"} />
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>SXM Photography | Yalography</title>
         <link
           href="https://fonts.googleapis.com/css?family=Inter:100,200,300,regular,500,600,700,800,900"
           rel="stylesheet"

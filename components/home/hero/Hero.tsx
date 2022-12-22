@@ -1,4 +1,6 @@
-import { Button, Section, Title } from "@components/shared";
+import { Section, Title } from "@components/shared";
+import { Button } from "@components/shared/Button";
+
 import Image from "next/image";
 import heroImg from "@public/main-image.jpg";
 import styles from "./Hero.module.css";
@@ -26,7 +28,7 @@ export function Hero() {
           <Button className="block mx-auto">Request Session</Button>
         </div>
         <figure className="h-full w-full hidden lg:block overflow-hidden col-span-full lg:col-span-1">
-          <Image priority src={heroImg} alt={"Official logo"} className="w-full h-full " />
+          <Image priority src={heroImg} alt={"Official logo"} width={500} height={500} className="w-full h-full " />
         </figure>
       </div>
     </Section>

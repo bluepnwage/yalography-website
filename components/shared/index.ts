@@ -1,5 +1,4 @@
 export * from "./Anchor";
-export * from "./Button";
 export * from "./Badge";
 export * from "./Grid";
 export * from "./Section";
@@ -9,5 +8,3 @@ export * from "./FlexContainer";
 export * from "./Card";
 export * from "./Breadcrumbs";
 export * from "./Skeleton";
-// export * from "./Input";
-// export * from "./ScrollArea";

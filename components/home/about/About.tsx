@@ -1,4 +1,6 @@
-import { Grid, Button, Title, Section } from "@components/shared";
+import { Grid, Title, Section } from "@components/shared";
+import { Button } from "@components/shared/Button";
+
 import Image from "next/image";
 import photographer from "@public/photographer-lg.jpg";
 import { Stats } from "./Stats";
@@ -8,7 +10,7 @@ export function AboutSection() {
     <Section>
       <Grid>
         <figure className="col-span-full lg:col-span-4 bg-red-600">
-          <Image src={photographer} alt={""} />
+          <Image src={photographer} alt={""} width={200} height={200} className="w-full h-full" />
         </figure>
         <div className="col-span-full lg:col-span-7 p-5">
           <header className="mb-7 space-y-2">
