@@ -1,5 +1,5 @@
 import { Section, Title } from "@components/shared";
-import { Button } from "@components/shared/Button";
+import { Button } from "@components/shared/client";
 
 import Image from "next/image";
 import heroImg from "@public/main-image.jpg";

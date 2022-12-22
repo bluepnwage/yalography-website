@@ -1,5 +1,5 @@
 import { Grid, Section, ThemeIcon, Title } from "@components/shared";
-import { Button } from "@components/shared/Button";
+import { Button } from "@components/shared/client";
 import Image from "next/image";
 import bgImage from "@public/bg.jpg";
 import { Email, Location } from "@lib/icons";

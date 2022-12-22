@@ -1,5 +1,5 @@
 import { Grid, Title, Section } from "@components/shared";
-import { Button } from "@components/shared/Button";
+import { Button } from "@components/shared/client";
 
 import Image from "next/image";
 import photographer from "@public/photographer-lg.jpg";
