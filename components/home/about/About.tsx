@@ -10,7 +10,7 @@ export function AboutSection() {
     <Section>
       <Grid>
         <figure className="col-span-full lg:col-span-4 bg-red-600">
-          <Image src={photographer} alt={""} width={200} height={200} className="w-full h-full" />
+          <Image src={photographer} alt={""} className="w-full h-full" />
         </figure>
         <div className="col-span-full lg:col-span-7 p-5">
           <header className="mb-7 space-y-2">

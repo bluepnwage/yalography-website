@@ -4,7 +4,7 @@ import pixel from "@public/pixel.jpg";
 export function Thumbnail() {
   return (
     <div className="mb-10">
-      <Image src={pixel} width={50} height={50} alt={""} style={{ objectFit: "cover", height: "50vh" }} />
+      <Image src={pixel} alt={""} style={{ objectFit: "cover", height: "50vh" }} />
     </div>
   );
 }
