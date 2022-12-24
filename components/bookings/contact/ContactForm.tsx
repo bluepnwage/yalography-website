@@ -1,7 +1,6 @@
-import { Grid, Section, Title, Button } from "@components/shared";
+import { Grid, Section, Title } from "@components/shared";
+import { Button, Input, Textarea } from "@components/shared/client";
 import { Email, Facebook, Instagram, Location, Phone } from "@lib/icons";
-import { Input } from "@components/shared/Input";
-import { Textarea } from "@components/shared/Textarea";
 
 export function ContactForm() {
   return (

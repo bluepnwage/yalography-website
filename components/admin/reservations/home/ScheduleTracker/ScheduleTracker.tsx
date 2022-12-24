@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { Button } from "@components/shared";
+import { Button } from "@components/shared/client";
 
 export function Calendar() {
   const [date, setDate] = useState(new Date());

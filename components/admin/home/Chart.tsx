@@ -2,7 +2,7 @@
 import { PieChart, Pie, Legend, Cell, ResponsiveContainer, Tooltip } from "recharts";
 import { useState } from "react";
 import { Reservations } from "./Reservations";
-import { Button } from "@components/shared";
+import { Button } from "@components/shared/client";
 
 const data = [
   {

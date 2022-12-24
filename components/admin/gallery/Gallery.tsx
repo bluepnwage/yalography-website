@@ -1,8 +1,9 @@
 import { Badge, Card, Grid } from "@components/shared";
-const array = Array(9).fill(null);
-const folders = Array(3).fill(null);
 import { Dropdown } from "@components/shared/Dropdown";
 import { DotsVertical, Download, Edit, Folders, Trash, Upload } from "@lib/icons";
+
+const array = Array(9).fill(null);
+const folders = Array(3).fill(null);
 
 export function Gallery() {
   return (

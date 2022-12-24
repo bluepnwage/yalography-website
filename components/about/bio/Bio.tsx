@@ -30,7 +30,7 @@ export function Bio() {
           </Grid>
         </article>
         <figure className="bg-red-600 w-full h-full col-span-full lg:col-span-1">
-          <Image src={gigaChad} alt={""} />
+          <Image width={20} height={20} src={gigaChad} alt={""} className="w-full h-full" />
         </figure>
       </Grid>
     </Section>

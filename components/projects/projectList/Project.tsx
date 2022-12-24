@@ -7,7 +7,7 @@ export function Project() {
     <Card className="flex flex-col col-span-full lg:col-span-3 gap-4 overflow-hidden ">
       <Anchor href={"/projects/random-project"} className="basis-1/3 -m-4">
         <figure className="w-full h-full">
-          <Image src={pixel} alt={""} className="h-full w-full" />
+          <Image src={pixel} width={50} height={50} alt={""} className="h-full w-full" />
         </figure>
       </Anchor>
       <div className="p-2 space-y-4">

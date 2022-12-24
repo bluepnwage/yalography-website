@@ -2,10 +2,7 @@
 import { MantineProvider, Stepper } from "@mantine/core";
 import { DatePicker } from "../DatePicker/DatePicker";
 import { FormEvent, useState, useRef } from "react";
-import { Button } from "@components/shared";
-import { Input } from "@components/shared/Input";
-import { Select } from "@components/shared/Select";
-import { Textarea } from "@components/shared/Textarea";
+import { Button, Input, Select, Textarea } from "@components/shared/client";
 import { photoshootTypes } from "@lib/photoshoot";
 
 import type { ShootTypes } from "@lib/photoshoot";

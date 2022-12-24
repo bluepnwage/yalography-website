@@ -1,4 +1,5 @@
-import { Button, Card, Title, Skeleton } from "@components/shared";
+import { Card, Title, Skeleton } from "@components/shared";
+import { Button } from "@components/shared/client";
 import { StatCard } from "./StatCard";
 import { ClipboardCheck, ClipboardMoney } from "@lib/icons";
 

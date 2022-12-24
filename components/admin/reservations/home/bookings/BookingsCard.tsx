@@ -1,6 +1,7 @@
-import { Badge, Button, Card, FlexContainer, Title } from "@components/shared";
+import { Badge, Card, FlexContainer, Title } from "@components/shared";
 import { ScrollAreaDemo } from "@components/shared/ScrollArea";
 import { capitalize } from "@util/capitalize";
+import { Button } from "@components/shared/client";
 
 type PropTypes = {
   status: "pending" | "approved";

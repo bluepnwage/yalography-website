@@ -1,4 +1,5 @@
-import { Title, Section, Grid, Button } from "@components/shared";
+import { Title, Section, Grid } from "@components/shared";
+import { Button } from "@components/shared/client";
 
 const companies = [
   "Tourism Office SXM",

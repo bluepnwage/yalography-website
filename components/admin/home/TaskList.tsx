@@ -1,6 +1,6 @@
 import { Todo } from "./Todo";
 import { Card, Skeleton, Title } from "@components/shared";
-import { ScrollAreaDemo } from "@components/shared/ScrollArea";
+import { ScrollAreaDemo } from "@components/shared/client";
 import prisma from "@lib/prisma";
 
 async function getLists() {

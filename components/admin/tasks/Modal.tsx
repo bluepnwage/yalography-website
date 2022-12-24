@@ -3,7 +3,7 @@ import { DialogDemo } from "@components/shared/Dialog";
 import { Input } from "@components/shared/Input";
 import { Select } from "@components/shared/Select";
 import { Textarea } from "@components/shared/Textarea";
-import { Button } from "@components/shared";
+import { Button } from "@components/shared/client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import type { FormEvent } from "react";
@@ -25,7 +25,7 @@ const taskLists = [
 
 export function Modal() {
   const [opened, setOpened] = useState(false);
-  const router = useRouter()
+  const router = useRouter();
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -38,7 +38,7 @@ export function Modal() {
     if (res.ok) {
       console.log("success");
       setOpened(false);
-      router.refresh()
+      router.refresh();
     } else {
       console.log("Error!!!!!");
     }

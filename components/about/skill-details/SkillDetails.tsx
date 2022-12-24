@@ -32,7 +32,7 @@ function Skill() {
         </p>
       </div>
       <figure className="bg-red-600 basis-1/2 grow">
-        <Image src={pixel} alt={""} />
+        <Image src={pixel} width={50} height={50} className="w-full h-full" alt={""} />
       </figure>
     </article>
   );

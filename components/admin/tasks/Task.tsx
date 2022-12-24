@@ -1,9 +1,10 @@
 "use client";
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import type { GetTasks } from "app/admin/tasks/Tasks";
-import { Button } from "@components/shared";
+import { Button } from "@components/shared/client";
 import { cx } from "cva";
+
+import type { GetTasks } from "app/admin/tasks/Tasks";
 
 type PropTypes = {
   data: GetTasks[0];
