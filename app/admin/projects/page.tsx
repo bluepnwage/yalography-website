@@ -1,4 +1,5 @@
-import { Card, Grid, Title, Badge, Button, Section } from "@components/shared";
+import { Card, Grid, Title, Badge, Section } from "@components/shared";
+import { Button } from "@components/shared/client";
 import Image from "next/image";
 import pixel from "@public/pixel.jpg";
 

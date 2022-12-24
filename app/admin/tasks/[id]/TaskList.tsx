@@ -1,5 +1,5 @@
 "use client";
-import { Button } from "@components/shared";
+import { Button } from "@components/shared/client";
 import { usePagination } from "@lib/hooks/usePagination";
 import { Pagination } from "@components/shared/Pagination";
 const tasks = Array(40).fill(null);

@@ -1,4 +1,6 @@
-import { Anchor, Button, FlexContainer } from "@components/shared";
+import { Anchor, FlexContainer } from "@components/shared";
+import { Button } from "@components/shared/client";
+
 type PropTypes = {
   children: React.ReactNode;
 };

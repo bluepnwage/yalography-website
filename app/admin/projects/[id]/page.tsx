@@ -1,6 +1,6 @@
-import { Badge, Title, Button, Breadcrumbs, Anchor } from "@components/shared";
+import { Badge, Title, Breadcrumbs, Anchor } from "@components/shared";
 import { Dropdown } from "@components/shared/Dropdown";
-import { Input } from "@components/shared/Input";
+import { Button, Input } from "@components/shared/client";
 
 export default function Page() {
   return (

@@ -1,4 +1,5 @@
-import { Anchor, Button, Title, Card, Grid, Breadcrumbs } from "@components/shared";
+import { Anchor, Title, Card, Grid, Breadcrumbs } from "@components/shared";
+import { Button } from "@components/shared/client";
 
 export default function ApprovedReservation() {
   return (

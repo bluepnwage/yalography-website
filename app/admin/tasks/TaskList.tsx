@@ -1,7 +1,8 @@
-import { Card, Title, Button, Skeleton } from "@components/shared";
+import { Card, Title, Skeleton } from "@components/shared";
 import { ScrollAreaDemo } from "@components/shared/ScrollArea";
 import { Dropdown } from "@components/shared/Dropdown";
 import { DotsVertical } from "@lib/icons";
+import { Button } from "@components/shared/client";
 
 import prisma from "@lib/prisma";
 
