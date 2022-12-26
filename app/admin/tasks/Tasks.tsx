@@ -1,8 +1,8 @@
 import { Card, Title, Skeleton } from "@components/shared";
-import { Dropdown } from "@components/shared/Dropdown";
 import { ScrollAreaDemo } from "@components/shared/ScrollArea";
-import { DotsVertical } from "@lib/icons";
+import { TasksMenu } from "@components/admin/tasks/TasksMenu";
 import { Task } from "@components/admin/tasks/Task";
+
 import prisma from "@lib/prisma";
 
 export type GetTasks = Awaited<ReturnType<typeof getTasks>>;
@@ -29,17 +29,7 @@ export async function Tasks() {
         <Title size={"xl"} order={"h2"}>
           Tasks
         </Title>
-        <Dropdown.Root>
-          <Dropdown.Trigger>
-            <button aria-label="Open task menu">
-              <DotsVertical size={16} />
-            </button>
-          </Dropdown.Trigger>
-          <Dropdown.Content>
-            <Dropdown.Item>Create task</Dropdown.Item>
-            <Dropdown.Item>Sort by</Dropdown.Item>
-          </Dropdown.Content>
-        </Dropdown.Root>
+        ,<TasksMenu />
       </div>
       <ScrollAreaDemo height={300} orientation={"vertical"}>
         {tasks.map((task, key) => {

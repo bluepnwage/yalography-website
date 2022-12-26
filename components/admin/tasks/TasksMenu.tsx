@@ -9,17 +9,17 @@ import { useRouteRefresh } from "@lib/hooks/useRouteRefresh";
 
 import type { FormEvent } from "react";
 
-export function Menu() {
-  const [dialog, dialogToggle] = useToggle();
+export function TasksMenu() {
   const [isPending, refresh] = useRouteRefresh();
   const [loading, toggle] = useToggle();
+  const [dialog, dialogToggle] = useToggle();
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     toggle.on();
     try {
-      const name = new FormData(e.currentTarget).get("list_name");
-      const res = await fetch("/api/task-list", {
+      const name = new FormData(e.currentTarget).get("task_name");
+      const res = await fetch("/api/todo", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name })
@@ -37,9 +37,9 @@ export function Menu() {
 
   return (
     <>
-      <DialogDemo title="Create task list" open={dialog} onOpenChange={dialogToggle.set}>
+      <DialogDemo title="Create task" open={dialog} onOpenChange={dialogToggle.set}>
         <form onSubmit={handleSubmit} className="space-y-4">
-          <Input label="Name" name="list_name" id="list_name" />
+          <Input label="Name" name="task_name" id="task_name" />
           <Button disabled={isLoading}>Submit</Button>
         </form>
       </DialogDemo>
