@@ -2,45 +2,17 @@
 import { DialogDemo } from "@components/shared/Dialog";
 import { Dropdown } from "@components/shared/Dropdown";
 import { DotsVertical } from "@lib/icons";
-import { useState, useTransition } from "react";
-import { useRouter } from "next/navigation";
 import { Button } from "@components/shared/Button";
 import { Input } from "@components/shared/Input";
+
+import { useRouteRefresh } from "@lib/hooks/useRouteRefresh";
+import { useToggle } from "@lib/hooks/useToggle";
+
 import type { FormEvent } from "react";
 
 type PropTypes = {
   groupId: number;
 };
-
-function useToggle(): [boolean, typeof toggle] {
-  const [state, setState] = useState(false);
-  const toggle = {
-    on: () => {
-      setState(true);
-    },
-    off: () => {
-      setState(false);
-    },
-    toggle: () => {
-      setState((prev) => !prev);
-    },
-    set: (value: boolean) => {
-      setState(value);
-    }
-  } as const;
-  return [state, toggle];
-}
-
-function useRouteRefresh(): [boolean, () => void] {
-  const [isPending, startTransition] = useTransition();
-  const router = useRouter();
-  const refresh = () => {
-    startTransition(() => {
-      router.refresh();
-    });
-  };
-  return [isPending, refresh];
-}
 
 export function Menu({ groupId }: PropTypes) {
   const [opened, dialogToggle] = useToggle();
