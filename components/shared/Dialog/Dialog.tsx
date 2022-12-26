@@ -7,9 +7,7 @@ import { XClose } from "@lib/icons";
 export function Trigger({ children, ...props }: Dialog.DialogTriggerProps) {
   return (
     <Dialog.Trigger {...props} asChild>
-      <button className="bg-red-600 inline-flex items-center justify-center rounded-md px-4 py-2 font-semibold">
-        {children}
-      </button>
+      {children}
     </Dialog.Trigger>
   );
 }
@@ -39,17 +37,22 @@ function Content({ children }: Dialog.DialogContentProps) {
 export function Title(props: Dialog.DialogTitleProps) {
   return (
     <Dialog.Title {...props} className="font-bold text-gray-400 text-xl mb-5">
-      Create task
+      {props.children}
     </Dialog.Title>
   );
 }
 
-export function DialogDemo({ children, ...props }: Dialog.DialogProps) {
+export function DialogDemo({
+  children,
+  trigger,
+  title,
+  ...props
+}: Dialog.DialogProps & { trigger?: React.ReactNode; title?: string }) {
   return (
     <Dialog.Root {...props}>
-      <Trigger>Create task</Trigger>
+      {trigger && <Trigger>{trigger}</Trigger>}
       <Content>
-        <Title />
+        <Title>{title}</Title>
         {children}
         <Close />
       </Content>

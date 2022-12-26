@@ -6,9 +6,12 @@ type PropTypes = {
   children: React.ReactNode;
 };
 
-export function Item({ children }: PropTypes) {
+export function Item({ children, ...props }: DropdownMenu.DropdownMenuItemProps) {
   return (
-    <DropdownMenu.Item className="outline-none select-none h-7 text-sm py-2 data-[highlighted]:bg-gray-200 dark:data-[highlighted]:bg-zinc-700  pl-5 text-gray-900 dark:text-gray-100 relative rounded-sm flex items-center">
+    <DropdownMenu.Item
+      {...props}
+      className="outline-none select-none h-7 text-sm py-2 data-[highlighted]:bg-gray-200 dark:data-[highlighted]:bg-zinc-700  pl-5 text-gray-900 dark:text-gray-100 relative rounded-sm flex items-center"
+    >
       {children}
     </DropdownMenu.Item>
   );
