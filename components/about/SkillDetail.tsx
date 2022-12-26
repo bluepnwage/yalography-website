@@ -1,20 +1,8 @@
-import { Grid, Section, Title } from "@components/shared";
+import { Title } from "@components/shared";
 import Image from "next/image";
 import pixel from "@public/pixel2.jpg";
 
-export function SkillDetails() {
-  return (
-    <Section margin={false} className={`svg-background py-16 border-t border-zinc-200 dark:border-zinc-700`}>
-      <Grid lg={1} className={"gap-16 lg:gap-36"}>
-        <Skill />
-        <Skill />
-        <Skill />
-      </Grid>
-    </Section>
-  );
-}
-
-function Skill() {
+export function SkillDetail() {
   return (
     <article className="flex gap-10 flex-col-reverse col-span-full lg:col-span-1 lg:flex-row lg:even:flex-row-reverse">
       <div className="basis-1/2 grow">
