@@ -22,7 +22,7 @@ export default function ApprovedReservation() {
           </Button>
         </div>
       </div>
-      <Card gradientBorder containerStyles="rounded-md mb-5" className="">
+      <Card glow className="rounded-md mb-5">
         <Grid fullWidth>
           <div className="col-span-6 space-y-2">
             <Title order={"h2"}>Contact information</Title>
