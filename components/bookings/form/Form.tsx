@@ -6,7 +6,6 @@ import { Button, Input, Select, Textarea } from "@components/shared/client";
 import { photoshootTypes } from "@lib/photoshoot";
 
 import type { ShootTypes } from "@lib/photoshoot";
-import type { Bookings } from "@prisma/client";
 
 const selectData = Array.from(photoshootTypes).map(([key, value]) => ({ label: value.label, value: key }));
 
@@ -71,7 +70,7 @@ function BookingsForm() {
   };
 
   const handleSubmit = async () => {
-    const data: Omit<Bookings, "id" | "status"> = {
+    const data = {
       firstName: form.first_name!,
       lastName: form.last_name!,
       email: form.email!,
@@ -92,7 +91,7 @@ function BookingsForm() {
       console.log("Success!!");
       setForm({});
       setTimeout(() => {
-        setActive(0)
+        setActive(0);
       }, 1000 * 10);
     }
   };
