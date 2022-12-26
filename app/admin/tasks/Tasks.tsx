@@ -29,7 +29,7 @@ export async function Tasks() {
         <Title size={"xl"} order={"h2"}>
           Tasks
         </Title>
-        ,<TasksMenu />
+        <TasksMenu />
       </div>
       <ScrollAreaDemo height={300} orientation={"vertical"}>
         {tasks.map((task, key) => {
