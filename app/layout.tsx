@@ -1,6 +1,7 @@
 import "../styles/globals.css";
 import { Footer } from "@components/Footer";
 import { Header } from "@components/Navbar";
+import { ScrollToTop } from "@components/ScrollToTop";
 import React from "react";
 
 type PropTypes = {
@@ -22,6 +23,7 @@ export default function RootLayout({ children }: PropTypes) {
       </head>
 
       <body className="dark:bg-zinc-900 bg-gray-100 text-gray-900 dark:text-gray-300 duration-200 ease-out">
+        <ScrollToTop />
         <Header />
         {children}
         <Footer />
