@@ -17,7 +17,7 @@ export function Task({ task }: PropTypes) {
     toggle.on();
     try {
       const res = await fetch("/api/todo", {
-        method: "POST",
+        method: "DELETE",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id: task.id })
       });
