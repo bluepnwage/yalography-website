@@ -44,7 +44,7 @@ export function Modal() {
     }
   };
   return (
-    <DialogDemo open={opened} onOpenChange={setOpened}>
+    <DialogDemo trigger={<Button>Create list</Button>} open={opened} onOpenChange={setOpened}>
       <form onSubmit={handleSubmit}>
         <div className="space-y-2">
           <Input name="name" label="Name" />

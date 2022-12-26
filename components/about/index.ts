@@ -1,3 +1,3 @@
-export * from "./bio/Bio";
-export * from "./skill-details/SkillDetails";
-export * from "./logo-cloud/LogoCloud";
+export * from "./Company";
+export * from "./SkillDetail";
+export * from "./Skill";

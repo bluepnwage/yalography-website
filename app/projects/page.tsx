@@ -1,7 +1,9 @@
 import { PageIntro } from "@components/PageIntro";
-import { ProjectList, Filter } from "@components/projects";
+import { Filter, Project } from "@components/projects";
+import { Grid, Section, Title } from "@components/shared";
 
 export default function ProjectsPage() {
+  const projs = Array(9).fill(null);
   return (
     <>
       <PageIntro>
@@ -13,7 +15,16 @@ export default function ProjectsPage() {
         SXM has to offer
       </PageIntro>
       <Filter />
-      <ProjectList />
+      <Section>
+        <Title order="h2" className="text-3xl mb-10">
+          Projects
+        </Title>
+        <Grid className="gap-5 w-11/12">
+          {projs.map((_, key) => {
+            return <Project key={key} />;
+          })}
+        </Grid>
+      </Section>
     </>
   );
 }

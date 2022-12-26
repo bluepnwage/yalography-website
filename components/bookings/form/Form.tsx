@@ -18,7 +18,8 @@ export function BookingsFormContainer() {
 }
 
 type Form = {
-  name: string;
+  first_name: string;
+  last_name: string;
   email: string;
   phone: string;
   time: string;
@@ -33,7 +34,7 @@ function BookingsForm() {
   const [selectedFeatures, setFeatures] = useState<string[]>([]);
   const formRef = useRef<HTMLFormElement | null>(null);
 
-  const stepOneIncomplete = !form.name || !form.email || !form.phone;
+  const stepOneIncomplete = !form.first_name || !form.last_name || !form.email || !form.phone;
   const stepTwoIncomplete = !date || !form.time || !shootType;
 
   const shootDetails = shootType ? photoshootTypes.get(shootType)! : "";
@@ -68,9 +69,36 @@ function BookingsForm() {
     }
   };
 
+  const handleSubmit = async () => {
+    const data = {
+      firstName: form.first_name!,
+      lastName: form.last_name!,
+      email: form.email!,
+      phone: form.phone!,
+      time: form.time!,
+      description: form?.description! || null,
+      date: date!,
+      type: shootType,
+      environment: true
+    };
+    const res = await fetch("/api/bookings", {
+      method: "POST",
+      headers: { "Content-Type": "application/son" },
+      body: JSON.stringify(data)
+    });
+    if (res.ok) {
+      setActive(3);
+      console.log("Success!!");
+      setForm({});
+      setTimeout(() => {
+        setActive(0);
+      }, 1000 * 10);
+    }
+  };
+
   return (
     <>
-      <form ref={formRef}>
+      <form ref={formRef} onSubmit={handleSubmit}>
         <Stepper
           breakpoint={"sm"}
           classNames={{
@@ -86,7 +114,20 @@ function BookingsForm() {
         >
           <Stepper.Step label="Contact information" description="Enter contact info">
             <section className="space-y-4">
-              <Input value={form?.name} onChange={handleChange} label="Name" name="name" className="w-full" />
+              <Input
+                value={form?.first_name}
+                onChange={handleChange}
+                label="First Name"
+                name="first_name"
+                className="w-full"
+              />
+              <Input
+                value={form?.last_name}
+                onChange={handleChange}
+                label="Last Name"
+                name="last_name"
+                className="w-full"
+              />
               <Input
                 value={form?.email}
                 onChange={handleChange}
@@ -165,7 +206,7 @@ function BookingsForm() {
               <div className="col-span-full lg:col-span-1">
                 <p className="font-bold text-2xl mb-4">Contact information</p>
                 <p>
-                  <span className="font-semibold">Name:</span> {form?.name}
+                  <span className="font-semibold">Name:</span> {form?.first_name} {form.last_name}
                 </p>
                 <p>
                   <span className="font-semibold">Email:</span> {form?.email}
@@ -220,9 +261,13 @@ function BookingsForm() {
         <Button onClick={prevStep} disabled={active === 0} intent={"secondary"} className="border border-red-600">
           Previous
         </Button>
-        <Button onClick={nextStep} disabled={active === 3}>
-          Next
-        </Button>
+        {active < 2 ? (
+          <Button onClick={nextStep} disabled={active === 3}>
+            Next
+          </Button>
+        ) : (
+          <Button onClick={handleSubmit}>Submit</Button>
+        )}
       </div>
     </>
   );

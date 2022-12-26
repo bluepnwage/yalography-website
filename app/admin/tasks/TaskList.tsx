@@ -1,9 +1,6 @@
 import { Card, Title, Skeleton } from "@components/shared";
-import { ScrollAreaDemo } from "@components/shared/ScrollArea";
-import { Dropdown } from "@components/shared/Dropdown";
-import { DotsVertical } from "@lib/icons";
-import { Button } from "@components/shared/client";
-
+import { Button, ScrollAreaDemo } from "@components/shared/client";
+import { Menu } from "@components/admin/tasks/ListMenu";
 import prisma from "@lib/prisma";
 
 async function getTaskLists() {
@@ -19,7 +16,7 @@ async function getTaskLists() {
   });
 }
 
-export async function TaskList() {
+export async function TaskLists() {
   const groupedTasks = await getTaskLists();
 
   return (
@@ -28,17 +25,7 @@ export async function TaskList() {
         <Title size={"xl"} order={"h2"}>
           Grouped tasks
         </Title>
-        <Dropdown.Root>
-          <Dropdown.Trigger>
-            <button aria-label="Open menu">
-              <DotsVertical size={16} />
-            </button>
-          </Dropdown.Trigger>
-          <Dropdown.Content>
-            <Dropdown.Item>Create list</Dropdown.Item>
-            <Dropdown.Item>Sort by</Dropdown.Item>
-          </Dropdown.Content>
-        </Dropdown.Root>
+        <Menu />
       </div>
       <ScrollAreaDemo height={300} orientation="vertical" className="">
         {groupedTasks.map((group) => {

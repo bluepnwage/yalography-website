@@ -19,10 +19,10 @@ export default function TasksPage() {
         </Suspense> */}
       </Grid>
       <Grid fullWidth>
-        <TaskListsLoading />
-        {/* <Suspense fallback={<TaskListsLoading />}>
+        {/* <TaskListsLoading /> */}
+        <Suspense fallback={<TaskListsLoading />}>
           <TaskLists />
-        </Suspense> */}
+        </Suspense>
         {/* <TasksLoading /> */}
         <Suspense fallback={<TasksLoading />}>
           <Tasks />
