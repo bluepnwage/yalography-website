@@ -1,6 +1,8 @@
 import { Anchor, FlexContainer } from "@components/shared";
 import { Button } from "@components/shared/client";
 import prisma from "@lib/prisma";
+import { BookingsProvider } from "@components/admin/reservations/BookingsProvider";
+import { serialize } from "v8";
 
 type PropTypes = {
   children: React.ReactNode;
@@ -8,48 +10,49 @@ type PropTypes = {
 
 async function getBookings() {
   await prisma.$connect();
-  const bookings = await prisma.bookings.findMany({});
+  const bookings = await prisma.bookings.findMany();
   await prisma.$disconnect();
 
-  let pending = 0;
-  let completed = 0;
-  let approved = 0;
+  const pending = [];
+  const completed = [];
+  const approved = [];
 
   for (const booking of bookings) {
+    const serializedBooking = { ...booking, date: booking.date.toDateString() };
     if (booking.status === "approved") {
-      approved++;
+      approved.push(serializedBooking);
     } else if (booking.status === "completed") {
-      completed++;
+      completed.push(serializedBooking);
     } else {
-      pending++;
+      pending.push(serializedBooking);
     }
   }
   return { pending, approved, completed };
 }
 
 export default async function Layout({ children }: PropTypes) {
-  const { pending, completed, approved } = await getBookings();
+  const bookings = await getBookings();
 
   return (
     <>
       <div className="border-b mb-5 z-10 -mt-5 bg-white border-zinc-200 dark:bg-zinc-900 p-5 dark:border-zinc-600 -mx-5 sticky top-[64px] ">
         <FlexContainer className="justify-evenly">
           <div className="text-center">
-            <p>Pending reservations: {pending}</p>
+            <p>Pending reservations: {bookings.pending.length}</p>
             <Anchor href={"/admin/reservations/pending"}>View pending reservations</Anchor>
           </div>
           <div className="text-center">
-            <p>Approved reservations: {approved}</p>
+            <p>Approved reservations: {bookings.approved.length}</p>
             <Anchor href={"/admin/reservations/approved"}>View approved reservations</Anchor>
           </div>
           <div className="text-center">
-            <p>Completed reservations: {completed}</p>
+            <p>Completed reservations: {bookings.completed.length}</p>
             <Anchor href={"/admin/reservations/approved"}>View completed reservations</Anchor>
           </div>
           <Button>Create Reservation</Button>
         </FlexContainer>
       </div>
-      {children}
+      <BookingsProvider {...bookings}>{children}</BookingsProvider>
     </>
   );
 }
