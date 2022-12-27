@@ -119,6 +119,7 @@ function BookingsForm() {
                 <h2 className="text-marine-blue font-bold text-2xl mb-2">Personal info</h2>
                 <p className="text-gray-400 mb-14">Please provide your name, email address, and phone number.</p>
                 <Input
+                  id="first_name"
                   value={form.first_name}
                   onChange={handleChange}
                   name={"first_name"}
@@ -126,6 +127,7 @@ function BookingsForm() {
                   placeholder={"e.g. Stephen"}
                 />
                 <Input
+                  id="last_name"
                   value={form.last_name}
                   onChange={handleChange}
                   name={"last_name"}
@@ -133,6 +135,7 @@ function BookingsForm() {
                   placeholder={"e.g. King"}
                 />
                 <Input
+                  id="email"
                   value={form.email}
                   onChange={handleChange}
                   name={"email"}
@@ -140,6 +143,7 @@ function BookingsForm() {
                   placeholder={"e.g. stephen.king@lorem.com"}
                 />
                 <Input
+                  id="phone"
                   value={form.phone}
                   onChange={handleChange}
                   name={"phone"}

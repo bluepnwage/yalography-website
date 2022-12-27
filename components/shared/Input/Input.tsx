@@ -27,7 +27,7 @@ type InputProps = { label: string; wrapperClassName?: string } & VariantProps<ty
 export function Input({ label, className, radius, wrapperClassName, ...props }: InputProps) {
   return (
     <p className={wrapperClassName || "w-full"}>
-      <label>{label}</label>
+      <label htmlFor={props.id}>{label}</label>
       <input {...props} className={styles({ className, radius })} />
     </p>
   );

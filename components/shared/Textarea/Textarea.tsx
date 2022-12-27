@@ -31,7 +31,7 @@ type PropTypes = ComponentPropsWithoutRef<"textarea"> &
 export function Textarea({ label, className, radius, resize, wrapperClassName, ...props }: PropTypes) {
   return (
     <p className={wrapperClassName || "w-full"}>
-      <label>{label}</label>
+      <label htmlFor={props.id}>{label}</label>
       <textarea {...props} className={styles({ className, radius, resize })} />
     </p>
   );

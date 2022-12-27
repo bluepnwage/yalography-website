@@ -1,5 +1,6 @@
 import type { FeatureSpec } from "@lib/features";
 import type { FormEvent } from "react";
+import { useId } from "react";
 
 type PropTypes = {
   checked: boolean;
@@ -9,6 +10,7 @@ type PropTypes = {
 };
 
 export function Addon({ checked, onChange, value, feature }: PropTypes) {
+  const inputID = useId();
   return (
     <div
       className={`flex border duration-200 ease-out p-4 items-center gap-4 rounded-md ${
@@ -16,18 +18,25 @@ export function Addon({ checked, onChange, value, feature }: PropTypes) {
       }`}
     >
       <input
+        id={`${value}-checkbox`}
         checked={checked}
         value={value}
         onChange={onChange}
         type={"checkbox"}
+        name="features"
+        aria-describedby={inputID}
         className="h-5 w-5 cursor-pointer accent-red-600"
       />
       <div className="grow">
         <div className="flex justify-between">
-          <strong className="font-semibold">{feature.label}</strong>
+          <label htmlFor={`${value}-checkbox`} className="font-semibold">
+            {feature.label}
+          </label>
           <p>+${feature.price}</p>
         </div>
-        <p className="text-gray-400">{feature.description}</p>
+        <p id={inputID} className="text-gray-400">
+          {feature.description}
+        </p>
       </div>
     </div>
   );
