@@ -14,9 +14,9 @@ const handler: NextApiHandler = async (req, res) => {
     switch (req.method) {
       case "POST": {
         const json = req.body;
-        const data = JSON.parse(json);
-        const t = await createBooking(data);
-        return res.status(201).json({ message: "Booking created", data: t });
+
+        const data = await createBooking(json);
+        return res.status(201).json({ message: "Booking created", data });
       }
       default: {
         return res.status(405).json({ message: "Method not allowed" });

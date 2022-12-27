@@ -83,7 +83,7 @@ function BookingsForm() {
     };
     const res = await fetch("/api/bookings", {
       method: "POST",
-      headers: { "Content-Type": "application/son" },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data)
     });
     if (res.ok) {

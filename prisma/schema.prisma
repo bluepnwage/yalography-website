@@ -1,90 +1,92 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "mysql"
-  url = env("DATABASE_URL")
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
   relationMode = "prisma"
 }
 
 model Bookings {
-  id Int @id @default(autoincrement())
-  email String
-  firstName String 
-  lastName String 
-  date DateTime 
-  time String
-  phone String @db.VarChar(40)
-  type String 
-  environment Boolean //if true then shoot will be taken inside, else outside
-  description String? @db.Text @default("")
-  status BookingsStatus? @default(pending)
-  tasks Tasks[]
+  id          Int             @id @default(autoincrement())
+  email       String
+  firstName   String
+  lastName    String
+  date        DateTime
+  time        String
+  phone       String          @db.VarChar(40)
+  type        String
+  environment Boolean
+  description String?         @default("") @db.Text
+  status      BookingsStatus? @default(pending)
+  tasks       Tasks[]
+
   @@map("bookings")
+}
+
+model Projects {
+  id           Int      @id @default(autoincrement())
+  title        String
+  description  String   @db.Text
+  thumbnail    String
+  createdAt    DateTime @default(now())
+  testimonial  String?  @default("") @db.Text
+  companyName  String?  @default("")
+  customerName String
+  images       Images[]
+
+  @@map("projects")
+}
+
+model Images {
+  id        Int       @id @default(autoincrement())
+  width     Int
+  height    Int
+  url       String
+  alt       String?   @default("") @db.Text
+  published Boolean   @default(false)
+  projectId Int?
+  project   Projects? @relation(fields: [projectId], references: [id])
+
+  @@index([projectId])
+  @@map("images")
+}
+
+model TaskLists {
+  id        Int      @id @default(autoincrement())
+  name      String   @db.VarChar(255)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+  pinned    Boolean  @default(false)
+  tasks     Tasks[]
+
+  @@map("task_lists")
+}
+
+model Tasks {
+  id          Int          @id @default(autoincrement())
+  name        String
+  deadline    DateTime?
+  description String?      @default("") @db.Text
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @default(now()) @updatedAt
+  status      Boolean      @default(false)
+  priority    TaskPriority @default(medium)
+  groupId     Int?
+  bookingId   Int?
+  group       TaskLists?   @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  booking     Bookings?    @relation(fields: [bookingId], references: [id])
+
+  @@index([groupId])
+  @@index([bookingId])
+  @@map("tasks")
 }
 
 enum BookingsStatus {
   completed
   pending
   approved
-}
-
-model Projects {
-  id Int @id @default(autoincrement())
-  title String
-  description String @db.Text
-  thumbnail String
-  createdAt DateTime @default(now())
-  testimonial String? @db.Text @default("")
-  companyName String? @default("")
-  customerName String
-  images Images[]
-  @@map("projects")
-}
-
-model Images {
-  id Int @id @default(autoincrement())
-  width Int
-  height Int
-  url String
-  alt String? @db.Text @default("")
-  published Boolean @default(false) 
-  project Projects? @relation(references: [id], fields: [projectId])
-  projectId Int?
-  @@index([projectId])
-  @@map("images")
-}
-
-model TaskLists {
-  id Int @id @default(autoincrement())
-  name String @db.VarChar(255)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
-  tasks Tasks[] 
-  pinned Boolean @default(false)
-  @@map("task_lists")
-}
-
-model Tasks {
-  id Int @id @default(autoincrement())
-  name String
-  deadline DateTime? 
-  description String? @db.Text @default("")
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
-  status Boolean @default(false)
-  priority TaskPriority @default(medium)
-  group TaskLists? @relation(references: [id],  fields: [groupId], onDelete: Cascade)
-  groupId Int?
-  booking Bookings? @relation(fields: [bookingId], references: [id])
-  bookingId Int?
-  @@index([groupId])
-  @@index([bookingId])
-  @@map("tasks")
 }
 
 enum TaskPriority {
