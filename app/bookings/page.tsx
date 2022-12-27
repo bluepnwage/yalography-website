@@ -2,7 +2,8 @@ import { ContactForm } from "@components/bookings";
 import { BookingsFormContainer } from "@components/bookings/form/Form";
 import { Section, Title } from "@components/shared";
 import { PageIntro } from "@components/PageIntro";
-import { Card } from "@components/shared";
+import { Suspense } from "react";
+
 export default function BookingsPage() {
   return (
     <>
@@ -16,9 +17,9 @@ export default function BookingsPage() {
         <Title className="mb-5" order={"h2"}>
           Book a session
         </Title>
-        <Card className="w-11/12 lg:w-fit">
+        <Suspense>
           <BookingsFormContainer />
-        </Card>
+        </Suspense>
       </Section>
       <ContactForm />
     </>

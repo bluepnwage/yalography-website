@@ -4,7 +4,7 @@ import { Email, Facebook, Instagram, Location, Phone } from "@lib/icons";
 
 export function ContactForm() {
   return (
-    <Section>
+    <Section id="contact">
       <Title className="mb-4" order={"h2"}>
         Contact
       </Title>

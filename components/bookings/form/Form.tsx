@@ -1,11 +1,14 @@
 "use client";
-import { MantineProvider, Stepper } from "@mantine/core";
+import { MantineProvider } from "@mantine/core";
 import { DatePicker } from "../DatePicker/DatePicker";
 import { FormEvent, useState, useRef } from "react";
 import { Button, Input, Select, Textarea } from "@components/shared/client";
 import { photoshootTypes } from "@lib/photoshoot";
+import { Steps } from "./Steps";
+import { Addon } from "./Addons";
 
 import type { ShootTypes } from "@lib/photoshoot";
+import { Success } from "./Success";
 
 const selectData = Array.from(photoshootTypes).map(([key, value]) => ({ label: value.label, value: key }));
 
@@ -27,32 +30,32 @@ type Form = {
 };
 
 function BookingsForm() {
-  const [active, setActive] = useState(0);
+  const [currentStep, setCurrentStep] = useState(1);
   const [form, setForm] = useState<Partial<Form>>({});
   const [shootType, setShootType] = useState<Lowercase<ShootTypes> | "">("");
   const [date, setDate] = useState<Date | null>(null);
   const [selectedFeatures, setFeatures] = useState<string[]>([]);
-  const formRef = useRef<HTMLFormElement | null>(null);
+  const containerRef = useRef<HTMLDivElement | null>(null);
 
   const stepOneIncomplete = !form.first_name || !form.last_name || !form.email || !form.phone;
   const stepTwoIncomplete = !date || !form.time || !shootType;
 
-  const shootDetails = shootType ? photoshootTypes.get(shootType)! : "";
+  const shootDetails = photoshootTypes.get(shootType ? shootType : "regular shoot")!;
 
   const prevStep = () => {
-    if (active === 0) return;
-    formRef.current?.scrollIntoView({ behavior: "smooth" });
-    setActive((prev) => prev - 1);
+    if (currentStep === 1) return;
+    containerRef.current?.scrollIntoView({ behavior: "smooth" });
+    setCurrentStep((prev) => prev - 1);
   };
 
   const nextStep = () => {
-    if (active === 3) return;
+    if (currentStep === 4) return;
 
     //prevent user from going to next step without filling out information for current step
-    if (active === 0 && stepOneIncomplete) return;
-    if (active === 1 && stepTwoIncomplete) return;
-    formRef.current?.scrollIntoView({ behavior: "smooth" });
-    setActive((prev) => prev + 1);
+    if (currentStep === 1 && stepOneIncomplete) return;
+    if (currentStep === 2 && stepTwoIncomplete) return;
+    containerRef.current?.scrollIntoView({ behavior: "smooth" });
+    setCurrentStep((prev) => prev + 1);
   };
 
   const handleChange = (e: FormEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -69,7 +72,8 @@ function BookingsForm() {
     }
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     const data = {
       firstName: form.first_name!,
       lastName: form.last_name!,
@@ -87,193 +91,175 @@ function BookingsForm() {
       body: JSON.stringify(data)
     });
     if (res.ok) {
-      setActive(3);
       console.log("Success!!");
+      setCurrentStep(5);
       setForm({});
-      setTimeout(() => {
-        setActive(0);
-      }, 1000 * 10);
+      setFeatures([]);
+      setDate(null);
+      // setTimeout(() => {
+      //   setCurrentStep(1);
+      // }, 1000 * 10);
     }
   };
 
+  const prevDisabled = currentStep === 1;
+
   return (
     <>
-      <form ref={formRef} onSubmit={handleSubmit}>
-        <Stepper
-          breakpoint={"sm"}
-          classNames={{
-            stepLabel: "text-gray-900 dark:text-gray-100",
-            stepDescription: "text-gray-600 dark:text-gray-300",
-            stepIcon: `bg-gray-200 border-gray-400 border-2 text-gray-900 duration-200 ease-out
-            dark:border-zinc-600 dark:bg-zinc-700 dark:text-gray-100 
-            data-[progress=true]:border-red-600 data-[progress=true]:dark:border-red-600 data-[completed=true]:bg-red-600 
-            data-[completed=true]:dark:bg-red-600 data-[completed=true]:dark:border-red-600`
-          }}
-          active={active}
-          onStepClick={setActive}
-        >
-          <Stepper.Step label="Contact information" description="Enter contact info">
-            <section className="space-y-4">
-              <Input
-                value={form?.first_name}
-                onChange={handleChange}
-                label="First Name"
-                name="first_name"
-                className="w-full"
-              />
-              <Input
-                value={form?.last_name}
-                onChange={handleChange}
-                label="Last Name"
-                name="last_name"
-                className="w-full"
-              />
-              <Input
-                value={form?.email}
-                onChange={handleChange}
-                label="Email"
-                type={"email"}
-                name="email"
-                className="w-full"
-              />
-              <Input
-                value={form?.phone}
-                onChange={handleChange}
-                label="Phone"
-                type={"tel"}
-                name="phone"
-                className="w-full"
-              />
-            </section>
-          </Stepper.Step>
-          <Stepper.Step
-            allowStepSelect={!stepOneIncomplete}
-            label="Booking details"
-            description="Enter booking details"
-          >
-            <section className="space-y-4">
-              <Select
-                value={shootType}
-                onValueChange={(value: Lowercase<ShootTypes>) => setShootType(value)}
-                placeholder="Photoshoot type"
-                data={selectData}
-              />
-              {shootDetails && (
-                <fieldset>
-                  <legend className="font-semibold text-xl">Features:</legend>
-                  {shootDetails.features.map((feature, key) => {
-                    return (
-                      <p key={key} className="inline-block mr-5 last-of-type:mr-0">
-                        <label className="select-none" htmlFor={feature.label.toLowerCase()}>
-                          {feature.label}
-                        </label>
-                        <input
-                          checked={selectedFeatures.includes(feature.label.toLowerCase())}
-                          onChange={onFeatureChange}
-                          className="w-7 h-7 accent-red-600"
-                          key={key}
-                          id={feature.label.toLowerCase()}
-                          name={"feature"}
-                          type={"checkbox"}
-                          value={feature.label.toLowerCase()}
-                        />
-                      </p>
-                    );
-                  })}
-                </fieldset>
-              )}
-              <DatePicker date={date} onChange={setDate} />
-              <Input
-                value={form?.time}
-                onChange={handleChange}
-                name={"time"}
-                label="Time"
-                type={"time"}
-                className="accent-red-600 w-full"
-              />
-              <Textarea
-                value={form?.description}
-                onChange={handleChange}
-                rows={3}
-                name={"description"}
-                label="Description"
-                className="w-full"
-              />
-            </section>
-          </Stepper.Step>
-          <Stepper.Step allowStepSelect={!stepTwoIncomplete} label="Confirmation" description="Confirm information">
-            <section className="grid grid-cols-6 lg:grid-cols-2 gap-2 text-lg">
-              <div className="col-span-full lg:col-span-1">
-                <p className="font-bold text-2xl mb-4">Contact information</p>
-                <p>
-                  <span className="font-semibold">Name:</span> {form?.first_name} {form.last_name}
-                </p>
-                <p>
-                  <span className="font-semibold">Email:</span> {form?.email}
-                </p>
-                <p>
-                  <span className="font-semibold">Phone number:</span> {form?.phone}
-                </p>
-              </div>
-              <div className="col-span-full lg:col-span-1">
-                <p className="font-bold text-2xl mb-4">Reservation details</p>
-                <p>
-                  <span className="font-semibold">Photoshoot type:</span> {shootType}
-                </p>
-                <p>
-                  <span className="font-semibold">Date:</span> {date?.toDateString()}
-                </p>
-                <p>
-                  <span className="font-semibold">Time:</span> {form?.time}
-                </p>
-                <p>
-                  <span className="font-semibold">Comments:</span> {form?.description}
-                </p>
-              </div>
-              {shootDetails && (
-                <div className="col-span-full">
-                  <p className="font-semibold text-2xl">Photoshoot details</p>
-                  <p>{shootDetails.label}</p>
-                  <p>Time: {formatTime(shootDetails.time)}</p>
-                  <p>Features:</p>
-                  <ul className="list-disc pl-4">
-                    {selectedFeatures.map((value, key) => {
+      <div
+        ref={containerRef}
+        style={{ minHeight: 600 }}
+        className="rounded-md ring-1 ring-black ring-opacity-5 dark:ring-0 bg-white dark:bg-zinc-800 w-9/12 p-3 flex overflow-hidden"
+      >
+        <div className="basis-1/3  rounded-md relative">
+          <Steps currentStep={currentStep} />
+        </div>
+        {currentStep < 5 && (
+          <form onSubmit={handleSubmit} className="basis-2/3 py-5 px-16 flex flex-col justify-between">
+            {currentStep === 1 && (
+              <section className="space-y-4 mb-5">
+                <h2 className="text-marine-blue font-bold text-2xl mb-2">Personal info</h2>
+                <p className="text-gray-400 mb-14">Please provide your name, email address, and phone number.</p>
+                <Input
+                  value={form.first_name}
+                  onChange={handleChange}
+                  name={"first_name"}
+                  label={"First Name"}
+                  placeholder={"e.g. Stephen"}
+                />
+                <Input
+                  value={form.last_name}
+                  onChange={handleChange}
+                  name={"last_name"}
+                  label={"Last Name"}
+                  placeholder={"e.g. King"}
+                />
+                <Input
+                  value={form.email}
+                  onChange={handleChange}
+                  name={"email"}
+                  label={"Email Address"}
+                  placeholder={"e.g. stephen.king@lorem.com"}
+                />
+                <Input
+                  value={form.phone}
+                  onChange={handleChange}
+                  name={"phone"}
+                  label={"Phone Number"}
+                  placeholder={"555 555-555"}
+                />
+              </section>
+            )}
+            {currentStep === 2 && (
+              <section className="space-y-5">
+                <h2 className="text-marine-blue font-bold text-2xl">Select your photoshoot</h2>
+                <p className="text-gray-400 mb-14">You have the option of monthly or yearly billing.</p>
+                <Select
+                  placeholder="Photoshoot type"
+                  value={shootType}
+                  onValueChange={(value: typeof shootType) => setShootType(value)}
+                  data={selectData}
+                />
+                <DatePicker date={date} onChange={setDate} />
+                <Input
+                  className="accent-red-600 w-full"
+                  label="Time"
+                  type={"time"}
+                  value={form?.time}
+                  onChange={handleChange}
+                  name="time"
+                  id="time"
+                />
+                <Textarea
+                  value={form?.description}
+                  onChange={handleChange}
+                  name="description"
+                  id="description"
+                  label="Description"
+                  rows={3}
+                  className="w-full"
+                />
+              </section>
+            )}
+            {currentStep === 3 && (
+              <section>
+                <h2 className="text-marine-blue font-bold text-2xl">Pick add-ons</h2>
+                <p className="text-gray-400 mb-14">Add-ons help enhance your gaming experience..</p>
+                {shootDetails && (
+                  <div className="space-y-4 mb-5">
+                    {shootDetails.features.map((feature) => {
+                      const value = feature.label.toLowerCase();
+                      const checked = selectedFeatures.includes(value);
                       return (
-                        <li key={key}>
-                          <p>{value}</p>
-                        </li>
+                        <Addon
+                          key={feature.label}
+                          checked={checked}
+                          onChange={onFeatureChange}
+                          feature={feature}
+                          value={value}
+                        />
                       );
                     })}
-                  </ul>
+                  </div>
+                )}
+              </section>
+            )}
+            {currentStep === 4 && (
+              <section>
+                <h2 className="text-marine-blue font-bold text-2xl">Finishing up</h2>
+                <p className="text-gray-400 mb-14">Double check everything before submitting</p>
+                <div className="space-y-4 rounded-md mb-5">
+                  <div className="space-y-2">
+                    <p className="font-semibold text-lg text-center">{shootDetails.label} shoot</p>
+                    <button
+                      onClick={() => setCurrentStep(2)}
+                      className="block mx-auto underline text-gray-600 dark:text-gray-400"
+                    >
+                      Change
+                    </button>
+                  </div>
+                  <hr className="h-1 w-full my-2 border-zinc-400 dark:border-zinc-700" />
+                  <p className="text-gray-600 dark:text-gray-300">
+                    <span className="font-semibold text-gray-900 dark:text-gray-100">Name:</span> {form.first_name}{" "}
+                    {form.last_name}
+                  </p>
+                  <p className="text-gray-600 dark:text-gray-300">
+                    <span className="font-semibold text-gray-900 dark:text-gray-100">Email:</span> {form.email}
+                  </p>
+                  <p className="text-gray-600 dark:text-gray-300">
+                    <span className="font-semibold text-gray-900 dark:text-gray-100">Phone number:</span> {form.email}
+                  </p>
+                  <p className="text-gray-600 dark:text-gray-300">
+                    <span className="font-semibold text-gray-900 dark:text-gray-100">Date:</span> {date?.toDateString()}
+                    , {form.time}
+                  </p>
+                  <p className="text-gray-600 dark:text-gray-300">
+                    <span className="font-semibold text-gray-900 dark:text-gray-100">Comments:</span> {form.description}
+                  </p>
+                  <p className="text-gray-600 dark:text-gray-300 capitalize">
+                    <span className="font-semibold text-gray-900 dark:text-gray-100">Add-ons:</span>{" "}
+                    {selectedFeatures.join(", ")}
+                  </p>
                 </div>
+              </section>
+            )}
+            <div className={`flex ${currentStep !== 1 ? "justify-between" : "justify-end"}`}>
+              {currentStep !== 1 && (
+                <Button type={"button"} disabled={prevDisabled} intent="secondary" onClick={prevStep}>
+                  Previous Step
+                </Button>
               )}
-            </section>
-          </Stepper.Step>
-          <Stepper.Completed>
-            <p className="text-lg">
-              Your request has been confirmed. <br /> We will get back to you as soon as possible to confirm your
-              request
-            </p>
-          </Stepper.Completed>
-        </Stepper>
-      </form>
-      <div className="flex justify-between mt-5">
-        <Button onClick={prevStep} disabled={active === 0} intent={"secondary"} className="border border-red-600">
-          Previous
-        </Button>
-        {active < 2 ? (
-          <Button onClick={nextStep} disabled={active === 3}>
-            Next
-          </Button>
-        ) : (
-          <Button onClick={handleSubmit}>Submit</Button>
+              {currentStep < 4 && (
+                <Button type={"button"} onClick={nextStep}>
+                  Next Step
+                </Button>
+              )}
+              {currentStep === 4 && <Button>Submit</Button>}
+            </div>
+          </form>
         )}
+        {currentStep === 5 && <Success onClick={() => setCurrentStep(1)} />}
       </div>
     </>
   );
-}
-
-function formatTime(time: number | string) {
-  if (typeof time === "string") return time;
-  return `${time / 60 / 60}h`;
 }
