@@ -2,7 +2,8 @@ import { Anchor, FlexContainer } from "@components/shared";
 import { Button } from "@components/shared/client";
 import prisma from "@lib/prisma";
 import { BookingsProvider } from "@components/admin/reservations/BookingsProvider";
-import { serialize } from "v8";
+
+export const revalidtate = 0;
 
 type PropTypes = {
   children: React.ReactNode;
