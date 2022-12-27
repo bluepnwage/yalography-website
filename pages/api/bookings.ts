@@ -16,6 +16,7 @@ const handler: NextApiHandler = async (req, res) => {
         const json = req.body;
 
         const data = await createBooking(json);
+        console.log(data)
         return res.status(201).json({ message: "Booking created", data });
       }
       default: {

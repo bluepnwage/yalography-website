@@ -53,9 +53,9 @@ export default function Booking({ params }: { params: { status: "pending" | "app
             </p>
             <strong className="inline-block">Selected features:</strong>
             <ul className="list-disc pl-4">
-              <li>Decor</li>
-              <li>Assistant</li>
-              <li>Makeup</li>
+              {booking.features?.split(",").map((feature) => {
+                return <li key={feature}>{feature}</li>;
+              })}
             </ul>
           </div>
           <div className="col-span-6">

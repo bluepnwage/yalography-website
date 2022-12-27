@@ -83,7 +83,8 @@ function BookingsForm() {
       description: form?.description! || null,
       date: date!,
       type: shootType,
-      environment: true
+      environment: true,
+      features: selectedFeatures.join(",")
     };
     const res = await fetch("/api/bookings", {
       method: "POST",
@@ -96,9 +97,6 @@ function BookingsForm() {
       setForm({});
       setFeatures([]);
       setDate(null);
-      // setTimeout(() => {
-      //   setCurrentStep(1);
-      // }, 1000 * 10);
     }
   };
 
