@@ -1,9 +1,10 @@
 import { Section, Title, Grid } from "@components/shared";
 
 const tableData = Array(10).fill(null);
-export function Table() {
+
+export default function Table() {
   return (
-    <Section className="mt-24">
+    <div className="flex flex-col items-center mb-20">
       <Title order={"h2"} className="mb-10">
         Recent Orders
       </Title>
@@ -36,6 +37,6 @@ export function Table() {
           );
         })}
       </Grid>
-    </Section>
+    </div>
   );
 }
