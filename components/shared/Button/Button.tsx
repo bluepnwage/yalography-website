@@ -1,19 +1,20 @@
 "use client";
-import type { ComponentPropsWithoutRef, ElementType } from "react";
-import { cva } from "cva";
-import type { VariantProps } from "cva";
 import Link from "next/link";
+import { cva } from "cva";
+
+import type { ComponentPropsWithoutRef, ElementType } from "react";
+import type { VariantProps } from "cva";
 
 type PropTypes<C extends ElementType> = { component?: C } & ComponentPropsWithoutRef<C>;
 
 const styles = cva("px-4 py-2 font-semibold rounded-md inline-block active:top-[2px]", {
   variants: {
     intent: {
-      primary: "bg-red-600 text-gray-100",
-      secondary: "bg-zinc-800 text-red-500",
-      accept: "bg-emerald-600 text-gray-100",
-      reject: "text-red-500 ring-1 ring-red-500",
-      warn: "bg-yellow-600 text-gray-100"
+      primary: "bg-red-600 text-white",
+      secondary: "bg-zinc-200 text-red-600 dark:bg-zinc-800 dark:text-red-500",
+      accept: "bg-emerald-600 text-white",
+      reject: "dark:text-red-500 text-red-600 ring-red-600 ring-1 dark:ring-red-500",
+      warn: "bg-yellow-600 text-white"
     },
     fullWidth: {
       true: "w-full",

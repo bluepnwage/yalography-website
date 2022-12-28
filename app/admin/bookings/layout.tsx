@@ -1,8 +1,10 @@
 import { Anchor, FlexContainer } from "@components/shared";
-import { Button } from "@components/shared/client";
-import prisma from "@lib/prisma";
 import { BookingsProvider } from "@components/admin/bookings/BookingsProvider";
 import { BookingDialog } from "@components/admin/bookings/BookingDialog";
+
+import prisma from "@lib/prisma";
+
+// export const dynamic = "force-dynamic";
 // export const revalidate = 0;
 
 type PropTypes = {

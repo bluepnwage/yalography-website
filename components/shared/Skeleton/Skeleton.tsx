@@ -32,7 +32,7 @@ export function Skeleton({ children, radius, className, ...props }: PropTypes) {
 
 function SkeletonShimmer() {
   return (
-    <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-rose-100/10 to-transparent -translate-x-full animate-[shimmer_2s_infinite]"></div>
+    <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-zinc-400/40 dark:via-rose-100/10 to-transparent -translate-x-full animate-[shimmer_2s_infinite]"></div>
   );
 }
 

@@ -1,4 +1,4 @@
-import { cva, cx } from "cva";
+import { cva } from "cva";
 
 import type { VariantProps } from "cva";
 import type { ComponentPropsWithoutRef, ElementType } from "react";
@@ -43,7 +43,7 @@ export function Card<C extends ElementType = "div">({
         {glow && (
           <div
             aria-hidden
-            className="absolute top-0 left-0 w-full h-full -inset-2 blur-sm bg-red-600 dark:bg-red-500 -z-10 rounded-md "
+            className="absolute hidden dark:block top-0 left-0 w-full h-full -inset-2 blur-sm bg-red-600 dark:bg-red-500 -z-10 rounded-md "
           ></div>
         )}
         {children}

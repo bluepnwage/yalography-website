@@ -47,7 +47,7 @@ export function TableLoading() {
   return (
     <>
       <Skeleton className="h-6 w-36 mb-5 mx-auto" />
-      <Card className="relative overflow-hidden space-y-5">
+      <Card className="relative overflow-hidden space-y-5 mb-20">
         <Skeleton.Shimmer />
         {data.map((_, key) => {
           return (

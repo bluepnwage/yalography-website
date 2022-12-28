@@ -17,7 +17,9 @@ export function Pagination({ currentPage, totalPages, onPageChange }: PropTypes)
             onClick={() => onPageChange(key + 1)}
             className={cx(
               "h-10 w-10 rounded-full flex justify-center items-center",
-              currentPage === key + 1 ? "bg-red-600 text-gray-100" : "bg-zinc-800 text-red-500"
+              currentPage === key + 1
+                ? "bg-red-600 text-white"
+                : "bg-zinc-200 text-red-600 dark:bg-zinc-800 dark:text-red-500"
             )}
             key={key}
           >

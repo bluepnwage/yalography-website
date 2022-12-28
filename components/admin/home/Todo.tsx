@@ -86,7 +86,7 @@ function Task({ task, onFilter }: PropTypes) {
         </p>
         <time className="text-gray-600 dark:text-gray-400">{task.createdAt}</time>
       </div>
-      <Button onClick={handleClick} intent="secondary">
+      <Button onClick={handleClick} intent="reject">
         Delete
       </Button>
     </div>
