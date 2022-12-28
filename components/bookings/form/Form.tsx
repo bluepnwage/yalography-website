@@ -107,15 +107,15 @@ function BookingsForm() {
       <div
         ref={containerRef}
         style={{ minHeight: 600 }}
-        className="rounded-md ring-1 ring-black ring-opacity-5 dark:ring-0 bg-white dark:bg-zinc-800 w-9/12 p-3 flex overflow-hidden"
+        className="rounded-md ring-1 ring-black ring-opacity-5 dark:ring-0 bg-white dark:bg-zinc-800 w-11/12 lg:w-9/12 p-3 flex flex-col lg:flex-row overflow-hidden"
       >
-        <div className="basis-1/3  rounded-md relative">
+        <div className="basis-1/3 grow  rounded-md relative">
           <Steps currentStep={currentStep} />
         </div>
         {currentStep < 5 && (
-          <form onSubmit={handleSubmit} className="basis-2/3 py-5 px-16 flex flex-col justify-between">
+          <form onSubmit={handleSubmit} className="basis-2/3 grow py-5 px-4 lg:px-16 flex flex-col justify-between">
             {currentStep === 1 && (
-              <section className="space-y-4 mb-5">
+              <section className="space-y-4">
                 <h2 className="text-marine-blue font-bold text-2xl mb-2">Personal info</h2>
                 <p className="text-gray-400 mb-14">Please provide your name, email address, and phone number.</p>
                 <Input
@@ -188,7 +188,7 @@ function BookingsForm() {
                 <h2 className="text-marine-blue font-bold text-2xl">Pick add-ons</h2>
                 <p className="text-gray-400 mb-14">Add-ons help enhance your gaming experience..</p>
                 {shootDetails && (
-                  <div className="space-y-4 mb-5">
+                  <div className="space-y-4 ">
                     {shootDetails.features.map((feature) => {
                       const value = feature.label.toLowerCase();
                       const checked = selectedFeatures.includes(value);
@@ -210,7 +210,7 @@ function BookingsForm() {
               <section>
                 <h2 className="text-marine-blue font-bold text-2xl">Finishing up</h2>
                 <p className="text-gray-400 mb-14">Double check everything before submitting</p>
-                <div className="space-y-4 rounded-md mb-5">
+                <div className="space-y-4 rounded-md">
                   <div className="space-y-2">
                     <p className="font-semibold text-lg text-center">{shootDetails.label} shoot</p>
                     <button
@@ -245,7 +245,7 @@ function BookingsForm() {
                 </div>
               </section>
             )}
-            <div className={`flex ${currentStep !== 1 ? "justify-between" : "justify-end"}`}>
+            <div className={`flex  mt-5 ${currentStep !== 1 ? "justify-between" : "justify-end"}`}>
               {currentStep !== 1 && (
                 <Button type={"button"} disabled={prevDisabled} intent="secondary" onClick={prevStep}>
                   Previous Step
