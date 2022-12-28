@@ -9,15 +9,36 @@ async function createBooking(data: Bookings) {
   return booking;
 }
 
+async function updateBooking(data: Bookings) {
+  await prisma.$disconnect();
+  const booking = await prisma.bookings.update({ where: { id: data.id }, data });
+  await prisma.$disconnect();
+  return booking;
+}
+
+async function deleteBooking(data: Bookings) {
+  await prisma.$disconnect();
+  const booking = await prisma.bookings.delete({ where: { id: data.id } });
+  await prisma.$disconnect();
+  return booking;
+}
+
 const handler: NextApiHandler = async (req, res) => {
   try {
+    const json = req.body;
     switch (req.method) {
       case "POST": {
-        const json = req.body;
-
         const data = await createBooking(json);
-        console.log(data)
+        console.log(data);
         return res.status(201).json({ message: "Booking created", data });
+      }
+      case "PUT": {
+        const data = await updateBooking(json);
+        return res.status(200).json({ message: "Booking updated", data });
+      }
+      case "DELETE": {
+        const data = await deleteBooking(json);
+        return res.status(200).json({ message: "Booking deleted", data });
       }
       default: {
         return res.status(405).json({ message: "Method not allowed" });

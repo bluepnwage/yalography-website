@@ -3,9 +3,38 @@ import { Anchor, Title, Card, Grid, Breadcrumbs } from "@components/shared";
 import { Button } from "@components/shared/client";
 import { useBookings } from "@components/admin/reservations/BookingsProvider";
 import { photoshootTypes } from "@lib/photoshoot";
+import { useRouter } from "next/navigation";
+import { useRouteRefresh } from "@lib/hooks/useRouteRefresh";
 
 export default function Booking({ params }: { params: { status: "pending" | "approved"; id: string } }) {
+  const router = useRouter();
   const booking = useBookings(params.status).find((b) => b.id === parseInt(params.id))!;
+  const [isPending, refresh] = useRouteRefresh();
+
+  const onApprove = async () => {
+    const res = await fetch("/api/bookings", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ status: "approved", id: parseInt(params.id) })
+    });
+    if (res.ok) {
+      refresh();
+      router.push(`/admin/reservations/approved/${params.id}`);
+    }
+  };
+
+  const onDelete = async () => {
+    const res = await fetch("/api/bookings", {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id: parseInt(params.id) })
+    });
+    if (res.ok) {
+      refresh();
+      router.push(`/admin/reservations/${params.status}`);
+    }
+  };
+
   return (
     <>
       <Breadcrumbs>
@@ -20,10 +49,12 @@ export default function Booking({ params }: { params: { status: "pending" | "app
           {booking.date}
         </Title>
         <div className="flex gap-2">
-          <Button intent="accept" className="h-fit">
-            Send Email
-          </Button>
-          <Button intent="reject" className="h-fit">
+          {params.status === "pending" && (
+            <Button disabled={isPending} onClick={onApprove} intent="accept" className="h-fit">
+              Approve reservation
+            </Button>
+          )}
+          <Button disabled={isPending} onClick={onDelete} intent="reject" className="h-fit">
             Cancel reservation
           </Button>
         </div>
@@ -49,7 +80,7 @@ export default function Booking({ params }: { params: { status: "pending" | "app
               <span className="font-semibold">Photoshoot type:</span> {photoshootTypes.get(booking.type as any)?.label}
             </p>
             <p>
-              <span className="font-semibold">Date:</span> 21/07/2022. {booking.time}
+              <span className="font-semibold">Date:</span> {booking.date}. {booking.time}
             </p>
             <strong className="inline-block">Selected features:</strong>
             <ul className="list-disc pl-4">
