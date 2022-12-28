@@ -81,13 +81,13 @@ export function BookingDialog() {
         setFeatures([]);
         setDate(null);
         refresh();
-        setShootType('')
+        setShootType("");
       } else {
         const json = await res.json();
         throw new Error(json.message);
       }
     } catch (error) {
-        console.error('There was error!!!!')
+      console.error("There was error!!!!");
     } finally {
       toggle.off();
     }
@@ -141,6 +141,7 @@ export function BookingDialog() {
         </div>
         <div className="flex gap-2">
           <Select
+            label={"Photoshoot"}
             data={selectData}
             onValueChange={(value: typeof shootType) => setShootType(value)}
             value={shootType}
