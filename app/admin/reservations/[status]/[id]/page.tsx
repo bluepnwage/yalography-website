@@ -5,13 +5,16 @@ import { useBookings } from "@components/admin/reservations/BookingsProvider";
 import { photoshootTypes } from "@lib/photoshoot";
 import { useRouter } from "next/navigation";
 import { useRouteRefresh } from "@lib/hooks/useRouteRefresh";
+import { useToggle } from "@lib/hooks/useToggle";
 
 export default function Booking({ params }: { params: { status: "pending" | "approved"; id: string } }) {
   const router = useRouter();
   const booking = useBookings(params.status).find((b) => b.id === parseInt(params.id))!;
   const [isPending, refresh] = useRouteRefresh();
+  const [loading, toggle] = useToggle();
 
   const onApprove = async () => {
+    toggle.on();
     const res = await fetch("/api/bookings", {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
@@ -19,11 +22,13 @@ export default function Booking({ params }: { params: { status: "pending" | "app
     });
     if (res.ok) {
       refresh();
+      toggle.off();
       router.push(`/admin/reservations/approved/${params.id}`);
     }
   };
 
   const onDelete = async () => {
+    toggle.on();
     const res = await fetch("/api/bookings", {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
@@ -31,9 +36,12 @@ export default function Booking({ params }: { params: { status: "pending" | "app
     });
     if (res.ok) {
       refresh();
+      toggle.off();
       router.push(`/admin/reservations/${params.status}`);
     }
   };
+
+  const isLoading = loading || isPending;
 
   return (
     <>
@@ -50,11 +58,11 @@ export default function Booking({ params }: { params: { status: "pending" | "app
         </Title>
         <div className="flex gap-2">
           {params.status === "pending" && (
-            <Button disabled={isPending} onClick={onApprove} intent="accept" className="h-fit">
+            <Button disabled={isLoading} onClick={onApprove} intent="accept" className="h-fit">
               Approve reservation
             </Button>
           )}
-          <Button disabled={isPending} onClick={onDelete} intent="reject" className="h-fit">
+          <Button disabled={isLoading} onClick={onDelete} intent="reject" className="h-fit">
             Cancel reservation
           </Button>
         </div>
