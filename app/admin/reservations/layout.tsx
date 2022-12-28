@@ -3,7 +3,7 @@ import { Button } from "@components/shared/client";
 import prisma from "@lib/prisma";
 import { BookingsProvider } from "@components/admin/reservations/BookingsProvider";
 
-// export const revalidate = 0;
+export const revalidate = 0;
 
 type PropTypes = {
   children: React.ReactNode;
