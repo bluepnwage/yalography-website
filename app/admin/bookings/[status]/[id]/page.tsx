@@ -1,7 +1,7 @@
 "use client";
 import { Anchor, Title, Card, Grid, Breadcrumbs } from "@components/shared";
 import { Button } from "@components/shared/client";
-import { useBookings } from "@components/admin/reservations/BookingsProvider";
+import { useBookings } from "@components/admin/bookings/BookingsProvider";
 import { photoshootTypes } from "@lib/photoshoot";
 import { useRouter } from "next/navigation";
 import { useRouteRefresh } from "@lib/hooks/useRouteRefresh";
@@ -23,7 +23,7 @@ export default function Booking({ params }: { params: { status: "pending" | "app
     if (res.ok) {
       refresh();
       toggle.off();
-      router.push(`/admin/reservations/approved/${params.id}`);
+      router.push(`/admin/bookings/approved/${params.id}`);
     }
   };
 
@@ -37,7 +37,7 @@ export default function Booking({ params }: { params: { status: "pending" | "app
     if (res.ok) {
       refresh();
       toggle.off();
-      router.push(`/admin/reservations/${params.status}`);
+      router.push(`/admin/bookings/${params.status}`);
     }
   };
 
@@ -46,11 +46,11 @@ export default function Booking({ params }: { params: { status: "pending" | "app
   return (
     <>
       <Breadcrumbs>
-        <Anchor href={"/admin/reservations"}>Reservations</Anchor>
-        <Anchor href={`/admin/reservations/${params.status}`} className="capitalize">
+        <Anchor href={"/admin/bookings"}>Bookings</Anchor>
+        <Anchor href={`/admin/bookings/${params.status}`} className="capitalize">
           {params.status}
         </Anchor>
-        <Anchor href={`/admin/reservations/${params.status}/${params.id}`}>{booking.id}</Anchor>
+        <Anchor href={`/admin/bookings/${params.status}/${params.id}`}>{booking.id}</Anchor>
       </Breadcrumbs>
       <div className="flex ml-auto mb-16 mt-10 justify-between">
         <Title order={"h1"} className="text-3xl">

@@ -31,7 +31,7 @@ export default function Table({ status }: PropTypes) {
               <td>
                 <Link
                   className={`text-yellow-600 dark:text-yellow-500`}
-                  href={`/admin/reservations/${status}/${booking.id}`}
+                  href={`/admin/bookings/${status}/${booking.id}`}
                 >
                   View details
                 </Link>

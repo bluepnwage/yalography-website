@@ -8,8 +8,8 @@ const links = [
     Icon: <Home />
   },
   {
-    href: "/admin/reservations",
-    label: "Reservations",
+    href: "/admin/bookings",
+    label: "Bookings",
     Icon: <Books fill />
   },
   {

@@ -1,9 +1,9 @@
 import { Anchor, FlexContainer } from "@components/shared";
 import { Button } from "@components/shared/client";
 import prisma from "@lib/prisma";
-import { BookingsProvider } from "@components/admin/reservations/BookingsProvider";
-
-export const revalidate = 0;
+import { BookingsProvider } from "@components/admin/bookings/BookingsProvider";
+import { BookingDialog } from "@components/admin/bookings/BookingDialog";
+// export const revalidate = 0;
 
 type PropTypes = {
   children: React.ReactNode;
@@ -39,18 +39,18 @@ export default async function Layout({ children }: PropTypes) {
       <div className="border-b mb-5 z-10 -mt-5 bg-white border-zinc-200 dark:bg-zinc-900 p-5 dark:border-zinc-600 -mx-5 sticky top-[64px] ">
         <FlexContainer className="justify-evenly">
           <div className="text-center">
-            <p>Pending reservations: {bookings.pending.length}</p>
-            <Anchor href={"/admin/reservations/pending"}>View pending reservations</Anchor>
+            <p>Pending bookings: {bookings.pending.length}</p>
+            <Anchor href={"/admin/bookings/pending"}>View pending bookings</Anchor>
           </div>
           <div className="text-center">
-            <p>Approved reservations: {bookings.approved.length}</p>
-            <Anchor href={"/admin/reservations/approved"}>View approved reservations</Anchor>
+            <p>Approved bookings: {bookings.approved.length}</p>
+            <Anchor href={"/admin/bookings/approved"}>View approved bookings</Anchor>
           </div>
           <div className="text-center">
-            <p>Completed reservations: {bookings.completed.length}</p>
-            <Anchor href={"/admin/reservations/approved"}>View completed reservations</Anchor>
+            <p>Completed bookings: {bookings.completed.length}</p>
+            <Anchor href={"/admin/bookings/approved"}>View completed bookings</Anchor>
           </div>
-          <Button>Create Reservation</Button>
+          <BookingDialog />
         </FlexContainer>
       </div>
       <BookingsProvider {...bookings}>{children}</BookingsProvider>

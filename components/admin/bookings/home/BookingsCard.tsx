@@ -1,7 +1,7 @@
 "use client";
 import { ScrollAreaDemo } from "@components/shared/ScrollArea";
 import { Button } from "@components/shared/client";
-import { useBookings } from "../../BookingsProvider";
+import { useBookings } from "../BookingsProvider";
 
 type PropTypes = {
   status: "pending" | "approved";
@@ -29,7 +29,7 @@ export function BookingsCard({ status }: PropTypes) {
               <div className="inline-block">Marriage</div>
             </div>
             <div className="flex justify-between grow">
-              <Button component="a" href={`/admin/reservations/${status}/${booking.id}`} intent={"primary"}>
+              <Button component="a" href={`/admin/bookings/${status}/${booking.id}`} intent={"primary"}>
                 View details
               </Button>
             </div>

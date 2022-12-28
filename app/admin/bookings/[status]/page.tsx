@@ -5,7 +5,7 @@ export function generateStaticParams() {
   return [{ status: "pending" }, { status: "approved" }];
 }
 
-const Table = dynamic(() => import("@components/admin/reservations/Table"), { ssr: false });
+const Table = dynamic(() => import("@components/admin/bookings/Table"), { ssr: false });
 
 export default function BookingsPage({ params }: { params: { status: "approved" | "pending" } }) {
   return (

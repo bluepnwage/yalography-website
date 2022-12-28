@@ -60,8 +60,8 @@ function WelcomeCard({ stat }: PropTypes) {
       <p>
         You currently have <strong>{stat.length}</strong> pending bookings.
       </p>
-      <Button component="a" href={"/admin/reservations"}>
-        View reservations
+      <Button component="a" href={"/admin/bookings"}>
+        View bookings
       </Button>
     </Card>
   );
