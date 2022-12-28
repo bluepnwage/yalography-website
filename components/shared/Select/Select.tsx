@@ -11,31 +11,35 @@ type SelectData = {
 type SelectProps = {
   data: SelectData[];
   placeholder?: string;
+  label: string;
 } & RadixSelect.SelectProps;
 
-export function Select({ data, placeholder, ...props }: SelectProps) {
+export function Select({ data, placeholder, label, ...props }: SelectProps) {
   return (
-    <RadixSelect.Root {...props}>
-      <RadixSelect.Trigger className="rounded-md relative inline-flex ring-1 ring-gray-400 dark:ring-gray-700 px-2 w-full justify-between data-[placeholder]:text-gray-500 data-[placeholder]:dark:text-gray-300 focus:ring-red-600  dark:focus:ring-red-600  items-center py-2 radius-md gap-2 bg-zinc-100 dark:bg-zinc-700 text-gray-900 dark:text-gray-100">
-        <RadixSelect.Value placeholder={placeholder} />
-        <RadixSelect.Icon className="">
-          <ChevronDown />
-        </RadixSelect.Icon>
-      </RadixSelect.Trigger>
-      <RadixSelect.Portal>
-        <RadixSelect.Content className="bg-white ring-1 z-[9999] ring-gray-400 text-gray-100 dark:ring-gray-600 dark:bg-zinc-700 w-full rounded-md">
-          <RadixSelect.Viewport>
-            {data.map((option, key) => {
-              return (
-                <SelectItem key={key} value={option.value}>
-                  {option.label}
-                </SelectItem>
-              );
-            })}
-          </RadixSelect.Viewport>
-        </RadixSelect.Content>
-      </RadixSelect.Portal>
-    </RadixSelect.Root>
+    <div>
+      <span className="mb-[7px] block">{label}</span>
+      <RadixSelect.Root {...props}>
+        <RadixSelect.Trigger className="rounded-md relative inline-flex ring-1 ring-gray-400 dark:ring-gray-700 px-2 w-full justify-between data-[placeholder]:text-gray-500 data-[placeholder]:dark:text-gray-400 focus:ring-red-600  dark:focus:ring-red-600  items-center py-2 radius-md gap-2 bg-zinc-100 dark:bg-zinc-700 text-gray-900 dark:text-gray-100">
+          <RadixSelect.Value placeholder={placeholder} />
+          <RadixSelect.Icon className="">
+            <ChevronDown />
+          </RadixSelect.Icon>
+        </RadixSelect.Trigger>
+        <RadixSelect.Portal>
+          <RadixSelect.Content className="bg-white ring-1 z-[9999] ring-gray-400 text-gray-100 dark:ring-gray-600 dark:bg-zinc-700 w-full rounded-md">
+            <RadixSelect.Viewport>
+              {data.map((option, key) => {
+                return (
+                  <SelectItem key={key} value={option.value}>
+                    {option.label}
+                  </SelectItem>
+                );
+              })}
+            </RadixSelect.Viewport>
+          </RadixSelect.Content>
+        </RadixSelect.Portal>
+      </RadixSelect.Root>
+    </div>
   );
 }
 

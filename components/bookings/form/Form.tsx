@@ -117,7 +117,9 @@ function BookingsForm() {
             {currentStep === 1 && (
               <section className="space-y-4">
                 <h2 className="text-marine-blue font-bold text-2xl mb-2">Personal info</h2>
-                <p className="text-gray-400 mb-14">Please provide your name, email address, and phone number.</p>
+                <p className="text-gray-600 dark:text-gray-400 mb-14">
+                  Please provide your name, email address, and phone number.
+                </p>
                 <Input
                   id="first_name"
                   value={form.first_name}
@@ -155,8 +157,11 @@ function BookingsForm() {
             {currentStep === 2 && (
               <section className="space-y-5">
                 <h2 className="text-marine-blue font-bold text-2xl">Select your photoshoot</h2>
-                <p className="text-gray-400 mb-14">You have the option of monthly or yearly billing.</p>
+                <p className="text-gray-600 dark:text-gray-400 mb-14">
+                  You have the option of monthly or yearly billing.
+                </p>
                 <Select
+                  label="Photoshoot"
                   placeholder="Photoshoot type"
                   value={shootType}
                   onValueChange={(value: typeof shootType) => setShootType(value)}
@@ -186,7 +191,7 @@ function BookingsForm() {
             {currentStep === 3 && (
               <section>
                 <h2 className="text-marine-blue font-bold text-2xl">Pick add-ons</h2>
-                <p className="text-gray-400 mb-14">Add-ons help enhance your gaming experience..</p>
+                <p className="text-gray-600 dark:text-gray-400 mb-14">Add-ons help enhance your gaming experience..</p>
                 {shootDetails && (
                   <div className="space-y-4 ">
                     {shootDetails.features.map((feature) => {
