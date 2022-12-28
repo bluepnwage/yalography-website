@@ -1,6 +1,5 @@
 import { Card, Title, Skeleton } from "@components/shared";
 import { Button } from "@components/shared/client";
-import { StatCard } from "./StatCard";
 import { ClipboardCheck, ClipboardMoney } from "@lib/icons";
 
 import prisma from "@lib/prisma";
@@ -8,19 +7,19 @@ import prisma from "@lib/prisma";
 async function getBookings() {
   await prisma.$connect();
   const bookings = await prisma.bookings.findMany({
-    select: { status: true, id: true },
+    select: { status: true, id: true, amount: true },
     where: { OR: [{ status: "pending" }, { status: "completed" }] }
   });
   await prisma.$disconnect();
 
   const pending: number[] = [];
-  const completed: number[] = [];
+  const completed = [];
 
   for (const booking of bookings) {
     if (booking.status === "pending") {
       pending.push(booking.id);
     } else {
-      completed.push(booking.id);
+      completed.push(booking);
     }
   }
   return { pending, completed };
@@ -28,11 +27,12 @@ async function getBookings() {
 
 export async function WelcomeStats() {
   const { completed, pending } = await getBookings();
+  const totalMade = completed.reduce((a, c) => a + c.amount, 0);
   return (
     <div className="flex gap-4 items-stretch mb-20">
-      <WelcomeCard stat={pending} />
-      <Orders stat={completed} />
-      <StatCard Icon={<ClipboardMoney size={48} />} title="Total revenue" stat={"$87k"} />
+      <WelcomeCard stat={pending.length} />
+      <Orders stat={completed.length} title={"Completed bookings"} Icon={<ClipboardCheck size={48} />} />
+      <Orders stat={`$${totalMade}`} title={"Total Revenue"} Icon={<ClipboardMoney size={48} />} />
     </div>
   );
 }
@@ -48,7 +48,9 @@ export async function WelcomeStatsLoading() {
 }
 
 type PropTypes = {
-  stat: number[];
+  stat: number | string;
+  title?: string;
+  Icon?: React.ReactNode;
 };
 
 function WelcomeCard({ stat }: PropTypes) {
@@ -58,7 +60,7 @@ function WelcomeCard({ stat }: PropTypes) {
         Welcome back Yasmino
       </Title>
       <p>
-        You currently have <strong>{stat.length}</strong> pending bookings.
+        You currently have <strong>{stat}</strong> pending bookings.
       </p>
       <Button component="a" href={"/admin/bookings"}>
         View bookings
@@ -78,15 +80,13 @@ function WelcomeCardLoading() {
   );
 }
 
-function Orders({ stat }: PropTypes) {
+function Orders({ stat, Icon, title }: PropTypes) {
   return (
     <Card className="basis-1/6 grow flex items-center">
-      <p className="basis-1/4">
-        <ClipboardCheck size={48} />
-      </p>
+      <p className="basis-1/4">{Icon}</p>
       <div className="basis-3/4 flex flex-col items-end gap-2">
-        <p className="text-gray-400">Orders</p>
-        <p className="font-bold text-3xl">{stat.length}</p>
+        <p className="text-gray-400">{title}</p>
+        <p className="font-bold text-3xl">{stat}</p>
       </div>
     </Card>
   );

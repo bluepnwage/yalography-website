@@ -3,9 +3,9 @@ import { Card, Skeleton, Title } from "@components/shared";
 import { ScrollAreaDemo } from "@components/shared/client";
 import prisma from "@lib/prisma";
 
-async function getLists() {
+async function getIncompleteTasks() {
   await prisma.$connect();
-  const tasks = await prisma.tasks.findMany();
+  const tasks = await prisma.tasks.findMany({ take: 15, where: { status: false } });
   await prisma.$disconnect();
   return tasks.map((task) => ({
     ...task,
@@ -16,12 +16,12 @@ async function getLists() {
 }
 
 export async function TaskList() {
-  const data = await getLists();
+  const data = await getIncompleteTasks();
   return (
     <>
       <Card className="col-span-8">
         <Title order={"h3"} className="text-center">
-          Tasks
+          Incomplete Tasks
         </Title>
         <ScrollAreaDemo height={540} orientation={"vertical"}>
           <Todo tasks={data} />

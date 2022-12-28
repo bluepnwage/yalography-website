@@ -23,7 +23,7 @@ export async function ChartContainer() {
   return (
     <Card className="col-span-4 text-center flex flex-col">
       <Title order={"h3"} className="mb-5">
-        Bookings
+        Total Bookings
       </Title>
       <Chart data={bookings} />
     </Card>

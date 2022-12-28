@@ -1,42 +1,38 @@
-import { Section, Title, Grid } from "@components/shared";
+import { Title } from "@components/shared";
+import type { TableData } from "./TableContainer";
 
-const tableData = Array(10).fill(null);
+type PropTypes = {
+  data: TableData;
+};
 
-export default function Table() {
+export default function Table({ data }: PropTypes) {
   return (
     <div className="flex flex-col items-center mb-20">
       <Title order={"h2"} className="mb-10">
-        Recent Orders
+        Recently completed bookings
       </Title>
-      <Grid
-        gap={"none"}
-        lg={5}
-        fullWidth
-        className="bg-white dark:bg-transparent rounded-md text-center overflow-hidden ring-1 ring-zinc-200 dark:ring-zinc-700 "
-      >
-        <p className="border-r border-b border-zinc-300 dark:border-zinc-600 py-2">Name</p>
-        <p className="border-r border-b border-zinc-300 dark:border-zinc-600 py-2">Type</p>
-        <p className="border-r border-b border-zinc-300 dark:border-zinc-600 py-2">Email</p>
-        <p className="border-r border-b border-zinc-300 dark:border-zinc-600 py-2">Date</p>
-        <p className="border-b py-2 border-zinc-300 dark:border-zinc-600">Amount</p>
-        {tableData.map((_, key) => {
+      <table className="bg-white w-full dark:bg-transparent rounded-md text-center overflow-hidden ring-1 ring-zinc-200 dark:ring-zinc-700 ">
+        <tr>
+          <th className="border-r border-b border-zinc-300 dark:border-zinc-600 py-2">Name</th>
+          <th className="border-r border-b border-zinc-300 dark:border-zinc-600 py-2">Type</th>
+          <th className="border-r border-b border-zinc-300 dark:border-zinc-600 py-2">Email</th>
+          <th className="border-r border-b border-zinc-300 dark:border-zinc-600 py-2">Date</th>
+          <th className="border-b py-2 border-zinc-300 dark:border-zinc-600">Amount</th>
+        </tr>
+        {data.map((booking) => {
           return (
-            <Grid
-              fullWidth
-              gap={"none"}
-              lg={5}
-              key={key}
-              className="text-center col-span-full odd:bg-gray-200 dark:odd:bg-zinc-800"
-            >
-              <p className="py-2">Agis Carty</p>
-              <p className="py-2">Wedding</p>
-              <p className="py-2">a.carty2555@gmail.com</p>
-              <p className="py-2">Nov 26, 2022</p>
-              <p className="py-2">$150</p>
-            </Grid>
+            <tr key={booking.id} className="text-center col-span-full odd:bg-gray-200 dark:odd:bg-zinc-800">
+              <td className="py-2">
+                {booking.firstName} {booking.lastName}
+              </td>
+              <td className="py-2">{booking.type}</td>
+              <td className="py-2">{booking.email}</td>
+              <td className="py-2">{booking.date}</td>
+              <td className="py-2">$150</td>
+            </tr>
           );
         })}
-      </Grid>
+      </table>
     </div>
   );
 }

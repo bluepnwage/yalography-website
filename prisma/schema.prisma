@@ -20,8 +20,9 @@ model Bookings {
   environment Boolean
   description String?         @default("") @db.Text
   status      BookingsStatus? @default(pending)
-  features    String?          @default("") @db.Text
+  features    String?         @default("") @db.Text
   tasks       Tasks[]
+  amount      Int             @default(0) //Amount of money made from booking
 
   @@map("bookings")
 }

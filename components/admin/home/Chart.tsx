@@ -1,8 +1,9 @@
 "use client";
 import { PieChart, Pie, Legend, Cell, ResponsiveContainer, Tooltip } from "recharts";
-import { useState } from "react";
 import { Reservations } from "./Reservations";
 import { Button } from "@components/shared/client";
+
+import { useToggle } from "@lib/hooks/useToggle";
 
 type ChartData = {
   type: string;
@@ -16,10 +17,10 @@ type PropTypes = {
 const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#e43535", "#7248d0", "#24d2f5", "#7b899d", "#d6438e"];
 
 export function Chart({ data }: PropTypes) {
-  const [pieChartView, setView] = useState(true);
+  const [pieChartView, toggle] = useToggle();
   return (
     <>
-      <Button className="mx-auto mt-5" onClick={() => setView((prev) => !prev)}>
+      <Button className="mx-auto mt-5 mb-2" onClick={toggle.toggle}>
         Toggle view
       </Button>
       {pieChartView ? (
