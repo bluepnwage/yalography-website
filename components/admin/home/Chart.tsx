@@ -17,7 +17,7 @@ type PropTypes = {
 const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#e43535", "#7248d0", "#24d2f5", "#7b899d", "#d6438e"];
 
 export function Chart({ data }: PropTypes) {
-  const [pieChartView, toggle] = useToggle();
+  const [pieChartView, toggle] = useToggle(true);
   return (
     <>
       <Button className="mx-auto mt-5 mb-2" onClick={toggle.toggle}>
