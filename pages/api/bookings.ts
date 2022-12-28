@@ -10,20 +10,25 @@ async function createBooking(data: Bookings) {
 }
 
 async function updateBooking(data: Bookings) {
-  await prisma.$disconnect();
+  await prisma.$connect();
   const booking = await prisma.bookings.update({ where: { id: data.id }, data });
   await prisma.$disconnect();
   return booking;
 }
 
 async function deleteBooking(data: Bookings) {
-  await prisma.$disconnect();
+  await prisma.$connect();
   const booking = await prisma.bookings.delete({ where: { id: data.id } });
   await prisma.$disconnect();
   return booking;
 }
 
-const handler: NextApiHandler = async (req, res) => {
+type ApiResponse = {
+  message: string;
+  data?: Bookings;
+};
+
+const handler: NextApiHandler<ApiResponse> = async (req, res) => {
   try {
     const json = req.body;
     switch (req.method) {
