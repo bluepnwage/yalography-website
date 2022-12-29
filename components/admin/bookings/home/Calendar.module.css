@@ -1,10 +1,10 @@
-.day,
+.dayApproved,
 .dayPending,
 .sharedDay {
   position: relative;
 }
 
-.day::before {
+.dayApproved::before {
   content: " ";
   position: absolute;
   top: 5px;
@@ -12,7 +12,7 @@
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background-color: rgb(220, 38, 38);
+  background-color: rgb(5, 150, 105);
 }
 
 .dayPending::before {
@@ -22,7 +22,8 @@
   right: 5px;
   width: 7px;
   height: 7px;
-  background-color: green;
+  border-radius: 50%;
+  background-color: rgb(234, 88, 12);
 }
 
 .sharedDay::before {
@@ -33,5 +34,5 @@
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background-color: orange;
+  background-color: rgb(220, 38, 38);
 }

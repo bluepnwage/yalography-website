@@ -7,7 +7,7 @@ export default function ReservationPage() {
     <>
       <Title className="mb-10">Reservations</Title>
       <Section className="mb-20">
-        <Card className="w-full flex  ">
+        <Card className="w-full flex">
           <Calendar />
         </Card>
       </Section>

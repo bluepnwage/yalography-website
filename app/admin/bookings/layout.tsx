@@ -4,8 +4,8 @@ import { BookingDialog } from "@components/admin/bookings/BookingDialog";
 
 import prisma from "@lib/prisma";
 
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
+// export const dynamic = "force-dynamic";
+// export const revalidate = 0;
 
 type PropTypes = {
   children: React.ReactNode;
