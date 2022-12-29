@@ -108,6 +108,11 @@ function BookingsForm() {
     }
   };
 
+  const onShootTypeChange = (value: typeof shootType) => {
+    if (selectedFeatures.length > 0) setFeatures([]);
+    setShootType(value);
+  };
+
   const prevDisabled = currentStep === 1;
 
   return (
@@ -172,7 +177,7 @@ function BookingsForm() {
                   label="Photoshoot"
                   placeholder="Photoshoot type"
                   value={shootType}
-                  onValueChange={(value: typeof shootType) => setShootType(value)}
+                  onValueChange={onShootTypeChange}
                   data={selectData}
                 />
                 <DatePicker date={date} onChange={setDate} />
