@@ -19,16 +19,16 @@ export default function Table({ data }: PropTypes) {
           <th className="border-r border-b border-zinc-300 dark:border-zinc-600 py-2">Date</th>
           <th className="border-b py-2 border-zinc-300 dark:border-zinc-600">Amount</th>
         </tr>
-        {data.map((booking) => {
+        {data.map((order) => {
           return (
-            <tr key={booking.id} className="text-center col-span-full odd:bg-gray-200 dark:odd:bg-zinc-800">
+            <tr key={order.id} className="text-center col-span-full odd:bg-gray-200 dark:odd:bg-zinc-800">
               <td className="py-2">
-                {booking.firstName} {booking.lastName}
+                {order.booking.firstName} {order.booking.lastName}
               </td>
-              <td className="py-2">{booking.type}</td>
-              <td className="py-2">{booking.email}</td>
-              <td className="py-2">{booking.date}</td>
-              <td className="py-2">$150</td>
+              <td className="py-2">{order.booking.type}</td>
+              <td className="py-2">{order.booking.email}</td>
+              <td className="py-2">{order.createdAt}</td>
+              <td className="py-2">{order.quote}</td>
             </tr>
           );
         })}

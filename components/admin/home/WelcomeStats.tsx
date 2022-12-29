@@ -6,33 +6,23 @@ import prisma from "@lib/prisma";
 
 async function getBookings() {
   await prisma.$connect();
-  const bookings = await prisma.bookings.findMany({
-    select: { status: true, id: true, amount: true },
-    where: { OR: [{ status: "pending" }, { status: "completed" }] }
+  const pending = await prisma.bookings.count({
+    where: { status: "pending" }
   });
+  const orders = await prisma.orders.aggregate({ _count: { _all: true }, _sum: { quote: true } });
   await prisma.$disconnect();
 
-  const pending: number[] = [];
-  const completed = [];
-
-  for (const booking of bookings) {
-    if (booking.status === "pending") {
-      pending.push(booking.id);
-    } else {
-      completed.push(booking);
-    }
-  }
-  return { pending, completed };
+  return { pending, orders };
 }
 
 export async function WelcomeStats() {
-  const { completed, pending } = await getBookings();
-  const totalMade = completed.reduce((a, c) => a + c.amount, 0);
+  const { orders, pending } = await getBookings();
+
   return (
     <div className="flex gap-4 items-stretch mb-20">
-      <WelcomeCard stat={pending.length} />
-      <Orders stat={completed.length} title={"Completed bookings"} Icon={<ClipboardCheck size={48} />} />
-      <Orders stat={`$${totalMade}`} title={"Total Revenue"} Icon={<ClipboardMoney size={48} />} />
+      <WelcomeCard stat={pending} />
+      <Orders stat={orders._count._all} title={"Completed bookings"} Icon={<ClipboardCheck size={48} />} />
+      <Orders stat={`$${orders._sum.quote}`} title={"Total Revenue"} Icon={<ClipboardMoney size={48} />} />
     </div>
   );
 }

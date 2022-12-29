@@ -13,21 +13,29 @@ type PropTypes = {
 
 async function getBookings() {
   await prisma.$connect();
-  const bookings = await prisma.bookings.findMany();
+  const bookings = await prisma.bookings.findMany({ where: { NOT: { status: "completed" } } });
+  const completed = (await prisma.bookings.findMany({ where: { status: "completed" }, include: { orders: true } })).map(
+    (booking) => {
+      return {
+        ...booking,
+        date: booking.date.toDateString(),
+        orders: { ...booking.orders, createdAt: booking.orders?.createdAt.toDateString() }
+      };
+    }
+  );
   await prisma.$disconnect();
 
   const pending = [];
-  const completed = [];
   const approved = [];
 
   for (const booking of bookings) {
     const serializedBooking = { ...booking, date: booking.date.toDateString() };
     if (booking.status === "approved") {
       approved.push(serializedBooking);
-    } else if (booking.status === "completed") {
-      completed.push(serializedBooking);
-    } else {
+    } else if (booking.status === "pending") {
       pending.push(serializedBooking);
+    } else {
+      continue;
     }
   }
   return { pending, approved, completed };

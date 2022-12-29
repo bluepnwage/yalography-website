@@ -22,8 +22,9 @@ model Bookings {
   status      BookingsStatus? @default(pending)
   features    String?         @default("") @db.Text
   tasks       Tasks[]
-  amount      Int             @default(0) //Amount of money made from booking
+  orders      Orders?
 
+  @@index([status])
   @@map("bookings")
 }
 
@@ -95,4 +96,12 @@ enum TaskPriority {
   low
   medium
   high
+}
+
+model Orders {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  quote     Int
+  booking   Bookings @relation(fields: [bookingId], references: [id])
+  bookingId Int      @unique
 }

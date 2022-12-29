@@ -4,30 +4,29 @@ import { Card, Skeleton, Title } from "@components/shared";
 
 const Table = dynamic(() => import("./Table"), { ssr: false, loading: () => <TableLoading /> });
 
-export type TableData = Awaited<ReturnType<typeof getCompletedBookings>>;
+export type TableData = Awaited<ReturnType<typeof getOrders>>;
 
-async function getCompletedBookings() {
+async function getOrders() {
   await prisma.$connect();
-  const bookings = await prisma.bookings.findMany({
-    where: { status: "completed" },
-    select: { firstName: true, lastName: true, type: true, date: true, email: true, id: true },
+  const orders = await prisma.orders.findMany({
+    include: { booking: { select: { firstName: true, lastName: true, type: true, email: true } } },
     take: 10
   });
   await prisma.$disconnect();
-  return bookings.map((booking) => {
+  return orders.map((order) => {
     return {
-      ...booking,
-      date: booking.date.toDateString()
+      ...order,
+      createdAt: order.createdAt.toDateString()
     };
   });
 }
 
 export async function TableContainer() {
-  const bookings = await getCompletedBookings();
+  const orders = await getOrders();
   return (
     <>
-      {bookings.length > 0 ? (
-        <Table data={bookings} />
+      {orders.length > 0 ? (
+        <Table data={orders} />
       ) : (
         <>
           <Title order={"h2"} className="mb-10 text-center">
