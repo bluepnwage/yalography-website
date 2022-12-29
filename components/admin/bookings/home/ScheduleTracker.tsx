@@ -18,10 +18,15 @@ export function Calendar() {
 
   const allDates: AllDates = { pending: {}, approved: {} };
 
-  const todaysBookings = bookings.filter((booking) => {
-    const bookingDate = new Date(booking.date);
-    return date?.toDateString() === bookingDate.toDateString();
-  });
+  const todaysBookings = bookings
+    .filter((booking) => {
+      return date?.toDateString() === booking.date;
+    })
+    .concat(
+      pendingBookings.filter((booking) => {
+        return date?.toDateString() === booking.date;
+      })
+    );
 
   for (let i = 0; i < bookings.length; i++) {
     allDates.approved[bookings[i].date] = true;

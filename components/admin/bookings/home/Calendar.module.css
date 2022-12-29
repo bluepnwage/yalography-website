@@ -21,6 +21,7 @@
   top: 5px;
   right: 5px;
   width: 7px;
+  height: 7px;
   background-color: green;
 }
 
@@ -34,4 +35,3 @@
   border-radius: 50%;
   background-color: orange;
 }
-
