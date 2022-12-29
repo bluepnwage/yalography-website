@@ -1,11 +1,15 @@
 "use client";
 import { Anchor, Title, Card, Grid, Breadcrumbs } from "@components/shared";
 import { Button } from "@components/shared/Button";
-import { useBookings } from "@components/admin/bookings/BookingsProvider";
 import { photoshootTypes } from "@lib/photoshoot";
+import { Dropdown } from "@components/shared/Dropdown";
+import { DotsVertical } from "@lib/icons";
+
+//Hooks
 import { useRouter } from "next/navigation";
 import { useRouteRefresh } from "@lib/hooks/useRouteRefresh";
 import { useToggle } from "@lib/hooks/useToggle";
+import { useBookings } from "@components/admin/bookings/BookingsProvider";
 
 export default function Booking({ params }: { params: { status: "pending" | "approved"; id: string } }) {
   const router = useRouter();
@@ -41,6 +45,20 @@ export default function Booking({ params }: { params: { status: "pending" | "app
     }
   };
 
+  const onComplete = async () => {
+    toggle.on();
+    const res = await fetch("/api/bookings", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id: parseInt(params.id), status: "completed" })
+    });
+    if (res.ok) {
+      refresh();
+      toggle.off();
+      router.push("/admin/bookings");
+    }
+  };
+
   const isLoading = loading || isPending;
 
   return (
@@ -56,15 +74,9 @@ export default function Booking({ params }: { params: { status: "pending" | "app
         <Title order={"h1"} className="text-3xl">
           {booking.date}
         </Title>
-        <div className="flex gap-2">
-          {params.status === "pending" && (
-            <Button disabled={isLoading} onClick={onApprove} intent="accept" className="h-fit">
-              Approve reservation
-            </Button>
-          )}
-          <Button disabled={isLoading} onClick={onDelete} intent="reject" className="h-fit">
-            Cancel reservation
-          </Button>
+        <div className="flex gap-2 ">
+          {isLoading && <span className="absolute -top-10">Loading...</span>}
+          <Menu onComplete={onComplete} onApprove={onApprove} onDelete={onDelete} status={params.status} />
         </div>
       </div>
       <Card glow className="rounded-md mb-5">
@@ -110,5 +122,29 @@ export default function Booking({ params }: { params: { status: "pending" | "app
         <Button>Next</Button>
       </div>
     </>
+  );
+}
+
+type MenuProps = {
+  status: "pending" | "approved";
+  onDelete: () => Promise<void>;
+  onApprove: () => Promise<void>;
+  onComplete: () => Promise<void>;
+};
+
+function Menu({ status, onApprove, onComplete, onDelete }: MenuProps) {
+  return (
+    <Dropdown.Root>
+      <Dropdown.Trigger>
+        <button aria-label="Manage booking">
+          <DotsVertical />
+        </button>
+      </Dropdown.Trigger>
+      <Dropdown.Content>
+        <Dropdown.Item onClick={onComplete}>Mark as complete</Dropdown.Item>
+        {status === "pending" && <Dropdown.Item onClick={onApprove}>Approve booking</Dropdown.Item>}
+        <Dropdown.Item onClick={onDelete}>Cancel & Delete booking</Dropdown.Item>
+      </Dropdown.Content>
+    </Dropdown.Root>
   );
 }

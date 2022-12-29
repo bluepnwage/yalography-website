@@ -1,0 +1,37 @@
+.day,
+.dayPending,
+.sharedDay {
+  position: relative;
+}
+
+.day::before {
+  content: " ";
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: rgb(220, 38, 38);
+}
+
+.dayPending::before {
+  content: " ";
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 7px;
+  background-color: green;
+}
+
+.sharedDay::before {
+  content: " ";
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: orange;
+}
+

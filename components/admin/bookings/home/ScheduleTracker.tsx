@@ -1,31 +1,61 @@
 "use client";
-import { useState } from "react";
-import { Button } from "@components/shared/Button";
+import { MantineProvider } from "@mantine/core";
+import { Calendar as MantineCalendar } from "@mantine/dates";
+import { useState, useMemo } from "react";
+import { useBookings } from "../BookingsProvider";
+
+import styles from "./Calendar.module.css";
+
+type AllDates = {
+  pending: { [date: string]: boolean };
+  approved: { [date: string]: boolean };
+};
 
 export function Calendar() {
-  const [date, setDate] = useState(new Date());
-  console.log(1 + 1);
-  const nextDate = () => {};
+  const [date, setDate] = useState<Date | null>(new Date());
+  const bookings = useBookings("approved");
+  const pendingBookings = useBookings("pending");
+
+  const allDates: AllDates = { pending: {}, approved: {} };
+
+  const todaysBookings = bookings.filter((booking) => {
+    const bookingDate = new Date(booking.date);
+    return date?.toDateString() === bookingDate.toDateString();
+  });
+
+  for (let i = 0; i < bookings.length; i++) {
+    allDates.approved[bookings[i].date] = true;
+  }
+  for (let i = 0; i < pendingBookings.length; i++) {
+    allDates.pending[pendingBookings[i].date] = true;
+  }
 
   return (
     <>
-      <div className="flex justify-end">
-        <p>Icon</p>
+      <div className="basis-1/2">
+        <MantineProvider theme={{ primaryColor: "red", fontFamily: "Inter", colorScheme: "dark" }}>
+          <MantineCalendar
+            dayClassName={(date) => {
+              const t = date.toDateString();
+              console.log(t);
+              return allDates.approved[t] && allDates.pending[t]
+                ? styles.sharedDay
+                : allDates.approved[t]
+                ? styles.day
+                : allDates.pending[t]
+                ? styles.dayPending
+                : "";
+            }}
+            value={date}
+            onChange={setDate}
+            fullWidth
+          />
+        </MantineProvider>
       </div>
-      <div>
-        <p className="text-center font-bold text-2xl">{formatDate(date)}</p>
-
-        <p className="text-center">You have 0 reservations sheduled for today</p>
-      </div>
-      <div className="flex justify-between">
-        <Button intent={"secondary"}>Previous</Button>
-        <Button>Next</Button>
+      <div className="basis-1/2">
+        <p>AYOOOOOOOO</p>
+        <p>You have {todaysBookings.length} appointments Scheduled on this date</p>
       </div>
     </>
   );
-}
-
-function formatDate(date: Date) {
-  const formatter = Intl.DateTimeFormat("en", { dateStyle: "long" });
-  return formatter.format(date);
 }
