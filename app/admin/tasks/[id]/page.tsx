@@ -2,6 +2,7 @@ import { Title, FlexContainer, Breadcrumbs, Anchor } from "@components/shared";
 import { Menu } from "./Menu";
 import { TaskList } from "./TaskList";
 import prisma from "@lib/prisma";
+
 async function findTaskList(id: number) {
   await prisma.$connect();
   const taskList = await prisma.taskLists.findUnique({ where: { id }, include: { tasks: true } });

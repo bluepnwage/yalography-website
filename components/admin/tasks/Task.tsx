@@ -1,7 +1,11 @@
 "use client";
-import { useState, useTransition } from "react";
-import { useRouter } from "next/navigation";
-import { Button } from "@components/shared/client";
+import { Button } from "@components/shared/Button";
+
+//Hooks
+import { useRouteRefresh } from "@lib/hooks/useRouteRefresh";
+import { useToggle } from "@lib/hooks/useToggle";
+import { useState } from "react";
+
 import { cx } from "cva";
 
 import type { GetTasks } from "app/admin/tasks/Tasks";
@@ -11,13 +15,12 @@ type PropTypes = {
 };
 
 export function Task({ data }: PropTypes) {
-  const router = useRouter();
-  const [isPending, startTransition] = useTransition();
   const [task, setTask] = useState(data);
-  const [loading, setLoading] = useState(false);
+  const [loading, toggle] = useToggle();
+  const [isPending, refresh] = useRouteRefresh();
 
   const onDelete = async () => {
-    setLoading(true);
+    toggle.on();
     try {
       const res = await fetch("/api/todo", {
         method: "DELETE",
@@ -25,14 +28,12 @@ export function Task({ data }: PropTypes) {
         body: JSON.stringify({ id: data.id })
       });
       if (res.ok) {
-        startTransition(() => {
-          router.refresh();
-        });
+        refresh();
       }
     } catch (error) {
       console.error("WTF");
     } finally {
-      setLoading(false);
+      toggle.off();
     }
   };
   const isLoading = isPending || loading;

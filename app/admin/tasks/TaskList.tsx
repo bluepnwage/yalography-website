@@ -1,6 +1,8 @@
 import { Card, Title, Skeleton } from "@components/shared";
-import { Button, ScrollAreaDemo } from "@components/shared/client";
+import { Button } from "@components/shared/Button";
+import { ScrollAreaDemo } from "@components/shared/ScrollArea";
 import { Menu } from "@components/admin/tasks/ListMenu";
+
 import prisma from "@lib/prisma";
 
 async function getTaskLists() {

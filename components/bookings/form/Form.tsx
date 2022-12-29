@@ -1,14 +1,22 @@
 "use client";
+//Components
 import { MantineProvider } from "@mantine/core";
 import { DatePicker } from "../DatePicker/DatePicker";
-import { FormEvent, useState, useRef } from "react";
-import { Button, Input, Select, Textarea } from "@components/shared/client";
-import { photoshootTypes } from "@lib/photoshoot";
+import { Button } from "@components/shared/Button";
+import { Input } from "@components/shared/Input";
+import { Select } from "@components/shared/Select";
+import { Textarea } from "@components/shared/Textarea";
 import { Steps } from "./Steps";
 import { Addon } from "./Addons";
-
-import type { ShootTypes } from "@lib/photoshoot";
 import { Success } from "./Success";
+
+//Data/hooks
+import { useState, useRef } from "react";
+import { photoshootTypes } from "@lib/photoshoot";
+
+//Types
+import type { FormEvent } from "react";
+import type { ShootTypes } from "@lib/photoshoot";
 
 const selectData = Array.from(photoshootTypes).map(([key, value]) => ({ label: value.label, value: key }));
 

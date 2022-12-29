@@ -1,5 +1,5 @@
 import { Card, Title, Skeleton } from "@components/shared";
-import { Button } from "@components/shared/client";
+import { Button } from "@components/shared/Button";
 import { ClipboardCheck, ClipboardMoney } from "@lib/icons";
 
 import prisma from "@lib/prisma";

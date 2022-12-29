@@ -1,11 +1,15 @@
 "use client";
+//Components
 import { DialogDemo } from "@components/shared/Dialog";
 import { Input } from "@components/shared/Input";
-import { Select } from "@components/shared/Select";
+// import { Select } from "@components/shared/Select";
 import { Textarea } from "@components/shared/Textarea";
-import { Button } from "@components/shared/client";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { Button } from "@components/shared/Button";
+
+//Hooks
+import { useRouteRefresh } from "@lib/hooks/useRouteRefresh";
+import { useToggle } from "@lib/hooks/useToggle";
+
 import type { FormEvent } from "react";
 
 const taskLists = [
@@ -24,8 +28,8 @@ const taskLists = [
 ];
 
 export function Modal() {
-  const [opened, setOpened] = useState(false);
-  const router = useRouter();
+  const [opened, toggle] = useToggle();
+  const [isPending, refresh] = useRouteRefresh();
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -37,14 +41,14 @@ export function Modal() {
     });
     if (res.ok) {
       console.log("success");
-      setOpened(false);
-      router.refresh();
+      toggle.off();
+      refresh();
     } else {
       console.log("Error!!!!!");
     }
   };
   return (
-    <DialogDemo trigger={<Button>Create list</Button>} open={opened} onOpenChange={setOpened}>
+    <DialogDemo trigger={<Button>Create list</Button>} open={opened} onOpenChange={toggle.set}>
       <form onSubmit={handleSubmit}>
         <div className="space-y-2">
           <Input name="name" label="Name" />

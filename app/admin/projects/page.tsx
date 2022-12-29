@@ -1,5 +1,5 @@
 import { Card, Grid, Title, Badge, Section } from "@components/shared";
-import { Button } from "@components/shared/client";
+import { Button } from "@components/shared/Button";
 import Image from "next/image";
 import pixel from "@public/pixel.jpg";
 

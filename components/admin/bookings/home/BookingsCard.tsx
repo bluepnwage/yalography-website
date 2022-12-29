@@ -1,6 +1,6 @@
 "use client";
 import { ScrollAreaDemo } from "@components/shared/ScrollArea";
-import { Button } from "@components/shared/client";
+import { Button } from "@components/shared/Button";
 import { useBookings } from "../BookingsProvider";
 
 type PropTypes = {

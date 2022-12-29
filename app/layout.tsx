@@ -2,7 +2,6 @@ import "../styles/globals.css";
 import { Footer } from "@components/Footer";
 import { Header } from "@components/Navbar";
 import { ScrollToTop } from "@components/ScrollToTop";
-import React from "react";
 
 type PropTypes = {
   children: React.ReactNode;

@@ -1,6 +1,6 @@
 "use client";
 import { Anchor, Title, Card, Grid, Breadcrumbs } from "@components/shared";
-import { Button } from "@components/shared/client";
+import { Button } from "@components/shared/Button";
 import { useBookings } from "@components/admin/bookings/BookingsProvider";
 import { photoshootTypes } from "@lib/photoshoot";
 import { useRouter } from "next/navigation";

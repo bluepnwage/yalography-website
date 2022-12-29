@@ -1,7 +1,7 @@
 "use client";
 import { PieChart, Pie, Legend, Cell, ResponsiveContainer, Tooltip } from "recharts";
 import { Reservations } from "./Reservations";
-import { Button } from "@components/shared/client";
+import { Button } from "@components/shared/Button";
 
 import { useToggle } from "@lib/hooks/useToggle";
 

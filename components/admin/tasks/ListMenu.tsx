@@ -1,9 +1,12 @@
 "use client";
+//Components
 import { DialogDemo } from "@components/shared/Dialog";
 import { Dropdown } from "@components/shared/Dropdown";
 import { DotsVertical } from "@lib/icons";
-import { Button, Input } from "@components/shared/client";
+import { Button } from "@components/shared/Button";
+import { Input } from "@components/shared/Input";
 
+//Hooks
 import { useToggle } from "@lib/hooks/useToggle";
 import { useRouteRefresh } from "@lib/hooks/useRouteRefresh";
 

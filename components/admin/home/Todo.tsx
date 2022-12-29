@@ -1,5 +1,5 @@
 "use client";
-import { Button } from "@components/shared/client";
+import { Button } from "@components/shared/Button";
 import { useState } from "react";
 import { cx } from "cva";
 
