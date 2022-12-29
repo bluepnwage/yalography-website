@@ -60,7 +60,7 @@ export function Calendar() {
               return allDates.approved[t] && allDates.pending[t]
                 ? styles.sharedDay
                 : allDates.approved[t]
-                ? styles.day
+                ? styles.dayApproved
                 : allDates.pending[t]
                 ? styles.dayPending
                 : "";
