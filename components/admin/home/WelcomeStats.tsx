@@ -22,7 +22,7 @@ export async function WelcomeStats() {
     <div className="flex gap-4 items-stretch mb-20">
       <WelcomeCard stat={pending} />
       <Orders stat={orders._count._all} title={"Completed bookings"} Icon={<ClipboardCheck size={48} />} />
-      <Orders stat={`$${orders._sum.quote}`} title={"Total Revenue"} Icon={<ClipboardMoney size={48} />} />
+      <Orders stat={`$${orders._sum.quote ?? 0}`} title={"Total Revenue"} Icon={<ClipboardMoney size={48} />} />
     </div>
   );
 }

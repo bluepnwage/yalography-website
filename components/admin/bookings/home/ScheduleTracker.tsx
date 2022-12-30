@@ -3,6 +3,8 @@ import { MantineProvider } from "@mantine/core";
 import { Calendar as MantineCalendar } from "@mantine/dates";
 import { useState } from "react";
 import { useBookings } from "../BookingsProvider";
+import { CalendarTable } from "./CalendarTable";
+import { cx } from "cva";
 
 import styles from "./Calendar.module.css";
 
@@ -15,7 +17,6 @@ export function Calendar() {
   const [date, setDate] = useState<Date | null>(new Date());
   const bookings = useBookings("approved");
   const pendingBookings = useBookings("pending");
-
   const allDates: AllDates = { pending: {}, approved: {} };
 
   const todaysBookings = bookings
@@ -85,11 +86,14 @@ export function Calendar() {
           </div>
         </div>
       </div>
-      <div className="basis-1/2 flex items-center justify-center">
-        <p className="text-lg">
-          You have {todaysBookings.length} {todaysBookings.length === 1 ? "appointment" : "appointments"} Scheduled on{" "}
+      <div
+        className={cx("basis-1/2 flex flex-col pl-5 items-center", todaysBookings.length === 0 ? "justify-center" : "")}
+      >
+        <p className={cx("text-lg text-center", todaysBookings.length > 0 ? "basis-1/4" : "")}>
+          You have {todaysBookings.length} {todaysBookings.length === 1 ? "appointment" : "appointments"} scheduled on{" "}
           {date?.toDateString()}.
         </p>
+        {todaysBookings.length > 0 && <CalendarTable todaysBookings={todaysBookings} />}
       </div>
     </>
   );
