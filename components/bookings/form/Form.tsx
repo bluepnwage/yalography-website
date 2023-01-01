@@ -206,20 +206,28 @@ function BookingsForm() {
                 <h2 className="text-marine-blue font-bold text-2xl">Pick add-ons</h2>
                 <p className="text-gray-600 dark:text-gray-400 mb-14">Add-ons help enhance your gaming experience..</p>
                 {shootDetails && (
-                  <div className="space-y-4 ">
-                    {shootDetails.features.map((feature) => {
-                      const value = feature.label.toLowerCase();
-                      const checked = selectedFeatures.includes(value);
-                      return (
-                        <Addon
-                          key={feature.label}
-                          checked={checked}
-                          onChange={onFeatureChange}
-                          feature={feature}
-                          value={value}
-                        />
-                      );
-                    })}
+                  <div className="space-y-4">
+                    {shootDetails.features.length > 0 &&
+                      shootDetails.features.map((feature) => {
+                        const value = feature.label.toLowerCase();
+                        const checked = selectedFeatures.includes(value);
+                        return (
+                          <Addon
+                            key={feature.label}
+                            checked={checked}
+                            onChange={onFeatureChange}
+                            feature={feature}
+                            value={value}
+                          />
+                        );
+                      })}
+                    {shootDetails.features.length === 0 && (
+                      <div className="flex h-full justify-center">
+                        <p className="text-xl">
+                          There are no add-ons for <strong>{shootDetails.label}</strong>
+                        </p>
+                      </div>
+                    )}
                   </div>
                 )}
               </section>
@@ -230,7 +238,7 @@ function BookingsForm() {
                 <p className="text-gray-400 mb-14">Double check everything before submitting</p>
                 <div className="space-y-4 rounded-md">
                   <div className="space-y-2">
-                    <p className="font-semibold text-lg text-center">{shootDetails.label} shoot</p>
+                    <p className="font-semibold text-lg text-center">{shootDetails.label}</p>
                     <button
                       onClick={() => setCurrentStep(2)}
                       className="block mx-auto underline text-gray-600 dark:text-gray-400"
