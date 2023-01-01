@@ -181,7 +181,7 @@ function Menu({ status, onApprove, onComplete, onDelete }: MenuProps) {
           </button>
         </Dropdown.Trigger>
         <Dropdown.Content>
-          <Dropdown.Item onClick={dialogToggle.on}>Mark as complete</Dropdown.Item>
+          {status === "approved" && <Dropdown.Item onClick={dialogToggle.on}>Mark as complete</Dropdown.Item>}
           {status === "pending" && <Dropdown.Item onClick={onApprove}>Approve booking</Dropdown.Item>}
           <Dropdown.Item onClick={onDelete}>Cancel & Delete booking</Dropdown.Item>
         </Dropdown.Content>
