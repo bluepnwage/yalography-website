@@ -1,6 +1,7 @@
 import dynamic from "next/dynamic";
 import prisma from "@lib/prisma";
 import { Card, Skeleton, Title } from "@components/shared";
+import { formatNum } from "@util/formatNum";
 
 const Table = dynamic(() => import("./Table"), { ssr: false, loading: () => <TableLoading /> });
 
@@ -16,6 +17,7 @@ async function getOrders() {
   return orders.map((order) => {
     return {
       ...order,
+      quote: formatNum(order.quote / 100),
       createdAt: order.createdAt.toDateString()
     };
   });

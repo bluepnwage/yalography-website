@@ -3,6 +3,7 @@ import { Button } from "@components/shared/Button";
 import { ClipboardCheck, ClipboardMoney } from "@lib/icons";
 
 import prisma from "@lib/prisma";
+import { formatNum } from "@util/formatNum";
 
 async function getBookings() {
   await prisma.$connect();
@@ -10,19 +11,19 @@ async function getBookings() {
     where: { status: "pending" }
   });
   const orders = await prisma.orders.aggregate({ _count: { _all: true }, _sum: { quote: true } });
+  const t = await prisma.orders.count();
   await prisma.$disconnect();
-
   return { pending, orders };
 }
 
 export async function WelcomeStats() {
   const { orders, pending } = await getBookings();
-
+  const totalSum = orders._sum.quote ? orders._sum.quote / 100 : 0;
   return (
     <div className="flex gap-4 items-stretch mb-20">
       <WelcomeCard stat={pending} />
       <Orders stat={orders._count._all} title={"Completed bookings"} Icon={<ClipboardCheck size={48} />} />
-      <Orders stat={`$${orders._sum.quote ?? 0}`} title={"Total Revenue"} Icon={<ClipboardMoney size={48} />} />
+      <Orders stat={`$${formatNum(totalSum)}`} title={"Total Revenue"} Icon={<ClipboardMoney size={48} />} />
     </div>
   );
 }

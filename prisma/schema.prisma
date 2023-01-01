@@ -101,7 +101,9 @@ enum TaskPriority {
 model Orders {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
-  quote     Int
+  quote     Int //Amount of money made saved in cents
   booking   Bookings @relation(fields: [bookingId], references: [id])
   bookingId Int      @unique
+  year Int
+  month String
 }
