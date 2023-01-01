@@ -93,7 +93,7 @@ export function Calendar() {
           You have {todaysBookings.length} {todaysBookings.length === 1 ? "appointment" : "appointments"} scheduled on{" "}
           {date?.toDateString()}.
         </p>
-        {todaysBookings.length > 0 && <CalendarTable todaysBookings={todaysBookings} />}
+        {todaysBookings.length > 0 && <CalendarTable date={date} todaysBookings={todaysBookings} />}
       </div>
     </>
   );

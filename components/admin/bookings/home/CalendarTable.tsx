@@ -4,15 +4,22 @@ import { Pagination } from "@components/shared/Pagination";
 import dynamic from "next/dynamic";
 import { SerializedBooking } from "@lib/prisma";
 import Link from "next/link";
+import { useEffect } from "react";
 
 const Table = dynamic(() => import("@components/shared/Table").then(({ Table }) => Table), { ssr: false });
 
 type PropTypes = {
   todaysBookings: SerializedBooking[];
+  date: Date | null;
 };
 
-export function CalendarTable({ todaysBookings }: PropTypes) {
+export function CalendarTable({ todaysBookings, date }: PropTypes) {
   const { paginatedList, ...props } = usePagination(5, todaysBookings);
+
+  useEffect(() => {
+    props.onPageChange(1);
+  }, [date]);
+
   return (
     <div className="space-y-2 basis-3/4 w-full">
       <Table striped className="h-3/4">
