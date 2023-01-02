@@ -5,7 +5,7 @@ import { BookingDialog } from "@components/admin/bookings/BookingDialog";
 import prisma from "@lib/prisma";
 
 export const dynamic = "force-dynamic";
-export const revalidate = 0;
+export const revalidate = false;
 
 type PropTypes = {
   children: React.ReactNode;
@@ -58,7 +58,7 @@ export default async function Layout({ children }: PropTypes) {
           </div>
           <div className="text-center">
             <p>Completed bookings: {bookings.completed.length}</p>
-            <Anchor href={"/admin/bookings/approved"}>View completed bookings</Anchor>
+            <Anchor href={"/admin/bookings/completed"}>View completed bookings</Anchor>
           </div>
           <BookingDialog />
         </FlexContainer>

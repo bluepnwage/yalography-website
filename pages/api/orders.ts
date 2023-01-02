@@ -2,9 +2,24 @@ import prisma from "@lib/prisma";
 import { Orders } from "@prisma/client";
 import { NextApiHandler } from "next";
 
+const months = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "November",
+  "December"
+];
 async function createOrder(data: Orders) {
   await prisma.$connect();
-  const order = await prisma.orders.create({ data });
+  const order = await prisma.orders.create({
+    data: { ...data, month: months[Math.floor(Math.random() * months.length)] }
+  });
   await prisma.$disconnect();
   return order;
 }

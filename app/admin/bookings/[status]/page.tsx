@@ -10,7 +10,7 @@ const BookingsTable = dynamic(() => import("@components/admin/bookings/BookingsT
 export default function BookingsPage({ params }: { params: { status: "approved" | "pending" } }) {
   return (
     <>
-      <Title className="mb-10 first-letter:capitalize">{params.status} reservations</Title>
+      <Title className="mb-10 first-letter:capitalize">{params.status} bookings</Title>
       <BookingsTable status={params.status} />
     </>
   );
