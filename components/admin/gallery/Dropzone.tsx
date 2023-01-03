@@ -7,7 +7,7 @@ import { useToggle } from "@lib/hooks/useToggle";
 export function Dropzone() {
   const [files, setFiles] = useState<File[]>([]);
   const [loading, toggle] = useToggle();
-  console.log(files);
+
   const onDrop = (data: File[]) => {
     setFiles(data);
   };
