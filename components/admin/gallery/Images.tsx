@@ -4,9 +4,13 @@ import { Dropdown } from "@components/shared/Dropdown";
 import { useGallery } from "./GalleryProvider";
 
 export function Images() {
-  const images = useGallery();
+  const images = useGallery("images");
   return (
     <>
+      <div className="col-span-full">
+        <h2 className="font-bold text-xl">Images ({images.length})</h2>
+        {images.length === 0 && <p>You haven&apos; uploaded any images</p>}
+      </div>
       {images?.map((image, key) => {
         return (
           <div key={key} className="col-span-4 bg-white dark:bg-zinc-800 rounded-md p-4 overflow-hidden space-y-4">
@@ -14,7 +18,7 @@ export function Images() {
               <Dropdown.Root>
                 <Dropdown.Trigger>
                   <button
-                    className={`flex h-9 w-9 rounded-full hidden items-center justify-center bg-zinc-700 absolute right-5 top-5`}
+                    className={`flex h-9 w-9 rounded-full items-center justify-center bg-zinc-700 absolute right-5 top-5`}
                     aria-label="Edit image"
                   >
                     <DotsVertical />

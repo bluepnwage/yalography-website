@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { ImageFolders, PrismaClient } from "@prisma/client";
 import type { Bookings, Tasks, Orders } from "@prisma/client";
 
 declare global {
@@ -18,3 +18,4 @@ export type SerializedTask = Omit<Tasks, "daedline" | "createdAt" | "updatedAt">
   updatedAt: string;
 };
 export type SerializedOrder = Omit<Orders, "createdAt"> & { createdAt: string };
+export type SerializedImageFolder = Omit<ImageFolders, "createdAt"> & { createdAt: string };

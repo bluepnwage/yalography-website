@@ -7,8 +7,16 @@ import prisma from "@lib/prisma";
 async function getImages() {
   await prisma.$connect();
   const images = await prisma.images.findMany();
+  const folders = await prisma.imageFolders.findMany({ include: { Images: true } });
   await prisma.$disconnect();
-  return images;
+
+  const serializedFolders = folders.map((folder) => {
+    return {
+      ...folder,
+      createdAt: folder.createdAt.toDateString()
+    };
+  });
+  return { images, folders: serializedFolders };
 }
 
 export const dynamic = "force-dynamic";
@@ -19,7 +27,7 @@ type PropTypes = {
 };
 
 export default async function Layout({ children }: PropTypes) {
-  const images = await getImages();
+  const { images, folders } = await getImages();
   return (
     <>
       <div className="border-b mb-5 z-10 -mt-5 bg-white border-zinc-200 dark:bg-zinc-900 p-5 dark:border-zinc-600 -mx-5 sticky top-[64px] ">
@@ -28,13 +36,14 @@ export default async function Layout({ children }: PropTypes) {
             <p>Total images: {images.length}</p>
           </div>
           <div className="text-center">
-            <p>Total folders: 3</p>
+            <p>Total folders: {folders.length}</p>
           </div>
           <UploadDialog />
         </FlexContainer>
       </div>
-      {children}
-      <GalleryProvider images={images}>{children}</GalleryProvider>
+      <GalleryProvider images={images} folders={folders}>
+        {children}
+      </GalleryProvider>
     </>
   );
 }
