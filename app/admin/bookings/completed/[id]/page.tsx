@@ -2,6 +2,7 @@
 import { useBookings } from "@components/admin/bookings/BookingsProvider";
 import { formatNum } from "@util/formatNum";
 import { Button } from "@components/shared/Button";
+import { Anchor, Breadcrumbs } from "@components/shared";
 
 export default function Booking({ params }: { params: { id: string } }) {
   const bookings = useBookings("completed");
@@ -9,7 +10,14 @@ export default function Booking({ params }: { params: { id: string } }) {
   const amount = order.orders.quote ? order.orders.quote / 100 : 0;
   return (
     <>
-      <section className="flex gap-4">
+      <Breadcrumbs>
+        <Anchor href={"/admin/bookings"}>Bookings</Anchor>
+        <Anchor href={`/admin/bookings/completed`} className="capitalize">
+          Completed
+        </Anchor>
+        <Anchor href={`/admin/bookings/completed/${params.id}`}>{params.id}</Anchor>
+      </Breadcrumbs>
+      <section className="flex gap-4 mt-5">
         <div className="w-2/4 basis-3/5 ring-1 bg-white p-4 ring-zinc-200 dark:ring-zinc-700 dark:bg-zinc-800 rounded-md">
           <div className="border-b border-zinc-200 dark:border-zinc-700 -mx-4 -mt-4 px-4 py-1 mb-4">
             <h1 className="font-bold text-4xl">Order details</h1>
@@ -33,6 +41,14 @@ export default function Booking({ params }: { params: { id: string } }) {
               <p className="capitalize">
                 {order.date}, {order.time}
               </p>
+            </div>
+            <div className="">
+              <p className="font-semibold text-gray-400">Add-ons:</p>
+              <ul className="capitalize list-disc pl-4">
+                {order?.features?.split(",").map((feature) => {
+                  return <li key={feature}>{feature}</li>;
+                })}
+              </ul>
             </div>
             <div className="flex flex-col items-center gap-2">
               <p className="font-semibold text-gray-400">Description:</p>
