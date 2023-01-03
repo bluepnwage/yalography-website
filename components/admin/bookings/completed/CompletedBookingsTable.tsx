@@ -29,7 +29,7 @@ export function CompletedBookingTable() {
           {paginatedList.map((booking) => {
             const amount = booking.orders.quote ? booking.orders.quote / 100 : 0;
             return (
-              <tr>
+              <tr key={booking.orders.id}>
                 <td className="py-2 border-r border-zinc-200 dark:border-zinc-700">
                   {booking.firstName} {booking.lastName}
                 </td>
