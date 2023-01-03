@@ -35,6 +35,7 @@ type Form = {
   phone: string;
   time: string;
   description: string;
+  environment: "inside" | "outside";
 };
 
 function BookingsForm() {
@@ -91,7 +92,7 @@ function BookingsForm() {
       description: form?.description! || null,
       date: date!,
       type: shootType,
-      environment: true,
+      environment: form.environment === "inside",
       features: selectedFeatures.join(",")
     };
     const res = await fetch("/api/bookings", {
@@ -180,6 +181,37 @@ function BookingsForm() {
                   onValueChange={onShootTypeChange}
                   data={selectData}
                 />
+                <fieldset>
+                  <legend className="mb-2">Environment:</legend>
+                  <div className="flex gap-4">
+                    <p>
+                      <label htmlFor="inside">Inside</label>
+                      <input
+                        required
+                        onChange={handleChange}
+                        checked={form.environment === "inside"}
+                        className="accent-red-500 h-5 w-5"
+                        id="inside"
+                        name="environment"
+                        value={"inside"}
+                        type={"radio"}
+                      />
+                    </p>
+                    <p>
+                      <label htmlFor="outside">Outside</label>
+                      <input
+                        required
+                        onChange={handleChange}
+                        className="accent-red-500 h-5 w-5"
+                        checked={form.environment === "outside"}
+                        id="outside"
+                        name="environment"
+                        value={"outside"}
+                        type={"radio"}
+                      />
+                    </p>
+                  </div>
+                </fieldset>
                 <DatePicker date={date} onChange={setDate} />
                 <Input
                   className="accent-red-600 w-full"
@@ -256,6 +288,10 @@ function BookingsForm() {
                   </p>
                   <p className="text-gray-600 dark:text-gray-300">
                     <span className="font-semibold text-gray-900 dark:text-gray-100">Phone number:</span> {form.email}
+                  </p>
+                  <p className="text-gray-600 dark:text-gray-300">
+                    <span className="font-semibold text-gray-900 dark:text-gray-100">Environment:</span>{" "}
+                    {form.environment}
                   </p>
                   <p className="text-gray-600 dark:text-gray-300">
                     <span className="font-semibold text-gray-900 dark:text-gray-100">Date:</span> {date?.toDateString()}
