@@ -1,6 +1,6 @@
 "use client";
 import { PieChart, Pie, Legend, Cell, ResponsiveContainer, Tooltip } from "recharts";
-import { Reservations } from "./Reservations";
+import { BookingsTotal } from "./BookingsTotal";
 import { Button } from "@components/shared/Button";
 
 import { useToggle } from "@lib/hooks/useToggle";
@@ -37,7 +37,7 @@ export function Chart({ data }: PropTypes) {
           </PieChart>
         </ResponsiveContainer>
       ) : (
-        <Reservations data={data} />
+        <BookingsTotal data={data} />
       )}
     </>
   );

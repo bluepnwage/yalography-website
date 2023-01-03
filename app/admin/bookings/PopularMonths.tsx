@@ -38,7 +38,7 @@ export async function PopularMonths() {
   const data = await popularTypes();
 
   return (
-    <ScrollAreaDemo height={"100%"} orientation={"vertical"}>
+    <ScrollAreaDemo height={500} orientation={"vertical"} className="grow">
       {data.map((booking) => {
         return (
           <div

@@ -11,7 +11,8 @@ async function getOrders() {
   await prisma.$connect();
   const orders = await prisma.orders.findMany({
     include: { booking: { select: { firstName: true, lastName: true, type: true, email: true } } },
-    take: 10
+    take: 10,
+    orderBy: { createdAt: "desc" }
   });
   await prisma.$disconnect();
   return orders.map((order) => {

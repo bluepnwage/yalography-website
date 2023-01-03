@@ -1,4 +1,4 @@
-import { MonthChart } from "@components/admin/bookings/completed/MonthChart";
+import { MonthChart } from "@components/admin/bookings/home/MonthChart";
 import prisma from "@lib/prisma";
 import { Card, Skeleton } from "@components/shared";
 

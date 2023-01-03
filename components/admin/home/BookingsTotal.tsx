@@ -9,7 +9,7 @@ type PropTypes = {
   data: ChartData[];
 };
 
-export function Reservations({ data }: PropTypes) {
+export function BookingsTotal({ data }: PropTypes) {
   const total = data.reduce((a, c) => a + c._count, 0);
   return (
     <div className="grow flex items-center justify-center">

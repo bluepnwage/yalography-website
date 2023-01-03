@@ -2,9 +2,10 @@
 import { usePagination } from "@lib/hooks/usePagination";
 import { Pagination } from "@components/shared/Pagination";
 import dynamic from "next/dynamic";
-import { SerializedBooking } from "@lib/prisma";
 import Link from "next/link";
 import { useEffect } from "react";
+
+import type { SerializedBooking } from "@lib/prisma";
 
 const Table = dynamic(() => import("@components/shared/Table").then(({ Table }) => Table), { ssr: false });
 

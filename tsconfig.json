@@ -19,7 +19,8 @@
       "@components/*": ["components/*"],
       "@util/*": ["util/*"],
       "@lib/*": ["lib/*"],
-      "@public/*": ["public/*"]
+      "@public/*": ["public/*"],
+      "@app/*": ["app/*"]
     },
     "plugins": [
       {
