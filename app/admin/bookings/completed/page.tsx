@@ -1,13 +1,18 @@
 //Client components
-// import { OrdersTable } from "@components/admin/bookings/home/OrdersTable";
+import { CompletedBookingTable } from "@components/admin/bookings/completed/CompletedBookingsTable";
 
 //Server components
-import { Grid } from "@components/shared";
+import { Grid, Title } from "@components/shared";
 
 export default async function CompletedBookingsPage() {
   return (
     <>
-      <Grid fullWidth>{/* <OrdersTable /> */}</Grid>
+      <Title className="mb-4">Completed bookings</Title>
+      <Grid fullWidth>
+        <div className="col-span-full space-y-4">
+          <CompletedBookingTable />
+        </div>
+      </Grid>
     </>
   );
 }
