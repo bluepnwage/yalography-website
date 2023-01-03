@@ -9,6 +9,13 @@ async function createImage(data: Images) {
   return image;
 }
 
+async function deleteImage(id: number) {
+  await prisma.$connect();
+  const data = await prisma.images.delete({ where: { id } });
+  await prisma.$disconnect();
+  return data;
+}
+
 const handler: NextApiHandler = async (req, res) => {
   try {
     const json = req.body;
@@ -17,6 +24,10 @@ const handler: NextApiHandler = async (req, res) => {
         const data = await createImage(json);
         console.log(data);
         return res.status(201).json({ message: "Image created", data });
+      }
+      case "DELETE": {
+        const data = await deleteImage(json.id);
+        return res.status(200).json({ message: "Image deleted", data });
       }
       default: {
         return res.status(405).json({ message: "Method not allowed" });

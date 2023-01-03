@@ -3,10 +3,16 @@ import { Button } from "@components/shared/Button";
 import { Dropzone as MantineDropzone, IMAGE_MIME_TYPE } from "@mantine/dropzone";
 import { useState } from "react";
 import { useToggle } from "@lib/hooks/useToggle";
+import { useRouteRefresh } from "@lib/hooks/useRouteRefresh";
 
-export function Dropzone() {
+type PropTypes = {
+  onDialogClose: () => void;
+};
+
+export function Dropzone({ onDialogClose }: PropTypes) {
   const [files, setFiles] = useState<File[]>([]);
   const [loading, toggle] = useToggle();
+  const [isPending, refresh] = useRouteRefresh();
 
   const onDrop = (data: File[]) => {
     setFiles(data);
@@ -17,8 +23,12 @@ export function Dropzone() {
     const { uploadImage } = await import("@lib/firebase/storage");
     const promises = files.map((file) => uploadImage(file));
     await Promise.all(promises);
+    refresh();
     toggle.off();
+    onDialogClose();
   };
+
+  const isLoading = isPending || loading;
 
   return (
     <>
@@ -30,6 +40,7 @@ export function Dropzone() {
         onReject={(files) => console.log("rejected files", files)}
         maxSize={3 * 1024 ** 2}
         accept={IMAGE_MIME_TYPE}
+        loading={isLoading}
       >
         <div className="flex justify-center gap-4" style={{ minHeight: 220, pointerEvents: "none" }}>
           <MantineDropzone.Accept>
@@ -48,7 +59,7 @@ export function Dropzone() {
           </div>
         </div>
       </MantineDropzone>
-      <Button onClick={onUpload} disabled={loading} fullWidth intent={"accept"}>
+      <Button onClick={onUpload} disabled={isLoading} fullWidth intent={"accept"}>
         Submit
       </Button>
     </>

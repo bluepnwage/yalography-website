@@ -25,7 +25,10 @@ function readFile(file: File, upload: UploadResult) {
       width: image.width,
       height: image.height,
       alt: "",
-      url: imageURL
+      url: imageURL,
+      name: file.name,
+      type: file.type,
+      size: file.size
     };
     await uploadToDB(imageData);
   };
