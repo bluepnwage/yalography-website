@@ -84,7 +84,7 @@ function CustomTooltip({ active, label, payload }: Partial<CustomTooltipProps>) 
   if (active && payload && payload.length) {
     return (
       <div className="bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-md px-4 py-2">
-        <p className="">{`${label} : $${payload[0].value}`}</p>
+        <p className="">{`${label} : $${payload[0].value.toFixed()}`}</p>
       </div>
     );
   }

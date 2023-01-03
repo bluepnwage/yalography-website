@@ -16,10 +16,10 @@ async function popularTypes() {
   for (let i = 0; i < test.length; i++) {
     const currentType = test[i].booking.type;
     if (obj[currentType]) {
-      obj[currentType].total += test[i].quote;
+      obj[currentType].total += test[i].quote / 100;
       obj[currentType].count++;
     } else {
-      obj[currentType] = { count: 1, total: test[i].quote };
+      obj[currentType] = { count: 1, total: test[i].quote / 100 };
     }
   }
   return Object.entries(obj)
