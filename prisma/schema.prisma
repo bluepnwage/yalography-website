@@ -38,22 +38,33 @@ model Projects {
   companyName  String?  @default("")
   customerName String
   images       Images[]
+  published Boolean @default(false)
 
   @@map("projects")
 }
 
 model Images {
-  id        Int       @id @default(autoincrement())
+  id        Int          @id @default(autoincrement())
   width     Int
   height    Int
   url       String
-  alt       String?   @default("") @db.Text
-  published Boolean   @default(false)
+  alt       String?      @default("") @db.Text
+  published Boolean      @default(false)
   projectId Int?
-  project   Projects? @relation(fields: [projectId], references: [id])
+  project   Projects?    @relation(fields: [projectId], references: [id])
+  folder    ImageFolders? @relation(fields: [folderId], references: [id])
+  folderId  Int?
 
   @@index([projectId])
+  @@index([folderId])
   @@map("images")
+}
+
+model ImageFolders {
+  id        Int      @id @default(autoincrement())
+  name      String
+  createdAt DateTime @default(now())
+  Images Images[]
 }
 
 model TaskLists {
@@ -104,6 +115,6 @@ model Orders {
   quote     Int //Amount of money made saved in cents
   booking   Bookings @relation(fields: [bookingId], references: [id])
   bookingId Int      @unique
-  year Int
-  month String
+  year      Int
+  month     String
 }
