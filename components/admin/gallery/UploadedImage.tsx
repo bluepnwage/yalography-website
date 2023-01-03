@@ -1,6 +1,6 @@
 "use client";
 import { Dropdown } from "@components/shared/Dropdown";
-
+import { Image } from "@components/Image";
 import { useToggle } from "@lib/hooks/useToggle";
 import { useRouteRefresh } from "@lib/hooks/useRouteRefresh";
 
@@ -38,11 +38,11 @@ export function UploadedImage({ image }: PropTypes) {
             className="top-0 left-0  bg-black/10 animate-pulse dark:bg-zinc-700/60 z-50 w-full h-full absolute"
           ></div>
         )}
-        <figure className="group relative -mx-4 -mt-4 basis-3/4 ">
+        <figure className="group relative -mx-4 -mt-4 basis-3/4 overflow-hidden ">
           <Dropdown.Root>
             <Dropdown.Trigger>
               <button
-                className={`flex h-9 w-9 rounded-full items-center justify-center bg-zinc-700 absolute right-5 top-5`}
+                className={`flex h-9 w-9 rounded-full items-center z-10 justify-center bg-zinc-700 absolute right-5 top-5`}
                 aria-label="Edit image"
               >
                 <DotsVertical />
@@ -68,20 +68,31 @@ export function UploadedImage({ image }: PropTypes) {
               </Dropdown.Item>
             </Dropdown.Content>
           </Dropdown.Root>
-          <img src={image.url} className="h-full w-full object-cover" />
+          <Image
+            width={image.width}
+            height={image.height}
+            alt={""}
+            src={image.url}
+            className="h-full w-full object-cover z-0"
+          />
         </figure>
         <div className="grow">
           <div className="flex justify-between ">
-            <p className="font-bold text-xl">Random image name</p>
+            <p className="font-bold text-xl">{truncate(image.name)}</p>
           </div>
           <div className="flex justify-between">
-            <p>image/png</p>
-            <p>751kb</p>
+            <p>{image.type}</p>
+            <p>{(image.size / 1000).toFixed(2)}Kb</p>
           </div>
         </div>
       </div>
     </>
   );
+}
+
+function truncate(word: string) {
+  if (word.length > 15) return `${word.slice(0, 10)}...`;
+  return word;
 }
 
 function Trash() {

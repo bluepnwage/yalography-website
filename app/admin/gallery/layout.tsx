@@ -30,7 +30,7 @@ export default async function Layout({ children }: PropTypes) {
   const { images, folders } = await getImages();
   return (
     <>
-      <div className="border-b mb-5 z-10 -mt-5 bg-white border-zinc-200 dark:bg-zinc-900 p-5 dark:border-zinc-600 -mx-5 sticky top-[64px] ">
+      <div className="border-b mb-5 z-50 -mt-5 bg-white border-zinc-200 dark:bg-zinc-900 p-5 dark:border-zinc-600 -mx-5 sticky top-[64px] ">
         <FlexContainer className="justify-evenly items-center">
           <div className="text-center">
             <p>Total images: {images.length}</p>
