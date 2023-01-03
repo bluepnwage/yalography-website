@@ -1,16 +1,15 @@
 "use client";
 import dynamic from "next/dynamic";
-const Table = dynamic(() => import("@components/shared/Table").then((mod) => mod.Table), { ssr: false });
 import { usePagination } from "@lib/hooks/usePagination";
 import { Pagination } from "@components/shared/Pagination";
-import type { QuotesData } from "app/admin/bookings/completed/page";
+import { useBookings } from "../BookingsProvider";
+import { formatNum } from "@util/formatNum";
 
-type PropTypes = {
-  quotes: QuotesData;
-};
+const Table = dynamic(() => import("@components/shared/Table").then((mod) => mod.Table), { ssr: false });
 
-export function OrdersTable({ quotes }: PropTypes) {
-  const { paginatedList, ...props } = usePagination(10, quotes);
+export function OrdersTable() {
+  const bookings = useBookings("completed");
+  const { paginatedList, ...props } = usePagination(10, bookings);
   return (
     <div className="col-span-8 ring-1  ring-zinc-200 dark:ring-zinc-700 rounded-md bg-white dark:bg-zinc-800 flex flex-col  justify-between h-full">
       <div className="border-b border-zinc-200 dark:border-zinc-700 p-2">
@@ -25,14 +24,15 @@ export function OrdersTable({ quotes }: PropTypes) {
           </tr>
         </thead>
         <tbody>
-          {paginatedList.map((quote) => {
+          {paginatedList.map((booking) => {
+            const amount = booking.orders.quote ? formatNum(booking.orders.quote / 100) : 0;
             return (
-              <tr key={quote.id}>
+              <tr key={booking.id}>
                 <td className="py-2 border-r border-zinc-200 dark:border-zinc-700">
-                  {quote.booking.firstName} {quote.booking.lastName}
+                  {booking.firstName} {booking.lastName}
                 </td>
-                <td className="py-2 border-r border-zinc-200 dark:border-zinc-700">{quote.createdAt}</td>
-                <td>${quote.quote / 100}</td>
+                <td className="py-2 border-r border-zinc-200 dark:border-zinc-700">{booking.orders.createdAt}</td>
+                <td>${amount}</td>
               </tr>
             );
           })}

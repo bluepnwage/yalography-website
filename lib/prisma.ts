@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import type { Bookings, Tasks } from "@prisma/client";
+import type { Bookings, Tasks, Orders } from "@prisma/client";
 
 declare global {
   var prisma: PrismaClient | undefined;
@@ -17,3 +17,4 @@ export type SerializedTask = Omit<Tasks, "daedline" | "createdAt" | "updatedAt">
   createdAt: string;
   updatedAt: string;
 };
+export type SerializedOrder = Omit<Orders, "createdAt"> & { createdAt: string };

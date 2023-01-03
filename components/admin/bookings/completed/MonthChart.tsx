@@ -1,12 +1,12 @@
 "use client";
-import { BarChart, ResponsiveContainer, CartesianGrid, XAxis, YAxis, Bar, Tooltip, Legend } from "recharts";
-import type { ChartData } from "app/admin/bookings/completed/page";
+import { BarChart, ResponsiveContainer, CartesianGrid, XAxis, YAxis, Bar, Tooltip } from "recharts";
 import { useState } from "react";
-import { Button } from "@components/shared/Button";
+import type { ChartData } from "app/admin/bookings/completed/ChartContainer";
 
 type PropTypes = {
   data: ChartData;
 };
+
 function formatKey(key: keyof Omit<ChartData[0], "month">) {
   switch (key) {
     case "avg": {
@@ -26,11 +26,11 @@ function formatKey(key: keyof Omit<ChartData[0], "month">) {
     }
   }
 }
-export function Chart({ data }: PropTypes) {
+export function MonthChart({ data }: PropTypes) {
   const [metric, setMetric] = useState<keyof Omit<ChartData[0], "month">>("avg");
   return (
     <>
-      <div className="py-2 px-4 border-b items-center border-zinc-200 flex justify-between dark:border-zinc-700">
+      <div className="py-2 px-4 -mx-4 -mt-4 border-b items-center border-zinc-200 flex justify-between dark:border-zinc-700">
         <h2 className="font-bold text-gray-900 dark:text-gray-100 text-xl">{formatKey(metric)} revenue per month</h2>
         <div className="space-x-2">
           <button
