@@ -27,7 +27,7 @@ export default async function GalleryPage() {
         >
           {images.map((image) => {
             const className =
-              image.width / image.height > 1 ? "col-span-2" : image.width / image.height < 1 ? "row-span-2" : "";
+              image.width / image.height > 1 ? "lg:col-span-2" : image.width / image.height < 1 ? "row-span-2" : "";
             return (
               <Image
                 key={image.id}
