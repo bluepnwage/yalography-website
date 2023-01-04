@@ -1,4 +1,4 @@
-import { getStorage, uploadBytes, ref, getDownloadURL } from "firebase/storage";
+import { getStorage, uploadBytes, ref, getDownloadURL, deleteObject } from "firebase/storage";
 
 import type { UploadResult } from "firebase/storage";
 import type { Images } from "@prisma/client";
@@ -45,4 +45,9 @@ async function uploadToDB(data: Omit<Images, "id" | "published" | "projectId" | 
   if (!res.ok) {
     throw new Error("Failed to upload to database");
   }
+}
+
+export async function deleteImage(fullPath: string) {
+  const imageRef = ref(storage, fullPath);
+  await deleteObject(imageRef);
 }

@@ -16,6 +16,8 @@ export function UploadedImage({ image }: PropTypes) {
 
   const onDelete = async () => {
     toggle.on();
+    const { deleteImage } = await import("@lib/firebase/storage");
+    await deleteImage(image.fullPath);
     const res = await fetch("/api/images", {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
