@@ -1,7 +1,7 @@
 import { Title, Grid } from "@components/shared";
-import { PinedLists, PinnedListsLoading } from "./PinnedList";
-import { TaskLists } from "@components/admin/tasks/TaskList";
-import { Tasks } from "@components/admin/tasks/Tasks";
+import { PinnedLists } from "@components/admin/tasks/home/PinnedList";
+import { TaskLists } from "@components/admin/tasks/home/TaskList";
+import { Tasks } from "@components/admin/tasks/home/Tasks";
 
 export const revalidate = 0;
 
@@ -12,10 +12,7 @@ export default function TasksPage() {
         Pinned Lists
       </Title>
       <Grid fullWidth className="mb-20">
-        <PinnedListsLoading />
-        {/* <Suspense fallback={<PinnedListsLoading />}>
-          <PinedLists />
-        </Suspense> */}
+        <PinnedLists />
       </Grid>
       <Grid fullWidth>
         <TaskLists />

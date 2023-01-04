@@ -1,8 +1,8 @@
 "use client";
 import { Card, Title, Skeleton } from "@components/shared";
 import { ScrollAreaDemo } from "@components/shared/ScrollArea";
-import { TasksMenu } from "@components/admin/tasks/TasksMenu";
-import { Task } from "@components/admin/tasks/Task";
+import { TasksMenu } from "./TasksMenu";
+import { Task } from "./Task";
 import { useTasks } from "./TasksProvider";
 
 export function Tasks() {

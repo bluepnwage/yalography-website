@@ -2,8 +2,8 @@
 import { Card, Title, Skeleton } from "@components/shared";
 import { Button } from "@components/shared/Button";
 import { ScrollAreaDemo } from "@components/shared/ScrollArea";
-import { Menu } from "@components/admin/tasks/ListMenu";
-import { useTasks } from "@components/admin/tasks/TasksProvider";
+import { Menu } from "@components/admin/tasks/home/ListMenu";
+import { useTasks } from "./TasksProvider";
 
 export function TaskLists() {
   const { taskLists } = useTasks();

@@ -3,7 +3,7 @@ import { Button } from "@components/shared/Button";
 
 import { useRouteRefresh } from "@lib/hooks/useRouteRefresh";
 import { useToggle } from "@lib/hooks/useToggle";
-
+import { toast } from "react-toastify";
 import type { SerializedTask } from "./TaskList";
 
 type PropTypes = {
@@ -21,10 +21,17 @@ export function Task({ task }: PropTypes) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id: task.id })
       });
+      const json = await res.json();
       if (res.ok) {
         refresh();
+        toast.success(json.message);
+      } else {
+        throw new Error(json.message, { cause: json.error });
       }
     } catch (error) {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      }
     } finally {
       toggle.off();
     }
@@ -32,7 +39,7 @@ export function Task({ task }: PropTypes) {
 
   const isLoading = loading || isPending;
   return (
-    <div className="bg-zinc-800 rounded-md p-4 mb-5 last-of-type:mb-0">
+    <div className={`bg-zinc-800 rounded-md p-4 mb-5 last-of-type:mb-0 ${isLoading ? "animate-pulse" : ""}`}>
       <div className="flex justify-between items-center mb-2 ">
         <div className="flex items-center gap-2">
           <button aria-label="Complete task" className="rounded-full h-5 w-5 border border-gray-700"></button>

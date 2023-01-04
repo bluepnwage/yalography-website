@@ -8,10 +8,10 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import { cx } from "cva";
 
-import type { GetTasks } from "@components/admin/tasks/Tasks";
+import type { SerializedTask } from "@lib/prisma";
 
 type PropTypes = {
-  data: GetTasks[0];
+  data: SerializedTask;
 };
 
 export function Task({ data }: PropTypes) {

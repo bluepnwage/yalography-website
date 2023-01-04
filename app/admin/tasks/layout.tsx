@@ -1,7 +1,7 @@
 import { FlexContainer } from "@components/shared";
 import prisma from "@lib/prisma";
-import { TaskProvider } from "@components/admin/tasks/TasksProvider";
-import { Modal } from "@components/admin/tasks/Modal";
+import { TaskProvider } from "@components/admin/tasks/home/TasksProvider";
+import { Modal } from "@components/admin/tasks/home/Modal";
 
 type PropTypes = {
   children: React.ReactNode;
