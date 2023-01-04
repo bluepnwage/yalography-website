@@ -1,6 +1,7 @@
 import { PageIntro } from "@components/PageIntro";
 import { Section } from "@components/shared";
 import prisma from "@lib/prisma";
+import { Image } from "@components/shared/Image";
 
 async function getImages() {
   await prisma.$connect();
@@ -8,6 +9,7 @@ async function getImages() {
   await prisma.$disconnect();
   return images;
 }
+
 export default async function GalleryPage() {
   const images = await getImages();
   return (
@@ -23,11 +25,19 @@ export default async function GalleryPage() {
           style={{ gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gridAutoRows: "240px" }}
           className="grid grid-flow-dense gap-3 w-11/12"
         >
-          {images.map((image, key) => {
+          {images.map((image) => {
+            const className =
+              image.width / image.height > 1 ? "col-span-2" : image.width / image.height < 1 ? "row-span-2" : "";
             return (
-              <figure key={key}>
-                <img src={image.url} alt={image.alt || ""} />
-              </figure>
+              <Image
+                key={image.id}
+                width={image.width}
+                height={image.height}
+                src={image.url}
+                alt={""}
+                containerClass={`w-full overflow-hidden ${className}`}
+                className="w-full h-full object-cover"
+              />
             );
           })}
         </div>
