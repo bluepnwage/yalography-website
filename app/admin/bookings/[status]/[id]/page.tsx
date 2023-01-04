@@ -4,14 +4,15 @@ import { Button } from "@components/shared/Button";
 import { Dropdown } from "@components/shared/Dropdown";
 import { DotsVertical } from "@lib/icons";
 import { DialogDemo } from "@components/shared/Dialog";
-import dayjs from "dayjs";
+import { Input } from "@components/shared/Input";
 
 //Hooks
 import { useRouter } from "next/navigation";
 import { useRouteRefresh } from "@lib/hooks/useRouteRefresh";
 import { useToggle } from "@lib/hooks/useToggle";
 import { useBookings } from "@components/admin/bookings/BookingsProvider";
-import { Input } from "@components/shared/Input";
+import dayjs from "dayjs";
+import { toast } from "react-toastify";
 
 import type { FormEvent } from "react";
 
@@ -26,47 +27,79 @@ export default function Booking({ params }: { params: { status: "pending" | "app
 
   const onApprove = async () => {
     toggle.on();
-    const res = await fetch("/api/bookings", {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ status: "approved", id: parseInt(params.id) })
-    });
-    if (res.ok) {
-      refresh();
+    try {
+      const res = await fetch("/api/bookings", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status: "approved", id: parseInt(params.id) })
+      });
+      const json = await res.json();
+      if (res.ok) {
+        refresh();
+        router.push(`/admin/bookings/approved/${params.id}`);
+        toast.success("Booking approved.");
+      } else {
+        throw new Error(json.message);
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      }
+    } finally {
       toggle.off();
-      router.push(`/admin/bookings/approved/${params.id}`);
     }
   };
 
   const onDelete = async () => {
     toggle.on();
-    const res = await fetch("/api/bookings", {
-      method: "DELETE",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id: parseInt(params.id) })
-    });
-    if (res.ok) {
-      refresh();
+    try {
+      const res = await fetch("/api/bookings", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: parseInt(params.id) })
+      });
+      const json = await res.json();
+      if (res.ok) {
+        refresh();
+        router.push(`/admin/bookings/${params.status}`);
+        toast.success(json.message);
+      } else {
+        throw new Error(json.message);
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      }
+    } finally {
       toggle.off();
-      router.push(`/admin/bookings/${params.status}`);
     }
   };
 
   const onComplete = async (e: FormSubmission, cb: (amount: number, id: number) => Promise<void>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget).get("quote");
-
     toggle.on();
-    const res = await fetch("/api/bookings", {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id: parseInt(params.id), status: "completed" })
-    });
-    if (res.ok) {
-      await cb(parseFloat(formData as string) * 100, parseInt(params.id));
-      refresh();
+    try {
+      const res = await fetch("/api/bookings", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: parseInt(params.id), status: "completed" })
+      });
+      const json = await res.json();
+      if (res.ok) {
+        await cb(parseFloat(formData as string) * 100, parseInt(params.id));
+        refresh();
+        router.push("/admin/bookings");
+        toast.success("Bookings marked as completed.");
+      } else {
+        throw new Error(json.message);
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      }
+    } finally {
       toggle.off();
-      router.push("/admin/bookings");
     }
   };
 

@@ -5,7 +5,7 @@ import { Button } from "@components/shared/Button";
 import { useRouteRefresh } from "@lib/hooks/useRouteRefresh";
 import { useToggle } from "@lib/hooks/useToggle";
 import { useState } from "react";
-
+import { toast } from "react-toastify";
 import { cx } from "cva";
 
 import type { GetTasks } from "app/admin/tasks/Tasks";
@@ -27,11 +27,17 @@ export function Task({ data }: PropTypes) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id: data.id })
       });
+      const json = await res.json();
       if (res.ok) {
         refresh();
+        toast.success(json.message);
+      } else {
+        throw new Error(json.message);
       }
     } catch (error) {
-      console.error("WTF");
+      if (error instanceof Error) {
+        toast.error(error.message);
+      }
     } finally {
       toggle.off();
     }

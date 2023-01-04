@@ -9,6 +9,7 @@ import { Input } from "@components/shared/Input";
 //Hooks
 import { useToggle } from "@lib/hooks/useToggle";
 import { useRouteRefresh } from "@lib/hooks/useRouteRefresh";
+import { toast } from "react-toastify";
 
 //Types
 import type { FormEvent } from "react";
@@ -21,18 +22,24 @@ export function TasksMenu() {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     toggle.on();
+    const name = new FormData(e.currentTarget).get("task_name");
     try {
-      const name = new FormData(e.currentTarget).get("task_name");
       const res = await fetch("/api/todo", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name })
       });
+      const json = await res.json();
       if (res.ok) {
         refresh();
+        toast.success(json.message);
+      } else {
+        throw new Error(json.message);
       }
     } catch (error) {
-      console.log(error);
+      if (error instanceof Error) {
+        toast.error(error.message);
+      }
     } finally {
       toggle.off();
     }

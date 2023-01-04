@@ -5,6 +5,8 @@ import { useState } from "react";
 import { useToggle } from "@lib/hooks/useToggle";
 import { useRouteRefresh } from "@lib/hooks/useRouteRefresh";
 import { Select } from "@components/shared/Select";
+import { toast } from "react-toastify";
+
 import type { SerializedImageFolder } from "@lib/prisma";
 
 type PropTypes = {
@@ -24,12 +26,25 @@ export function Dropzone({ onDialogClose, folders }: PropTypes) {
 
   const onUpload = async () => {
     toggle.on();
-    const { uploadImage } = await import("@lib/firebase/storage");
-    const promises = files.map((file) => uploadImage(file, selectedFolder ? parseInt(selectedFolder) : undefined));
-    await Promise.all(promises);
-    refresh();
-    toggle.off();
-    onDialogClose();
+    try {
+      const { uploadImage } = await import("@lib/firebase/storage");
+      const promises = files.map((file) => uploadImage(file, selectedFolder ? parseInt(selectedFolder) : undefined));
+      await Promise.all(promises);
+      refresh();
+      toggle.off();
+      onDialogClose();
+      if (files.length > 1) {
+        toast.success("Images successfully uploaded.");
+      } else {
+        toast.success("Image successfully uploaded.");
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      }
+    } finally {
+      toggle.off();
+    }
   };
 
   const isLoading = isPending || loading;

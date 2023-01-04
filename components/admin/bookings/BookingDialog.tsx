@@ -18,6 +18,7 @@ import type { ShootTypes } from "@lib/photoshoot";
 import { useState } from "react";
 import { useRouteRefresh } from "@lib/hooks/useRouteRefresh";
 import { useToggle } from "@lib/hooks/useToggle";
+import { toast } from "react-toastify";
 
 const selectData = Array.from(photoshootTypes).map(([key, value]) => ({ label: value.label, value: key }));
 
@@ -75,19 +76,22 @@ export function BookingDialog() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data)
       });
+      const json = await res.json();
       if (res.ok) {
-        console.log("Success!!");
         setForm({});
         setFeatures([]);
         setDate(null);
         refresh();
         setShootType("");
+        toast.success(json.message);
       } else {
         const json = await res.json();
         throw new Error(json.message);
       }
     } catch (error) {
-      console.error("There was error!!!!");
+      if (error instanceof Error) {
+        toast.error(error.message);
+      }
     } finally {
       toggle.off();
     }

@@ -1,0 +1,7 @@
+.toastWrapper {
+  border: 1px;
+}
+
+.toastWrapper button[aria-label="close"] {
+  color: var(--toast-close);
+}

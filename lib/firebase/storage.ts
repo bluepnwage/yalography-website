@@ -26,7 +26,7 @@ function readFile(file: File, upload: UploadResult, folderID?: number) {
       height: image.height,
       alt: "",
       url: imageURL,
-      name: file.name,
+      name: crypto.randomUUID(),
       type: file.type,
       size: file.size,
       fullPath: upload.metadata.fullPath,

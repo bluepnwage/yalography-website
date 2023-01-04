@@ -6,6 +6,9 @@ import { Dropdown } from "@components/shared/Dropdown";
 import { useRouteRefresh } from "@lib/hooks/useRouteRefresh";
 import { useToggle } from "@lib/hooks/useToggle";
 import dynamic from "next/dynamic";
+
+import { toast } from "react-toastify";
+
 import { FormEvent } from "react";
 
 const DialogDemo = dynamic(() => import("@components/shared/Dialog").then((mod) => mod.DialogDemo));
@@ -27,29 +30,51 @@ export function FolderDropdown({ id, renameFolder }: DropdownProps) {
     const name = new FormData(e.currentTarget).get("folder_name");
 
     toggle.on();
-    const res = await fetch("/api/folders", {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id, name })
-    });
-    if (res.ok) {
-      renameFolder(name as string);
-      renameDialogToggle.off();
+    try {
+      const res = await fetch("/api/folders", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id, name })
+      });
+      const json = await res.json();
+      if (res.ok) {
+        renameFolder(name as string);
+        renameDialogToggle.off();
+        toast.success("Rename successful.");
+      } else {
+        throw new Error(json.message);
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      }
+    } finally {
       toggle.off();
     }
   };
 
   const onDelete = async () => {
     toggle.on();
-    const res = await fetch("/api/folders", {
-      method: "DELETE",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id })
-    });
-    if (res.ok) {
-      refresh();
+    try {
+      const res = await fetch("/api/folders", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id })
+      });
+      const json = await res.json();
+      if (res.ok) {
+        refresh();
+        dialogToggle.off();
+        toast.success(json.message);
+      } else {
+        throw new Error(json.message);
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      }
+    } finally {
       toggle.off();
-      dialogToggle.off();
     }
   };
 

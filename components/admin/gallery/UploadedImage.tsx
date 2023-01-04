@@ -4,6 +4,8 @@ import { Image } from "@components/Image";
 import { useToggle } from "@lib/hooks/useToggle";
 import { useRouteRefresh } from "@lib/hooks/useRouteRefresh";
 
+import { toast } from "react-toastify";
+
 import type { Images } from "@prisma/client";
 
 type PropTypes = {
@@ -16,15 +18,26 @@ export function UploadedImage({ image }: PropTypes) {
 
   const onDelete = async () => {
     toggle.on();
-    const { deleteImage } = await import("@lib/firebase/storage");
-    await deleteImage(image.fullPath);
-    const res = await fetch("/api/images", {
-      method: "DELETE",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id: image.id })
-    });
-    if (res.ok) {
-      refresh();
+    try {
+      const { deleteImage } = await import("@lib/firebase/storage");
+      await deleteImage(image.fullPath);
+      const res = await fetch("/api/images", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: image.id })
+      });
+      const json = await res.json();
+      if (res.ok) {
+        refresh();
+        toast.success(json.message);
+      } else {
+        throw new Error(json.message);
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      }
+    } finally {
       toggle.off();
     }
   };

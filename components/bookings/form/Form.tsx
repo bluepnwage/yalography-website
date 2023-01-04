@@ -13,6 +13,7 @@ import { Success } from "./Success";
 //Data/hooks
 import { useState, useRef } from "react";
 import { photoshootTypes } from "@lib/photoshoot";
+import { toast } from "react-toastify";
 
 //Types
 import type { FormEvent } from "react";
@@ -83,29 +84,38 @@ function BookingsForm() {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const data = {
-      firstName: form.first_name!,
-      lastName: form.last_name!,
-      email: form.email!,
-      phone: form.phone!,
-      time: form.time!,
-      description: form?.description! || null,
-      date: date!,
-      type: shootType,
-      environment: form.environment === "inside",
-      features: selectedFeatures.join(",")
-    };
-    const res = await fetch("/api/bookings", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data)
-    });
-    if (res.ok) {
-      console.log("Success!!");
-      setCurrentStep(5);
-      setForm({});
-      setFeatures([]);
-      setDate(null);
+    try {
+      const data = {
+        firstName: form.first_name!,
+        lastName: form.last_name!,
+        email: form.email!,
+        phone: form.phone!,
+        time: form.time!,
+        description: form?.description! || null,
+        date: date!,
+        type: shootType,
+        environment: form.environment === "inside",
+        features: selectedFeatures.join(",")
+      };
+      const res = await fetch("/api/bookings", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+      });
+      const json = await res.json();
+      if (res.ok) {
+        toast.success(json.message);
+        setCurrentStep(5);
+        setForm({});
+        setFeatures([]);
+        setDate(null);
+      } else {
+        throw new Error(json.message);
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      }
     }
   };
 

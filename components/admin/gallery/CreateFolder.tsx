@@ -4,6 +4,7 @@ import { Button } from "@components/shared/Button";
 import { useToggle } from "@lib/hooks/useToggle";
 import { useRouteRefresh } from "@lib/hooks/useRouteRefresh";
 import dynamic from "next/dynamic";
+import { toast } from "react-toastify";
 
 const DialogDemo = dynamic(() => import("@components/shared/Dialog").then((mod) => mod.DialogDemo));
 
@@ -14,17 +15,29 @@ export function CreateFolder() {
   const [loading, toggle] = useToggle();
   const [lazyLoad, lazyLoadToggle] = useToggle();
   const [dialog, dialogToggle] = useToggle();
+
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     toggle.on();
     const name = new FormData(e.currentTarget).get("folder_name");
-    const res = await fetch("/api/folders", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name })
-    });
-    if (res.ok) {
-      refresh();
+    try {
+      const res = await fetch("/api/folders", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name })
+      });
+      const json = await res.json();
+      if (res.ok) {
+        refresh();
+        toast.success(json.message);
+      } else {
+        throw new Error(json.message);
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      }
+    } finally {
       toggle.off();
     }
   };

@@ -9,46 +9,44 @@ import { Button } from "@components/shared/Button";
 //Hooks
 import { useRouteRefresh } from "@lib/hooks/useRouteRefresh";
 import { useToggle } from "@lib/hooks/useToggle";
+import { toast } from "react-toastify";
 
 import type { FormEvent } from "react";
 
-const taskLists = [
-  {
-    label: "My name",
-    value: "nice"
-  },
-  {
-    label: "Wedding 2019",
-    value: "not nice"
-  },
-  {
-    label: "Something 5050",
-    value: "bruh"
-  }
-];
-
 export function Modal() {
-  const [opened, toggle] = useToggle();
+  const [opened, modalToggle] = useToggle();
   const [isPending, refresh] = useRouteRefresh();
+  const [loading, toggle] = useToggle();
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const data = Object.fromEntries(new FormData(e.currentTarget));
-    const res = await fetch("/api/todo", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data)
-    });
-    if (res.ok) {
-      console.log("success");
+    toggle.on();
+    try {
+      const res = await fetch("/api/todo", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+      });
+      const json = await res.json();
+      if (res.ok) {
+        refresh();
+        toast.success(json.message);
+      } else {
+        throw new Error(json.message);
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      }
+    } finally {
       toggle.off();
-      refresh();
-    } else {
-      console.log("Error!!!!!");
     }
   };
+  const isLoading = isPending || loading;
+
   return (
-    <DialogDemo trigger={<Button>Create list</Button>} open={opened} onOpenChange={toggle.set}>
+    <DialogDemo trigger={<Button>Create list</Button>} open={opened} onOpenChange={modalToggle.set}>
       <form onSubmit={handleSubmit}>
         <div className="space-y-2">
           <Input name="name" label="Name" />
@@ -57,7 +55,9 @@ export function Modal() {
             <Select name="task_list" data={taskLists} />
           </p> */}
           <Textarea name="description" label="Description" />
-          <Button intent={"accept"}>Submit</Button>
+          <Button disabled={isLoading} intent={"accept"}>
+            Submit
+          </Button>
         </div>
       </form>
     </DialogDemo>
