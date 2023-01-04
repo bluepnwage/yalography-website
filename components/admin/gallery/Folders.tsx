@@ -1,5 +1,9 @@
 "use client";
 import { useGallery } from "./GalleryProvider";
+import { CreateFolder } from "./CreateFolder";
+import { FolderDropdown } from "./FolderDropdown";
+import { SerializedImageFolder } from "@lib/prisma";
+import { useState } from "react";
 
 export function Folders() {
   const folders = useGallery("folders");
@@ -7,21 +11,40 @@ export function Folders() {
     <>
       <div className="col-span-full">
         <h1 className="font-bold text-xl">Folders ({folders.length})</h1>
-        {folders.length === 0 && <p>You don&apos;t have any folders</p>}
+        {folders.length === 0 && (
+          <>
+            <p className="mb-2">You don&apos;t have any folders</p>
+            <CreateFolder />
+          </>
+        )}
       </div>
 
       {folders.length > 0 &&
-        folders.map((folder, key) => {
-          return (
-            <div key={key} className="col-span-4 bg-white p-4 dark:bg-zinc-800 rounded-md">
-              <p>
-                <FoldersIcon />
-                {folder.name}
-              </p>
-            </div>
-          );
+        folders.map((folder) => {
+          return <Folder folder={folder} key={folder.id} />;
         })}
     </>
+  );
+}
+
+type PropTypes = {
+  folder: SerializedImageFolder;
+};
+
+function Folder({ folder }: PropTypes) {
+  const [imageFolder, setImageFolder] = useState(folder);
+
+  const renameFolder = (name: string) => {
+    setImageFolder((prev) => ({ ...prev, name }));
+  };
+  return (
+    <div className="col-span-4 flex justify-between bg-white p-4 dark:bg-zinc-800 rounded-md">
+      <p>
+        <FoldersIcon />
+        {imageFolder.name}
+      </p>
+      <FolderDropdown renameFolder={renameFolder} id={folder.id} />
+    </div>
   );
 }
 
