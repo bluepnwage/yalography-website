@@ -40,7 +40,9 @@ export default function HomePage() {
               professional experience and an eye for detail, I can ensure that your photos will be of the highest
               quality and truly capture the beauty of the moment.
             </p>
-            <Button className="block mx-auto">Request Session</Button>
+            <Button href="/bookings" component="a" className="block mx-auto">
+              Request Session
+            </Button>
           </div>
           <figure className="h-full w-full hidden lg:block overflow-hidden col-span-full lg:col-span-1">
             <Image priority src={heroImg} alt={"Official logo"} className="w-full h-full " />
@@ -70,7 +72,9 @@ export default function HomePage() {
               look forward to working with you.
             </p>
             <Stats />
-            <Button className="mx-auto block">View gallery</Button>
+            <Button href="/about" component="a" className="mx-auto block">
+              Learn more
+            </Button>
           </div>
         </Grid>
       </Section>
