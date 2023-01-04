@@ -54,6 +54,7 @@ model Images {
   projectId Int?
   type      String
   size      Int
+  fullPath String
   project   Projects?     @relation(fields: [projectId], references: [id])
   folder    ImageFolders? @relation(fields: [folderId], references: [id])
   folderId  Int?

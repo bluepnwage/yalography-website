@@ -28,7 +28,8 @@ function readFile(file: File, upload: UploadResult) {
       url: imageURL,
       name: file.name,
       type: file.type,
-      size: file.size
+      size: file.size,
+      fullPath: upload.metadata.fullPath
     };
     await uploadToDB(imageData);
   };
