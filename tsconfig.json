@@ -34,8 +34,7 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "components/admin/home/Stats.jsx",
-    "components/admin/home/Welcome.jsx",
-    "app/admin/tasks/page.jsx"
+    "components/admin/home/Welcome.jsx"
   ],
   "exclude": ["node_modules"]
 }

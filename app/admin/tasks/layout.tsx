@@ -1,31 +1,60 @@
 import { FlexContainer } from "@components/shared";
 import prisma from "@lib/prisma";
-
+import { TaskProvider } from "@components/admin/tasks/TasksProvider";
 import { Modal } from "@components/admin/tasks/Modal";
 
 type PropTypes = {
   children: React.ReactNode;
 };
 
-async function getCount() {
+async function getTasks() {
   await prisma.$connect();
-  const tasks = await prisma.tasks.count();
+  const tasksPromise = prisma.tasks.findMany();
+  const taskListsPromise = prisma.taskLists.findMany({ include: { tasks: true } });
+
+  const [tasks, taskLists] = await Promise.all([tasksPromise, taskListsPromise]);
+
+  const serializedTasks = tasks.map((task) => {
+    return {
+      ...task,
+      createdAt: task.createdAt.toDateString(),
+      updatedAt: task.updatedAt.toDateString(),
+      deadline: task.deadline?.toDateString() || ""
+    };
+  });
+
+  const serializedTaskList = taskLists.map((list) => {
+    return {
+      ...list,
+      createdAt: list.createdAt.toDateString(),
+      updatedAt: list.updatedAt.toDateString(),
+      tasks: list.tasks.map((task) => ({
+        ...task,
+        createdAt: task.createdAt.toDateString(),
+        deadline: task.deadline?.toDateString() || "",
+        updatedAt: task.updatedAt.toDateString()
+      }))
+    };
+  });
+
   await prisma.$disconnect();
-  return tasks;
+  return { tasks: serializedTasks, taskLists: serializedTaskList };
 }
 
 export default async function Layout({ children }: PropTypes) {
-  const taskCount = await getCount();
+  const { taskLists, tasks } = await getTasks();
   return (
     <>
       <div className="border-b mb-5 z-10 -mt-5 bg-white border-zinc-200 dark:bg-zinc-900 p-5 dark:border-zinc-600 -mx-5 sticky top-[64px] ">
         <FlexContainer className="justify-evenly items-center">
-          <p>Total tasks: {taskCount}</p>
+          <p>Total tasks: {tasks.length}</p>
 
           <Modal />
         </FlexContainer>
       </div>
-      {children}
+      <TaskProvider taskLists={taskLists} tasks={tasks}>
+        {children}
+      </TaskProvider>
     </>
   );
 }

@@ -8,7 +8,7 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import { cx } from "cva";
 
-import type { GetTasks } from "app/admin/tasks/Tasks";
+import type { GetTasks } from "@components/admin/tasks/Tasks";
 
 type PropTypes = {
   data: GetTasks[0];

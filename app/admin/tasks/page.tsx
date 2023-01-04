@@ -1,8 +1,7 @@
 import { Title, Grid } from "@components/shared";
-import { Suspense } from "react";
 import { PinedLists, PinnedListsLoading } from "./PinnedList";
-import { TaskLists, TaskListsLoading } from "./TaskList";
-import { Tasks, TasksLoading } from "./Tasks";
+import { TaskLists } from "@components/admin/tasks/TaskList";
+import { Tasks } from "@components/admin/tasks/Tasks";
 
 export const revalidate = 0;
 
@@ -19,14 +18,8 @@ export default function TasksPage() {
         </Suspense> */}
       </Grid>
       <Grid fullWidth>
-        {/* <TaskListsLoading /> */}
-        <Suspense fallback={<TaskListsLoading />}>
-          <TaskLists />
-        </Suspense>
-        {/* <TasksLoading /> */}
-        <Suspense fallback={<TasksLoading />}>
-          <Tasks />
-        </Suspense>
+        <TaskLists />
+        <Tasks />
       </Grid>
     </>
   );

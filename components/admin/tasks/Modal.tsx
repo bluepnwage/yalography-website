@@ -46,7 +46,7 @@ export function Modal() {
   const isLoading = isPending || loading;
 
   return (
-    <DialogDemo trigger={<Button>Create list</Button>} open={opened} onOpenChange={modalToggle.set}>
+    <DialogDemo trigger={<Button>Create Task</Button>} open={opened} onOpenChange={modalToggle.set}>
       <form onSubmit={handleSubmit}>
         <div className="space-y-2">
           <Input name="name" label="Name" />
