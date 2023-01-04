@@ -4,9 +4,10 @@ import { CreateFolder } from "./CreateFolder";
 import { FolderDropdown } from "./FolderDropdown";
 import { SerializedImageFolder } from "@lib/prisma";
 import { useState } from "react";
+import Link from "next/link";
 
 export function Folders() {
-  const folders = useGallery("folders");
+  const { folders } = useGallery();
   return (
     <>
       <div className="col-span-full">
@@ -38,11 +39,17 @@ function Folder({ folder }: PropTypes) {
     setImageFolder((prev) => ({ ...prev, name }));
   };
   return (
-    <div className="col-span-4 flex justify-between bg-white p-4 dark:bg-zinc-800 rounded-md">
-      <p>
-        <FoldersIcon />
-        {imageFolder.name}
-      </p>
+    <div className="col-span-4 items-start flex justify-between bg-white p-4 dark:bg-zinc-800 rounded-md">
+      <div>
+        <p className="mb-2">
+          <FoldersIcon />
+          {imageFolder.name}
+        </p>
+        <Link href={`/admin/gallery/folders/${folder.id}`} className="text-yellow-600 dark:text-yellow-500">
+          View folder
+        </Link>
+      </div>
+
       <FolderDropdown renameFolder={renameFolder} id={folder.id} />
     </div>
   );

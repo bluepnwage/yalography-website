@@ -21,6 +21,6 @@ export function GalleryProvider({ children, ...props }: PropTypes) {
   return <GalleryContext.Provider value={props}>{children}</GalleryContext.Provider>;
 }
 
-export function useGallery<T extends "folders" | "images">(type: T) {
-  return useContext(GalleryContext)![type];
+export function useGallery() {
+  return useContext(GalleryContext)!;
 }

@@ -4,7 +4,7 @@ import { useGallery } from "./GalleryProvider";
 import { UploadedImage } from "./UploadedImage";
 
 export function Images() {
-  const images = useGallery("images");
+  const { images } = useGallery();
   return (
     <>
       <div className="col-span-full">

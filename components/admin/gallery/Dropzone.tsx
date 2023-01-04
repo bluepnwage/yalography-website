@@ -4,14 +4,18 @@ import { Dropzone as MantineDropzone, IMAGE_MIME_TYPE } from "@mantine/dropzone"
 import { useState } from "react";
 import { useToggle } from "@lib/hooks/useToggle";
 import { useRouteRefresh } from "@lib/hooks/useRouteRefresh";
+import { Select } from "@components/shared/Select";
+import type { SerializedImageFolder } from "@lib/prisma";
 
 type PropTypes = {
   onDialogClose: () => void;
+  folders: SerializedImageFolder[];
 };
 
-export function Dropzone({ onDialogClose }: PropTypes) {
+export function Dropzone({ onDialogClose, folders }: PropTypes) {
   const [files, setFiles] = useState<File[]>([]);
   const [loading, toggle] = useToggle();
+  const [selectedFolder, setSelectedFolder] = useState("");
   const [isPending, refresh] = useRouteRefresh();
 
   const onDrop = (data: File[]) => {
@@ -21,7 +25,7 @@ export function Dropzone({ onDialogClose }: PropTypes) {
   const onUpload = async () => {
     toggle.on();
     const { uploadImage } = await import("@lib/firebase/storage");
-    const promises = files.map((file) => uploadImage(file));
+    const promises = files.map((file) => uploadImage(file, selectedFolder ? parseInt(selectedFolder) : undefined));
     await Promise.all(promises);
     refresh();
     toggle.off();
@@ -29,7 +33,12 @@ export function Dropzone({ onDialogClose }: PropTypes) {
   };
 
   const isLoading = isPending || loading;
-
+  const selectData = folders.map((folder) => {
+    return {
+      label: folder.name,
+      value: `${folder.id}`
+    };
+  });
   return (
     <>
       <MantineDropzone
@@ -59,6 +68,8 @@ export function Dropzone({ onDialogClose }: PropTypes) {
           </div>
         </div>
       </MantineDropzone>
+      <Select onValueChange={setSelectedFolder} data={selectData} label="Add to folder" />
+
       <Button onClick={onUpload} disabled={isLoading} fullWidth intent={"accept"}>
         Submit
       </Button>

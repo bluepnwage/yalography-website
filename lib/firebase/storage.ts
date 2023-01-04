@@ -7,14 +7,14 @@ import { app } from "./config";
 
 const storage = getStorage(app);
 
-export async function uploadImage(file: File) {
+export async function uploadImage(file: File, folderID?: number) {
   const imageRef = ref(storage, `gallery/${file.name}`);
   const image = await uploadBytes(imageRef, file);
 
-  readFile(file, image);
+  readFile(file, image, folderID);
 }
 
-function readFile(file: File, upload: UploadResult) {
+function readFile(file: File, upload: UploadResult, folderID?: number) {
   const fileReader = new FileReader();
 
   fileReader.onloadend = async () => {
@@ -29,14 +29,15 @@ function readFile(file: File, upload: UploadResult) {
       name: file.name,
       type: file.type,
       size: file.size,
-      fullPath: upload.metadata.fullPath
+      fullPath: upload.metadata.fullPath,
+      folderId: folderID
     };
     await uploadToDB(imageData);
   };
   fileReader.readAsDataURL(file);
 }
 
-async function uploadToDB(data: Omit<Images, "id" | "published" | "projectId" | "folderId">) {
+async function uploadToDB(data: Omit<Images, "id" | "published" | "projectId" | "folderId"> & { folderId?: number }) {
   const res = await fetch("/api/images", {
     method: "POST",
     headers: { "Content-Type": "application/json" },

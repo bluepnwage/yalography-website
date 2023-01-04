@@ -6,7 +6,7 @@ import prisma from "@lib/prisma";
 
 async function getImages() {
   await prisma.$connect();
-  const images = await prisma.images.findMany();
+  const images = await prisma.images.findMany({ where: { folderId: null } });
   const folders = await prisma.imageFolders.findMany({ include: { Images: true } });
   await prisma.$disconnect();
 
@@ -28,17 +28,21 @@ type PropTypes = {
 
 export default async function Layout({ children }: PropTypes) {
   const { images, folders } = await getImages();
+  let totalImages = images.length;
+  for (let i = 0; i < folders.length; i++) {
+    totalImages += folders[i].Images.length;
+  }
   return (
     <>
       <div className="border-b mb-5 z-50 -mt-5 bg-white border-zinc-200 dark:bg-zinc-900 p-5 dark:border-zinc-600 -mx-5 sticky top-[64px] ">
         <FlexContainer className="justify-evenly items-center">
           <div className="text-center">
-            <p>Total images: {images.length}</p>
+            <p>Total images: {totalImages}</p>
           </div>
           <div className="text-center">
             <p>Total folders: {folders.length}</p>
           </div>
-          <UploadDialog />
+          <UploadDialog folders={folders} />
         </FlexContainer>
       </div>
       <GalleryProvider images={images} folders={folders}>
