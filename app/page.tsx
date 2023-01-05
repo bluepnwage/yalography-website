@@ -144,7 +144,9 @@ export default function HomePage() {
           </figure>
           <div className="bg-white ring-1 duration-200 ease-out ring-black ring-opacity-5 dark:ring-0 dark:bg-zinc-800 col-span-6 h-64 w-full gap-4 flex flex-col justify-center items-center">
             <p className="font-bold text-xl">Book a reservation</p>
-            <Button>Request a session</Button>
+            <Button component="a" href="/bookings">
+              Request a session
+            </Button>
           </div>
         </Grid>
       </Section>

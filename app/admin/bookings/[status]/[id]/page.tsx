@@ -144,7 +144,7 @@ export default function Booking({ params }: { params: { status: "pending" | "app
                 })}
               </ul>
             </div>
-            <div className="flex flex-col items-center gap-2">
+            <div className="flex flex-col gap-2">
               <p className="font-semibold text-gray-400">Description:</p>
               <p className="capitalize">{booking.description}</p>
             </div>
