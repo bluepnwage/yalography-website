@@ -29,7 +29,7 @@ export function TaskLists() {
       </div>
       <ScrollAreaDemo height={300} orientation="vertical" className="">
         {taskLists.map((list) => {
-          return <List list={list} />;
+          return <List key={list.id} list={list} />;
         })}
       </ScrollAreaDemo>
     </div>
