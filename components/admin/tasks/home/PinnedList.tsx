@@ -2,12 +2,12 @@
 
 import { Dropdown } from "@components/shared/Dropdown";
 import { useTasks } from "./TasksProvider";
-import { DotsVertical } from "@lib/icons";
+import { DotsVertical, Trash } from "@lib/icons";
 import Link from "next/link";
 import { useRouteRefresh } from "@lib/hooks/useRouteRefresh";
 import { useToggle } from "@lib/hooks/useToggle";
 import { toast } from "react-toastify";
-
+import { ActionIcon } from "@components/shared/ActionIcon";
 import type { SerializedTask, SerializedTaskList } from "@lib/prisma";
 
 export function PinnedLists() {
@@ -92,8 +92,10 @@ function PinnedTaskList({ list }: PropTypes) {
             </button>
           </Dropdown.Trigger>
           <Dropdown.Content>
-            <Dropdown.Item onClick={onDelete}>Delete</Dropdown.Item>
-            <Dropdown.Item onClick={onPin}>{list.pinned ? "Unpin" : "Pin"}</Dropdown.Item>
+            <Dropdown.Item onClick={onPin}>Unpin list</Dropdown.Item>
+            <Dropdown.Item onClick={onDelete}>
+              <Trash size={16} className="stroke-yellow-500 mr-2" /> Delete
+            </Dropdown.Item>
           </Dropdown.Content>
         </Dropdown.Root>
       </div>
