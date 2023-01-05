@@ -12,14 +12,15 @@ type SelectProps = {
   data: SelectData[];
   placeholder?: string;
   label: string;
+  className?: string;
 } & RadixSelect.SelectProps;
 
-export function Select({ data, placeholder, label, ...props }: SelectProps) {
+export function Select({ data, placeholder, label, className, ...props }: SelectProps) {
   return (
-    <div>
+    <div className={`${className}`}>
       <span className="mb-[7px] block">{label}</span>
       <RadixSelect.Root {...props}>
-        <RadixSelect.Trigger className="rounded-md relative inline-flex ring-1 ring-gray-400 dark:ring-gray-700 px-2 w-full justify-between data-[placeholder]:text-gray-500 data-[placeholder]:dark:text-gray-400 focus:ring-red-600  dark:focus:ring-red-600  items-center py-2 radius-md gap-2 bg-zinc-100 dark:bg-zinc-700 text-gray-900 dark:text-gray-100">
+        <RadixSelect.Trigger className="rounded-md h-10 relative inline-flex ring-1 ring-gray-400 dark:ring-gray-700 px-2 w-full justify-between data-[placeholder]:text-gray-500 data-[placeholder]:dark:text-gray-400 focus:ring-red-600  dark:focus:ring-red-600  items-center py-2 radius-md gap-2 bg-zinc-100 dark:bg-zinc-700 text-gray-900 dark:text-gray-100">
           <RadixSelect.Value placeholder={placeholder} />
           <RadixSelect.Icon className="">
             <ChevronDown />

@@ -31,7 +31,8 @@ export function Modal({ taskLists }: PropTypes) {
       name: formData.task_name,
       description: formData.description,
       groupId: parseInt(formData.task_list as string) || null,
-      deadline: formData.deadline ? new Date(formData.deadline as string) : null
+      deadline: formData.deadline ? new Date(formData.deadline as string) : null,
+      priority: formData.priority
     };
     toggle.on();
     try {
@@ -69,7 +70,20 @@ export function Modal({ taskLists }: PropTypes) {
         <div className="space-y-2">
           <Input required name="task_name" label="Task Name" />
           <DatePicker id="deadline" minDate={new Date()} label="Deadline" name="deadline" />
-          <Select label="Add to task list" name="task_list" data={selectData} />
+          <div className="flex gap-2">
+            <Select className="grow basis-1/2" label="Add to task list" name="task_list" data={selectData} />
+            <Select
+              defaultValue="low"
+              className="grow basis-1/2"
+              label="Priority"
+              name="priority"
+              data={[
+                { label: "High", value: "high" },
+                { label: "Medium", value: "medium" },
+                { label: "Low", value: "low" }
+              ]}
+            />
+          </div>
           <Textarea name="description" label="Description" />
           <Button disabled={isLoading} intent={"accept"}>
             Submit
