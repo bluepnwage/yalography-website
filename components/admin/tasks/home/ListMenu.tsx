@@ -48,7 +48,9 @@ export function Menu() {
       <DialogDemo title="Create task list" open={dialog} onOpenChange={dialogToggle.set}>
         <form onSubmit={handleSubmit} className="space-y-4">
           <Input label="Name" name="list_name" id="list_name" />
-          <Button disabled={isLoading}>Submit</Button>
+          <Button intent={"accept"} disabled={isLoading}>
+            Submit
+          </Button>
         </form>
       </DialogDemo>
       <Dropdown.Root>

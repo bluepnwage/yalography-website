@@ -1,5 +1,4 @@
 "use client";
-import { Card, Title, Skeleton } from "@components/shared";
 import { ScrollAreaDemo } from "@components/shared/ScrollArea";
 import { TasksMenu } from "./TasksMenu";
 import { Task } from "./Task";
@@ -8,11 +7,9 @@ import { useTasks } from "./TasksProvider";
 export function Tasks() {
   const { tasks } = useTasks();
   return (
-    <Card style={{ padding: 0 }} className="col-span-5 p-0 overflow-hidden">
-      <div className="dark:bg-zinc-700 bg-slate-200 flex justify-between p-2">
-        <Title size={"xl"} order={"h2"}>
-          Tasks
-        </Title>
+    <div className="col-span-5 dark:bg-zinc-800 rounded-md bg-white p-0 overflow-hidden">
+      <div className="flex justify-between p-2 border-b border-zinc-200 dark:border-zinc-700">
+        <h2 className="font-bold text-xl text-gray-900 dark:text-gray-100">Tasks</h2>
         <TasksMenu />
       </div>
       <ScrollAreaDemo height={300} orientation={"vertical"}>
@@ -20,6 +17,6 @@ export function Tasks() {
           return <Task key={key} data={task} />;
         })}
       </ScrollAreaDemo>
-    </Card>
+    </div>
   );
 }

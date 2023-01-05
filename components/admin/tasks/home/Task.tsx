@@ -59,7 +59,9 @@ export function Task({ data }: PropTypes) {
         throw new Error(json.message);
       }
     } catch (error) {
-      console.error("WTF!!", error);
+      if (error instanceof Error) {
+        toast.error(error.message);
+      }
     }
   };
 

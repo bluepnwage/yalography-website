@@ -49,7 +49,7 @@ export default async function Layout({ children }: PropTypes) {
         <FlexContainer className="justify-evenly items-center">
           <p>Total tasks: {tasks.length}</p>
 
-          <Modal />
+          <Modal taskLists={taskLists} />
         </FlexContainer>
       </div>
       <TaskProvider taskLists={taskLists} tasks={tasks}>
