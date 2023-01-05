@@ -73,7 +73,7 @@ export function Calendar() {
         </MantineProvider>
         <div className="flex gap-2 justify-evenly flex-wrap mt-5">
           <div className="flex items-center grow gap-2 flex-col text-center">
-            <span className="w-4 h-4 rounded-full inline-block bg-orange-600"></span>
+            <span className="w-4 h-4 rounded-full inline-block bg-red-600"></span>
             <p>Pending bookings</p>
           </div>
           <div className="flex items-center grow gap-2 flex-col text-center">
@@ -81,7 +81,7 @@ export function Calendar() {
             <p>Approved bookings</p>
           </div>
           <div className="flex items-center flex-col gap-2 grow text-center">
-            <span className="w-4 h-4 rounded-full inline-block bg-red-600"></span>
+            <span className="w-4 h-4 rounded-full inline-block bg-orange-600"></span>
             <p>Pending and approved bookings</p>
           </div>
         </div>
