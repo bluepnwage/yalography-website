@@ -10,7 +10,8 @@ const styles = cva("flex h-fit justify-center font-semibold rounded-full items-c
       yellow: "bg-yellow-200 text-yellow-600 dark:bg-yellow-500 dark:text-yellow-200 dark:bg-opacity-50",
       orange: "bg-orange-200 text-orange-600 dark:bg-orange-500 dark:text-orange-200 dark:bg-opacity-50",
       green: "bg-green-200 text-green-600 dark:bg-green-500 dark:text-green-200 dark:bg-opacity-50",
-      violet: "bg-violet-200 text-violet-600 dark:bg-violet-500 dark:text-violet-200 dark:bg-opacity-50"
+      violet: "bg-violet-200 text-violet-600 dark:bg-violet-500 dark:text-violet-200 dark:bg-opacity-50",
+      emerald: "bg-emerald-200 text-emerald-600 dark:bg-emerald-500 dark:text-emerald-200 dark:bg-opacity-50"
     },
     size: {
       sm: "text-sm px-3 py-0",

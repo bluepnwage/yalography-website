@@ -36,7 +36,7 @@ const handler: NextApiHandler = async (req, res) => {
         return res.status(201).json({ message: "Task created", data });
       }
       case "PUT": {
-        const data = await updateTodo(json.id, json.data);
+        const data = await updateTodo(json.id, json);
         return res.status(200).json({ message: "Task updated", data });
       }
       case "DELETE": {
