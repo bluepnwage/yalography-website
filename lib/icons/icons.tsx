@@ -497,3 +497,53 @@ export function XClose({ className, size, fill }: PropTypes) {
     </svg>
   );
 }
+
+function LocationPin() {
+  return (
+    <svg height="512" width="384" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <g fill="none" stroke="#ffffff" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2">
+        <path d="M0 0h24v24H0z" fill="none" stroke="none" />
+        <path d="M15 4.5l-4 4L7 10l-1.5 1.5 7 7L14 17l1.5-4 4-4" />
+        <path d="M9 15l-4.5 4.5" />
+        <path d="M14.5 4L20 9.5" />
+      </g>
+    </svg>
+  );
+}
+
+function ArrowsSort() {
+  return (
+    <svg height="24" width="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <g fill="none" stroke="#ffffff" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2">
+        <path d="M0 0h24v24H0z" fill="none" stroke="none" />
+        <path d="M3 9l4-4 4 4M7 5v14" />
+        <path d="M21 15l-4 4-4-4m4 4V5" />
+      </g>
+    </svg>
+  );
+}
+
+function CirclePlus() {
+  return (
+    <svg height="24" width="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <g fill="none" stroke="#ffffff" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2">
+        <path d="M0 0h24v24H0z" fill="none" stroke="none" />
+        <path d="M9 12h6" />
+        <path d="M12 9v6" />
+        <circle cx="12" cy="12" r="9" />
+      </g>
+    </svg>
+  );
+}
+
+function Copy() {
+  return (
+    <svg height="24" width="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <g fill="none" stroke="#ffffff" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2">
+        <path d="M0 0h24v24H0z" fill="none" stroke="none" />
+        <path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2" />
+        <rect height="12" width="12" rx="2" x="8" y="8" />
+      </g>
+    </svg>
+  );
+}
