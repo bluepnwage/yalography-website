@@ -6,15 +6,17 @@ import { Badge } from "@components/shared/Badge";
 import { cx } from "cva";
 import { useToggle } from "@lib/hooks/useToggle";
 import { useRouteRefresh } from "@lib/hooks/useRouteRefresh";
-import { SerializedTask } from "@lib/prisma";
+import type { SerializedTask } from "@lib/prisma";
 import { useState } from "react";
 import { toast } from "react-toastify";
+import { ActionIcon } from "@components/shared/ActionIcon";
+import { Trash } from "@lib/icons";
 
 export function Tasks() {
   const { tasks } = useTasks();
 
   return (
-    <Table striped className="col-span-full ">
+    <Table striped className="col-span-8 ">
       <thead className="border-b border-zinc-200 dark:border-zinc-700">
         <tr>
           <th className="py-2  border-r border-zinc-200 dark:border-zinc-700">Task name</th>
@@ -122,30 +124,15 @@ function TaskRow({ taskData }: PropTypes) {
         </Badge>
       </td>
       <td>
-        <button
-          onClick={onDelete}
+        <ActionIcon
           disabled={isLoading}
-          className="disabled:grayscale disabled:cursor-not-allowed rounded-md relative active:top-[2px] inline-block mx-auto bg-red-600/40 h-7 w-7 flex items-center justify-center"
-          aria-label="Delete task"
+          onClick={onDelete}
+          aria-label="Delete task list"
+          className="h-7 w-7 mx-auto inline-block"
         >
-          <Trash />
-        </button>
+          <Trash size={16} className="stroke-red-200" />
+        </ActionIcon>
       </td>
     </tr>
-  );
-}
-
-function Trash() {
-  return (
-    <svg height={16} width={16} className={"stroke-red-200"} viewBox="0 0 24 24" xmlns="http:www.w3.org/2000/svg">
-      <g fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2">
-        <path d="M0 0h24v24H0z" fill="none" stroke="none" />
-        <path d="M4 7h16" />
-        <path d="M10 11v6" />
-        <path d="M14 11v6" />
-        <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2l1-12" />
-        <path d="M9 7V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3" />
-      </g>
-    </svg>
   );
 }
