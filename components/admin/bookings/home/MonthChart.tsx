@@ -31,7 +31,9 @@ export function MonthChart({ data }: PropTypes) {
   return (
     <>
       <div className="py-2 px-4 -mx-4 -mt-4 border-b items-center border-zinc-200 flex justify-between dark:border-zinc-700">
-        <h2 className="font-bold text-gray-900 dark:text-gray-100 text-xl">{formatKey(metric)} revenue per month</h2>
+        <h2 className="font-bold text-gray-900 dark:text-gray-100 text-xl">
+          {formatKey(metric)} revenue for each month
+        </h2>
         <div className="space-x-2">
           <button
             className={`py-2 px-2 font-semibold rounded-md bg-red-500/20 text-red-500 ring-red-500 ${
