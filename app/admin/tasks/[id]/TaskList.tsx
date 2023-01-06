@@ -1,6 +1,7 @@
 "use client";
 import { usePagination } from "@lib/hooks/usePagination";
 import { Pagination } from "@components/shared/Pagination";
+import { Input } from "@components/shared/Input";
 
 import type { Tasks } from "@prisma/client";
 import { Task } from "./Task";
@@ -21,7 +22,7 @@ export function TaskList({ tasks }: PropTypes) {
   return (
     <>
       {paginatedList.map((task) => {
-        return <Task key={task.id} task={task} />;
+        return <Task key={task.id} taskData={task} />;
       })}
       <Pagination {...props} />
     </>

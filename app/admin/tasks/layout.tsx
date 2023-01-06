@@ -2,12 +2,13 @@ import { FlexContainer } from "@components/shared";
 import prisma from "@lib/prisma";
 import { TaskProvider } from "@components/admin/tasks/home/TasksProvider";
 import { Modal } from "@components/admin/tasks/home/Modal";
+import { cache } from "react";
 
 type PropTypes = {
   children: React.ReactNode;
 };
 
-async function getTasks() {
+const getTasks = cache(async () => {
   await prisma.$connect();
   const tasksPromise = prisma.tasks.findMany();
   const taskListsPromise = prisma.taskLists.findMany({ include: { tasks: true } });
@@ -39,7 +40,7 @@ async function getTasks() {
 
   await prisma.$disconnect();
   return { tasks: serializedTasks, taskLists: serializedTaskList };
-}
+});
 
 export default async function Layout({ children }: PropTypes) {
   const { taskLists, tasks } = await getTasks();

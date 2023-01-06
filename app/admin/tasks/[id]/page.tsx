@@ -1,19 +1,23 @@
 import { Title, FlexContainer, Breadcrumbs, Anchor } from "@components/shared";
 import { Menu } from "./Menu";
 import { TaskList } from "./TaskList";
+import { TaskTitle } from "@components/admin/tasks/Title";
 import prisma from "@lib/prisma";
-import { PinnedList } from "@components/admin/tasks/Pinned";
 import { notFound } from "next/navigation";
-async function findTaskList(id: number) {
+import { cache } from "react";
+
+const findTaskList = cache(async (id: number) => {
   await prisma.$connect();
   const taskList = await prisma.taskLists.findUnique({ where: { id }, include: { tasks: true } });
   await prisma.$disconnect();
+  if (!taskList) notFound();
   return taskList;
-}
+});
 
 export default async function TaskListPage({ params }: { params: { id: string } }) {
-  const taskList = await findTaskList(parseInt(params.id));
-  if (!taskList) return notFound();
+  const id = parseInt(params.id);
+  if (!id) notFound();
+  const taskList = await findTaskList(id);
 
   const list = taskList.tasks.map((task) => {
     return {
@@ -30,11 +34,8 @@ export default async function TaskListPage({ params }: { params: { id: string } 
         <Anchor href={`/admin/tasks/${params.id}`}>{taskList?.name}</Anchor>
       </Breadcrumbs>
       <FlexContainer className="justify-between mb-20 mt-5">
-        <div className="flex gap-2">
-          <Title>{taskList?.name}</Title>
-          <PinnedList pinned={taskList.pinned} id={taskList?.id} />
-        </div>
-        <Menu groupId={taskList?.id!} />
+        <TaskTitle id={taskList.id} title={taskList.name} />
+        <Menu pinned={taskList.pinned} groupId={taskList?.id!} />
       </FlexContainer>
       <TaskList tasks={list} />
     </>

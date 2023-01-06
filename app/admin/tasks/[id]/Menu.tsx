@@ -11,12 +11,16 @@ import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 
 import type { FormEvent } from "react";
+import { DatePicker } from "@components/shared/DatePicker/DatePicker";
+import { Select } from "@components/shared/Select";
+import { Textarea } from "@components/shared/Textarea";
 
 type PropTypes = {
   groupId: number;
+  pinned: boolean;
 };
 
-export function Menu({ groupId }: PropTypes) {
+export function Menu({ groupId, pinned }: PropTypes) {
   const [opened, dialogToggle] = useToggle();
   const [loading, toggle] = useToggle();
   const [isPending, refresh] = useRouteRefresh();
@@ -24,18 +28,25 @@ export function Menu({ groupId }: PropTypes) {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const formData = Object.fromEntries(new FormData(e.currentTarget));
+    const data = {
+      name: formData.task_name,
+      description: formData.description,
+      groupId,
+      deadline: formData.deadline ? new Date(formData.deadline as string) : null,
+      priority: formData.priority
+    };
     toggle.on();
-    const name = new FormData(e.currentTarget).get("task_name");
     try {
-      const res = await fetch("/api/todo", {
+      const res = await fetch("/api/tasks", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, groupId })
+        body: JSON.stringify(data)
       });
       const json = await res.json();
       if (res.ok) {
-        toast.success(json.message);
         refresh();
+        toast.success(json.message);
         dialogToggle.off();
       } else {
         throw new Error(json.message, { cause: json.error });
@@ -74,13 +85,45 @@ export function Menu({ groupId }: PropTypes) {
     }
   };
 
+  const onPin = async () => {
+    try {
+      const res = await fetch("/api/task-list", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: groupId, pinned: !pinned })
+      });
+      if (res.ok) {
+        refresh();
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      }
+    }
+  };
+
   const isLoading = loading || isPending;
   return (
     <>
-      <DialogDemo open={opened} onOpenChange={dialogToggle.set}>
+      <DialogDemo title="Create task" open={opened} onOpenChange={dialogToggle.set}>
         <form onSubmit={handleSubmit} className="space-y-4">
-          <Input label="Task name" name="task_name" id="task_name" />
-          <Button disabled={isLoading}>Create task</Button>
+          <Input required name="task_name" label="Task Name" />
+          <DatePicker id="deadline" minDate={new Date()} label="Deadline" name="deadline" />
+          <Select
+            defaultValue="low"
+            className="grow basis-1/2"
+            label="Priority"
+            name="priority"
+            data={[
+              { label: "High", value: "high" },
+              { label: "Medium", value: "medium" },
+              { label: "Low", value: "low" }
+            ]}
+          />
+          <Textarea name="description" label="Description" />
+          <Button disabled={isLoading} intent={"accept"}>
+            Submit
+          </Button>
         </form>
       </DialogDemo>
       <Dropdown.Root>
@@ -91,6 +134,7 @@ export function Menu({ groupId }: PropTypes) {
         </Dropdown.Trigger>
         <Dropdown.Content>
           <Dropdown.Item onClick={dialogToggle.on}>Create task</Dropdown.Item>
+          <Dropdown.Item onClick={onPin}>{pinned ? "Unpin task list" : "Pin task list"}</Dropdown.Item>
           <Dropdown.Item onClick={onDelete}>Delete list</Dropdown.Item>
         </Dropdown.Content>
       </Dropdown.Root>

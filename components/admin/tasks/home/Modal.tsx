@@ -12,7 +12,7 @@ import { useRouteRefresh } from "@lib/hooks/useRouteRefresh";
 import { useToggle } from "@lib/hooks/useToggle";
 import { toast } from "react-toastify";
 
-import { FormEvent, useState } from "react";
+import { FormEvent } from "react";
 import type { SerializedTaskList, SerializedTask } from "@lib/prisma";
 
 type PropTypes = {
