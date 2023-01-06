@@ -114,8 +114,42 @@ export default function Booking({ params }: { params: { status: "pending" | "app
         </Anchor>
         <Anchor href={`/admin/bookings/${params.status}/${params.id}`}>{booking.id}</Anchor>
       </Breadcrumbs>
-      <section className="flex gap-4 mt-5">
-        <div className="w-2/4 basis-3/5 ring-1 bg-white p-4 ring-zinc-200 dark:ring-zinc-700 dark:bg-zinc-800 rounded-md">
+      <section className="grid grid-cols-12 gap-4 mt-5">
+        <div className="col-span-4 row-span-1 row-start-1 p-4 flex flex-col  bg-white dark:bg-zinc-800 rounded-md ring-1 ring-zinc-200 dark:ring-zinc-700">
+          <div className="py-2 mb-4 -mx-4 px-4 -mt-4 border-b dark:border-zinc-700 border-zinc-200">
+            <h2 className="font-bold text-2xl">Customer details</h2>
+          </div>
+          <div className="flex flex-col grow space-y-4 justify-evenly">
+            <div className="flex justify-between  ">
+              <p className="font-semibold text-gray-400">Name:</p>
+              <p>
+                {booking.firstName} {booking.lastName}
+              </p>
+            </div>
+            <div className="flex justify-between  ">
+              <p className="font-semibold text-gray-400">Email:</p>
+              <p>{booking.email}</p>
+            </div>
+            <div className="flex justify-between ">
+              <p className="font-semibold text-gray-400">Phone:</p>
+              <p>{booking.phone}</p>
+            </div>
+          </div>
+        </div>
+        <div className="col-span-4 row-span-1 row-start-2 p-4 flex flex-col  bg-white dark:bg-zinc-800 rounded-md ring-1 ring-zinc-200 dark:ring-zinc-700">
+          <div className="py-2 mb-4 -mx-4 px-4 -mt-4 border-b dark:border-zinc-700 border-zinc-200">
+            <h2 className="font-bold text-2xl">Add-ons</h2>
+          </div>
+          <div className="flex flex-col grow space-y-4 justify-evenly">
+            <ul className="list-disc pl-4">
+              {booking.features?.split(",").map((feature) => {
+                return <li key={feature}>{feature}</li>;
+              })}
+            </ul>
+          </div>
+        </div>
+
+        <div className="col-span-8 row-start-1 row-span-2 ring-1 bg-white p-4 ring-zinc-200 dark:ring-zinc-700 dark:bg-zinc-800 rounded-md">
           <div className="border-b flex justify-between border-zinc-200 dark:border-zinc-700 -mx-4 -mt-4 px-4 py-1 mb-4">
             <h1 className="font-bold text-4xl">Order details</h1>
             <Menu onComplete={onComplete} onApprove={onApprove} onDelete={onDelete} status={params.status} />
@@ -136,38 +170,9 @@ export default function Booking({ params }: { params: { status: "pending" | "app
                 {booking.date}, {booking.time}
               </p>
             </div>
-            <div className="">
-              <p className="font-semibold text-gray-400">Add-ons:</p>
-              <ul className="capitalize list-disc pl-4">
-                {booking?.features?.split(",").map((feature) => {
-                  return <li key={feature}>{feature}</li>;
-                })}
-              </ul>
-            </div>
             <div className="flex flex-col gap-2">
               <p className="font-semibold text-gray-400">Description:</p>
               <p className="capitalize">{booking.description}</p>
-            </div>
-          </div>
-        </div>
-        <div className="basis-2/5 p-4 flex flex-col bg-white dark:bg-zinc-800 rounded-md ring-1 ring-zinc-200 dark:ring-zinc-700">
-          <div className="py-2 mb-4 -mx-4 px-4 -mt-4 border-b dark:border-zinc-700 border-zinc-200">
-            <h2 className="font-bold text-2xl">Customer details</h2>
-          </div>
-          <div className="flex flex-col grow justify-evenly">
-            <div className="flex justify-between  ">
-              <p className="font-semibold text-gray-400">Name:</p>
-              <p>
-                {booking.firstName} {booking.lastName}
-              </p>
-            </div>
-            <div className="flex justify-between  ">
-              <p className="font-semibold text-gray-400">Email:</p>
-              <p>{booking.email}</p>
-            </div>
-            <div className="flex justify-between ">
-              <p className="font-semibold text-gray-400">Phone:</p>
-              <p>{booking.phone}</p>
             </div>
           </div>
         </div>
