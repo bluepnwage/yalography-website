@@ -297,7 +297,7 @@ function BookingsForm() {
                     <span className="font-semibold text-gray-900 dark:text-gray-100">Email:</span> {form.email}
                   </p>
                   <p className="text-gray-600 dark:text-gray-300">
-                    <span className="font-semibold text-gray-900 dark:text-gray-100">Phone number:</span> {form.email}
+                    <span className="font-semibold text-gray-900 dark:text-gray-100">Phone number:</span> {form.phone}
                   </p>
                   <p className="text-gray-600 dark:text-gray-300">
                     <span className="font-semibold text-gray-900 dark:text-gray-100">Environment:</span>{" "}
