@@ -48,7 +48,7 @@ function Task({ task, onFilter }: PropTypes) {
   const handleClick = async () => {
     setLoading(true);
     try {
-      const res = await fetch("/api/todo", {
+      const res = await fetch("/api/tasks", {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id: task.id })

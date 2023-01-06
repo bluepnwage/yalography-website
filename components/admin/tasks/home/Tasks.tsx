@@ -49,7 +49,7 @@ function TaskRow({ taskData }: PropTypes) {
     const lastStatus = task.status;
     setTask((prev) => ({ ...prev, status: !prev.status }));
     try {
-      const res = await fetch("/api/todo", {
+      const res = await fetch("/api/tasks", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id: task.id, status: !task.status })
@@ -73,7 +73,7 @@ function TaskRow({ taskData }: PropTypes) {
   const onDelete = async () => {
     toggle.on();
     try {
-      const res = await fetch("/api/todo", {
+      const res = await fetch("/api/tasks", {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id: task.id })

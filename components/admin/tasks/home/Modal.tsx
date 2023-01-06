@@ -36,7 +36,7 @@ export function Modal({ taskLists }: PropTypes) {
     };
     toggle.on();
     try {
-      const res = await fetch("/api/todo", {
+      const res = await fetch("/api/tasks", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data)
