@@ -5,11 +5,13 @@ import { toast } from "react-toastify";
 
 export function Revalidate() {
   const onRevalidate = async () => {
-    const url = new URL(`/api/revalidate-gallery`);
+    const url = new URL(`/api/revalidate-gallery`, location.origin);
     url.searchParams.set("secret", revalidateSecret || "");
     const res = await fetch(url);
     if (res.ok) {
       toast.success("Gallery updated");
+    } else {
+      toast.error("Failed to revalidate gallery");
     }
   };
   return (
