@@ -1,13 +1,23 @@
-"use client";
-import { useGallery } from "@components/admin/gallery/GalleryProvider";
 import { UploadedImage } from "@components/admin/gallery/UploadedImage";
 import { Breadcrumbs } from "@components/shared";
 import Link from "next/link";
+import { notFound } from "next/navigation";
 
-export default function FolderPage({ params }: { params: { id: string } }) {
-  const { folders } = useGallery();
+import prisma from "@lib/prisma";
+import { cache } from "react";
 
-  const folder = folders.find((f) => f.id === parseInt(params.id))!;
+const getFolder = cache(async (id: number) => {
+  await prisma.$connect();
+  const folder = await prisma.imageFolders.findFirst({ where: { id }, include: { Images: true } });
+  await prisma.$disconnect();
+  if (!folder) notFound();
+  return { ...folder, createdAt: folder.createdAt.toDateString() };
+});
+
+export default async function FolderPage({ params }: { params: { id: string } }) {
+  const id = parseInt(params.id);
+  if (!id) notFound();
+  const folder = await getFolder(parseInt(params.id));
 
   return (
     <>

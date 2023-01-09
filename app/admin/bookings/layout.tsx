@@ -1,6 +1,7 @@
 import { Anchor, FlexContainer } from "@components/shared";
 import { BookingsProvider } from "@components/admin/bookings/BookingsProvider";
 import { BookingDialog } from "@components/admin/bookings/BookingDialog";
+import { cache } from "react";
 
 import prisma from "@lib/prisma";
 
@@ -11,7 +12,7 @@ type PropTypes = {
   children: React.ReactNode;
 };
 
-async function getBookings() {
+const getBookings = cache(async () => {
   await prisma.$connect();
   const bookings = await prisma.bookings.findMany({ where: { NOT: { status: "completed" } } });
   const completed = (await prisma.bookings.findMany({ where: { status: "completed" }, include: { orders: true } })).map(
@@ -39,7 +40,7 @@ async function getBookings() {
     }
   }
   return { pending, approved, completed };
-}
+});
 
 export default async function Layout({ children }: PropTypes) {
   const bookings = await getBookings();

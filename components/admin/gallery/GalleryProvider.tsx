@@ -4,7 +4,7 @@ import { createContext, useContext } from "react";
 import type { Images } from "@prisma/client";
 import type { SerializedImageFolder } from "@lib/prisma";
 
-type ImageFoldersJoin = SerializedImageFolder & { Images: Images[] };
+export type ImageFoldersJoin = SerializedImageFolder & { Images: Images[] };
 
 type GalleryProviderProps = {
   images: Images[];
