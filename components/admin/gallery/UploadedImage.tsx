@@ -1,6 +1,6 @@
 "use client";
 import { Dropdown } from "@components/shared/Dropdown";
-import { Image } from "@components/Image";
+import { Image } from "@components/shared/Image";
 import { useToggle } from "@lib/hooks/useToggle";
 import { useRouteRefresh } from "@lib/hooks/useRouteRefresh";
 
@@ -53,7 +53,7 @@ export function UploadedImage({ image }: PropTypes) {
             className="top-0 left-0  bg-black/10 animate-pulse dark:bg-zinc-700/60 z-50 w-full h-full absolute"
           ></div>
         )}
-        <figure className="group relative -mx-4 -mt-4 basis-3/4 overflow-hidden ">
+        <div className="group relative -mx-4 -mt-4 basis-3/4 overflow-hidden ">
           <Dropdown.Root>
             <Dropdown.Trigger>
               <button
@@ -84,13 +84,14 @@ export function UploadedImage({ image }: PropTypes) {
             </Dropdown.Content>
           </Dropdown.Root>
           <Image
+            containerClass="w-full h-full"
             width={image.width}
             height={image.height}
             alt={""}
             src={image.url}
             className="h-full w-full object-cover z-0"
           />
-        </figure>
+        </div>
         <div className="grow">
           <div className="flex justify-between ">
             <p className="font-bold text-xl">{truncate(image.name)}</p>

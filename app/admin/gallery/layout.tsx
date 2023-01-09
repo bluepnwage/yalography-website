@@ -1,5 +1,6 @@
 import { FlexContainer } from "@components/shared";
 import { UploadDialog } from "@components/admin/gallery/UploadDialog";
+import { Revalidate } from "@components/admin/gallery/Revalidate";
 
 import { GalleryProvider } from "@components/admin/gallery/GalleryProvider";
 import prisma from "@lib/prisma";
@@ -42,7 +43,10 @@ export default async function Layout({ children }: PropTypes) {
           <div className="text-center">
             <p>Total folders: {folders.length}</p>
           </div>
-          <UploadDialog folders={folders} />
+          <div className="space-x-2">
+            <UploadDialog folders={folders} />
+            <Revalidate />
+          </div>
         </FlexContainer>
       </div>
       <GalleryProvider images={images} folders={folders}>
