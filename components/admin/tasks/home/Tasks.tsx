@@ -11,27 +11,50 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import { ActionIcon } from "@components/shared/ActionIcon";
 import { Trash } from "@lib/icons";
+import { FilterBar } from "./Filter";
+import { FilterOptions, filterTasks, SortOptions } from "@util/filterTasks";
 
 export function Tasks() {
   const { tasks } = useTasks();
+  const [sort, setSort] = useState<SortOptions | null>(null);
+  const [filter, setFilter] = useState<FilterOptions | null>(null);
+  const [search, setSearch] = useState("");
+  const filteredTasks = filterTasks(tasks, sort, filter, search);
+
+  const clearFilters = () => {
+    setSort(null);
+    setFilter(null);
+    setSearch("");
+  };
 
   return (
-    <Table striped className="col-span-8 ">
-      <thead className="border-b border-zinc-200 dark:border-zinc-700">
-        <tr>
-          <th className="py-2  border-r border-zinc-200 dark:border-zinc-700">Task name</th>
-          <th className="py-2 border-r border-zinc-200 dark:border-zinc-700">Due date</th>
-          <th className="py-2 border-r border-zinc-200 dark:border-zinc-700">Status</th>
-          <th className="py-2 border-r border-zinc-200 dark:border-zinc-700">Priority</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        {tasks.map((task) => {
-          return <TaskRow key={task.id} taskData={task} />;
-        })}
-      </tbody>
-    </Table>
+    <div className="space-y-2 col-span-8">
+      <FilterBar
+        searchValue={search}
+        onSearchChange={setSearch}
+        sortValue={sort}
+        filterValue={filter}
+        onClear={clearFilters}
+        onFilterChange={setFilter}
+        onSortChange={setSort}
+      />
+      <Table striped>
+        <thead className="border-b border-zinc-200 dark:border-zinc-700">
+          <tr>
+            <th className="py-2  border-r border-zinc-200 dark:border-zinc-700">Task name</th>
+            <th className="py-2 border-r border-zinc-200 dark:border-zinc-700">Due date</th>
+            <th className="py-2 border-r border-zinc-200 dark:border-zinc-700">Status</th>
+            <th className="py-2 border-r border-zinc-200 dark:border-zinc-700">Priority</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {filteredTasks.map((task) => {
+            return <TaskRow key={task.id} taskData={task} />;
+          })}
+        </tbody>
+      </Table>
+    </div>
   );
 }
 
