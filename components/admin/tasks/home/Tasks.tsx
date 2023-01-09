@@ -10,16 +10,21 @@ import type { SerializedTask } from "@lib/prisma";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { ActionIcon } from "@components/shared/ActionIcon";
-import { Trash } from "@lib/icons";
+import { Edit, Trash } from "@lib/icons";
 import { FilterBar } from "./Filter";
 import { FilterOptions, filterTasks, SortOptions } from "@util/filterTasks";
+import { usePagination } from "@lib/hooks/usePagination";
+import { Pagination } from "@components/shared/Pagination";
+import { EditTaskModal } from "./EditTaskModal";
 
 export function Tasks() {
   const { tasks } = useTasks();
   const [sort, setSort] = useState<SortOptions | null>(null);
   const [filter, setFilter] = useState<FilterOptions | null>(null);
   const [search, setSearch] = useState("");
-  const filteredTasks = filterTasks(tasks, sort, filter, search);
+  const { paginatedList, ...props } = usePagination(10, tasks);
+
+  const filteredTasks = filterTasks(paginatedList, sort, filter, search);
 
   const clearFilters = () => {
     setSort(null);
@@ -54,6 +59,7 @@ export function Tasks() {
           })}
         </tbody>
       </Table>
+      <Pagination {...props} />
     </div>
   );
 }
@@ -62,10 +68,13 @@ type PropTypes = {
   taskData: SerializedTask;
 };
 
+export type EditTaskData = Pick<SerializedTask, "deadline" | "id" | "name" | "priority" | "description" | "groupId">;
+
 function TaskRow({ taskData }: PropTypes) {
   const [loading, toggle] = useToggle();
   const [task, setTask] = useState(taskData);
   const [isPending, refresh] = useRouteRefresh();
+  const [dialog, dialogToggle] = useToggle();
 
   const onStatusToggle = async () => {
     toggle.on();
@@ -91,6 +100,11 @@ function TaskRow({ taskData }: PropTypes) {
     } finally {
       toggle.off();
     }
+  };
+
+  const onEdit = (data: EditTaskData) => {
+    setTask((prev) => ({ ...prev, ...data }));
+    refresh();
   };
 
   const onDelete = async () => {
@@ -120,42 +134,49 @@ function TaskRow({ taskData }: PropTypes) {
   const isLoading = isPending || loading;
 
   return (
-    <tr className="border-b border-zinc-200 dark:border-zinc-700 last-of-type:border-0">
-      <td className="py-2 space-x-2 text-start pl-2 ">
-        <input
-          disabled={isLoading}
-          onChange={onStatusToggle}
-          checked={task.status}
-          id={`${task.id}-${task.name}`}
-          type={"checkbox"}
-          className="accent-emerald-600 disabled:cursor-not-allowed"
-        />
-        <label htmlFor={`${task.id}-${task.name}`}>{task.name}</label>
-      </td>
-      <td className="py-2 ">{task.deadline || "N/A"}</td>
-      <td className="py-2 ">
-        <Badge color={task.status ? "emerald" : "orange"} className={cx("px-2 w-fit mx-auto py-1 text-sm")}>
-          {task.status ? "Complete" : "Incomplete"}
-        </Badge>
-      </td>
-      <td>
-        <Badge
-          color={task.priority === "high" ? "red" : task.priority === "medium" ? "yellow" : "emerald"}
-          className="capitalize px-2 py-1 w-fit mx-auto text-sm"
-        >
-          {task.priority}
-        </Badge>
-      </td>
-      <td>
-        <ActionIcon
-          disabled={isLoading}
-          onClick={onDelete}
-          aria-label="Delete task list"
-          className="h-7 w-7 mx-auto inline-block"
-        >
-          <Trash size={16} className="stroke-red-200" />
-        </ActionIcon>
-      </td>
-    </tr>
+    <>
+      <EditTaskModal onEdit={onEdit} open={dialog} onOpenChange={dialogToggle.set} task={task} />
+      <tr className="border-b border-zinc-200 dark:border-zinc-700 last-of-type:border-0">
+        <td className="py-2 space-x-2 text-start pl-2 ">
+          <input
+            disabled={isLoading}
+            onChange={onStatusToggle}
+            checked={task.status}
+            id={`${task.id}-${task.name}`}
+            type={"checkbox"}
+            className="accent-emerald-600 disabled:cursor-not-allowed"
+          />
+          <label htmlFor={`${task.id}-${task.name}`}>{task.name}</label>
+        </td>
+        <td className="py-2 ">{task.deadline || "N/A"}</td>
+        <td className="py-2 ">
+          <Badge color={task.status ? "emerald" : "orange"} className={cx("px-2 w-fit mx-auto py-1 text-sm")}>
+            {task.status ? "Complete" : "Incomplete"}
+          </Badge>
+        </td>
+        <td>
+          <Badge
+            color={task.priority === "high" ? "red" : task.priority === "medium" ? "yellow" : "emerald"}
+            className="capitalize px-2 py-1 w-fit mx-auto text-sm"
+          >
+            {task.priority}
+          </Badge>
+        </td>
+        <td className="flex gap-2 py-2 justify-center">
+          <ActionIcon
+            disabled={isLoading}
+            onClick={dialogToggle.on}
+            color="violet"
+            aria-label="Edit task list"
+            className="h-7 w-7  inline"
+          >
+            <Edit size={16} className="stroke-violet-200" />
+          </ActionIcon>
+          <ActionIcon disabled={isLoading} onClick={onDelete} aria-label="Delete task list" className="h-7 w-7 inline">
+            <Trash size={16} className="stroke-red-200" />
+          </ActionIcon>
+        </td>
+      </tr>
+    </>
   );
 }
