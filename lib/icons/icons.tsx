@@ -480,8 +480,6 @@ export function Check({ className, fill, size }: PropTypes) {
   );
 }
 
-import React from "react";
-
 export function XClose({ className, size, fill }: PropTypes) {
   return (
     <svg
@@ -493,6 +491,112 @@ export function XClose({ className, size, fill }: PropTypes) {
     >
       <g>
         <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z" />
+      </g>
+    </svg>
+  );
+}
+
+export function CircleCheck() {
+  return (
+    <svg height="24" width="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <g fill="none" stroke="#ffffff" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2">
+        <path d="M0 0h24v24H0z" fill="none" stroke="none" />
+        <path d="M9 12l2 2 4-4" />
+        <circle cx="12" cy="12" r="9" />
+      </g>
+    </svg>
+  );
+}
+
+function CalendarTime() {
+  return (
+    <svg height="24" width="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <g fill="none" stroke="#ffffff" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2">
+        <path d="M0 0h24v24H0z" fill="none" stroke="none" />
+        <path d="M11.795 21H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v4" />
+        <path d="M15 3v4" />
+        <path d="M7 3v4" />
+        <path d="M3 11h16" />
+        <path d="M18 16.496V18l1 1" />
+        <circle cx="18" cy="18" r="4" />
+      </g>
+    </svg>
+  );
+}
+
+export default CalendarTime;
+
+function Push_pin() {
+  return (
+    <svg height="24" width="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <g fill="none">
+        <path
+          d="M14 4v5c0 1.12.37 2.16 1 3H9c.65-.86 1-1.9 1-3V4h4zm3-2H7c-.55 0-1 .45-1 1s.45 1 1 1h1v5c0 1.66-1.34 3-3 3v2h5.97v7l1 1 1-1v-7H19v-2c-1.66 0-3-1.34-3-3V4h1c.55 0 1-.45 1-1s-.45-1-1-1z"
+          fill="#ffffff"
+        />
+      </g>
+    </svg>
+  );
+}
+
+function Push_pinOutline() {
+  return (
+    <svg height="24" width="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <g fill="none">
+        <path
+          d="M16 9V4h1c.55 0 1-.45 1-1s-.45-1-1-1H7c-.55 0-1 .45-1 1s.45 1 1 1h1v5c0 1.66-1.34 3-3 3v2h5.97v7l1 1 1-1v-7H19v-2c-1.66 0-3-1.34-3-3z"
+          fill="#ffffff"
+          fillRule="evenodd"
+        />
+      </g>
+    </svg>
+  );
+}
+
+function Pinned() {
+  return (
+    <svg height="24" width="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <g fill="none" stroke="#ffffff" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2">
+        <path d="M0 0h24v24H0z" fill="none" stroke="none" />
+        <path d="M9 4v6l-2 4v2h10v-2l-2-4V4" />
+        <path d="M12 16v5" />
+        <path d="M8 4h8" />
+      </g>
+    </svg>
+  );
+}
+
+function Pin() {
+  return (
+    <svg height="24" width="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <g fill="none" stroke="#ffffff" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2">
+        <path d="M0 0h24v24H0z" fill="none" stroke="none" />
+        <path d="M15 4.5l-4 4L7 10l-1.5 1.5 7 7L14 17l1.5-4 4-4" />
+        <path d="M9 15l-4.5 4.5" />
+        <path d="M14.5 4L20 9.5" />
+      </g>
+    </svg>
+  );
+}
+
+function Plus() {
+  return (
+    <svg height="24" width="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <g fill="none" stroke="#ffffff" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2">
+        <path d="M0 0h24v24H0z" fill="none" stroke="none" />
+        <path d="M12 5v14" />
+        <path d="M5 12h14" />
+      </g>
+    </svg>
+  );
+}
+
+function Zoom() {
+  return (
+    <svg height="12" width="12" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
+      <g fill="#ffffff" stroke="#ffffff" strokeWidth="1">
+        <line fill="none" strokeLinecap="round" strokeLinejoin="round" x1="11.5" x2="8.328" y1="11.5" y2="8.328" />
+        <circle cx="5.5" cy="5.5" fill="none" r="4" stroke="#ffffff" strokeLinecap="round" strokeLinejoin="round" />
       </g>
     </svg>
   );
