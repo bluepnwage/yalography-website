@@ -132,23 +132,28 @@ export function BookingDialog() {
           />
         </div>
         <div className="flex gap-2 items-end">
-          <Input
-            type={"time"}
-            label={"Time"}
-            value={form?.time}
-            onChange={handleChange}
-            name={"time"}
-            id={"time"}
-            required
-          />
-          <DatePicker date={date} onChange={setDate} />
+          <div className="basis-1/2">
+            <Input
+              type={"time"}
+              label={"Time"}
+              value={form?.time}
+              onChange={handleChange}
+              name={"time"}
+              id={"time"}
+              required
+            />
+          </div>
+          <div className="basis-1/2">
+            <DatePicker date={date} onChange={setDate} />
+          </div>
         </div>
-        <div className="flex gap-2">
+        <div className="flex w-full">
           <Select
             label={"Photoshoot"}
             data={selectData}
             onValueChange={(value: typeof shootType) => setShootType(value)}
             value={shootType}
+            className="w-full"
           />
         </div>
         <div className="flex gap-2">
