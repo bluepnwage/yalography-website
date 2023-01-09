@@ -36,7 +36,7 @@ export function filterTasks(
         filteredTasks = filteredTasks.sort((a, b) => {
           const dateA = Date.parse(a.createdAt);
           const dateB = Date.parse(b.createdAt);
-          return dateA - dateB;
+          return dateB - dateA;
         });
         break;
       }
@@ -44,7 +44,7 @@ export function filterTasks(
         filteredTasks = filteredTasks.sort((a, b) => {
           const dateA = Date.parse(a.createdAt);
           const dateB = Date.parse(b.createdAt);
-          return dateB - dateA;
+          return dateA - dateB;
         });
         break;
       }
