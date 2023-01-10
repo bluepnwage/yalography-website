@@ -10,6 +10,13 @@ async function createProject(data: Projects) {
   return project;
 }
 
+async function editProject(data: Projects) {
+  await prisma.$connect();
+  const project = await prisma.projects.update({ where: { id: data.id }, data });
+  await prisma.$disconnect();
+  return project;
+}
+
 const handler: NextApiHandler = async (req, res) => {
   try {
     const json = req.body;
@@ -18,11 +25,16 @@ const handler: NextApiHandler = async (req, res) => {
         const data = await createProject(json);
         return res.status(201).json({ message: "Project createad", data });
       }
+      case "PUT": {
+        const data = await editProject(json);
+        return res.status(200).json({ message: "Project updated", data });
+      }
       default: {
-        return res.status(201).json({ message: "Method not allowed" });
+        return res.status(405).json({ message: "Method not allowed" });
       }
     }
   } catch (error) {
+    console.log(error);
     res.status(500).json({ message: "An error occurred on the server", error });
   }
 };

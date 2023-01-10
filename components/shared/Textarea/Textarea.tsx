@@ -28,11 +28,11 @@ const styles = cva(
 type PropTypes = ComponentPropsWithoutRef<"textarea"> &
   VariantProps<typeof styles> & { label: string; wrapperClassName?: string };
 
-export function Textarea({ label, className, radius, resize, wrapperClassName, ...props }: PropTypes) {
+export function Textarea({ label, className, radius, resize, wrapperClassName, rows, ...props }: PropTypes) {
   return (
     <p className={wrapperClassName || "w-full"}>
       <label htmlFor={props.id}>{label}</label>
-      <textarea {...props} className={styles({ className, radius, resize })} />
+      <textarea {...props} rows={rows || 3} className={styles({ className, radius, resize })} />
     </p>
   );
 }

@@ -8,45 +8,25 @@ import { Select } from "@components/shared/Select";
 import { toast } from "react-toastify";
 
 type PropTypes = {
-  onDrop: (file: File | null) => void;
+  onDrop: (file: File[] | null) => void;
+  multiple?: boolean;
 };
 
-export function Dropzone({ onDrop }: PropTypes) {
+export function Dropzone({ onDrop, multiple }: PropTypes) {
   const [loading, toggle] = useToggle();
   const [selectedFolder, setSelectedFolder] = useState("");
   const [isPending, refresh] = useRouteRefresh();
-
-  //   const onUpload = async () => {
-  //     toggle.on();
-  //     try {
-  //       const { uploadImage } = await import("@lib/firebase/storage");
-  //       const promises = files.map((file) => uploadImage(file, selectedFolder ? parseInt(selectedFolder) : undefined));
-  //       await Promise.all(promises);
-  //       refresh();
-  //       toggle.off();
-  //       if (files.length > 1) {
-  //         toast.success("Images successfully uploaded.");
-  //       } else {
-  //         toast.success("Image successfully uploaded.");
-  //       }
-  //     } catch (error) {
-  //       if (error instanceof Error) {
-  //         toast.error(error.message);
-  //       }
-  //     } finally {
-  //       toggle.off();
-  //     }
-  //   };
 
   const isLoading = isPending || loading;
 
   return (
     <>
       <MantineDropzone
+        multiple={multiple}
         classNames={{
-          root: "data-[loading=true]:bg-zinc-500 grow w-2/4 dark:data-[loading=true]:bg-zinc-900 hover:bg-zinc-200/30 dark:hover:bg-zinc-700/30 dark:bg-zinc-800 bg-white border-zinc-200 dark:border-zinc-700"
+          root: "data-[loading=true]:bg-zinc-500 grow basis-2/4 dark:data-[loading=true]:bg-zinc-900 hover:bg-zinc-200/30 dark:hover:bg-zinc-700/30 dark:bg-zinc-800 bg-white border-zinc-200 dark:border-zinc-700"
         }}
-        onDrop={(files) => onDrop(files[0])}
+        onDrop={(files) => onDrop(files)}
         onReject={(files) => console.log("rejected files", files)}
         maxSize={3 * 1024 ** 2}
         accept={IMAGE_MIME_TYPE}
@@ -54,7 +34,7 @@ export function Dropzone({ onDrop }: PropTypes) {
       >
         <div className="flex justify-center gap-4" style={{ minHeight: 220, pointerEvents: "none" }}>
           <MantineDropzone.Accept>
-            <p>Check</p>
+            <p className="text-5xl text-gray-100">Check</p>
           </MantineDropzone.Accept>
           <MantineDropzone.Reject>
             <p>X</p>

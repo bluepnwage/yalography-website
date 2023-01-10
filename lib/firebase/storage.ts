@@ -7,13 +7,24 @@ import { app } from "./config";
 
 const storage = getStorage(app);
 
-export async function uploadImage(file: File, folderID?: number) {
+type UploadOptions = {
+  folder?: number;
+  uploadToDB: boolean;
+};
+
+export async function uploadImage(file: File, options: UploadOptions) {
   const imageRef = ref(storage, `gallery/${file.name}`);
   const image = await uploadBytes(imageRef, file);
 
-  readFile(file, image, folderID);
+  if (options.uploadToDB) {
+    readFile(file, image, options?.folder || undefined);
+  } else {
+    const url = getDownloadURL(image.ref);
+    return url;
+  }
 }
 
+//function to get the width and height of an image then upload to db
 function readFile(file: File, upload: UploadResult, folderID?: number) {
   const fileReader = new FileReader();
 
