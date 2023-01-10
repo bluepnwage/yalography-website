@@ -1,8 +1,8 @@
 import { Badge, Title, Breadcrumbs, Anchor } from "@components/shared";
 import { Dropdown } from "@components/shared/Dropdown";
-import { Button } from "@components/shared/Button";
-import { Input } from "@components/shared/Input";
 import { DotsVertical, Trash } from "@lib/icons";
+import { TabsDemo } from "@components/shared/Tabs";
+import { Dropzone } from "@components/admin/projects/Dropzone";
 
 import prisma from "@lib/prisma";
 import { cache } from "react";
@@ -17,10 +17,10 @@ const getProject = cache(async (id: number) => {
 });
 
 export default async function Page({ params }: { params: { status: "drafted" | "published"; id: string } }) {
-  const id = parseInt(params.id);
-  if (!id) notFound();
+  // const id = parseInt(params.id);
+  // if (!id) notFound();
 
-  const project = await getProject(id);
+  // const project = await getProject(id);
 
   return (
     <>
@@ -30,10 +30,8 @@ export default async function Page({ params }: { params: { status: "drafted" | "
             Project
           </Title>
           <div className="flex items-end gap-4">
-            <Title order={"h2"}>{project.name}</Title>
-            <Badge color={project.published ? "emerald" : "orange"}>
-              {project.published ? "Published" : "Drafted"}
-            </Badge>
+            <Title order={"h2"}>My first project</Title>
+            <Badge color={"orange"}>Drafted</Badge>
           </div>
         </div>
         <Dropdown.Root>
@@ -42,11 +40,11 @@ export default async function Page({ params }: { params: { status: "drafted" | "
               aria-label="Open menu"
               className="bg-zinc-700 rounded-full h-7 w-7 flex justify-center items-center"
             >
-              <DotsVertical />
+              <DotsVertical className="stroke-white" />
             </button>
           </Dropdown.Trigger>
           <Dropdown.Content>
-            <Dropdown.Item>{project.published ? "Unpublish" : "Publish"}</Dropdown.Item>
+            <Dropdown.Item>Publish</Dropdown.Item>
             <Dropdown.Item>Share</Dropdown.Item>
             <Dropdown.Item>Copy link</Dropdown.Item>
             <Dropdown.Item>
@@ -61,18 +59,10 @@ export default async function Page({ params }: { params: { status: "drafted" | "
         <Anchor className="capitalize" href={`/admin/projects/${params.status}`}>
           {params.status}{" "}
         </Anchor>
-        <Anchor href={`/admin/projects/${params.status}/${project.id}`}>{project.name}</Anchor>
+        <Anchor href={`/admin/projects/${params.status}/1`}>My first project</Anchor>
       </Breadcrumbs>
-      <div className="flex flex-col mt-10 items-center">
-        <form className="space-y-4">
-          <Input label="Title" />
-          <Input label="thumbnail" type={"file"} />
-          <Input label="Description" />
-          <Input label="Customer" />
-          <Input label="Customer company" />
-          <Input label="Testimonial" />
-        </form>
-        <Button intent="accept">Save</Button>
+      <div className="mt-2">
+        <TabsDemo />
       </div>
     </>
   );
