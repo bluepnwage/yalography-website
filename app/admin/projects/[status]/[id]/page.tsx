@@ -1,7 +1,7 @@
 import { Badge, Title, Breadcrumbs, Anchor } from "@components/shared";
 import { Dropdown } from "@components/shared/Dropdown";
 import { DotsVertical, Trash } from "@lib/icons";
-import { TabsDemo } from "@components/shared/Tabs";
+import { Editor } from "@components/admin/projects/Editor";
 import { Dropzone } from "@components/admin/projects/Dropzone";
 
 import prisma from "@lib/prisma";
@@ -62,7 +62,7 @@ export default async function Page({ params }: { params: { status: "drafted" | "
         <Anchor href={`/admin/projects/${params.status}/1`}>My first project</Anchor>
       </Breadcrumbs>
       <div className="mt-2">
-        <TabsDemo />
+        <Editor />
       </div>
     </>
   );
