@@ -3,7 +3,7 @@ import { Button } from "@components/shared/Button";
 import { DialogDemo } from "@components/shared/Dialog";
 import { Dropdown } from "@components/shared/Dropdown";
 import { Input } from "@components/shared/Input";
-import { DotsVertical } from "@lib/icons";
+import { DotsVertical, CircleCheck, Trash, CalendarTime } from "@lib/icons";
 
 import { useRouter } from "next/navigation";
 import { useRouteRefresh } from "@lib/hooks/useRouteRefresh";
@@ -142,9 +142,32 @@ export function BookingMenu({ status, id }: MenuProps) {
           </button>
         </Dropdown.Trigger>
         <Dropdown.Content>
-          {status === "approved" && <Dropdown.Item onClick={dialogToggle.on}>Mark as complete</Dropdown.Item>}
-          {status === "pending" && <Dropdown.Item onClick={onApprove}>Approve booking</Dropdown.Item>}
-          <Dropdown.Item onClick={onDelete}>Cancel & Delete booking</Dropdown.Item>
+          {status === "approved" && (
+            <Dropdown.Item onClick={dialogToggle.on}>
+              {" "}
+              <CircleCheck size={16} className="stroke-yellow-500 inline-block mr-2" />
+              Mark as complete
+            </Dropdown.Item>
+          )}
+          {status === "pending" && (
+            <>
+              <Dropdown.Item onClick={onApprove}>
+                {" "}
+                <CircleCheck size={16} className="stroke-yellow-500 inline-block mr-2" />
+                Approve booking
+              </Dropdown.Item>
+              <Dropdown.Item>
+                {" "}
+                <CalendarTime size={16} className="stroke-yellow-500 inline-block mr-2" />
+                Reschedule booking
+              </Dropdown.Item>
+            </>
+          )}
+          <Dropdown.Item onClick={onDelete}>
+            {" "}
+            <Trash size={16} className="inline-block mr-2 stroke-yellow-500 " />
+            Cancel & Delete booking
+          </Dropdown.Item>
         </Dropdown.Content>
       </Dropdown.Root>
     </>

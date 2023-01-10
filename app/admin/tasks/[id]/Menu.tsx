@@ -4,6 +4,7 @@ import { Dropdown } from "@components/shared/Dropdown";
 import { DotsVertical } from "@lib/icons";
 import { Button } from "@components/shared/Button";
 import { Input } from "@components/shared/Input";
+import { Trash, Pin, Plus } from "@lib/icons";
 
 import { useRouteRefresh } from "@lib/hooks/useRouteRefresh";
 import { useToggle } from "@lib/hooks/useToggle";
@@ -133,8 +134,15 @@ export function Menu({ groupId, pinned }: PropTypes) {
           </button>
         </Dropdown.Trigger>
         <Dropdown.Content>
-          <Dropdown.Item onClick={dialogToggle.on}>Create task</Dropdown.Item>
-          <Dropdown.Item onClick={onPin}>{pinned ? "Unpin task list" : "Pin task list"}</Dropdown.Item>
+          <Dropdown.Item onClick={dialogToggle.on}>
+            {" "}
+            <Plus size={16} className="stroke-yellow-500 ring-1 ring-yellow-500 rounded-full inline-block mr-2" />
+            Create task
+          </Dropdown.Item>
+          <Dropdown.Item onClick={onPin}>
+            <Pin size={16} className="stroke-yellow-500  inline-block mr-2" />
+            {pinned ? "Unpin task list" : "Pin task list"}
+          </Dropdown.Item>
           <Dropdown.Item onClick={onDelete}>Delete list</Dropdown.Item>
         </Dropdown.Content>
       </Dropdown.Root>

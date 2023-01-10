@@ -496,10 +496,16 @@ export function XClose({ className, size, fill }: PropTypes) {
   );
 }
 
-export function CircleCheck() {
+export function CircleCheck({ className, fill, size }: PropTypes) {
   return (
-    <svg height="24" width="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-      <g fill="none" stroke="#ffffff" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2">
+    <svg
+      height={size || defaultSize}
+      width={size || defaultSize}
+      className={className ? className : fill ? "icon-fill" : "icon-stroke"}
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <g fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2">
         <path d="M0 0h24v24H0z" fill="none" stroke="none" />
         <path d="M9 12l2 2 4-4" />
         <circle cx="12" cy="12" r="9" />
@@ -508,10 +514,16 @@ export function CircleCheck() {
   );
 }
 
-function CalendarTime() {
+export function CalendarTime({ className, fill, size }: PropTypes) {
   return (
-    <svg height="24" width="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-      <g fill="none" stroke="#ffffff" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2">
+    <svg
+      height={size || defaultSize}
+      width={size || defaultSize}
+      viewBox="0 0 24 24"
+      className={className ? className : fill ? "icon-fill" : "icon-stroke"}
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <g fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2">
         <path d="M0 0h24v24H0z" fill="none" stroke="none" />
         <path d="M11.795 21H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v4" />
         <path d="M15 3v4" />
@@ -524,28 +536,34 @@ function CalendarTime() {
   );
 }
 
-export default CalendarTime;
-
-function Push_pin() {
+export function PushPin({ className, fill, size }: PropTypes) {
   return (
-    <svg height="24" width="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <svg
+      height={size || defaultSize}
+      width={size || defaultSize}
+      className={className ? className : fill ? "icon-fill" : "icon-stroke"}
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+    >
       <g fill="none">
-        <path
-          d="M14 4v5c0 1.12.37 2.16 1 3H9c.65-.86 1-1.9 1-3V4h4zm3-2H7c-.55 0-1 .45-1 1s.45 1 1 1h1v5c0 1.66-1.34 3-3 3v2h5.97v7l1 1 1-1v-7H19v-2c-1.66 0-3-1.34-3-3V4h1c.55 0 1-.45 1-1s-.45-1-1-1z"
-          fill="#ffffff"
-        />
+        <path d="M14 4v5c0 1.12.37 2.16 1 3H9c.65-.86 1-1.9 1-3V4h4zm3-2H7c-.55 0-1 .45-1 1s.45 1 1 1h1v5c0 1.66-1.34 3-3 3v2h5.97v7l1 1 1-1v-7H19v-2c-1.66 0-3-1.34-3-3V4h1c.55 0 1-.45 1-1s-.45-1-1-1z" />
       </g>
     </svg>
   );
 }
 
-function Push_pinOutline() {
+export function PushPinOutline({ className, fill, size }: PropTypes) {
   return (
-    <svg height="24" width="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <svg
+      height={size || defaultSize}
+      width={size || defaultSize}
+      className={className ? className : fill ? "icon-fill" : "icon-stroke"}
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+    >
       <g fill="none">
         <path
           d="M16 9V4h1c.55 0 1-.45 1-1s-.45-1-1-1H7c-.55 0-1 .45-1 1s.45 1 1 1h1v5c0 1.66-1.34 3-3 3v2h5.97v7l1 1 1-1v-7H19v-2c-1.66 0-3-1.34-3-3z"
-          fill="#ffffff"
           fillRule="evenodd"
         />
       </g>
@@ -553,10 +571,16 @@ function Push_pinOutline() {
   );
 }
 
-function Pinned() {
+export function Pinned({ className, fill, size }: PropTypes) {
   return (
-    <svg height="24" width="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-      <g fill="none" stroke="#ffffff" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2">
+    <svg
+      height={size || defaultSize}
+      width={size || defaultSize}
+      className={className ? className : fill ? "icon-fill" : "icon-stroke"}
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <g fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2">
         <path d="M0 0h24v24H0z" fill="none" stroke="none" />
         <path d="M9 4v6l-2 4v2h10v-2l-2-4V4" />
         <path d="M12 16v5" />
@@ -566,10 +590,16 @@ function Pinned() {
   );
 }
 
-function Pin() {
+export function Pin({ className, fill, size }: PropTypes) {
   return (
-    <svg height="24" width="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-      <g fill="none" stroke="#ffffff" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2">
+    <svg
+      height={size || defaultSize}
+      width={size || defaultSize}
+      className={className ? className : fill ? "icon-fill" : "icon-stroke"}
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <g fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2">
         <path d="M0 0h24v24H0z" fill="none" stroke="none" />
         <path d="M15 4.5l-4 4L7 10l-1.5 1.5 7 7L14 17l1.5-4 4-4" />
         <path d="M9 15l-4.5 4.5" />
@@ -579,10 +609,16 @@ function Pin() {
   );
 }
 
-function Plus() {
+export function Plus({ className, fill, size }: PropTypes) {
   return (
-    <svg height="24" width="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-      <g fill="none" stroke="#ffffff" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2">
+    <svg
+      height={size || defaultSize}
+      width={size || defaultSize}
+      className={className ? className : fill ? "icon-fill" : "icon-stroke"}
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <g fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2">
         <path d="M0 0h24v24H0z" fill="none" stroke="none" />
         <path d="M12 5v14" />
         <path d="M5 12h14" />
