@@ -30,13 +30,14 @@ model Bookings {
 
 model Projects {
   id           Int      @id @default(autoincrement())
-  title        String
-  description  String   @db.Text
-  thumbnail    String
+  name         String   //Name for project to help admin easily identify it
+  title        String?
+  description  String?   @db.Text
+  thumbnail    String?
   createdAt    DateTime @default(now())
   testimonial  String?  @default("") @db.Text
   companyName  String?  @default("")
-  customerName String
+  customerName String?
   images       Images[]
   published    Boolean  @default(false)
 
