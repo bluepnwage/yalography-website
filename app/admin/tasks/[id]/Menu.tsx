@@ -143,7 +143,10 @@ export function Menu({ groupId, pinned }: PropTypes) {
             <Pin size={16} className="stroke-yellow-500  inline-block mr-2" />
             {pinned ? "Unpin task list" : "Pin task list"}
           </Dropdown.Item>
-          <Dropdown.Item onClick={onDelete}>Delete list</Dropdown.Item>
+          <Dropdown.Item onClick={onDelete}>
+            <Trash size={16} className="stroke-yellow-500 inline-block mr-2" />
+            Delete list
+          </Dropdown.Item>
         </Dropdown.Content>
       </Dropdown.Root>
     </>
