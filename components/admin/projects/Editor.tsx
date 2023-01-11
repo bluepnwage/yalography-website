@@ -15,14 +15,6 @@ import type { Images } from "@prisma/client";
 
 type ProjectJoin = SerializedProject & { images: Images[] };
 
-type ProjectData = {
-  title: string;
-  description: string;
-  customer_name: string;
-  company_name: string;
-  testimonial: string;
-};
-
 type PropTypes = {
   projectData: ProjectJoin;
 };
@@ -55,7 +47,10 @@ export function Editor({ projectData }: PropTypes) {
   };
 
   const onStatus = async () => {
-    const res = await fetch("/api/projects", {
+    const endpoint = new URL("/api/projects", location.origin);
+    endpoint.searchParams.set("revalidate", `1`);
+
+    const res = await fetch(endpoint, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ published: !project.published, id: project.id })
@@ -95,7 +90,11 @@ export function Editor({ projectData }: PropTypes) {
       type: selectedType,
       thumbnail: url
     };
-    const res = await fetch("/api/projects", {
+
+    const endpoint = new URL("/api/projects", location.origin);
+    endpoint.searchParams.set("revalidate", project.published ? "1" : "0");
+
+    const res = await fetch(endpoint, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(jsonData)
