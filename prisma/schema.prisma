@@ -30,7 +30,7 @@ model Bookings {
 
 model Projects {
   id           Int      @id @default(autoincrement())
-  name         String //Name for project to help admin easily identify it
+  name         String   @unique //Name for project to help admin easily identify it
   title        String?
   description  String?  @db.Text
   thumbnail    String?

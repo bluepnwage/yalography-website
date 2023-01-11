@@ -34,13 +34,12 @@ export function Editor({ projectData }: PropTypes) {
   const [project, setProject] = useState(projectData);
   const [selectedType, setSelectedType] = useState(projectData.type || "");
 
-  const thumbnailURL = thumbnail ? URL.createObjectURL(thumbnail) : "";
+  const thumbnailURL = thumbnail ? URL.createObjectURL(thumbnail) : project.thumbnail ? project.thumbnail : "";
   const selectData = Array.from(photoshootTypes).map(([key, value]) => ({ label: value.label, value: key }));
 
   const onChange = (e: FormEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.currentTarget;
     setProject((prev) => ({ ...prev, [name]: value }));
-    // setProject((prev) => ({ ...prev, [name]: value }));
   };
 
   const onThumbnailDrop = (file: File[] | null) => {
@@ -69,6 +68,23 @@ export function Editor({ projectData }: PropTypes) {
   };
 
   const onSave = async () => {
+    let url = project.thumbnail;
+    //if theres no previous thumbnail  uploaded already
+    //or
+    //if theres already a previous thumbnail but the user wants to change the thumbnail
+    //then upload a new thumbnail
+    if ((!url && thumbnail) || (url !== thumbnailURL && thumbnail)) {
+      const { uploadThumbnail } = await import("@lib/firebase/storage");
+      url = await uploadThumbnail(thumbnail, project.name);
+      console.log("thumbnail uploaded");
+    }
+
+    if (images && images.length > 0) {
+      const { uploadImage } = await import("@lib/firebase/storage");
+      const promise = images.map((image) => uploadImage(image, { projectID: project.id }));
+      await Promise.all(promise);
+    }
+
     const jsonData = {
       id: project.id,
       title: project.title || "",
@@ -76,7 +92,8 @@ export function Editor({ projectData }: PropTypes) {
       companyName: project.companyName || "",
       customerName: project.customerName || "",
       description: project.description || "",
-      type: selectedType
+      type: selectedType,
+      thumbnail: url
     };
     const res = await fetch("/api/projects", {
       method: "PUT",
@@ -119,7 +136,7 @@ export function Editor({ projectData }: PropTypes) {
               <div className="flex gap-5">
                 <Dropzone onDrop={onThumbnailDrop} />
                 <div className="bg-zinc-900 basis-2/4 grow">
-                  <img src={project?.thumbnail || ""} />
+                  <img src={thumbnailURL} />
                 </div>
               </div>
             </div>
@@ -156,7 +173,7 @@ export function Editor({ projectData }: PropTypes) {
         </TabsDemo.Content>
         <TabsDemo.Content value="preview">
           <div>
-            <img src={project.thumbnail || ""} className="w-full h-64 mb-10 object-cover" />
+            <img src={thumbnailURL} className="w-full h-64 mb-10 object-cover" />
           </div>
           <p className="font-bold text-3xl mb7 text-center">{project.title}</p>
 
@@ -194,7 +211,7 @@ export function Editor({ projectData }: PropTypes) {
         <TabsDemo.Content value="card-preview">
           <div className="bg-gray-50 ring-1 ring-black/10 dark:ring-0 dark:bg-zinc-700 flex flex-col gap-2 mx-auto w-2/6 rounded-md overflow-hidden ">
             <figure className="basis-1/3">
-              <img src={project.thumbnail || ""} className="h-full w-full" />
+              <img src={thumbnailURL} className="h-full w-full" />
             </figure>
             <div className="space-y-4 p-2">
               <div className="flex justify-between">
