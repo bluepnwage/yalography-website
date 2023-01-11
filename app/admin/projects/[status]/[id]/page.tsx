@@ -10,17 +10,17 @@ import { notFound } from "next/navigation";
 
 const getProject = cache(async (id: number) => {
   await prisma.$connect();
-  const project = await prisma.projects.findUnique({ where: { id } });
+  const project = await prisma.projects.findUnique({ where: { id }, include: { images: true } });
   await prisma.$disconnect();
   if (!project) notFound();
-  return project;
+  return { ...project, createdAt: project.createdAt.toDateString() };
 });
 
 export default async function Page({ params }: { params: { status: "drafted" | "published"; id: string } }) {
-  // const id = parseInt(params.id);
-  // if (!id) notFound();
+  const id = parseInt(params.id);
+  if (!id) notFound();
 
-  // const project = await getProject(id);
+  const project = await getProject(id);
 
   return (
     <>
@@ -31,7 +31,9 @@ export default async function Page({ params }: { params: { status: "drafted" | "
           </Title>
           <div className="flex items-end gap-4">
             <Title order={"h2"}>My first project</Title>
-            <Badge color={"orange"}>Drafted</Badge>
+            <Badge color={project.published ? "emerald" : "orange"}>
+              {project.published ? "Published" : "Drafted"}
+            </Badge>
           </div>
         </div>
         <Dropdown.Root>
@@ -62,7 +64,7 @@ export default async function Page({ params }: { params: { status: "drafted" | "
         <Anchor href={`/admin/projects/${params.status}/1`}>My first project</Anchor>
       </Breadcrumbs>
       <div className="mt-2">
-        <Editor />
+        <Editor projectData={project} />
       </div>
     </>
   );

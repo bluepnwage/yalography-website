@@ -5,10 +5,15 @@ import { TabsDemo } from "@components/shared/Tabs";
 import { Textarea } from "@components/shared/Textarea";
 import { photoshootTypes } from "@lib/photoshoot";
 import { FormEvent, useState } from "react";
+import { useRouteRefresh } from "@lib/hooks/useRouteRefresh";
 import { Dropzone } from "./Dropzone";
 import { Badge } from "@components/shared/Badge";
 import { Button } from "@components/shared/Button";
 import { toast } from "react-toastify";
+import type { SerializedProject } from "@lib/prisma";
+import type { Images } from "@prisma/client";
+
+type ProjectJoin = SerializedProject & { images: Images[] };
 
 type ProjectData = {
   title: string;
@@ -18,20 +23,24 @@ type ProjectData = {
   testimonial: string;
 };
 
-type PropTypes = {};
+type PropTypes = {
+  projectData: ProjectJoin;
+};
 
-export function Editor() {
+export function Editor({ projectData }: PropTypes) {
   const [thumbnail, setThumbnail] = useState<File | null>(null);
   const [images, setImages] = useState<File[] | null>(null);
-  const selectData = Array.from(photoshootTypes).map(([key, value]) => ({ label: value.label, value: key }));
-  const [project, setProject] = useState<Partial<ProjectData>>({});
+  const [isPending, refresh] = useRouteRefresh();
+  const [project, setProject] = useState(projectData);
+  const [selectedType, setSelectedType] = useState(projectData.type || "");
 
   const thumbnailURL = thumbnail ? URL.createObjectURL(thumbnail) : "";
-  const [selectedType, setSelectedType] = useState("");
+  const selectData = Array.from(photoshootTypes).map(([key, value]) => ({ label: value.label, value: key }));
 
   const onChange = (e: FormEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.currentTarget;
     setProject((prev) => ({ ...prev, [name]: value }));
+    // setProject((prev) => ({ ...prev, [name]: value }));
   };
 
   const onThumbnailDrop = (file: File[] | null) => {
@@ -50,21 +59,24 @@ export function Editor() {
     const res = await fetch("/api/projects", {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ published: false, id: 1 })
+      body: JSON.stringify({ published: !project.published, id: project.id })
     });
     if (res.ok) {
-      toast.success("Project drafted");
+      toast.success(project.published ? "Project drafted" : "Project published");
+      refresh();
+      setProject((prev) => ({ ...prev, published: !prev.published }));
     }
   };
 
   const onSave = async () => {
     const jsonData = {
-      id: 1,
+      id: project.id,
       title: project.title || "",
       testimonial: project.testimonial || "",
-      companyName: project.company_name || "",
-      customerName: project.customer_name || ""
-      //   thumbnail: url ? url : ""
+      companyName: project.companyName || "",
+      customerName: project.customerName || "",
+      description: project.description || "",
+      type: selectedType
     };
     const res = await fetch("/api/projects", {
       method: "PUT",
@@ -72,13 +84,14 @@ export function Editor() {
       body: JSON.stringify(jsonData)
     });
     if (res.ok) {
-      toast.success("Projects saved");
+      refresh();
+      toast.success("Project saved");
     }
   };
 
   return (
     <>
-      <Button onClick={onSave} className="mb-4 block" intent={"accept"}>
+      <Button disabled={isPending} onClick={onSave} className="mb-4 block" intent={"accept"}>
         Save changes
       </Button>
       <TabsDemo defaultValue="information">
@@ -92,9 +105,9 @@ export function Editor() {
         </TabsDemo.List>
         <TabsDemo.Content value="information">
           <section className="space-y-5">
-            <Input value={project?.title} onChange={onChange} label="Title" id="title" name="title" required />
+            <Input value={project?.title || ""} onChange={onChange} label="Title" id="title" name="title" required />
             <Textarea
-              value={project?.description}
+              value={project?.description || ""}
               onChange={onChange}
               label="Description"
               id="description"
@@ -106,7 +119,7 @@ export function Editor() {
               <div className="flex gap-5">
                 <Dropzone onDrop={onThumbnailDrop} />
                 <div className="bg-zinc-900 basis-2/4 grow">
-                  <img src={thumbnailURL} />
+                  <img src={project?.thumbnail || ""} />
                 </div>
               </div>
             </div>
@@ -115,21 +128,21 @@ export function Editor() {
         <TabsDemo.Content value="customer-details">
           <section className="space-y-5">
             <Input
-              value={project.customer_name}
+              value={project.customerName || ""}
               onChange={onChange}
               label="Customer name"
-              name="customer_name"
-              id="customer_name"
+              name="customerName"
+              id="customerName"
             />
             <Input
-              value={project.company_name}
+              value={project?.companyName || ""}
               onChange={onChange}
               label="Company name"
-              name="company_name"
-              id="company_name"
+              name="companyName"
+              id="companyName"
             />
             <Textarea
-              value={project.testimonial}
+              value={project?.testimonial || ""}
               onChange={onChange}
               label="Customer testimonial"
               name="testimonial"
@@ -143,19 +156,20 @@ export function Editor() {
         </TabsDemo.Content>
         <TabsDemo.Content value="preview">
           <div>
-            <img src={thumbnailURL} className="w-full h-64 mb-10 object-cover" />
+            <img src={project.thumbnail || ""} className="w-full h-64 mb-10 object-cover" />
           </div>
+          <p className="font-bold text-3xl mb7 text-center">{project.title}</p>
 
           <section className="grid grid-cols-2 gap-4 mb-10">
             <div>
               <h3 className="text-gray-900 text-4xl font-bold mb-2 dark:text-gray-100">Overview</h3>
-              <p className="">{project.description}</p>
+              <p className="">{project?.description || ""}</p>
             </div>
             <div className="bg-white rounded-md dark:bg-zinc-800 p-2">
               <p className="text-red-600 dark:text-red-500 text-center mb-2">Testimonial</p>
               <p className="mb-4">{project.testimonial}</p>
-              <strong className="block mb-4">{project.customer_name}</strong>
-              <p className="text-red-600 dark:text-red-500">{project.company_name}</p>
+              <strong className="block mb-4">{project.customerName}</strong>
+              <p className="text-red-600 dark:text-red-500">{project.companyName}</p>
             </div>
           </section>
           <section>
@@ -166,11 +180,11 @@ export function Editor() {
               </h3>
             </header>
             <div className="flex gap-4">
-              {images?.map((image, key) => {
-                const url = URL.createObjectURL(image);
+              {project.images?.map((image, key) => {
+                // const url = URL.createObjectURL(image);
                 return (
                   <div key={key} className="basis-1/3 grow">
-                    <img src={url} className="h-full w-full" />
+                    <img src={image.url} className="h-full w-full" />
                   </div>
                 );
               })}
@@ -180,7 +194,7 @@ export function Editor() {
         <TabsDemo.Content value="card-preview">
           <div className="bg-gray-50 ring-1 ring-black/10 dark:ring-0 dark:bg-zinc-700 flex flex-col gap-2 mx-auto w-2/6 rounded-md overflow-hidden ">
             <figure className="basis-1/3">
-              <img src={thumbnailURL} className="h-full w-full" />
+              <img src={project.thumbnail || ""} className="h-full w-full" />
             </figure>
             <div className="space-y-4 p-2">
               <div className="flex justify-between">
@@ -198,8 +212,8 @@ export function Editor() {
           <section className="flex flex-col items-center">
             <div className="w-2/4 space-y-4">
               <p className="font-bold text-center text-2xl">{project.title}</p>
-              <Badge color="emerald" className="w-fit inline-block mx-auto">
-                Published
+              <Badge color={project.published ? "emerald" : "orange"} className="w-fit inline-block mx-auto">
+                {project.published ? "Published" : "Drafted"}
               </Badge>
               <hr className="h-1 border-zinc-200 dark:border-zinc-700 w-full " />
               <p className="text-gray-600 dark:text-gray-300 ">
@@ -208,18 +222,18 @@ export function Editor() {
               </p>
               <p className="text-gray-600 dark:text-gray-300 ">
                 <span className="font-semibold text-gray-900 dark:text-gray-100">Customer name:</span>{" "}
-                {project.customer_name}
+                {project.customerName}
               </p>
               <p className="text-gray-600 dark:text-gray-300 ">
                 <span className="font-semibold text-gray-900 dark:text-gray-100">Company name:</span>{" "}
-                {project.company_name}
+                {project.companyName}
               </p>
               <p className="text-gray-600 dark:text-gray-300 ">
                 <span className="font-semibold text-gray-900 dark:text-gray-100">Testimonial:</span>{" "}
                 {project.testimonial}
               </p>
-              <Button onClick={onStatus} intent={"warn"}>
-                Unpublish project
+              <Button disabled={isPending} onClick={onStatus} intent={project.published ? "warn" : "accept"}>
+                {project.published ? "Unpublish" : "Publish"}
               </Button>
             </div>
           </section>
