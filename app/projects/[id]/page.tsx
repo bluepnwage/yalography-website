@@ -11,7 +11,7 @@ export async function generateStaticParams() {
   await prisma.$connect();
   const ids = await prisma.projects.findMany({ where: { published: true }, select: { id: true } });
   await prisma.$disconnect();
-  return ids.map((id) => ({ id }));
+  return ids.map((id) => ({ id: `${id}` }));
 }
 
 async function findProject(id: number) {
