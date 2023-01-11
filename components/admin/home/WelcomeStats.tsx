@@ -11,7 +11,6 @@ async function getBookings() {
     where: { status: "pending" }
   });
   const orders = await prisma.orders.aggregate({ _count: { _all: true }, _sum: { quote: true } });
-  const t = await prisma.orders.count();
   await prisma.$disconnect();
   return { pending, orders };
 }

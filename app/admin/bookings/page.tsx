@@ -10,6 +10,8 @@ import { TotalEarnings } from "@components/admin/bookings/home/TotalEarnings";
 import { BookingsCard } from "@components/admin/bookings/home/BookingsCard";
 import { OrdersTable } from "@components/admin/bookings/home/OrdersTable";
 
+export const dynamic = "force-dynamic";
+
 export default function BookingsPage() {
   return (
     <>
