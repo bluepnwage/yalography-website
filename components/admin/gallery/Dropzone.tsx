@@ -28,7 +28,9 @@ export function Dropzone({ onDialogClose, folders }: PropTypes) {
     toggle.on();
     try {
       const { uploadImage } = await import("@lib/firebase/storage");
-      const promises = files.map((file) => uploadImage(file, selectedFolder ? parseInt(selectedFolder) : undefined));
+      const promises = files.map((file) =>
+        uploadImage(file, { folderID: selectedFolder ? parseInt(selectedFolder) : undefined })
+      );
       await Promise.all(promises);
       refresh();
       toggle.off();
