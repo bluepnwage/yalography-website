@@ -5,6 +5,8 @@
 /.pnp
 .pnp.js
 
+yalography-admin.json
+
 # testing
 /coverage
 

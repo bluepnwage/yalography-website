@@ -9,7 +9,7 @@ const handler: NextApiHandler = async (req, res) => {
       return res.status(200).json({ message: "Gallery revalidated" });
     }
   } catch (error) {
-    return res.status(500).json({ message: "An error occurred on the server" });
+    return res.status(500).json({ message: "There was an error revalidating the gallery" });
   }
 };
 

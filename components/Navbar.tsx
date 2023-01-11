@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ThemeSwitcher } from "./ThemeSwitcher";
 import logo from "@public/logo.png";
 import Image from "next/image";
+import { Admin } from "./Admin";
 
 interface NavLinkProps {
   href: string;
@@ -39,7 +40,8 @@ export function Header() {
             })}
           </ul>
         </nav>
-        <div className="space-x-3">
+        <div className="flex gap-4 items-center">
+          <Admin />
           <ThemeSwitcher />
         </div>
       </div>
