@@ -12,18 +12,9 @@ type PropTypes = {
   children: React.ReactNode;
 };
 
-const getBookings = cache(async () => {
+const getBookings = async () => {
   await prisma.$connect();
   const bookings = await prisma.bookings.findMany({ where: { NOT: { status: "completed" } } });
-  const completed = (await prisma.bookings.findMany({ where: { status: "completed" }, include: { orders: true } })).map(
-    (booking) => {
-      return {
-        ...booking,
-        date: booking.date.toDateString(),
-        orders: { ...booking.orders, createdAt: booking.orders?.createdAt.toDateString() }
-      };
-    }
-  );
   await prisma.$disconnect();
 
   const pending = [];
@@ -39,12 +30,27 @@ const getBookings = cache(async () => {
       continue;
     }
   }
-  return { pending, approved, completed };
+  return { pending, approved };
+};
+
+const getCompletedBookings = cache(async () => {
+  await prisma.$connect();
+  const completed = await prisma.bookings.findMany({ where: { status: "completed" }, include: { orders: true } });
+  await prisma.$disconnect();
+  return completed.map((booking) => {
+    return {
+      ...booking,
+      date: booking.date.toDateString(),
+      orders: { ...booking.orders, createdAt: booking.orders?.createdAt.toDateString() }
+    };
+  });
 });
 
 export default async function Layout({ children }: PropTypes) {
-  const bookings = await getBookings();
+  const bookingsPromise = getBookings();
+  const completedBookingsPromise = getCompletedBookings();
 
+  const [bookings, completedBookings] = await Promise.all([bookingsPromise, completedBookingsPromise]);
   return (
     <>
       <div className="border-b mb-5 z-10 -mt-5 bg-white border-zinc-200 dark:bg-zinc-900 p-5 dark:border-zinc-600 -mx-5 sticky top-[64px] ">
@@ -58,13 +64,15 @@ export default async function Layout({ children }: PropTypes) {
             <Anchor href={"/admin/bookings/approved"}>View approved bookings</Anchor>
           </div>
           <div className="text-center">
-            <p>Completed bookings: {bookings.completed.length}</p>
+            <p>Completed bookings: {completedBookings.length}</p>
             <Anchor href={"/admin/bookings/completed"}>View completed bookings</Anchor>
           </div>
           <BookingDialog />
         </FlexContainer>
       </div>
-      <BookingsProvider {...bookings}>{children}</BookingsProvider>
+      <BookingsProvider completed={completedBookings} {...bookings}>
+        {children}
+      </BookingsProvider>
     </>
   );
 }

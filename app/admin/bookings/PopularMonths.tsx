@@ -1,6 +1,7 @@
 import { formatNum } from "@util/formatNum";
 import { ScrollAreaDemo } from "@components/shared/ScrollArea";
 import { Skeleton } from "@components/shared";
+import { cache } from "react";
 
 import prisma from "@lib/prisma";
 
@@ -8,7 +9,7 @@ type PopularShoots = {
   [type: string]: { count: number; total: number };
 };
 
-async function popularTypes() {
+const popularTypes = cache(async () => {
   await prisma.$connect();
   const test = await prisma.orders.findMany({ include: { booking: { select: { type: true } } } });
   await prisma.$disconnect();
@@ -32,7 +33,7 @@ async function popularTypes() {
     .sort((a, b) => {
       return b.value.total - a.value.total;
     });
-}
+});
 
 export async function PopularMonths() {
   const data = await popularTypes();

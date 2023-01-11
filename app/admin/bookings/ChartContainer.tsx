@@ -1,10 +1,10 @@
 import { MonthChart } from "@components/admin/bookings/home/MonthChart";
 import prisma from "@lib/prisma";
 import { Card, Skeleton } from "@components/shared";
-
+import { cache } from "react";
 export type ChartData = Awaited<ReturnType<typeof groupMonths>>;
 
-async function groupMonths() {
+const groupMonths = cache(async () => {
   await prisma.$connect();
   const months = await prisma.orders.groupBy({
     by: ["month"],
@@ -23,7 +23,7 @@ async function groupMonths() {
       count: stat._count
     };
   });
-}
+});
 
 export async function ChartContainer() {
   const data = await groupMonths();
