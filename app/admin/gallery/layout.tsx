@@ -1,14 +1,19 @@
 import { FlexContainer } from "@components/shared";
 import { UploadDialog } from "@components/admin/gallery/UploadDialog";
 import { Revalidate } from "@components/admin/gallery/Revalidate";
+import { cache } from "react";
 
 import { GalleryProvider } from "@components/admin/gallery/GalleryProvider";
 import prisma from "@lib/prisma";
+import { verifyToken } from "@lib/firebase/admin/auth";
 
-async function getImages() {
+const getImages = cache(async () => {
   await prisma.$connect();
-  const images = await prisma.images.findMany({ where: { folderId: null } });
-  const folders = await prisma.imageFolders.findMany({ include: { Images: true } });
+  const imagesPromise = prisma.images.findMany({ where: { folderId: null } });
+  const foldersPromise = prisma.imageFolders.findMany({ include: { Images: true } });
+
+  const [images, folders] = await Promise.all([imagesPromise, foldersPromise]);
+
   await prisma.$disconnect();
 
   const serializedFolders = folders.map((folder) => {
@@ -18,7 +23,7 @@ async function getImages() {
     };
   });
   return { images, folders: serializedFolders };
-}
+});
 
 export const dynamic = "force-dynamic";
 export const revalidate = process.env.NODE_ENV === "development" ? false : 0;
@@ -28,7 +33,10 @@ type PropTypes = {
 };
 
 export default async function Layout({ children }: PropTypes) {
+  await verifyToken();
+
   const { images, folders } = await getImages();
+
   let totalImages = images.length;
   for (let i = 0; i < folders.length; i++) {
     totalImages += folders[i].Images.length;

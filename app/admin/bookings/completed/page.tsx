@@ -4,7 +4,11 @@ import { CompletedBookingTable } from "@components/admin/bookings/completed/Comp
 //Server components
 import { Grid, Title } from "@components/shared";
 
+import { verifyToken } from "@lib/firebase/admin/auth";
+
 export default async function CompletedBookingsPage() {
+  await verifyToken();
+
   return (
     <>
       <Title className="mb-4">Completed bookings</Title>

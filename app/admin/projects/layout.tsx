@@ -3,6 +3,7 @@ import { CreateProjectModal } from "@components/admin/projects/CreateProjectModa
 import { ProjectsProvider } from "@components/admin/projects/ProjectsProvider";
 import prisma from "@lib/prisma";
 import { cache } from "react";
+import { verifyToken } from "@lib/firebase/admin/auth";
 
 const getProjects = cache(async () => {
   await prisma.$connect();
@@ -29,6 +30,8 @@ type PropTypes = {
 };
 
 export default async function Layout({ children }: PropTypes) {
+  await verifyToken();
+
   // const { drafted, published } = await getProjects();
   const drafted: Awaited<ReturnType<typeof getProjects>>["drafted"] = [];
   const published: Awaited<ReturnType<typeof getProjects>>["drafted"] = [];

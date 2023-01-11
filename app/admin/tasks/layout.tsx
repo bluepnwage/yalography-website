@@ -3,6 +3,7 @@ import prisma from "@lib/prisma";
 import { TaskProvider } from "@components/admin/tasks/home/TasksProvider";
 import { Modal } from "@components/admin/tasks/home/Modal";
 import { cache } from "react";
+import { verifyToken } from "@lib/firebase/admin/auth";
 
 type PropTypes = {
   children: React.ReactNode;
@@ -43,6 +44,8 @@ const getTasks = cache(async () => {
 });
 
 export default async function Layout({ children }: PropTypes) {
+  await verifyToken();
+
   const { taskLists, tasks } = await getTasks();
   return (
     <>
