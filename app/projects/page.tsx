@@ -2,8 +2,17 @@ import { PageIntro } from "@components/PageIntro";
 import { Filter, Project } from "@components/projects";
 import { Grid, Section, Title } from "@components/shared";
 
-export default function ProjectsPage() {
-  const projs = Array(9).fill(null);
+import prisma from "@lib/prisma";
+
+async function getProjects() {
+  await prisma.$connect();
+  const projects = await prisma.projects.findMany({ where: { published: true } });
+  await prisma.$disconnect();
+  return projects;
+}
+
+export default async function ProjectsPage() {
+  const projects = await getProjects();
   return (
     <>
       <PageIntro>
@@ -20,8 +29,8 @@ export default function ProjectsPage() {
           Projects
         </Title>
         <Grid className="gap-5 w-11/12">
-          {projs.map((_, key) => {
-            return <Project key={key} />;
+          {projects.map((project) => {
+            return <Project project={project} key={project.id} />;
           })}
         </Grid>
       </Section>

@@ -1,9 +1,13 @@
 import { Grid, Title } from "@components/shared";
 import Image from "next/image";
 import pixel from "@public/pixel2.jpg";
+import { Images } from "@prisma/client";
 
-export function Gallery() {
-  const images = Array(9).fill(null);
+type PropTypes = {
+  images: Images[];
+};
+
+export function Gallery({ images }: PropTypes) {
   return (
     <>
       <div className="text-center space-y-2 py-10">
@@ -13,8 +17,10 @@ export function Gallery() {
         <Title order={"h3"}>See the images that brought this project to life</Title>
       </div>
       <Grid fullWidth>
-        {images.map((_, key) => {
-          return <Image key={key} src={pixel} alt={""} className="col-span-full lg:col-span-4 object-contain" />;
+        {images.map((image) => {
+          return (
+            <Image key={image.id} src={image.url} alt={""} className="col-span-full lg:col-span-4 object-contain" />
+          );
         })}
       </Grid>
     </>
