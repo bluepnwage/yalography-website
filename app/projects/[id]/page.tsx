@@ -7,6 +7,8 @@ import prisma from "@lib/prisma";
 //Assets
 import pixel from "@public/pixel.jpg";
 
+export const dynamicParams = false;
+
 export async function generateStaticParams() {
   await prisma.$connect();
   const ids = await prisma.projects.findMany({ where: { published: true }, select: { id: true } });
