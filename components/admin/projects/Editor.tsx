@@ -12,6 +12,8 @@ import { Button } from "@components/shared/Button";
 import { toast } from "react-toastify";
 import type { SerializedProject } from "@lib/prisma";
 import type { Images } from "@prisma/client";
+import { useRouter } from "next/navigation";
+import { useToggle } from "@lib/hooks/useToggle";
 
 type ProjectJoin = SerializedProject & { images: Images[] };
 
@@ -25,6 +27,8 @@ export function Editor({ projectData }: PropTypes) {
   const [isPending, refresh] = useRouteRefresh();
   const [project, setProject] = useState(projectData);
   const [selectedType, setSelectedType] = useState(projectData.type || "");
+  const [loading, toggle] = useToggle();
+  const router = useRouter();
 
   const thumbnailURL = thumbnail ? URL.createObjectURL(thumbnail) : project.thumbnail ? project.thumbnail : "";
   const selectData = Array.from(photoshootTypes).map(([key, value]) => ({ label: value.label, value: key }));
@@ -49,65 +53,83 @@ export function Editor({ projectData }: PropTypes) {
   const onStatus = async () => {
     const endpoint = new URL("/api/projects", location.origin);
     endpoint.searchParams.set("revalidate", `1`);
-
-    const res = await fetch(endpoint, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ published: !project.published, id: project.id })
-    });
-    if (res.ok) {
-      toast.success(project.published ? "Project drafted" : "Project published");
-      refresh();
-      setProject((prev) => ({ ...prev, published: !prev.published }));
+    toggle.on();
+    try {
+      const res = await fetch(endpoint, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ published: !project.published, id: project.id })
+      });
+      if (res.ok) {
+        toast.success(project.published ? "Project drafted" : "Project published");
+        refresh();
+        setProject((prev) => ({ ...prev, published: !prev.published }));
+        router.push(`/admin/projects/${project.published ? "drafted" : "published"}/${project.id}`);
+      } else {
+        throw new Error();
+      }
+    } catch (error) {
+      toast.error(`Failed to ${project.published ? "draft" : "publish"} project. Please try again in a few minutes.`);
+    } finally {
+      toggle.off();
     }
   };
 
   const onSave = async () => {
     let url = project.thumbnail;
-    //if theres no previous thumbnail  uploaded already
-    //or
-    //if theres already a previous thumbnail but the user wants to change the thumbnail
-    //then upload a new thumbnail
-    if ((!url && thumbnail) || (url !== thumbnailURL && thumbnail)) {
-      const { uploadThumbnail } = await import("@lib/firebase/storage");
-      url = await uploadThumbnail(thumbnail, project.name);
-      console.log("thumbnail uploaded");
-    }
+    toggle.on();
+    try {
+      //if theres no previous thumbnail  uploaded already
+      //or
+      //if theres already a previous thumbnail but the user wants to change the thumbnail
+      //then upload a new thumbnail
+      if ((!url && thumbnail) || (url !== thumbnailURL && thumbnail)) {
+        const { uploadThumbnail } = await import("@lib/firebase/storage");
+        url = await uploadThumbnail(thumbnail, project.name);
+        console.log("thumbnail uploaded");
+      }
 
-    if (images && images.length > 0) {
-      const { uploadImage } = await import("@lib/firebase/storage");
-      const promise = images.map((image) => uploadImage(image, { projectID: project.id }));
-      await Promise.all(promise);
-    }
+      if (images && images.length > 0) {
+        const { uploadImage } = await import("@lib/firebase/storage");
+        const promise = images.map((image) => uploadImage(image, { projectID: project.id }));
+        await Promise.all(promise);
+      }
 
-    const jsonData = {
-      id: project.id,
-      title: project.title || "",
-      testimonial: project.testimonial || "",
-      companyName: project.companyName || "",
-      customerName: project.customerName || "",
-      description: project.description || "",
-      type: selectedType,
-      thumbnail: url
-    };
+      const jsonData = {
+        id: project.id,
+        title: project.title || "",
+        testimonial: project.testimonial || "",
+        companyName: project.companyName || "",
+        customerName: project.customerName || "",
+        description: project.description || "",
+        type: selectedType,
+        thumbnail: url
+      };
 
-    const endpoint = new URL("/api/projects", location.origin);
-    endpoint.searchParams.set("revalidate", project.published ? "1" : "0");
+      const endpoint = new URL("/api/projects", location.origin);
+      endpoint.searchParams.set("revalidate", project.published ? "1" : "0");
 
-    const res = await fetch(endpoint, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(jsonData)
-    });
-    if (res.ok) {
-      refresh();
-      toast.success("Project saved");
+      const res = await fetch(endpoint, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(jsonData)
+      });
+      if (res.ok) {
+        refresh();
+        toast.success("Project saved");
+      }
+    } catch (error) {
+      toast.error("Failed to save changes.");
+    } finally {
+      toggle.off();
     }
   };
 
+  const isLoading = isPending || loading;
+
   return (
     <>
-      <Button disabled={isPending} onClick={onSave} className="mb-4 block" intent={"accept"}>
+      <Button disabled={isLoading} onClick={onSave} className="mb-4 block" intent={"accept"}>
         Save changes
       </Button>
       <TabsDemo defaultValue="information">
@@ -248,7 +270,7 @@ export function Editor({ projectData }: PropTypes) {
                 <span className="font-semibold text-gray-900 dark:text-gray-100">Testimonial:</span>{" "}
                 {project.testimonial}
               </p>
-              <Button disabled={isPending} onClick={onStatus} intent={project.published ? "warn" : "accept"}>
+              <Button disabled={isLoading} onClick={onStatus} intent={project.published ? "warn" : "accept"}>
                 {project.published ? "Unpublish" : "Publish"}
               </Button>
             </div>

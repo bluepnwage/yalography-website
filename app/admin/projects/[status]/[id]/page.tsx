@@ -1,12 +1,10 @@
 import { Badge, Title, Breadcrumbs, Anchor } from "@components/shared";
-import { Dropdown } from "@components/shared/Dropdown";
-import { DotsVertical, Trash } from "@lib/icons";
 import { Editor } from "@components/admin/projects/Editor";
-import { Dropzone } from "@components/admin/projects/Dropzone";
 
 import prisma from "@lib/prisma";
 import { cache } from "react";
 import { notFound } from "next/navigation";
+import { ProjectMenu } from "@components/admin/projects/ProjectMenu";
 
 const getProject = cache(async (id: number) => {
   await prisma.$connect();
@@ -30,38 +28,20 @@ export default async function Page({ params }: { params: { status: "drafted" | "
             Project
           </Title>
           <div className="flex items-end gap-4">
-            <Title order={"h2"}>My first project</Title>
+            <Title order={"h2"}>{project.name}</Title>
             <Badge color={project.published ? "emerald" : "orange"}>
               {project.published ? "Published" : "Drafted"}
             </Badge>
           </div>
         </div>
-        <Dropdown.Root>
-          <Dropdown.Trigger>
-            <button
-              aria-label="Open menu"
-              className="bg-zinc-700 rounded-full h-7 w-7 flex justify-center items-center"
-            >
-              <DotsVertical className="stroke-white" />
-            </button>
-          </Dropdown.Trigger>
-          <Dropdown.Content>
-            <Dropdown.Item>Publish</Dropdown.Item>
-            <Dropdown.Item>Share</Dropdown.Item>
-            <Dropdown.Item>Copy link</Dropdown.Item>
-            <Dropdown.Item>
-              <Trash className="stroke-yellow-600 dark:stroke-yellow-500 inline-block mr-2" size={16} />
-              Delete
-            </Dropdown.Item>
-          </Dropdown.Content>
-        </Dropdown.Root>
+        <ProjectMenu id={project.id} published={project.published} />
       </div>
       <Breadcrumbs>
         <Anchor href={"/admin/projects"}>Projects</Anchor>
         <Anchor className="capitalize" href={`/admin/projects/${params.status}`}>
           {params.status}{" "}
         </Anchor>
-        <Anchor href={`/admin/projects/${params.status}/1`}>My first project</Anchor>
+        <Anchor href={`/admin/projects/${params.status}/1`}>{project.name}</Anchor>
       </Breadcrumbs>
       <div className="mt-2">
         <Editor projectData={project} />

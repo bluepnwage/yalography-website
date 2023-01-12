@@ -1,6 +1,8 @@
 import { Title } from "@components/shared";
 import { ProjectsTable } from "@components/admin/projects/ProjectsTable";
 
+export const dynamicParams = false;
+
 export function generateStaticParams() {
   return [{ status: "drafted" }, { status: "published" }];
 }

@@ -31,10 +31,7 @@ type PropTypes = {
 
 export default async function Layout({ children }: PropTypes) {
   await verifyToken();
-
-  // const { drafted, published } = await getProjects();
-  const drafted: Awaited<ReturnType<typeof getProjects>>["drafted"] = [];
-  const published: Awaited<ReturnType<typeof getProjects>>["drafted"] = [];
+  const { drafted, published } = await getProjects();
   return (
     <>
       <div className="border-b mb-5 z-10 -mt-5 bg-white border-zinc-200 dark:bg-zinc-900 p-5 dark:border-zinc-600 -mx-5 sticky top-[64px] ">

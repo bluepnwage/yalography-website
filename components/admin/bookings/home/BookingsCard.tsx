@@ -26,7 +26,7 @@ export function BookingsCard({ status }: PropTypes) {
                   {booking.date}, {booking.time}
                 </time>
               </div>
-              <div className="inline-block">Marriage</div>
+              <div className="inline-block capitalize">{booking.type}</div>
             </div>
             <div className="flex justify-between grow">
               <Button component="a" href={`/admin/bookings/${status}/${booking.id}`} intent={"primary"}>
