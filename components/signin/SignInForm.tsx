@@ -13,7 +13,7 @@ export function SignInForm() {
     const password = new FormData(e.currentTarget).get("password") as string;
     const { signIn } = await import("@lib/firebase/auth");
     await signIn(email, password);
-    router.push("/admin");
+    router.push("/");
   };
   return (
     <>
