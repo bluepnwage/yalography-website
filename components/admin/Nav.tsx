@@ -1,5 +1,6 @@
 import { NavLink } from "./NavLink";
 import { ListCheck, Home, Ballot, Books, Photo } from "@lib/icons";
+import { SignOut } from "./SignOut";
 
 const links = [
   {
@@ -31,12 +32,13 @@ const links = [
 
 export function Nav() {
   return (
-    <div className="bg-white dark:bg-zinc-900 border-r dark:border-gray-600 w-1/5 h-screen fixed top-16 left-0 pt-10">
+    <div className="bg-white dark:bg-zinc-900 space-y-4 border-r dark:border-gray-600 w-1/5 h-screen fixed top-16 left-0 pt-10">
       <ul className="w-full flex gap-4 flex-col items-center">
         {links.map((link, key) => {
           return <NavLink {...link} key={key} />;
         })}
       </ul>
+      <SignOut />
     </div>
   );
 }
