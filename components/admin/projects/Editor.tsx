@@ -126,6 +126,11 @@ export function Editor({ projectData }: PropTypes) {
   };
 
   const isLoading = isPending || loading;
+  const previewDisabled =
+    !project.title ||
+    !project.description ||
+    (project.images?.length === 0 && !images) ||
+    (!project.thumbnail && !thumbnail);
 
   return (
     <>
@@ -137,9 +142,15 @@ export function Editor({ projectData }: PropTypes) {
           <TabsDemo.Trigger value="information">Information</TabsDemo.Trigger>
           <TabsDemo.Trigger value="customer-details">Customer details</TabsDemo.Trigger>
           <TabsDemo.Trigger value="images">Images</TabsDemo.Trigger>
-          <TabsDemo.Trigger value="preview">Preview</TabsDemo.Trigger>
-          <TabsDemo.Trigger value="card-preview">Card preview</TabsDemo.Trigger>
-          <TabsDemo.Trigger value="publish">Publish</TabsDemo.Trigger>
+          <TabsDemo.Trigger disabled={previewDisabled} value="preview">
+            Preview
+          </TabsDemo.Trigger>
+          <TabsDemo.Trigger disabled={previewDisabled} value="card-preview">
+            Card preview
+          </TabsDemo.Trigger>
+          <TabsDemo.Trigger disabled={previewDisabled && !project.published} value="publish">
+            Publish
+          </TabsDemo.Trigger>
         </TabsDemo.List>
         <TabsDemo.Content value="information">
           <section className="space-y-5">
@@ -156,7 +167,8 @@ export function Editor({ projectData }: PropTypes) {
               <p>Thumbnail:</p>
               <div className="flex gap-5">
                 <Dropzone onDrop={onThumbnailDrop} />
-                <div className="bg-zinc-900 basis-2/4 grow">
+                <div className="bg-zinc-200 flex rounded-md items-center dark:bg-zinc-900 basis-2/4 grow">
+                  {!thumbnailURL && <p className="text-xl mx-auto font-semibold">Thumbnail will be displayed here.</p>}
                   <img src={thumbnailURL} />
                 </div>
               </div>
@@ -189,7 +201,6 @@ export function Editor({ projectData }: PropTypes) {
           </section>
         </TabsDemo.Content>
         <TabsDemo.Content value="images">
-          <p>Edit something</p>
           <Dropzone multiple onDrop={onImagesDrop} />
         </TabsDemo.Content>
         <TabsDemo.Content value="preview">
@@ -218,14 +229,23 @@ export function Editor({ projectData }: PropTypes) {
               </h3>
             </header>
             <div className="flex gap-4">
-              {project.images?.map((image, key) => {
-                // const url = URL.createObjectURL(image);
-                return (
-                  <div key={key} className="basis-1/3 grow">
-                    <img src={image.url} className="h-full w-full" />
-                  </div>
-                );
-              })}
+              {project.images.length === 0 &&
+                images?.map((image, key) => {
+                  const url = URL.createObjectURL(image);
+                  return (
+                    <div key={key} className="basis-1/3 grow">
+                      <img src={url} className="h-full w-full" />
+                    </div>
+                  );
+                })}
+              {project?.images.length > 0 &&
+                project.images?.map((image, key) => {
+                  return (
+                    <div key={image.id} className="basis-1/3 grow">
+                      <img src={image.url} className="h-full w-full" />
+                    </div>
+                  );
+                })}
             </div>
           </section>
         </TabsDemo.Content>

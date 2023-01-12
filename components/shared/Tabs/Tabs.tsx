@@ -13,11 +13,11 @@ function Content({ children, value }: Tabs.TabsContentProps) {
   );
 }
 
-function Trigger({ value, children }: Tabs.TabsTriggerProps) {
+function Trigger({ children, ...props }: Tabs.TabsTriggerProps) {
   return (
     <Tabs.Trigger
-      className={`bg-white focus:border-2 focus:border-red-600 focus:border-b-0 dark:bg-zinc-800 ${styles.TabsTrigger}`}
-      value={value}
+      {...props}
+      className={`bg-white focus:border-2 data-[disabled]:grayscale data-[disabled]:dark:text-gray-500 data-[disabled]:text-gray-600 focus:border-red-600 focus:border-b-0 dark:bg-zinc-800 ${styles.TabsTrigger}`}
     >
       {children}
     </Tabs.Trigger>
