@@ -6,7 +6,7 @@ export function TotalProjects() {
   const total = drafted.length + published.length;
 
   return (
-    <div className="rounded-md p-4 col-span-3 bg-white dark:bg-zinc-800">
+    <div className="rounded-md p-4 col-span-6 bg-white dark:bg-zinc-800">
       <p>Total projects: {total}</p>
     </div>
   );

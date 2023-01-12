@@ -104,7 +104,6 @@ function BookingsForm() {
       });
       const json = await res.json();
       if (res.ok) {
-        toast.success(json.message);
         setCurrentStep(5);
         setForm({});
         setFeatures([]);
@@ -114,7 +113,9 @@ function BookingsForm() {
       }
     } catch (error) {
       if (error instanceof Error) {
-        toast.error(error.message);
+        toast.error(
+          `There was an error when creating your booking. Please try again. If this problem persists, please contact our support team.`
+        );
       }
     }
   };
