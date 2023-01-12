@@ -1,4 +1,4 @@
-import { Card, Grid, Title, Anchor } from "@components/shared";
+import { Card, Grid, Title } from "@components/shared";
 import { ProjectsTable } from "@components/admin/projects/home/ProjectsTable";
 import { TotalProjects } from "@components/admin/projects/home/TotalProjects";
 

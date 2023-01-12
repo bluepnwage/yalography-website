@@ -8,7 +8,7 @@ export function Footer() {
       <Grid className="place-items-center lg:place-items-start text-center lg:text-start">
         <div className="col-span-full lg:col-span-3 space-y-2">
           <p className="font-semibold text-lg">Yalography</p>
-          <small className="text-gray-400">© 2022, All rights reserved</small>
+          <small className="text-gray-400">© {new Date().getFullYear()}, All rights reserved.</small>
         </div>
         <div className="col-span-full lg:col-span-3">
           <ul className="space-y-4">
