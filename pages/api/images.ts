@@ -9,11 +9,18 @@ async function createImage(data: Images) {
   return image;
 }
 
+async function editImage(data: Images) {
+  await prisma.$connect();
+  const image = await prisma.images.update({ where: { id: data.id }, data });
+  await prisma.$disconnect();
+  return image;
+}
+
 async function deleteImage(id: number) {
   await prisma.$connect();
-  const data = await prisma.images.delete({ where: { id } });
+  const image = await prisma.images.delete({ where: { id } });
   await prisma.$disconnect();
-  return data;
+  return image;
 }
 
 const handler: NextApiHandler = async (req, res) => {
@@ -24,6 +31,10 @@ const handler: NextApiHandler = async (req, res) => {
         const data = await createImage(json);
         console.log(data);
         return res.status(201).json({ message: "Image created", data });
+      }
+      case "PUT": {
+        const data = await editImage(json);
+        return res.status(200).json({ message: "Image updated", data });
       }
       case "DELETE": {
         const data = await deleteImage(json.id);

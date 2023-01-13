@@ -1,10 +1,11 @@
 "use client";
 import { Input } from "@components/shared/Input";
+import { ScrollAreaDemo } from "@components/shared/ScrollArea";
 import { Select } from "@components/shared/Select";
 import { TabsDemo } from "@components/shared/Tabs";
 import { Textarea } from "@components/shared/Textarea";
 import { photoshootTypes } from "@lib/photoshoot";
-import { FormEvent, useState } from "react";
+import { FormEvent, useState, useEffect } from "react";
 import { useRouteRefresh } from "@lib/hooks/useRouteRefresh";
 import { Dropzone } from "./Dropzone";
 import { Badge } from "@components/shared/Badge";
@@ -14,6 +15,8 @@ import type { SerializedProject } from "@lib/prisma";
 import type { Images } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import { useToggle } from "@lib/hooks/useToggle";
+import { Image } from "@components/shared/Image";
+import { ImageDropdown } from "./ImageDropdown";
 
 type ProjectJoin = SerializedProject & { images: Images[] };
 
@@ -29,6 +32,11 @@ export function Editor({ projectData }: PropTypes) {
   const [selectedType, setSelectedType] = useState(projectData.type || "");
   const [loading, toggle] = useToggle();
   const router = useRouter();
+
+  //update state whenever the root is refreshed
+  useEffect(() => {
+    setProject(projectData);
+  }, [projectData]);
 
   const thumbnailURL = thumbnail ? URL.createObjectURL(thumbnail) : project.thumbnail ? project.thumbnail : "";
   const selectData = Array.from(photoshootTypes).map(([key, value]) => ({ label: value.label, value: key }));
@@ -51,6 +59,8 @@ export function Editor({ projectData }: PropTypes) {
   };
 
   const onStatus = async () => {
+    //Call on save so admin woudlnt have to remember saving everytime
+    await onSave(false);
     const endpoint = new URL("/api/projects", location.origin);
     endpoint.searchParams.set("revalidate", `1`);
     toggle.on();
@@ -63,7 +73,6 @@ export function Editor({ projectData }: PropTypes) {
       if (res.ok) {
         toast.success(project.published ? "Project drafted" : "Project published");
         refresh();
-        setProject((prev) => ({ ...prev, published: !prev.published }));
         router.push(`/admin/projects/${project.published ? "drafted" : "published"}/${project.id}`);
       } else {
         throw new Error();
@@ -75,7 +84,10 @@ export function Editor({ projectData }: PropTypes) {
     }
   };
 
-  const onSave = async () => {
+  //Since onStatus also calls this function,
+  //Pass refreshRoot to see if we should refresh the root and revalidate
+  //the projects page to avoid doing it twice
+  const onSave = async (refreshRoot?: boolean) => {
     let url = project.thumbnail;
     toggle.on();
     try {
@@ -107,7 +119,12 @@ export function Editor({ projectData }: PropTypes) {
       };
 
       const endpoint = new URL("/api/projects", location.origin);
-      endpoint.searchParams.set("revalidate", project.published ? "1" : "0");
+
+      if (refreshRoot) {
+        endpoint.searchParams.set("revalidate", project.published ? "1" : "0");
+      } else {
+        endpoint.searchParams.set("revalidate", "0");
+      }
 
       const res = await fetch(endpoint, {
         method: "PUT",
@@ -115,7 +132,10 @@ export function Editor({ projectData }: PropTypes) {
         body: JSON.stringify(jsonData)
       });
       if (res.ok) {
-        refresh();
+        if (refreshRoot) {
+          refresh();
+          setImages(null);
+        }
         toast.success("Project saved");
       }
     } catch (error) {
@@ -129,12 +149,56 @@ export function Editor({ projectData }: PropTypes) {
   const previewDisabled =
     !project.title ||
     !project.description ||
-    (project.images?.length === 0 && !images) ||
+    (project.images.length === 0 && !images) ||
     (!project.thumbnail && !thumbnail);
+
+  const unlinkImage = async (id: number) => {
+    toggle.on();
+    try {
+      const res = await fetch("/api/images", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id, projectId: null })
+      });
+      if (res.ok) {
+        // setProject((prev) => ({ ...prev, images: prev.images.filter((image) => image.id !== id) }));
+        refresh();
+      } else throw new Error("Failed to unlink image");
+    } catch (error) {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      }
+    } finally {
+      toggle.off();
+    }
+  };
+
+  const deleteImage = async (id: number) => {
+    toggle.on();
+    try {
+      const res = await fetch("/api/images", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id })
+      });
+      if (res.ok) {
+        // setProject((prev) => ({ ...prev, images: prev.images.filter((image) => image.id !== id) }));
+        refresh();
+      } else {
+        throw new Error("Failed to delete image");
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        toast.error("Failed to delete image");
+      }
+    } finally {
+      toggle.off();
+    }
+  };
 
   return (
     <>
-      <Button disabled={isLoading} onClick={onSave} className="mb-4 block" intent={"accept"}>
+      <Button disabled={isLoading} onClick={() => onSave(true)} className="mb-4 block" intent={"accept"}>
         Save changes
       </Button>
       <TabsDemo defaultValue="information">
@@ -201,7 +265,52 @@ export function Editor({ projectData }: PropTypes) {
           </section>
         </TabsDemo.Content>
         <TabsDemo.Content value="images">
-          <Dropzone multiple onDrop={onImagesDrop} />
+          <div className="grid grid-cols-2 gap-4">
+            <Dropzone multiple onDrop={onImagesDrop} />
+            <div className="grid grid-cols-4 gap-4 mt-4">
+              {project.images.length === 0 && (
+                <p className="font-semibold text-xl col-span-full">You haven&apos;t saved any images yet.</p>
+              )}
+              {project.images.length > 0 && (
+                <>
+                  <p className="col-span-full text-xl font-semibold">Saved images</p>
+                  {project.images.map((image) => {
+                    return (
+                      <div className="w-full col-span-2 relative h-full">
+                        <Image
+                          key={image.id}
+                          width={image.width}
+                          height={image.height}
+                          src={image.url}
+                          alt={""}
+                          containerClass={"w-full h-full"}
+                          className="w-full h-full object-cover"
+                        />
+                        <ImageDropdown deleteImage={deleteImage} unlinkImage={unlinkImage} id={image.id} />
+                      </div>
+                    );
+                  })}
+                </>
+              )}
+            </div>
+            <div className="grid grid-cols-4 col-span-full gap-4">
+              <p className="col-span-full text-xl font-semibold">Selected images:</p>
+              {images?.map((file, key) => {
+                const url = URL.createObjectURL(file);
+                return (
+                  <Image
+                    key={key}
+                    src={url}
+                    alt={""}
+                    width={300}
+                    height={300}
+                    containerClass={""}
+                    className="w-full h-full object-cover"
+                  />
+                );
+              })}
+            </div>
+          </div>
         </TabsDemo.Content>
         <TabsDemo.Content value="preview">
           <div>
