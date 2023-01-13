@@ -637,3 +637,45 @@ function Zoom() {
     </svg>
   );
 }
+
+function Copy() {
+  return (
+    <svg height="24" width="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <g fill="none">
+        <path
+          d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"
+          fill="#ffffff"
+        />
+      </g>
+    </svg>
+  );
+}
+
+function Share() {
+  return (
+    <svg height="24" width="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <g fill="none" stroke="#ffffff" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2">
+        <path d="M0 0h24v24H0z" fill="none" stroke="none" />
+        <path d="M8.7 10.7l6.6-3.4" />
+        <path d="M8.7 13.3l6.6 3.4" />
+        <circle cx="6" cy="12" r="3" />
+        <circle cx="18" cy="6" r="3" />
+        <circle cx="18" cy="18" r="3" />
+      </g>
+    </svg>
+  );
+}
+
+function Unlink() {
+  return (
+    <svg height="512" width="448" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <g fill="none" stroke="#ffffff" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2">
+        <path d="M0 0h24v24H0z" fill="none" stroke="none" />
+        <path d="M10 14a3.5 3.5 0 0 0 4.47.444m2.025-1.94c.557-.556 1.392-1.39 2.505-2.504a3.536 3.536 0 0 0-5-5l-.5.5" />
+        <path d="M9.548 9.544A3.5 3.5 0 0 0 9 10l-4 4a3.536 3.536 0 0 0 5 5l.5-.5" />
+        <path d="M3 3l18 18" />
+        <path d="M3 3l18 18" />
+      </g>
+    </svg>
+  );
+}
