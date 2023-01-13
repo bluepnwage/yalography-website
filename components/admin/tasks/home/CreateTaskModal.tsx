@@ -4,14 +4,15 @@ import { Input } from "@components/shared/Input";
 import { Select } from "@components/shared/Select";
 import { Textarea } from "@components/shared/Textarea";
 import { Button } from "@components/shared/Button";
-import { DatePicker } from "@components/shared/DatePicker/DatePicker";
 import dynamic from "next/dynamic";
 
 const Dialog = dynamic(() => import("@components/shared/Dialog").then((mod) => mod.Dialog));
+const DatePicker = dynamic(() => import("@components/shared/DatePicker/DatePicker").then((mod) => mod.DatePicker));
 
 //Hooks
 import { useRouteRefresh } from "@lib/hooks/useRouteRefresh";
 import { useToggle } from "@lib/hooks/useToggle";
+
 import type { FormEvent } from "react";
 import type { SerializedTaskList, SerializedTask } from "@lib/prisma";
 
@@ -19,8 +20,8 @@ type PropTypes = {
   taskLists: (SerializedTaskList & { tasks: SerializedTask[] })[];
 };
 
-export function Modal({ taskLists }: PropTypes) {
-  const [opened, modalToggle] = useToggle();
+export function CreateTaskModal({ taskLists }: PropTypes) {
+  const [dialog, dialogToggle] = useToggle();
   const [isPending, refresh] = useRouteRefresh();
   const [loading, toggle] = useToggle();
   const [lazyLoad, lazyLoadToggle] = useToggle();
@@ -48,7 +49,7 @@ export function Modal({ taskLists }: PropTypes) {
       if (res.ok) {
         refresh();
         toast.success(json.message);
-        modalToggle.off();
+        dialogToggle.off();
       } else {
         throw new Error(json.message, { cause: json.error });
       }
@@ -64,9 +65,11 @@ export function Modal({ taskLists }: PropTypes) {
   const selectData = taskLists.map((list) => ({ label: list.name, value: `${list.id}` }));
   return (
     <>
-      <Button onMouseEnter={!lazyLoad ? lazyLoadToggle.on : undefined}>Create task</Button>
+      <Button onClick={dialogToggle.on} onMouseEnter={!lazyLoad ? lazyLoadToggle.on : undefined}>
+        Create task
+      </Button>
       {lazyLoad && (
-        <Dialog title="Create new task" open={opened} onOpenChange={modalToggle.set}>
+        <Dialog title="Create new task" open={dialog} onOpenChange={dialogToggle.set}>
           <form onSubmit={handleSubmit}>
             <div className="space-y-2">
               <Input required name="task_name" label="Task Name" />
