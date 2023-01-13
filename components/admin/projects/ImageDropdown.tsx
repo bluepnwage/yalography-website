@@ -19,7 +19,7 @@ export function ImageDropdown({ id, unlinkImage, deleteImage }: PropTypes) {
 
   return (
     <>
-      <Dropdown.Root>
+      <Dropdown>
         <Dropdown.Trigger>
           <button className="absolute top-2 right-2 rounded-full flex justify-center items-center h-7 w-7 bg-zinc-800">
             <DotsVertical />
@@ -35,7 +35,7 @@ export function ImageDropdown({ id, unlinkImage, deleteImage }: PropTypes) {
             Delete image
           </Dropdown.Item>
         </Dropdown.Content>
-      </Dropdown.Root>
+      </Dropdown>
     </>
   );
 }

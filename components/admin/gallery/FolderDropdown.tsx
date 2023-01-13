@@ -109,7 +109,7 @@ export function FolderDropdown({ id, renameFolder }: DropdownProps) {
           </form>
         </DialogDemo>
       )}
-      <Dropdown.Root>
+      <Dropdown>
         <Dropdown.Trigger>
           <button>
             <DotsVertical />
@@ -126,7 +126,7 @@ export function FolderDropdown({ id, renameFolder }: DropdownProps) {
             Delete folder
           </Dropdown.Item>
         </Dropdown.Content>
-      </Dropdown.Root>
+      </Dropdown>
     </>
   );
 }

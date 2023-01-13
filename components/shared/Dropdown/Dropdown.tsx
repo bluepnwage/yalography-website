@@ -2,11 +2,7 @@
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import styles from "./styles.module.css";
 
-type PropTypes = {
-  children: React.ReactNode;
-};
-
-export function Item({ children, ...props }: DropdownMenu.DropdownMenuItemProps) {
+function Item({ children, ...props }: DropdownMenu.DropdownMenuItemProps) {
   return (
     <DropdownMenu.Item
       {...props}
@@ -17,16 +13,25 @@ export function Item({ children, ...props }: DropdownMenu.DropdownMenuItemProps)
   );
 }
 
-export function Trigger({ children }: PropTypes) {
-  return <DropdownMenu.Trigger asChild>{children}</DropdownMenu.Trigger>;
+function Trigger({ children, ...props }: DropdownMenu.DropdownMenuTriggerProps) {
+  return (
+    <DropdownMenu.Trigger {...props} asChild>
+      {children}
+    </DropdownMenu.Trigger>
+  );
 }
 
-export function Content({ children }: PropTypes) {
+type ContentProps = {
+  portalProps?: DropdownMenu.DropdownMenuPortalProps;
+} & DropdownMenu.DropdownMenuContentProps;
+
+function Content({ children, portalProps, ...props }: ContentProps) {
   return (
-    <DropdownMenu.Portal>
+    <DropdownMenu.Portal {...portalProps}>
       <DropdownMenu.Content
+        {...props}
         className={`${styles.DropdownMenuContent} bg-white dark:bg-zinc-800 rounded-sm py-2 space-y-2`}
-        sideOffset={5}
+        sideOffset={props.sideOffset || 5}
       >
         {children}
       </DropdownMenu.Content>
@@ -34,10 +39,19 @@ export function Content({ children }: PropTypes) {
   );
 }
 
-export function Label({ children }: PropTypes) {
-  return <DropdownMenu.Label className="text-sm p-5 h-5 leading-4">{children}</DropdownMenu.Label>;
+function Label({ children, ...props }: DropdownMenu.DropdownMenuLabelProps) {
+  return (
+    <DropdownMenu.Label {...props} className="text-sm p-5 h-5 leading-4">
+      {children}
+    </DropdownMenu.Label>
+  );
 }
 
-export function Root({ children }: PropTypes) {
-  return <DropdownMenu.Root>{children}</DropdownMenu.Root>;
+export function Dropdown({ children, ...props }: DropdownMenu.DropdownMenuProps) {
+  return <DropdownMenu.Root {...props}>{children}</DropdownMenu.Root>;
 }
+
+Dropdown.Label = Label;
+Dropdown.Trigger = Trigger;
+Dropdown.Content = Content;
+Dropdown.Item = Item;

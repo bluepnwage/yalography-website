@@ -85,7 +85,7 @@ export function UploadedImage({ image }: PropTypes) {
           ></div>
         )}
         <div className="group relative -mx-4 -mt-4 basis-3/4 overflow-hidden ">
-          <Dropdown.Root>
+          <Dropdown>
             <Dropdown.Trigger>
               <button
                 className={`flex h-9 w-9 rounded-full items-center z-10 justify-center bg-zinc-700 absolute right-5 top-5`}
@@ -113,7 +113,7 @@ export function UploadedImage({ image }: PropTypes) {
                 Delete image
               </Dropdown.Item>
             </Dropdown.Content>
-          </Dropdown.Root>
+          </Dropdown>
           <Image
             containerClass="w-full h-full"
             width={image.width}

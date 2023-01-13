@@ -132,7 +132,7 @@ export function Menu({ groupId, pinned }: PropTypes) {
           </form>
         </Dialog>
       )}
-      <Dropdown.Root>
+      <Dropdown>
         <Dropdown.Trigger>
           <button>
             <DotsVertical />
@@ -153,7 +153,7 @@ export function Menu({ groupId, pinned }: PropTypes) {
             Delete list
           </Dropdown.Item>
         </Dropdown.Content>
-      </Dropdown.Root>
+      </Dropdown>
     </>
   );
 }

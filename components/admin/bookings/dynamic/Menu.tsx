@@ -141,7 +141,7 @@ export function BookingMenu({ status, id }: MenuProps) {
           </Button>
         </form>
       </Dialog>
-      <Dropdown.Root>
+      <Dropdown>
         <Dropdown.Trigger>
           <button aria-label="Manage booking">
             <DotsVertical />
@@ -175,7 +175,7 @@ export function BookingMenu({ status, id }: MenuProps) {
             Cancel & Delete booking
           </Dropdown.Item>
         </Dropdown.Content>
-      </Dropdown.Root>
+      </Dropdown>
     </>
   );
 }
