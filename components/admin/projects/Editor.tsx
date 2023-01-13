@@ -196,6 +196,10 @@ export function Editor({ projectData }: PropTypes) {
     }
   };
 
+  const deleteSelectedImage = (file: File) => {
+    setImages((prev) => prev?.filter((prev) => prev.name !== file.name) || null);
+  };
+
   return (
     <>
       <Button disabled={isLoading} onClick={() => onSave(true)} className="mb-4 block" intent={"accept"}>
@@ -276,9 +280,8 @@ export function Editor({ projectData }: PropTypes) {
                   <p className="col-span-full text-xl font-semibold">Saved images</p>
                   {project.images.map((image) => {
                     return (
-                      <div className="w-full col-span-2 relative h-full">
+                      <div key={image.id} className="w-full col-span-2 relative h-full">
                         <Image
-                          key={image.id}
                           width={image.width}
                           height={image.height}
                           src={image.url}
@@ -298,15 +301,20 @@ export function Editor({ projectData }: PropTypes) {
               {images?.map((file, key) => {
                 const url = URL.createObjectURL(file);
                 return (
-                  <Image
-                    key={key}
-                    src={url}
-                    alt={""}
-                    width={300}
-                    height={300}
-                    containerClass={""}
-                    className="w-full h-full object-cover"
-                  />
+                  <div key={file.name} className="h-full w-full flex flex-col gap-4">
+                    <Image
+                      key={key}
+                      src={url}
+                      alt={""}
+                      width={300}
+                      height={300}
+                      containerClass={"grow"}
+                      className="w-full h-full object-cover"
+                    />
+                    <Button className="w-fit px-2" onClick={() => deleteSelectedImage(file)}>
+                      Remove image
+                    </Button>
+                  </div>
                 );
               })}
             </div>
