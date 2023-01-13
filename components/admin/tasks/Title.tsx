@@ -3,7 +3,6 @@ import { useRouteRefresh } from "@lib/hooks/useRouteRefresh";
 import { useToggle } from "@lib/hooks/useToggle";
 import { useDebouncedValue } from "@mantine/hooks";
 import { useEffect, useState } from "react";
-import { toast } from "react-toastify";
 
 type PropTypes = {
   title: string;
@@ -14,13 +13,17 @@ export function TaskTitle({ title, id }: PropTypes) {
   const [value] = useDebouncedValue(listTitle, 1000 * 3);
   const [isFirstMount, toggleMount] = useToggle(true);
   const [, refresh] = useRouteRefresh();
+
   useEffect(() => {
     toggleMount.off();
   }, []);
 
   useEffect(() => {
     if (isFirstMount || value === title) return;
-    onChange().catch((e) => toast.error(e.message));
+    onChange().catch(async (e) => {
+      const { toast } = await import("react-toastify");
+      toast.error(e.message);
+    });
   }, [value]);
 
   const onChange = async () => {

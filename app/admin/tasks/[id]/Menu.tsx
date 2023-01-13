@@ -8,15 +8,14 @@ import dynamic from "next/dynamic";
 
 import { useRouteRefresh } from "@lib/hooks/useRouteRefresh";
 import { useToggle } from "@lib/hooks/useToggle";
-import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 
 import type { FormEvent } from "react";
-import { DatePicker } from "@components/shared/DatePicker/DatePicker";
 import { Select } from "@components/shared/Select";
 import { Textarea } from "@components/shared/Textarea";
 
 const Dialog = dynamic(() => import("@components/shared/Dialog").then((mod) => mod.Dialog));
+const DatePicker = dynamic(() => import("@components/shared/DatePicker/DatePicker").then((mod) => mod.DatePicker));
 
 type PropTypes = {
   groupId: number;
@@ -24,15 +23,17 @@ type PropTypes = {
 };
 
 export function Menu({ groupId, pinned }: PropTypes) {
-  const [opened, dialogToggle] = useToggle();
+  const [dialog, dialogToggle] = useToggle();
   const [loading, toggle] = useToggle();
   const [isPending, refresh] = useRouteRefresh();
-  const router = useRouter();
   const [lazyLoad, lazyLoadToggle] = useToggle();
+  const router = useRouter();
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = Object.fromEntries(new FormData(e.currentTarget));
+    const { toast } = await import("react-toastify");
+
     const data = {
       name: formData.task_name,
       description: formData.description,
@@ -66,6 +67,7 @@ export function Menu({ groupId, pinned }: PropTypes) {
 
   const onDelete = async () => {
     toggle.on();
+    const { toast } = await import("react-toastify");
     try {
       const res = await fetch("/api/task-list", {
         method: "DELETE",
@@ -90,6 +92,7 @@ export function Menu({ groupId, pinned }: PropTypes) {
   };
 
   const onPin = async () => {
+    const { toast } = await import("react-toastify");
     try {
       const res = await fetch("/api/task-list", {
         method: "PUT",
@@ -110,7 +113,7 @@ export function Menu({ groupId, pinned }: PropTypes) {
   return (
     <>
       {lazyLoad && (
-        <Dialog title="Create task" open={opened} onOpenChange={dialogToggle.set}>
+        <Dialog title="Create task" open={dialog} onOpenChange={dialogToggle.set}>
           <form onSubmit={handleSubmit} className="space-y-4">
             <Input required name="task_name" label="Task Name" />
             <DatePicker id="deadline" minDate={new Date()} label="Deadline" name="deadline" />
