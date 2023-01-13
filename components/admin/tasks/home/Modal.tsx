@@ -1,18 +1,18 @@
 "use client";
 //Components
-import { DialogDemo } from "@components/shared/Dialog";
 import { Input } from "@components/shared/Input";
 import { Select } from "@components/shared/Select";
 import { Textarea } from "@components/shared/Textarea";
 import { Button } from "@components/shared/Button";
 import { DatePicker } from "@components/shared/DatePicker/DatePicker";
+import dynamic from "next/dynamic";
+
+const Dialog = dynamic(() => import("@components/shared/Dialog").then((mod) => mod.Dialog));
 
 //Hooks
 import { useRouteRefresh } from "@lib/hooks/useRouteRefresh";
 import { useToggle } from "@lib/hooks/useToggle";
-import { toast } from "react-toastify";
-
-import { FormEvent } from "react";
+import type { FormEvent } from "react";
 import type { SerializedTaskList, SerializedTask } from "@lib/prisma";
 
 type PropTypes = {
@@ -23,6 +23,7 @@ export function Modal({ taskLists }: PropTypes) {
   const [opened, modalToggle] = useToggle();
   const [isPending, refresh] = useRouteRefresh();
   const [loading, toggle] = useToggle();
+  const [lazyLoad, lazyLoadToggle] = useToggle();
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -35,6 +36,8 @@ export function Modal({ taskLists }: PropTypes) {
       priority: formData.priority
     };
     toggle.on();
+    const { toast } = await import("react-toastify");
+
     try {
       const res = await fetch("/api/tasks", {
         method: "POST",
@@ -60,36 +63,36 @@ export function Modal({ taskLists }: PropTypes) {
   const isLoading = isPending || loading;
   const selectData = taskLists.map((list) => ({ label: list.name, value: `${list.id}` }));
   return (
-    <DialogDemo
-      title="Create new task"
-      trigger={<Button>Create Task</Button>}
-      open={opened}
-      onOpenChange={modalToggle.set}
-    >
-      <form onSubmit={handleSubmit}>
-        <div className="space-y-2">
-          <Input required name="task_name" label="Task Name" />
-          <DatePicker id="deadline" minDate={new Date()} label="Deadline" name="deadline" />
-          <div className="flex gap-2">
-            <Select className="grow basis-1/2" label="Add to task list" name="task_list" data={selectData} />
-            <Select
-              defaultValue="low"
-              className="grow basis-1/2"
-              label="Priority"
-              name="priority"
-              data={[
-                { label: "High", value: "high" },
-                { label: "Medium", value: "medium" },
-                { label: "Low", value: "low" }
-              ]}
-            />
-          </div>
-          <Textarea name="description" label="Description" />
-          <Button disabled={isLoading} intent={"accept"}>
-            Submit
-          </Button>
-        </div>
-      </form>
-    </DialogDemo>
+    <>
+      <Button onMouseEnter={!lazyLoad ? lazyLoadToggle.on : undefined}>Create task</Button>
+      {lazyLoad && (
+        <Dialog title="Create new task" open={opened} onOpenChange={modalToggle.set}>
+          <form onSubmit={handleSubmit}>
+            <div className="space-y-2">
+              <Input required name="task_name" label="Task Name" />
+              <DatePicker id="deadline" minDate={new Date()} label="Deadline" name="deadline" />
+              <div className="flex gap-2">
+                <Select className="grow basis-1/2" label="Add to task list" name="task_list" data={selectData} />
+                <Select
+                  defaultValue="low"
+                  className="grow basis-1/2"
+                  label="Priority"
+                  name="priority"
+                  data={[
+                    { label: "High", value: "high" },
+                    { label: "Medium", value: "medium" },
+                    { label: "Low", value: "low" }
+                  ]}
+                />
+              </div>
+              <Textarea name="description" label="Description" />
+              <Button disabled={isLoading} intent={"accept"}>
+                Submit
+              </Button>
+            </div>
+          </form>
+        </Dialog>
+      )}
+    </>
   );
 }

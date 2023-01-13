@@ -3,8 +3,9 @@ import { Dropdown } from "@components/shared/Dropdown";
 import { Image } from "@components/shared/Image";
 import { useToggle } from "@lib/hooks/useToggle";
 import { useRouteRefresh } from "@lib/hooks/useRouteRefresh";
+import dynamic from "next/dynamic";
 
-import { toast } from "react-toastify";
+const Dialog = dynamic(() => import("./ImageModal").then((mod) => mod.ImageModal));
 
 import type { Images } from "@prisma/client";
 
@@ -15,11 +16,13 @@ type PropTypes = {
 export function UploadedImage({ image }: PropTypes) {
   const [loading, toggle] = useToggle();
   const [isPending, refresh] = useRouteRefresh();
+  const [lazyLoad, lazyLoadToggle] = useToggle();
+  const [dialog, dialogToggle] = useToggle();
 
   const onDelete = async () => {
     toggle.on();
+    const [{ toast }, { deleteImage }] = await Promise.all([import("react-toastify"), import("@lib/firebase/storage")]);
     try {
-      const { deleteImage } = await import("@lib/firebase/storage");
       await deleteImage(image.fullPath);
       const res = await fetch("/api/images", {
         method: "DELETE",
@@ -42,10 +45,38 @@ export function UploadedImage({ image }: PropTypes) {
     }
   };
 
+  const onCopy = async () => {
+    const { toast } = await import("react-toastify");
+    await navigator.clipboard.writeText(image.url);
+    toast("URL copied to clipboard");
+  };
+
+  const onRename = async () => {
+    toggle.on();
+
+    try {
+      const res = await fetch("/api/images", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: image.id })
+      });
+      const json = await res.json();
+      if (!res.ok) {
+        throw new Error(json.message, { cause: json.error });
+      }
+    } catch (error) {
+      const { toast } = await import("react-toastify");
+      if (error instanceof Error) {
+        toast.error("There was an error renaming the image");
+      }
+    }
+  };
+
   const isLoading = isPending || loading;
 
   return (
     <>
+      {lazyLoad && <Dialog opened={dialog} onValueChange={dialogToggle.set} />}
       <div className="col-span-4 h-72 flex flex-col gap-4 relative bg-white dark:bg-zinc-800 rounded-md p-4 overflow-hidden ">
         {isLoading && (
           <div
@@ -65,11 +96,11 @@ export function UploadedImage({ image }: PropTypes) {
             </Dropdown.Trigger>
             <Dropdown.Content>
               <Dropdown.Label>Manage image</Dropdown.Label>
-              <Dropdown.Item>
+              <Dropdown.Item onClick={dialogToggle.on} onMouseEnter={!lazyLoad ? lazyLoadToggle.on : undefined}>
                 <Edit />
                 Rename image
               </Dropdown.Item>
-              <Dropdown.Item>
+              <Dropdown.Item onClick={onCopy}>
                 <Upload />
                 Copy url
               </Dropdown.Item>

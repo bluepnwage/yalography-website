@@ -1,5 +1,4 @@
 "use client";
-
 import { Button } from "@components/shared/Button";
 import { Input } from "@components/shared/Input";
 import { Dropdown } from "@components/shared/Dropdown";
@@ -9,9 +8,9 @@ import dynamic from "next/dynamic";
 
 import { toast } from "react-toastify";
 
-import { FormEvent } from "react";
+import type { FormEvent } from "react";
 
-const DialogDemo = dynamic(() => import("@components/shared/Dialog").then((mod) => mod.DialogDemo));
+const DialogDemo = dynamic(() => import("@components/shared/Dialog").then((mod) => mod.Dialog));
 
 type DropdownProps = {
   id: number;

@@ -1,21 +1,27 @@
 "use client";
-
-import { useTasks } from "./TasksProvider";
+//Components
 import { Table } from "@components/shared/Table";
 import { Badge } from "@components/shared/Badge";
-import { cx } from "cva";
-import { useToggle } from "@lib/hooks/useToggle";
-import { useRouteRefresh } from "@lib/hooks/useRouteRefresh";
-import type { SerializedTask } from "@lib/prisma";
-import { useState } from "react";
-import { toast } from "react-toastify";
 import { ActionIcon } from "@components/shared/ActionIcon";
 import { Edit, Trash } from "@lib/icons";
 import { FilterBar } from "./Filter";
-import { FilterOptions, filterTasks, SortOptions } from "@util/filterTasks";
-import { usePagination } from "@lib/hooks/usePagination";
 import { Pagination } from "@components/shared/Pagination";
-import { EditTaskModal } from "./EditTaskModal";
+
+//Hooks/util functions
+import { cx } from "cva";
+import { filterTasks } from "@util/filterTasks";
+import { useTasks } from "./TasksProvider";
+import { useToggle } from "@lib/hooks/useToggle";
+import { useRouteRefresh } from "@lib/hooks/useRouteRefresh";
+import { usePagination } from "@lib/hooks/usePagination";
+import { useState } from "react";
+import dynamic from "next/dynamic";
+
+//Types
+import type { SerializedTask } from "@lib/prisma";
+import type { FilterOptions, SortOptions } from "@util/filterTasks";
+
+const EditTaskModal = dynamic(() => import("./EditTaskModal").then((mod) => mod.EditTaskModal));
 
 export function Tasks() {
   const { tasks } = useTasks();
@@ -75,9 +81,12 @@ function TaskRow({ taskData }: PropTypes) {
   const [task, setTask] = useState(taskData);
   const [isPending, refresh] = useRouteRefresh();
   const [dialog, dialogToggle] = useToggle();
+  const [lazyLoad, lazyLoadToggle] = useToggle();
 
   const onStatusToggle = async () => {
     toggle.on();
+    const { toast } = await import("react-toastify");
+
     const lastStatus = task.status;
     setTask((prev) => ({ ...prev, status: !prev.status }));
     try {
@@ -109,6 +118,8 @@ function TaskRow({ taskData }: PropTypes) {
 
   const onDelete = async () => {
     toggle.on();
+    const { toast } = await import("react-toastify");
+
     try {
       const res = await fetch("/api/tasks", {
         method: "DELETE",
@@ -135,7 +146,7 @@ function TaskRow({ taskData }: PropTypes) {
 
   return (
     <>
-      <EditTaskModal onEdit={onEdit} open={dialog} onOpenChange={dialogToggle.set} task={task} />
+      {lazyLoad && <EditTaskModal onEdit={onEdit} open={dialog} onOpenChange={dialogToggle.set} task={task} />}
       <tr className="border-b border-zinc-200 dark:border-zinc-700 last-of-type:border-0">
         <td className="py-2 space-x-2 text-start pl-2 ">
           <input
@@ -164,6 +175,7 @@ function TaskRow({ taskData }: PropTypes) {
         </td>
         <td className="flex gap-2 py-2 justify-center">
           <ActionIcon
+            onMouseEnter={!lazyLoad ? lazyLoadToggle.on : undefined}
             disabled={isLoading}
             onClick={dialogToggle.on}
             color="violet"

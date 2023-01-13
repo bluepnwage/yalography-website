@@ -1,16 +1,16 @@
 "use client";
-
 import { Button } from "@components/shared/Button";
 import { DatePicker } from "@components/shared/DatePicker/DatePicker";
-import { DialogDemo } from "@components/shared/Dialog";
+import { Dialog } from "@components/shared/Dialog";
 import { Input } from "@components/shared/Input";
 import { Select } from "@components/shared/Select";
 import { Textarea } from "@components/shared/Textarea";
-import { SerializedTask } from "@lib/prisma";
+
 import { useTasks } from "./TasksProvider";
 import { useToggle } from "@lib/hooks/useToggle";
-import { FormEvent } from "react";
-import { toast } from "react-toastify";
+
+import type { SerializedTask } from "@lib/prisma";
+import type { FormEvent } from "react";
 import type { EditTaskData } from "./Tasks";
 import type { TaskPriority } from "@prisma/client";
 
@@ -38,6 +38,8 @@ export function EditTaskModal({ onOpenChange, open, task, onEdit }: PropTypes) {
       priority: formData.priority as TaskPriority
     };
     toggle.on();
+    const { toast } = await import("react-toastify");
+
     try {
       const res = await fetch("/api/tasks", {
         method: "PUT",
@@ -63,7 +65,7 @@ export function EditTaskModal({ onOpenChange, open, task, onEdit }: PropTypes) {
 
   const isLoading = loading;
   return (
-    <DialogDemo title="Edit task" open={open} onOpenChange={onOpenChange}>
+    <Dialog title="Edit task" open={open} onOpenChange={onOpenChange}>
       <form onSubmit={onSubmit}>
         <div className="space-y-2">
           <Input required name="task_name" label="Task Name" defaultValue={task.name} />
@@ -100,6 +102,6 @@ export function EditTaskModal({ onOpenChange, open, task, onEdit }: PropTypes) {
           </Button>
         </div>
       </form>
-    </DialogDemo>
+    </Dialog>
   );
 }

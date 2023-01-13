@@ -4,9 +4,8 @@ import { Button } from "@components/shared/Button";
 import { useToggle } from "@lib/hooks/useToggle";
 import { useRouteRefresh } from "@lib/hooks/useRouteRefresh";
 import dynamic from "next/dynamic";
-import { toast } from "react-toastify";
 
-const DialogDemo = dynamic(() => import("@components/shared/Dialog").then((mod) => mod.DialogDemo));
+const Dialog = dynamic(() => import("@components/shared/Dialog").then((mod) => mod.Dialog));
 
 import type { FormEvent } from "react";
 
@@ -20,6 +19,8 @@ export function CreateFolder() {
     e.preventDefault();
     toggle.on();
     const name = new FormData(e.currentTarget).get("folder_name");
+    const { toast } = await import("react-toastify");
+
     try {
       const res = await fetch("/api/folders", {
         method: "POST",
@@ -42,25 +43,20 @@ export function CreateFolder() {
     }
   };
 
-  const onLazyLoad = () => {
-    if (lazyLoad) return;
-    lazyLoadToggle.on();
-  };
-
   const isLoading = isPending || loading;
   return (
     <>
       {lazyLoad && (
-        <DialogDemo title="Create a folder" open={dialog} onOpenChange={dialogToggle.set}>
+        <Dialog title="Create a folder" open={dialog} onOpenChange={dialogToggle.set}>
           <form onSubmit={onSubmit}>
             <Input className="mb-2" label="Folder name" name="folder_name" id="folder_name" required />
             <Button disabled={isLoading} intent={"accept"}>
               Submit
             </Button>
           </form>
-        </DialogDemo>
+        </Dialog>
       )}
-      <Button onClick={dialogToggle.on} onMouseEnter={onLazyLoad}>
+      <Button onClick={dialogToggle.on} onMouseEnter={!lazyLoad ? lazyLoadToggle.on : undefined}>
         Create folder
       </Button>
     </>

@@ -1,10 +1,10 @@
 "use client";
-import { DialogDemo } from "@components/shared/Dialog";
 import { Dropdown } from "@components/shared/Dropdown";
 import { DotsVertical } from "@lib/icons";
 import { Button } from "@components/shared/Button";
 import { Input } from "@components/shared/Input";
 import { Trash, Pin, Plus } from "@lib/icons";
+import dynamic from "next/dynamic";
 
 import { useRouteRefresh } from "@lib/hooks/useRouteRefresh";
 import { useToggle } from "@lib/hooks/useToggle";
@@ -16,6 +16,8 @@ import { DatePicker } from "@components/shared/DatePicker/DatePicker";
 import { Select } from "@components/shared/Select";
 import { Textarea } from "@components/shared/Textarea";
 
+const Dialog = dynamic(() => import("@components/shared/Dialog").then((mod) => mod.Dialog));
+
 type PropTypes = {
   groupId: number;
   pinned: boolean;
@@ -26,6 +28,7 @@ export function Menu({ groupId, pinned }: PropTypes) {
   const [loading, toggle] = useToggle();
   const [isPending, refresh] = useRouteRefresh();
   const router = useRouter();
+  const [lazyLoad, lazyLoadToggle] = useToggle();
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -106,27 +109,29 @@ export function Menu({ groupId, pinned }: PropTypes) {
   const isLoading = loading || isPending;
   return (
     <>
-      <DialogDemo title="Create task" open={opened} onOpenChange={dialogToggle.set}>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <Input required name="task_name" label="Task Name" />
-          <DatePicker id="deadline" minDate={new Date()} label="Deadline" name="deadline" />
-          <Select
-            defaultValue="low"
-            className="grow basis-1/2"
-            label="Priority"
-            name="priority"
-            data={[
-              { label: "High", value: "high" },
-              { label: "Medium", value: "medium" },
-              { label: "Low", value: "low" }
-            ]}
-          />
-          <Textarea name="description" label="Description" />
-          <Button disabled={isLoading} intent={"accept"}>
-            Submit
-          </Button>
-        </form>
-      </DialogDemo>
+      {lazyLoad && (
+        <Dialog title="Create task" open={opened} onOpenChange={dialogToggle.set}>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <Input required name="task_name" label="Task Name" />
+            <DatePicker id="deadline" minDate={new Date()} label="Deadline" name="deadline" />
+            <Select
+              defaultValue="low"
+              className="grow basis-1/2"
+              label="Priority"
+              name="priority"
+              data={[
+                { label: "High", value: "high" },
+                { label: "Medium", value: "medium" },
+                { label: "Low", value: "low" }
+              ]}
+            />
+            <Textarea name="description" label="Description" />
+            <Button disabled={isLoading} intent={"accept"}>
+              Submit
+            </Button>
+          </form>
+        </Dialog>
+      )}
       <Dropdown.Root>
         <Dropdown.Trigger>
           <button>
@@ -134,7 +139,7 @@ export function Menu({ groupId, pinned }: PropTypes) {
           </button>
         </Dropdown.Trigger>
         <Dropdown.Content>
-          <Dropdown.Item onClick={dialogToggle.on}>
+          <Dropdown.Item onMouseEnter={!lazyLoad ? lazyLoadToggle.on : undefined} onClick={dialogToggle.on}>
             {" "}
             <Plus size={16} className="stroke-yellow-500 ring-1 ring-yellow-500 rounded-full inline-block mr-2" />
             Create task
