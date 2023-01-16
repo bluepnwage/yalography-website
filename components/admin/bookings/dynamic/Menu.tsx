@@ -11,8 +11,9 @@ const DatePicker = dynamic(() => import("@components/shared/DatePicker/DatePicke
 import { useRouter } from "next/navigation";
 import { useRouteRefresh } from "@lib/hooks/useRouteRefresh";
 import { useToggle } from "@lib/hooks/useToggle";
+import { useState } from "react";
 
-import { FormEvent, useState } from "react";
+import type { FormEvent } from "react";
 
 type MenuProps = {
   status: "pending" | "approved";
@@ -191,7 +192,7 @@ export function BookingMenu({ status, id }: MenuProps) {
             <DotsVertical />
           </button>
         </Dropdown.Trigger>
-        <Dropdown.Content>
+        <Dropdown.Content side={"left"}>
           {status === "approved" && (
             <Dropdown.Item onMouseEnter={!lazyLoad ? lazyLoadToggle.on : undefined} onClick={dialogToggle.on}>
               {" "}

@@ -145,7 +145,7 @@ export function Menu({ groupId, pinned }: PropTypes) {
             <DotsVertical />
           </button>
         </Dropdown.Trigger>
-        <Dropdown.Content>
+        <Dropdown.Content side="left">
           <Dropdown.Item onMouseEnter={!lazyLoad ? lazyLoadToggle.on : undefined} onClick={dialogToggle.on}>
             {" "}
             <Plus size={16} className="stroke-yellow-500 ring-1 ring-yellow-500 rounded-full inline-block mr-2" />
