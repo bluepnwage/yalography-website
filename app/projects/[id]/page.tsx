@@ -4,6 +4,7 @@ import { Section, Title, Breadcrumbs, Anchor, Grid, Card } from "@components/sha
 import Image from "next/image";
 
 import prisma from "@lib/prisma";
+import { notFound } from "next/navigation";
 //Assets
 import pixel from "@public/pixel.jpg";
 
@@ -18,11 +19,14 @@ async function findProject(id: number) {
   await prisma.$connect();
   const project = await prisma.projects.findUnique({ where: { id }, include: { images: true } });
   await prisma.$disconnect();
-  return project!;
+  if (!project) notFound();
+  return project;
 }
 
 export default async function DynamicProjectPage({ params }: { params: { id: string } }) {
-  const project = await findProject(parseInt(params.id));
+  const id = parseInt(params?.id);
+  if (!id) notFound();
+  const project = await findProject(id);
   return (
     <>
       <div className="mb-10">
