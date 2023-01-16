@@ -99,8 +99,12 @@ export function Menu({ groupId, pinned }: PropTypes) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id: groupId, pinned: !pinned })
       });
+      const json = await res.json();
       if (res.ok) {
         refresh();
+        toast.success(pinned ? "Task list unpinned." : "Task list pinned.");
+      } else {
+        throw new Error(json.message, { cause: json.error });
       }
     } catch (error) {
       if (error instanceof Error) {
