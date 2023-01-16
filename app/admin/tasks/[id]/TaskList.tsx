@@ -1,6 +1,11 @@
 "use client";
 import { Pagination } from "@components/shared/Pagination";
 import { Badge } from "@components/shared/Badge";
+import dynamic from "next/dynamic";
+
+const EditTaskModal = dynamic(() =>
+  import("@components/admin/tasks/home/EditTaskModal").then((mod) => mod.EditTaskModal)
+);
 
 import { usePagination } from "@lib/hooks/usePagination";
 import { useRouteRefresh } from "@lib/hooks/useRouteRefresh";
@@ -8,9 +13,10 @@ import { useToggle } from "@lib/hooks/useToggle";
 import { useState } from "react";
 
 import { ActionIcon } from "@components/shared/ActionIcon";
-import { Trash } from "@lib/icons";
+import { Edit, Trash } from "@lib/icons";
 
 import type { Tasks } from "@prisma/client";
+import type { EditTaskData } from "@components/admin/tasks/home/Tasks";
 
 export type SerializedTask = Omit<Tasks, "deadline" | "createdAt" | "updatedAt"> & {
   updatedAt: string;
@@ -43,6 +49,8 @@ export function Task({ taskData }: TaskPropTypes) {
   const [isPending, refresh] = useRouteRefresh();
   const [loading, toggle] = useToggle();
   const [task, setTask] = useState(taskData);
+  const [lazyLoad, lazyLoadToggle] = useToggle();
+  const [dialog, dialogToggle] = useToggle();
 
   const onDelete = async () => {
     toggle.on();
@@ -96,36 +104,58 @@ export function Task({ taskData }: TaskPropTypes) {
     }
   };
 
+  const onEdit = (data: EditTaskData) => {
+    setTask((prev) => ({ ...prev, ...data }));
+    refresh();
+  };
+
   const isLoading = loading || isPending;
   return (
-    <div
-      className={`bg-white dark:bg-zinc-800 rounded-md p-4 mb-5 last-of-type:mb-0 ${isLoading ? "animate-pulse" : ""}`}
-    >
-      <div className="flex justify-between items-center mb-2 ">
-        <div className="flex gap-2 items-center">
-          <p className="flex items-center gap-2">
-            <input
-              onChange={onStatusToggle}
-              id={`${task.id}-${task.name}`}
-              type={"checkbox"}
-              className="accent-emerald-600"
-              checked={task.status}
-            />
-            <label htmlFor={`${task.id}-${task.name}`}>{task.name}</label>
-          </p>
-          <Badge
-            color={task.priority === "high" ? "red" : task.priority === "medium" ? "yellow" : "emerald"}
-            className="capitalize px-2 py-1 w-fit text-sm"
-          >
-            {task.priority} priority
-          </Badge>
+    <>
+      {lazyLoad && <EditTaskModal task={task} onEdit={onEdit} onOpenChange={dialogToggle.set} open={dialog} />}
+      <div
+        className={`bg-white dark:bg-zinc-800 rounded-md p-4 mb-5 last-of-type:mb-0 ${
+          isLoading ? "animate-pulse" : ""
+        }`}
+      >
+        <div className="flex justify-between items-center mb-2 ">
+          <div className="flex gap-2 items-center">
+            <p className="flex items-center gap-2">
+              <input
+                onChange={onStatusToggle}
+                id={`${task.id}-${task.name}`}
+                type={"checkbox"}
+                className="accent-emerald-600"
+                checked={task.status}
+              />
+              <label htmlFor={`${task.id}-${task.name}`}>{task.name}</label>
+            </p>
+            <Badge
+              color={task.priority === "high" ? "red" : task.priority === "medium" ? "yellow" : "emerald"}
+              className="capitalize px-2 py-1 w-fit text-sm"
+            >
+              {task.priority} priority
+            </Badge>
+          </div>
+          <div className="flex gap-4">
+            <ActionIcon
+              color={"violet"}
+              onMouseEnter={!lazyLoad ? lazyLoadToggle.on : undefined}
+              onClick={dialogToggle.on}
+              disabled={isLoading}
+              className="w-7 h-7"
+              aria-label="Delete task"
+            >
+              <Edit size={16} className="stroke-violet-600 dark:stroke-violet-200" />
+            </ActionIcon>
+            <ActionIcon onClick={onDelete} disabled={isLoading} className="w-7 h-7" aria-label="Delete task">
+              <Trash size={16} className="stroke-red-600 dark:stroke-red-200" />
+            </ActionIcon>
+          </div>
         </div>
-        <ActionIcon onClick={onDelete} disabled={isLoading} className="w-7 h-7" aria-label="Delete task">
-          <Trash size={16} className="stroke-red-600 dark:stroke-red-200" />
-        </ActionIcon>
+        <p>Due: {task.deadline}</p>
+        <p className="text-gray-500 dark:text-gray-400">{task.description}</p>
       </div>
-      <p>Due: {task.deadline}</p>
-      <p className="text-gray-500 dark:text-gray-400">{task.description}</p>
-    </div>
+    </>
   );
 }
