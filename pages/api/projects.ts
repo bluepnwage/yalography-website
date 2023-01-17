@@ -1,7 +1,10 @@
-import { NextApiHandler } from "next";
 import prisma from "@lib/prisma";
+import { logError } from "@lib/notion";
+import { serverError } from "@util/serverError";
+import { handlePromise } from "@util/handle-promise";
 
 import type { Projects } from "@prisma/client";
+import type { NextApiHandler } from "next";
 
 const development = process.env.NODE_ENV === "development";
 
@@ -26,17 +29,41 @@ async function deleteProject(id: number) {
   return project;
 }
 
+const apiURL = "/api/projects";
+
 const handler: NextApiHandler = async (req, res) => {
   try {
     const json = req.body;
     switch (req.method) {
       case "POST": {
-        const data = await createProject(json);
+        const promise = createProject(json);
+        const [status, data] = await handlePromise(promise);
+        if (status === "error") {
+          logError({
+            title: "Create project",
+            apiURL,
+            description: data.message,
+            stackTrace: data.stack,
+            statusCode: 500
+          });
+          throw new Error("There was an error creating a project.");
+        }
         return res.status(201).json({ message: "Project createad", data });
       }
       case "PUT": {
         const query = parseInt(req.query.revalidate as string);
-        const data = await editProject(json);
+        const promise = editProject(json);
+        const [status, data] = await handlePromise(promise);
+        if (status === "error") {
+          logError({
+            title: "Edit project",
+            apiURL,
+            description: data.message,
+            stackTrace: data.stack,
+            statusCode: 500
+          });
+          throw new Error("There was an error editing a project.");
+        }
         if (!development && query) {
           await Promise.all([res.revalidate(`/projects/${json.id}`), res.revalidate("/projects")]);
         }
@@ -44,7 +71,18 @@ const handler: NextApiHandler = async (req, res) => {
       }
       case "DELETE": {
         const query = parseInt(req.query.revalidate as string);
-        const data = await deleteProject(json.id);
+        const promise = deleteProject(json.id);
+        const [status, data] = await handlePromise(promise);
+        if (status === "error") {
+          logError({
+            title: "Delete project",
+            apiURL,
+            description: data.message,
+            stackTrace: data.stack,
+            statusCode: 500
+          });
+          throw new Error("There was an error deleting a project.");
+        }
         if (!development && query) {
           await Promise.all([res.revalidate(`/projects/${json.id}`), res.revalidate("/projects")]);
         }
@@ -55,8 +93,13 @@ const handler: NextApiHandler = async (req, res) => {
       }
     }
   } catch (error) {
-    console.log(error);
-    res.status(500).json({ message: "An error occurred on the server", error });
+    if (error instanceof Error) {
+      res.status(500).json({ message: error.message });
+    } else {
+      const e = error as any;
+      await logError({ title: "Server error", apiURL, description: e.message, stackTrace: e.stack, statusCode: 500 });
+      res.status(500).json({ message: serverError });
+    }
   }
 };
 
