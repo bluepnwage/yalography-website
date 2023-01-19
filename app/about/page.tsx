@@ -49,7 +49,7 @@ export default function AboutPage() {
       <Section margin={false} className="bg-gray-50 dark:bg-zinc-800 px-5 py-16">
         <div className="w-full gap-5 flex ">
           <div className="basis-3/5 grow pr-5 space-y-4">
-            <Title order={"h2"}>The world&apos;s most innovative companies use Yalography</Title>
+            <Title order={"h2"}>The most renowned companies in SXM have worked with Yalography</Title>
             <p className="text-xl">
               My experience and passion for photography have allowed me to create stunning images and to help these
               companies tell their stories in an impactful way. I strive to provide the best services to my clients and
