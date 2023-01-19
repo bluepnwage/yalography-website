@@ -1,6 +1,6 @@
 "use client";
 import { Dropdown } from "@components/shared/Dropdown";
-import { DotsVertical } from "@lib/icons";
+import { DotsVertical, Edit } from "@lib/icons";
 import { Button } from "@components/shared/Button";
 import { Input } from "@components/shared/Input";
 import { Trash, Pin, Plus } from "@lib/icons";
@@ -20,10 +20,12 @@ const DatePicker = dynamic(() => import("@components/shared/DatePicker/DatePicke
 type PropTypes = {
   groupId: number;
   pinned: boolean;
+  title: string;
 };
 
-export function Menu({ groupId, pinned }: PropTypes) {
+export function Menu({ groupId, pinned, title }: PropTypes) {
   const [dialog, dialogToggle] = useToggle();
+  const [renameDialog, renameToggle] = useToggle();
   const [loading, toggle] = useToggle();
   const [isPending, refresh] = useRouteRefresh();
   const [lazyLoad, lazyLoadToggle] = useToggle();
@@ -113,6 +115,34 @@ export function Menu({ groupId, pinned }: PropTypes) {
     }
   };
 
+  const onRename = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const name = new FormData(e.currentTarget).get("task_name");
+    toggle.on();
+
+    try {
+      const res = await fetch("/api/task-list", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: groupId, name })
+      });
+      if (res.ok) {
+        refresh();
+        renameToggle.off();
+      } else {
+        throw new Error("Failed to rename task list.");
+      }
+    } catch (error) {
+      const { toast } = await import("react-toastify");
+
+      if (error instanceof Error) {
+        toast.error(error.message);
+      }
+    } finally {
+      toggle.off();
+    }
+  };
+
   const isLoading = loading || isPending;
   return (
     <>
@@ -139,6 +169,16 @@ export function Menu({ groupId, pinned }: PropTypes) {
           </form>
         </Dialog>
       )}
+      {lazyLoad && (
+        <Dialog open={renameDialog} onOpenChange={renameToggle.set} title="Rename task list">
+          <form onSubmit={onRename} className="space-y-4">
+            <Input id="task_name" label="Name" required name="task_name" defaultValue={title} />
+            <Button disabled={isLoading} intent={"accept"}>
+              Submit
+            </Button>
+          </form>
+        </Dialog>
+      )}
       <Dropdown>
         <Dropdown.Trigger>
           <button>
@@ -150,6 +190,10 @@ export function Menu({ groupId, pinned }: PropTypes) {
             {" "}
             <Plus size={16} className="stroke-yellow-500 ring-1 ring-yellow-500 rounded-full inline-block mr-2" />
             Create task
+          </Dropdown.Item>
+          <Dropdown.Item onMouseEnter={!lazyLoad ? lazyLoadToggle.on : undefined} onClick={renameToggle.on}>
+            <Edit size={16} className="stroke-yellow-600 dark:stroke-yellow-500 inline-block mr-2" />
+            Rename task list
           </Dropdown.Item>
           <Dropdown.Item onClick={onPin}>
             <Pin size={16} className="stroke-yellow-500  inline-block mr-2" />

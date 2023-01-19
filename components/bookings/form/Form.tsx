@@ -9,6 +9,7 @@ import { Steps } from "./Steps";
 import { Addon } from "./Addons";
 import { Success } from "./Success";
 import dynamic from "next/dynamic";
+
 const DatePicker = dynamic(() => import("@components/shared/DatePicker/DatePicker").then((mod) => mod.DatePicker), {
   loading: () => <Input label="Date" />
 });

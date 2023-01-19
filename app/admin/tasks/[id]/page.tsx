@@ -1,7 +1,6 @@
-import { FlexContainer, Breadcrumbs, Anchor } from "@components/shared";
-import { Menu } from "./Menu";
+import { FlexContainer, Breadcrumbs, Anchor, Title } from "@components/shared";
 import { TaskList } from "./TaskList";
-import { TaskTitle } from "@components/admin/tasks/Title";
+import { Menu } from "@components/admin/tasks/Menu";
 
 import prisma from "@lib/prisma";
 import { notFound } from "next/navigation";
@@ -34,9 +33,9 @@ export default async function TaskListPage({ params }: { params: { id: string } 
         <Anchor href="/admin/tasks">Tasks</Anchor>
         <Anchor href={`/admin/tasks/${params.id}`}>{taskList?.name}</Anchor>
       </Breadcrumbs>
-      <FlexContainer className="justify-between mb-20 mt-5">
-        <TaskTitle id={taskList.id} title={taskList.name} />
-        <Menu pinned={taskList.pinned} groupId={taskList?.id!} />
+      <FlexContainer className="justify-between mb-16 mt-5">
+        <Title>{taskList.name}</Title>
+        <Menu pinned={taskList.pinned} title={taskList.name} groupId={taskList?.id!} />
       </FlexContainer>
       <TaskList tasks={list} />
     </>
