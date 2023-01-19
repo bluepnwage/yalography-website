@@ -1,7 +1,6 @@
 "use client";
 //Components
 import { MantineProvider } from "@mantine/core";
-import { DatePicker } from "../DatePicker/DatePicker";
 import { Button } from "@components/shared/Button";
 import { Input } from "@components/shared/Input";
 import { Select } from "@components/shared/Select";
@@ -9,10 +8,16 @@ import { Textarea } from "@components/shared/Textarea";
 import { Steps } from "./Steps";
 import { Addon } from "./Addons";
 import { Success } from "./Success";
+import dynamic from "next/dynamic";
+const DatePicker = dynamic(() => import("@components/shared/DatePicker/DatePicker").then((mod) => mod.DatePicker), {
+  loading: () => <Input label="Date" />
+});
 
 //Data/hooks
 import { useState, useRef } from "react";
 import { photoshootTypes } from "@lib/photoshoot";
+import { useToggle } from "@lib/hooks/useToggle";
+import dayjs from "dayjs";
 import { toast } from "react-toastify";
 
 //Types
@@ -45,6 +50,7 @@ function BookingsForm() {
   const [shootType, setShootType] = useState<Lowercase<ShootTypes> | "">("");
   const [date, setDate] = useState<Date | null>(null);
   const [selectedFeatures, setFeatures] = useState<string[]>([]);
+  const [loading, toggle] = useToggle();
   const containerRef = useRef<HTMLDivElement | null>(null);
 
   const stepOneIncomplete = !form.first_name || !form.last_name || !form.email || !form.phone;
@@ -84,6 +90,7 @@ function BookingsForm() {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    toggle.on();
     try {
       const data = {
         firstName: form.first_name!,
@@ -102,13 +109,13 @@ function BookingsForm() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data)
       });
-      const json = await res.json();
       if (res.ok) {
         setCurrentStep(5);
         setForm({});
         setFeatures([]);
         setDate(null);
       } else {
+        const json = await res.json();
         throw new Error(json.message);
       }
     } catch (error) {
@@ -117,6 +124,8 @@ function BookingsForm() {
           `There was an error when creating your booking. Please try again. If this problem persists, please contact our support team.`
         );
       }
+    } finally {
+      toggle.off();
     }
   };
 
@@ -182,9 +191,7 @@ function BookingsForm() {
             {currentStep === 2 && (
               <section className="space-y-5">
                 <h2 className="text-marine-blue font-bold text-2xl">Select your photoshoot</h2>
-                <p className="text-gray-600 dark:text-gray-400 mb-14">
-                  You have the option of monthly or yearly billing.
-                </p>
+
                 <Select
                   label="Photoshoot"
                   placeholder="Photoshoot type"
@@ -223,7 +230,12 @@ function BookingsForm() {
                     </p>
                   </div>
                 </fieldset>
-                <DatePicker date={date} onChange={setDate} />
+                <DatePicker
+                  value={date}
+                  minDate={dayjs(new Date()).add(8, "days").toDate()}
+                  label="Date"
+                  onChange={setDate}
+                />
                 <Input
                   className="accent-red-600 w-full"
                   label="Time"
@@ -324,12 +336,13 @@ function BookingsForm() {
                   Previous Step
                 </Button>
               )}
-              {currentStep < 4 && (
+              {currentStep < 4 ? (
                 <Button type={"button"} onClick={nextStep}>
                   Next Step
                 </Button>
+              ) : (
+                <Button disabled={loading}>Submit</Button>
               )}
-              {currentStep === 4 && <Button>Submit</Button>}
             </div>
           </form>
         )}
