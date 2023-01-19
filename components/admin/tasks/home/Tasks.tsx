@@ -15,39 +15,31 @@ import { useToggle } from "@lib/hooks/useToggle";
 import { useRouteRefresh } from "@lib/hooks/useRouteRefresh";
 import { usePagination } from "@lib/hooks/usePagination";
 import { useState } from "react";
+import { useFilter } from "@lib/hooks/useFilter";
 import dynamic from "next/dynamic";
 
 //Types
 import type { SerializedTask } from "@lib/prisma";
-import type { FilterOptions, SortOptions } from "@util/filterTasks";
 
 const EditTaskModal = dynamic(() => import("./EditTaskModal").then((mod) => mod.EditTaskModal));
 
 export function Tasks() {
   const { tasks } = useTasks();
-  const [sort, setSort] = useState<SortOptions | null>(null);
-  const [filter, setFilter] = useState<FilterOptions | null>(null);
-  const [search, setSearch] = useState("");
+  const [filterOptions, toggle] = useFilter();
   const { paginatedList, ...props } = usePagination(10, tasks);
 
-  const filteredTasks = filterTasks(paginatedList, sort, filter, search);
-
-  const clearFilters = () => {
-    setSort(null);
-    setFilter(null);
-    setSearch("");
-  };
+  const filteredTasks = filterTasks(paginatedList, filterOptions.sort, filterOptions.filter, filterOptions.search);
 
   return (
     <div className="space-y-2 col-span-8">
       <FilterBar
-        searchValue={search}
-        onSearchChange={setSearch}
-        sortValue={sort}
-        filterValue={filter}
-        onClear={clearFilters}
-        onFilterChange={setFilter}
-        onSortChange={setSort}
+        searchValue={filterOptions.search}
+        onSearchChange={toggle.onSearch}
+        sortValue={filterOptions.sort}
+        filterValue={filterOptions.filter}
+        onClear={toggle.onClear}
+        onFilterChange={toggle.onFilter}
+        onSortChange={toggle.onSort}
       />
       <Table striped>
         <thead className="border-b border-zinc-200 dark:border-zinc-700">

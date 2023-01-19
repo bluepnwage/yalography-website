@@ -2,6 +2,7 @@
 import { Pagination } from "@components/shared/Pagination";
 import { Badge } from "@components/shared/Badge";
 import dynamic from "next/dynamic";
+import { FilterBar } from "@components/admin/tasks/home/Filter";
 
 const EditTaskModal = dynamic(() =>
   import("@components/admin/tasks/home/EditTaskModal").then((mod) => mod.EditTaskModal)
@@ -11,12 +12,14 @@ import { usePagination } from "@lib/hooks/usePagination";
 import { useRouteRefresh } from "@lib/hooks/useRouteRefresh";
 import { useToggle } from "@lib/hooks/useToggle";
 import { useState } from "react";
+import { useFilter } from "@lib/hooks/useFilter";
 
 import { ActionIcon } from "@components/shared/ActionIcon";
 import { Edit, Trash } from "@lib/icons";
 
 import type { Tasks } from "@prisma/client";
 import type { EditTaskData } from "@components/admin/tasks/home/Tasks";
+import { FilterOptions, filterTasks, SortOptions } from "@util/filterTasks";
 
 export type SerializedTask = Omit<Tasks, "deadline" | "createdAt" | "updatedAt"> & {
   updatedAt: string;
@@ -29,11 +32,22 @@ type PropTypes = {
 };
 
 export function TaskList({ tasks }: PropTypes) {
+  const [filterOptions, toggle] = useFilter();
   const { paginatedList, ...props } = usePagination(10, tasks);
+  const filteredTasks = filterTasks(paginatedList, filterOptions.sort, filterOptions.filter, filterOptions.search);
 
   return (
     <>
-      {paginatedList.map((task) => {
+      <FilterBar
+        searchValue={filterOptions.search}
+        sortValue={filterOptions.sort}
+        filterValue={filterOptions.filter}
+        onSearchChange={toggle.onSearch}
+        onClear={toggle.onClear}
+        onFilterChange={toggle.onFilter}
+        onSortChange={toggle.onSort}
+      />
+      {filteredTasks.map((task) => {
         return <Task key={task.id} taskData={task} />;
       })}
       <Pagination {...props} />
@@ -114,7 +128,7 @@ export function Task({ taskData }: TaskPropTypes) {
     <>
       {lazyLoad && <EditTaskModal task={task} onEdit={onEdit} onOpenChange={dialogToggle.set} open={dialog} />}
       <div
-        className={`bg-white dark:bg-zinc-800 rounded-md p-4 mb-5 last-of-type:mb-0 ${
+        className={`bg-white first-of-type:mt-4 dark:bg-zinc-800 rounded-md p-4 mb-5 last-of-type:mb-0 ${
           isLoading ? "animate-pulse" : ""
         }`}
       >
