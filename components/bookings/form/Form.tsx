@@ -337,13 +337,12 @@ function BookingsForm() {
                   Previous Step
                 </Button>
               )}
-              {currentStep < 4 ? (
+              {currentStep < 4 && (
                 <Button type={"button"} onClick={nextStep}>
                   Next Step
                 </Button>
-              ) : (
-                <Button disabled={loading}>Submit</Button>
               )}
+              {currentStep === 4 && <Button disabled={loading}>Submit</Button>}
             </div>
           </form>
         )}
