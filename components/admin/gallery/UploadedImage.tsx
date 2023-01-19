@@ -1,23 +1,29 @@
 "use client";
 import { Dropdown } from "@components/shared/Dropdown";
 import { Image } from "@components/shared/Image";
-import { useToggle } from "@lib/hooks/useToggle";
-import { useRouteRefresh } from "@lib/hooks/useRouteRefresh";
+import { Button } from "@components/shared/Button";
+import { Input } from "@components/shared/Input";
 import dynamic from "next/dynamic";
 
-const Dialog = dynamic(() => import("./ImageModal").then((mod) => mod.ImageModal));
+const Dialog = dynamic(() => import("@components/shared/Dialog").then((mod) => mod.Dialog));
+
+import { useToggle } from "@lib/hooks/useToggle";
+import { useRouteRefresh } from "@lib/hooks/useRouteRefresh";
+import { useState } from "react";
 
 import type { Images } from "@prisma/client";
+import type { FormEvent } from "react";
 
 type PropTypes = {
   image: Images;
 };
 
-export function UploadedImage({ image }: PropTypes) {
+export function UploadedImage({ image: imageData }: PropTypes) {
   const [loading, toggle] = useToggle();
   const [isPending, refresh] = useRouteRefresh();
   const [lazyLoad, lazyLoadToggle] = useToggle();
   const [dialog, dialogToggle] = useToggle();
+  const [image, setImage] = useState(imageData);
 
   const onDelete = async () => {
     toggle.on();
@@ -51,24 +57,64 @@ export function UploadedImage({ image }: PropTypes) {
     toast("URL copied to clipboard");
   };
 
-  const onRename = async () => {
+  const onRename = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const name = new FormData(e.currentTarget).get("image_name") as string;
     toggle.on();
 
     try {
       const res = await fetch("/api/images", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id: image.id })
+        body: JSON.stringify({ id: image.id, name })
       });
-      const json = await res.json();
-      if (!res.ok) {
-        throw new Error(json.message, { cause: json.error });
+      if (res.ok) {
+        setImage((prev) => ({ ...prev, name }));
+        dialogToggle.off();
+      } else {
+        throw new Error("There was en error renaming the image.");
       }
     } catch (error) {
       const { toast } = await import("react-toastify");
       if (error instanceof Error) {
-        toast.error("There was an error renaming the image");
+        toast.error(error.message);
       }
+    } finally {
+      toggle.off();
+    }
+  };
+
+  const onDownload = async () => {
+    const endpoint = new URL("/api/download-image", location.origin);
+    endpoint.searchParams.set("name", image.fullPath);
+    endpoint.searchParams.set("type", image.type);
+    const res = await fetch(endpoint);
+
+    if (res.ok) {
+      const reader = res.body?.getReader();
+      let chunks: Uint8Array[] = [];
+      while (true) {
+        const data = await reader?.read();
+        if (data?.done) {
+          break;
+        } else {
+          chunks.push(data?.value!);
+        }
+      }
+
+      const blob = new Blob(chunks, { type: image.type });
+      const anchor = document.createElement("a");
+      const href = URL.createObjectURL(blob);
+      anchor.download = image.name;
+      anchor.href = href;
+      anchor.dispatchEvent(
+        new MouseEvent("click", {
+          bubbles: true,
+          cancelable: true,
+          view: window
+        })
+      );
+      setTimeout(() => URL.revokeObjectURL(href), 100);
     }
   };
 
@@ -76,7 +122,16 @@ export function UploadedImage({ image }: PropTypes) {
 
   return (
     <>
-      {lazyLoad && <Dialog opened={dialog} onValueChange={dialogToggle.set} />}
+      {lazyLoad && (
+        <Dialog open={dialog} onOpenChange={dialogToggle.set} title="Rename image">
+          <form onSubmit={onRename} className="space-y-4">
+            <Input defaultValue={image.name} label="Name" id="image_name" name="image_name" required />
+            <Button disabled={isLoading} intent="accept">
+              Submit
+            </Button>
+          </form>
+        </Dialog>
+      )}
       <div className="col-span-4 h-72 flex flex-col gap-4 relative bg-white dark:bg-zinc-800 rounded-md p-4 overflow-hidden ">
         {isLoading && (
           <div
@@ -104,7 +159,7 @@ export function UploadedImage({ image }: PropTypes) {
                 <Upload />
                 Copy url
               </Dropdown.Item>
-              <Dropdown.Item>
+              <Dropdown.Item onClick={onDownload}>
                 <Download />
                 Download image
               </Dropdown.Item>

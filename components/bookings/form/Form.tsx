@@ -115,6 +115,7 @@ function BookingsForm() {
         setForm({});
         setFeatures([]);
         setDate(null);
+        setShootType("");
       } else {
         const json = await res.json();
         throw new Error(json.message);
