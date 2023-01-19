@@ -22,29 +22,39 @@ export async function logError({ title, apiURL, statusCode, description, stackTr
       "Status code": { type: "number", number: statusCode }
     }
   });
-
-  return await notion.blocks.children.append({
-    block_id: page.id,
-    children: [
-      {
-        type: "heading_1",
-        object: "block",
-        heading_1: { rich_text: [{ type: "text", text: { content: "Description" } }] }
-      },
-      {
-        type: "paragraph",
-        object: "block",
-        paragraph: { rich_text: [{ text: { content: description } }] }
-      },
-      {
-        type: "heading_2",
-        object: "block",
-        heading_2: { rich_text: [{ type: "text", text: { content: "Stack trace" } }] }
-      },
-      {
-        type: "paragraph",
-        paragraph: { rich_text: [{ type: "text", text: { content: stackTrace } }] }
-      }
-    ]
-  });
+  await Promise.all([
+    notion.comments.create({
+      parent: { type: "page_id", page_id: page.id },
+      rich_text: [
+        {
+          mention: { user: { type: "person", id: process.env.NOTION_USER_ID!, person: { email: "" } } },
+          type: "mention"
+        }
+      ]
+    }),
+    notion.blocks.children.append({
+      block_id: page.id,
+      children: [
+        {
+          type: "heading_1",
+          object: "block",
+          heading_1: { rich_text: [{ type: "text", text: { content: "Description" } }] }
+        },
+        {
+          type: "paragraph",
+          object: "block",
+          paragraph: { rich_text: [{ text: { content: description } }] }
+        },
+        {
+          type: "heading_2",
+          object: "block",
+          heading_2: { rich_text: [{ type: "text", text: { content: "Stack trace" } }] }
+        },
+        {
+          type: "paragraph",
+          paragraph: { rich_text: [{ type: "text", text: { content: stackTrace } }] }
+        }
+      ]
+    })
+  ]);
 }
