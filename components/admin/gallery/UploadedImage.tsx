@@ -88,33 +88,43 @@ export function UploadedImage({ image: imageData }: PropTypes) {
     const endpoint = new URL("/api/download-image", location.origin);
     endpoint.searchParams.set("name", image.fullPath);
     endpoint.searchParams.set("type", image.type);
-    const res = await fetch(endpoint);
+    try {
+      const res = await fetch(endpoint);
 
-    if (res.ok) {
-      const reader = res.body?.getReader();
-      let chunks: Uint8Array[] = [];
-      while (true) {
-        const data = await reader?.read();
-        if (data?.done) {
-          break;
-        } else {
-          chunks.push(data?.value!);
+      if (res.ok) {
+        const reader = res.body?.getReader();
+        let chunks: Uint8Array[] = [];
+        while (true) {
+          const data = await reader?.read();
+          if (data?.done) {
+            break;
+          } else {
+            chunks.push(data?.value!);
+          }
         }
-      }
 
-      const blob = new Blob(chunks, { type: image.type });
-      const anchor = document.createElement("a");
-      const href = URL.createObjectURL(blob);
-      anchor.download = image.name;
-      anchor.href = href;
-      anchor.dispatchEvent(
-        new MouseEvent("click", {
-          bubbles: true,
-          cancelable: true,
-          view: window
-        })
-      );
-      setTimeout(() => URL.revokeObjectURL(href), 100);
+        const blob = new Blob(chunks, { type: image.type });
+        const anchor = document.createElement("a");
+        const href = URL.createObjectURL(blob);
+        anchor.download = image.name;
+        anchor.href = href;
+        anchor.dispatchEvent(
+          new MouseEvent("click", {
+            bubbles: true,
+            cancelable: true,
+            view: window
+          })
+        );
+        setTimeout(() => URL.revokeObjectURL(href), 100);
+      } else {
+        const json = await res.json();
+        throw new Error(json.message);
+      }
+    } catch (error) {
+      const { toast } = await import("react-toastify");
+      if (error instanceof Error) {
+        toast.error(error.message);
+      }
     }
   };
 

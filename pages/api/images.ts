@@ -63,7 +63,7 @@ const handler: NextApiHandler = async (req, res) => {
         return res.status(200).json({ message: "Image updated", data });
       }
       case "DELETE": {
-        const promise = deleteImage(json);
+        const promise = deleteImage(json.id);
         const [status, data] = await handlePromise(promise);
         if (status === "error") {
           logError({
