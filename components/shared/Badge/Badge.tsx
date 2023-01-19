@@ -2,7 +2,7 @@ import type { ComponentPropsWithoutRef } from "react";
 import { cva } from "cva";
 import type { VariantProps } from "cva";
 
-const styles = cva("flex h-fit justify-center font-semibold rounded-full items-center ", {
+const styles = cva("flex h-fit justify-center text-center font-semibold rounded-full items-center ", {
   variants: {
     color: {
       red: "bg-red-200 text-red-600 dark:bg-red-500 dark:text-red-200 dark:bg-opacity-50",

@@ -373,9 +373,9 @@ export function Editor({ projectData }: PropTypes) {
               <img src={thumbnailURL} className="h-full w-full" />
             </figure>
             <div className="space-y-4 p-2">
-              <div className="flex justify-between">
-                <p className="font-bold text-2xl">{project.title}</p>
-                <Badge color={"violet"} className="capitalize ">
+              <div className="flex gap-4 justify-between">
+                <p className="font-bold basis-2/4 text-2xl">{project.title}</p>
+                <Badge size={"sm"} color={"violet"} className="capitalize ">
                   {selectedType.includes("wedding") ? "Wedding" : selectedType}
                 </Badge>
               </div>

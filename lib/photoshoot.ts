@@ -3,7 +3,7 @@ import { getFeatures } from "./features";
 export type ShootTypes =
   | "Sweet 16"
   | "Babyshoot"
-  | "Engagement shoot"
+  | "Engagement"
   | "Pregnancy"
   | "Family"
   | "Event"
@@ -46,8 +46,8 @@ photoshootTypes.set("babyshoot", {
   time: 60 * 60 * 2,
   environmentPrice: setEnvironmentPricing(150, 200)
 });
-photoshootTypes.set("engagement shoot", {
-  label: "Engagement shoot",
+photoshootTypes.set("engagement", {
+  label: "Engagement",
   features: getFeatures("decor", "proposal_video", "quick_hairstyles"),
   time: 60 * 60,
   environmentPrice: setEnvironmentPricing(300, 300)
