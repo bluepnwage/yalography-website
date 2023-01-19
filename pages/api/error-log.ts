@@ -1,6 +1,6 @@
 import { logError } from "@lib/notion";
-import { NextApiHandler } from "next";
 import { handlePromise } from "@util/handle-promise";
+import type { NextApiHandler } from "next";
 
 async function test() {
   throw new Error("There was an error");
@@ -8,6 +8,10 @@ async function test() {
 
 const handler: NextApiHandler = async (req, res) => {
   try {
+    if (req.method === "POST") {
+      await logError(req.body);
+      return res.status(200).json({ message: "Error successfully logged" });
+    }
     const testPromise = test();
     const [status, data] = await handlePromise(testPromise);
     if (status === "error") {

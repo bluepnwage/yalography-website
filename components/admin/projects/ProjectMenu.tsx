@@ -8,20 +8,25 @@ import { ActionIcon } from "@components/shared/ActionIcon";
 type PropTypes = {
   id: number;
   published: boolean;
+  projectName: string;
 };
 
-export function ProjectMenu({ id, published }: PropTypes) {
+export function ProjectMenu({ id, published, projectName }: PropTypes) {
   const [isPending, refresh] = useRouteRefresh();
   const [loading, toggle] = useToggle();
   const router = useRouter();
 
   const onDelete = async () => {
     toggle.on();
-    const { toast } = await import("react-toastify");
+    const [{ toast }, { deleteThumbnail }] = await Promise.all([
+      import("react-toastify"),
+      import("@lib/firebase/storage")
+    ]);
 
     const endpoint = new URL("/api/projects", location.origin);
     endpoint.searchParams.set("revalidate", published ? "1" : "0");
     try {
+      await deleteThumbnail(projectName);
       const res = await fetch(endpoint, {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
