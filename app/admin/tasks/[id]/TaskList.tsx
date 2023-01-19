@@ -47,10 +47,12 @@ export function TaskList({ tasks }: PropTypes) {
         onFilterChange={toggle.onFilter}
         onSortChange={toggle.onSort}
       />
-      {filteredTasks.map((task) => {
-        return <Task key={task.id} taskData={task} />;
-      })}
-      <Pagination {...props} />
+      <section>
+        {filteredTasks.map((task) => {
+          return <Task key={task.id} taskData={task} />;
+        })}
+        <Pagination {...props} />
+      </section>
     </>
   );
 }
