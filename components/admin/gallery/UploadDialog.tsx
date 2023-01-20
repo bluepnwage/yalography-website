@@ -4,7 +4,7 @@ import { Button } from "@components/shared/Button";
 import { Dropzone } from "./Dropzone";
 import dynamic from "next/dynamic";
 
-const DialogDemo = dynamic(() => import("@components/shared/Dialog").then((mod) => mod.DialogDemo));
+const Dialog = dynamic(() => import("@components/shared/Dialog").then((mod) => mod.Dialog));
 
 import { useToggle } from "@lib/hooks/useToggle";
 import type { SerializedImageFolder } from "@lib/prisma";
@@ -28,11 +28,11 @@ export function UploadDialog({ folders }: PropTypes) {
         Upload image
       </Button>
       {lazyLoad && (
-        <DialogDemo open={dialog} onOpenChange={dialogToggle.set} title={"Upload image"}>
+        <Dialog open={dialog} onOpenChange={dialogToggle.set} title={"Upload image"}>
           <div className="space-y-2">
             <Dropzone folders={folders} onDialogClose={dialogToggle.off} />
           </div>
-        </DialogDemo>
+        </Dialog>
       )}
     </>
   );

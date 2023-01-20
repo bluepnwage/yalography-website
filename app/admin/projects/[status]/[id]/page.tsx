@@ -34,7 +34,7 @@ export default async function Page({ params }: { params: { status: "drafted" | "
             </Badge>
           </div>
         </div>
-        <ProjectMenu id={project.id} published={project.published} />
+        <ProjectMenu projectName={project.name} id={project.id} published={project.published} />
       </div>
       <Breadcrumbs>
         <Anchor href={"/admin/projects"}>Projects</Anchor>

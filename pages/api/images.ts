@@ -1,6 +1,10 @@
-import type { NextApiHandler } from "next";
 import prisma from "@lib/prisma";
+import { serverError } from "@util/serverError";
+import { logError } from "@lib/notion";
+import { handlePromise } from "@util/handle-promise";
+
 import type { Images } from "@prisma/client";
+import type { NextApiHandler } from "next";
 
 async function createImage(data: Images) {
   await prisma.$connect();
@@ -22,22 +26,55 @@ async function deleteImage(id: number) {
   await prisma.$disconnect();
   return image;
 }
+const apiURL = "/api/images";
 
 const handler: NextApiHandler = async (req, res) => {
   try {
     const json = req.body;
     switch (req.method) {
       case "POST": {
-        const data = await createImage(json);
-        console.log(data);
+        const promise = createImage(json);
+        const [status, data] = await handlePromise(promise);
+        if (status === "error") {
+          logError({
+            title: "Create image",
+            apiURL,
+            description: data.message,
+            stackTrace: data.stack,
+            statusCode: 500
+          });
+          throw new Error("There was an error creating an image.");
+        }
         return res.status(201).json({ message: "Image created", data });
       }
       case "PUT": {
-        const data = await editImage(json);
+        const promise = editImage(json);
+        const [status, data] = await handlePromise(promise);
+        if (status === "error") {
+          logError({
+            title: "Edit image",
+            apiURL,
+            description: data.message,
+            stackTrace: data.stack,
+            statusCode: 500
+          });
+          throw new Error("There was an error editing an image.");
+        }
         return res.status(200).json({ message: "Image updated", data });
       }
       case "DELETE": {
-        const data = await deleteImage(json.id);
+        const promise = deleteImage(json.id);
+        const [status, data] = await handlePromise(promise);
+        if (status === "error") {
+          logError({
+            title: "Delete image",
+            apiURL,
+            description: data.message,
+            stackTrace: data.stack,
+            statusCode: 500
+          });
+          throw new Error("There was an error deleting an image.");
+        }
         return res.status(200).json({ message: "Image deleted", data });
       }
       default: {
@@ -45,8 +82,13 @@ const handler: NextApiHandler = async (req, res) => {
       }
     }
   } catch (error) {
-    console.log(error);
-    return res.status(500).json({ message: "An error occurred on the server" });
+    if (error instanceof Error) {
+      res.status(500).json({ message: error.message });
+    } else {
+      const e = error as any;
+      await logError({ title: "Server error", apiURL, description: e.message, stackTrace: e.stack, statusCode: 500 });
+      res.status(500).json({ message: serverError });
+    }
   }
 };
 

@@ -12,7 +12,7 @@ export function DatePicker({ onChange, date }: PropTypes) {
     <MantineDatePicker
       value={date}
       onChange={onChange}
-      minDate={dayjs(new Date()).add(4, "days").toDate()}
+      minDate={dayjs(new Date()).add(8, "days").toDate()}
       label="Date"
       classNames={{
         input: `border-gray-400 dark:text-gray-400 text-gray-600 font-sans dark:border-gray-700

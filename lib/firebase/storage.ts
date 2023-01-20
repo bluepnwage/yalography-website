@@ -1,6 +1,5 @@
 import { getStorage, uploadBytes, ref, getDownloadURL, deleteObject } from "firebase/storage";
-
-import type { UploadResult } from "firebase/storage";
+import type { UploadResult, StorageError } from "firebase/storage";
 import type { Images } from "@prisma/client";
 
 import { app } from "./config";
@@ -65,4 +64,30 @@ export async function uploadThumbnail(file: File, projectName: string) {
   const upload = await uploadBytes(imageRef, file);
   const url = getDownloadURL(upload.ref);
   return url;
+}
+
+export async function deleteThumbnail(projectName: string) {
+  try {
+    const imageRef = ref(storage, `thumbnail/${projectName}-thumbnail`);
+    await deleteObject(imageRef);
+  } catch (error) {
+    if (error instanceof Error) {
+      const res = await fetch("/api/error-log", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          title: "Upload image",
+          status: 500,
+          stackTrace: error.stack,
+          description: error.message
+        })
+      });
+      if (res.ok) {
+        throw new Error(
+          "There was en error when trying to delete your project. The team has already been notified and will find a fix as soon as possible.",
+          { cause: error }
+        );
+      }
+    }
+  }
 }

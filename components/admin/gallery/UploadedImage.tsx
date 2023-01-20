@@ -1,25 +1,34 @@
 "use client";
 import { Dropdown } from "@components/shared/Dropdown";
 import { Image } from "@components/shared/Image";
+import { Button } from "@components/shared/Button";
+import { Input } from "@components/shared/Input";
+import dynamic from "next/dynamic";
+
+const Dialog = dynamic(() => import("@components/shared/Dialog").then((mod) => mod.Dialog));
+
 import { useToggle } from "@lib/hooks/useToggle";
 import { useRouteRefresh } from "@lib/hooks/useRouteRefresh";
-
-import { toast } from "react-toastify";
+import { useState } from "react";
 
 import type { Images } from "@prisma/client";
+import type { FormEvent } from "react";
 
 type PropTypes = {
   image: Images;
 };
 
-export function UploadedImage({ image }: PropTypes) {
+export function UploadedImage({ image: imageData }: PropTypes) {
   const [loading, toggle] = useToggle();
   const [isPending, refresh] = useRouteRefresh();
+  const [lazyLoad, lazyLoadToggle] = useToggle();
+  const [dialog, dialogToggle] = useToggle();
+  const [image, setImage] = useState(imageData);
 
   const onDelete = async () => {
     toggle.on();
+    const [{ toast }, { deleteImage }] = await Promise.all([import("react-toastify"), import("@lib/firebase/storage")]);
     try {
-      const { deleteImage } = await import("@lib/firebase/storage");
       await deleteImage(image.fullPath);
       const res = await fetch("/api/images", {
         method: "DELETE",
@@ -42,10 +51,97 @@ export function UploadedImage({ image }: PropTypes) {
     }
   };
 
+  const onCopy = async () => {
+    const { toast } = await import("react-toastify");
+    await navigator.clipboard.writeText(image.url);
+    toast("URL copied to clipboard");
+  };
+
+  const onRename = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const name = new FormData(e.currentTarget).get("image_name") as string;
+    toggle.on();
+
+    try {
+      const res = await fetch("/api/images", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: image.id, name })
+      });
+      if (res.ok) {
+        setImage((prev) => ({ ...prev, name }));
+        dialogToggle.off();
+      } else {
+        throw new Error("There was en error renaming the image.");
+      }
+    } catch (error) {
+      const { toast } = await import("react-toastify");
+      if (error instanceof Error) {
+        toast.error(error.message);
+      }
+    } finally {
+      toggle.off();
+    }
+  };
+
+  const onDownload = async () => {
+    const endpoint = new URL("/api/download-image", location.origin);
+    endpoint.searchParams.set("name", image.fullPath);
+    endpoint.searchParams.set("type", image.type);
+    try {
+      const res = await fetch(endpoint);
+
+      if (res.ok) {
+        const reader = res.body?.getReader();
+        let chunks: Uint8Array[] = [];
+        while (true) {
+          const data = await reader?.read();
+          if (data?.done) {
+            break;
+          } else {
+            chunks.push(data?.value!);
+          }
+        }
+
+        const blob = new Blob(chunks, { type: image.type });
+        const anchor = document.createElement("a");
+        const href = URL.createObjectURL(blob);
+        anchor.download = image.name;
+        anchor.href = href;
+        anchor.dispatchEvent(
+          new MouseEvent("click", {
+            bubbles: true,
+            cancelable: true,
+            view: window
+          })
+        );
+        setTimeout(() => URL.revokeObjectURL(href), 100);
+      } else {
+        const json = await res.json();
+        throw new Error(json.message);
+      }
+    } catch (error) {
+      const { toast } = await import("react-toastify");
+      if (error instanceof Error) {
+        toast.error(error.message);
+      }
+    }
+  };
+
   const isLoading = isPending || loading;
 
   return (
     <>
+      {lazyLoad && (
+        <Dialog open={dialog} onOpenChange={dialogToggle.set} title="Rename image">
+          <form onSubmit={onRename} className="space-y-4">
+            <Input defaultValue={image.name} label="Name" id="image_name" name="image_name" required />
+            <Button disabled={isLoading} intent="accept">
+              Submit
+            </Button>
+          </form>
+        </Dialog>
+      )}
       <div className="col-span-4 h-72 flex flex-col gap-4 relative bg-white dark:bg-zinc-800 rounded-md p-4 overflow-hidden ">
         {isLoading && (
           <div
@@ -54,7 +150,7 @@ export function UploadedImage({ image }: PropTypes) {
           ></div>
         )}
         <div className="group relative -mx-4 -mt-4 basis-3/4 overflow-hidden ">
-          <Dropdown.Root>
+          <Dropdown>
             <Dropdown.Trigger>
               <button
                 className={`flex h-9 w-9 rounded-full items-center z-10 justify-center bg-zinc-700 absolute right-5 top-5`}
@@ -65,15 +161,15 @@ export function UploadedImage({ image }: PropTypes) {
             </Dropdown.Trigger>
             <Dropdown.Content>
               <Dropdown.Label>Manage image</Dropdown.Label>
-              <Dropdown.Item>
+              <Dropdown.Item onClick={dialogToggle.on} onMouseEnter={!lazyLoad ? lazyLoadToggle.on : undefined}>
                 <Edit />
                 Rename image
               </Dropdown.Item>
-              <Dropdown.Item>
+              <Dropdown.Item onClick={onCopy}>
                 <Upload />
                 Copy url
               </Dropdown.Item>
-              <Dropdown.Item>
+              <Dropdown.Item onClick={onDownload}>
                 <Download />
                 Download image
               </Dropdown.Item>
@@ -82,7 +178,7 @@ export function UploadedImage({ image }: PropTypes) {
                 Delete image
               </Dropdown.Item>
             </Dropdown.Content>
-          </Dropdown.Root>
+          </Dropdown>
           <Image
             containerClass="w-full h-full"
             width={image.width}

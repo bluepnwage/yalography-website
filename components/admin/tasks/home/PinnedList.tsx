@@ -1,11 +1,12 @@
 "use client";
 import { Dropdown } from "@components/shared/Dropdown";
-import { useTasks } from "./TasksProvider";
 import { DotsVertical, Trash, Pin } from "@lib/icons";
 import Link from "next/link";
+
 import { useRouteRefresh } from "@lib/hooks/useRouteRefresh";
 import { useToggle } from "@lib/hooks/useToggle";
-import { toast } from "react-toastify";
+import { useTasks } from "./TasksProvider";
+
 import type { SerializedTask, SerializedTaskList } from "@lib/prisma";
 
 export function PinnedLists() {
@@ -32,6 +33,7 @@ function PinnedTaskList({ list }: PropTypes) {
 
   const onPin = async () => {
     toggle.on();
+    const { toast } = await import("react-toastify");
     try {
       const res = await fetch("/api/task-list", {
         method: "PUT",
@@ -55,6 +57,7 @@ function PinnedTaskList({ list }: PropTypes) {
 
   const onDelete = async () => {
     toggle.on();
+    const { toast } = await import("react-toastify");
     try {
       const res = await fetch("/api/task-list", {
         method: "DELETE",
@@ -83,7 +86,7 @@ function PinnedTaskList({ list }: PropTypes) {
     <div className={`col-span-4 rounded-md bg-white p-4 dark:bg-zinc-800 ${isLoading ? "animate-pulse" : ""} `}>
       <div className="flex justify-between mb-5">
         <p className="font-semibold text-lg">{list.name}</p>
-        <Dropdown.Root>
+        <Dropdown>
           <Dropdown.Trigger>
             <button>
               <DotsVertical size={16} />
@@ -99,7 +102,7 @@ function PinnedTaskList({ list }: PropTypes) {
               <Trash size={16} className="stroke-yellow-500 mr-2" /> Delete
             </Dropdown.Item>
           </Dropdown.Content>
-        </Dropdown.Root>
+        </Dropdown>
       </div>
       <p className="text-gray-400">Pending tasks: {pending.length}</p>
       <p className="text-gray-400">Total tasks: {list.tasks.length}</p>

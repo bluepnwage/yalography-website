@@ -1,12 +1,10 @@
-export async function handlePromise<T>(promise: Promise<T>): Promise<[T | null, null | string]> {
+type PromiseReturn<T> = ["success", T] | ["error", Error];
+
+export async function handlePromise<T>(promise: Promise<T>): Promise<PromiseReturn<T>> {
   try {
     const data = await promise;
-    return [data, null];
+    return ["success", data];
   } catch (error) {
-    if (error instanceof Error) {
-      return [null, error.message];
-    } else {
-      return [null, "An error ocurred"];
-    }
+    return ["error", error as Error];
   }
 }

@@ -1,6 +1,9 @@
 import type { NextApiHandler } from "next";
 import type { Bookings } from "@prisma/client";
 import prisma from "@lib/prisma";
+import { logError } from "@lib/notion";
+import { handlePromise } from "@util/handle-promise";
+import { serverError } from "@util/serverError";
 
 async function createBooking(data: Bookings) {
   await prisma.$connect();
@@ -28,30 +31,69 @@ type ApiResponse = {
   data?: Bookings;
 };
 
+const apiURL = "/api/bookings";
+
 const handler: NextApiHandler<ApiResponse> = async (req, res) => {
   try {
     const json = req.body;
     switch (req.method) {
       case "POST": {
-        const data = await createBooking(json);
-        console.log(data);
+        const promise = createBooking(json);
+        const [status, data] = await handlePromise(promise);
+        if (status === "error") {
+          logError({
+            title: "Create booking",
+            apiURL,
+            description: data.message,
+            stackTrace: data.stack,
+            statusCode: 500
+          });
+          throw new Error("Error creating booking.", { cause: data });
+        }
         return res.status(201).json({ message: "Booking created", data });
       }
       case "PUT": {
-        const data = await updateBooking(json);
+        const promise = updateBooking(json);
+        const [status, data] = await handlePromise(promise);
+        if (status === "error") {
+          logError({
+            title: "Update booking",
+            apiURL,
+            description: data.message,
+            stackTrace: data.stack,
+            statusCode: 500
+          });
+          throw new Error("There was an error updating your booking.", { cause: data });
+        }
         return res.status(200).json({ message: "Booking updated", data });
       }
       case "DELETE": {
-        const data = await deleteBooking(json);
+        const promise = deleteBooking(json);
+        const [status, data] = await handlePromise(promise);
+        if (status === "error") {
+          logError({
+            title: "Delete booking",
+            apiURL,
+            description: data.message,
+            stackTrace: data.stack,
+            statusCode: 500
+          });
+          throw new Error("There was an error deleting your booking.", { cause: data });
+        }
         return res.status(200).json({ message: "Booking deleted", data });
       }
       default: {
         return res.status(405).json({ message: "Method not allowed" });
       }
     }
-  } catch (e) {
-    console.log(e);
-    res.status(500).json({ message: "An error ocurred on the server" });
+  } catch (error) {
+    if (error instanceof Error) {
+      res.status(500).json({ message: error.message });
+    } else {
+      res.status(500).json({
+        message: serverError
+      });
+    }
   }
 };
 export default handler;

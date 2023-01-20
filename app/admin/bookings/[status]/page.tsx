@@ -1,12 +1,10 @@
+import BookingsTable from "@components/admin/bookings/BookingsTable";
 import { Title } from "@components/shared";
 import { verifyToken } from "@lib/firebase/admin/auth";
-import dynamic from "next/dynamic";
 
 export function generateStaticParams() {
   return [{ status: "pending" }, { status: "approved" }];
 }
-
-const BookingsTable = dynamic(() => import("@components/admin/bookings/BookingsTable"), { ssr: false });
 
 export default async function BookingsPage({ params }: { params: { status: "approved" | "pending" } }) {
   await verifyToken();

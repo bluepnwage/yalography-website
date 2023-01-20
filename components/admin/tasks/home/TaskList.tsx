@@ -10,13 +10,12 @@ import Link from "next/link";
 import { useTasks } from "./TasksProvider";
 import { useToggle } from "@lib/hooks/useToggle";
 import { useRouteRefresh } from "@lib/hooks/useRouteRefresh";
-import { toast } from "react-toastify";
 import dynamic from "next/dynamic";
 
 import type { SerializedTask, SerializedTaskList } from "@lib/prisma";
 import type { FormEvent } from "react";
 
-const DialogDemo = dynamic(() => import("@components/shared/Dialog").then((mod) => mod.DialogDemo));
+const Dialog = dynamic(() => import("@components/shared/Dialog").then((mod) => mod.Dialog));
 
 export function TaskLists() {
   const { taskLists } = useTasks();
@@ -50,6 +49,7 @@ function List({ list }: PropTypes) {
 
   const onDelete = async () => {
     toggle.on();
+    const { toast } = await import("react-toastify");
     try {
       const res = await fetch("/api/task-list", {
         method: "DELETE",
@@ -76,6 +76,7 @@ function List({ list }: PropTypes) {
     e.preventDefault();
     const name = new FormData(e.currentTarget).get("task_list");
     toggle.on();
+    const { toast } = await import("react-toastify");
     try {
       const res = await fetch("/api/task-list", {
         method: "PUT",
@@ -103,14 +104,14 @@ function List({ list }: PropTypes) {
   return (
     <>
       {lazyLoad && (
-        <DialogDemo title="Edit task list" open={dialog} onOpenChange={dialogToggle.set}>
+        <Dialog title="Edit task list" open={dialog} onOpenChange={dialogToggle.set}>
           <form onSubmit={onSubmit} className="space-y-2">
             <Input label="Task list name" name="task_list" required defaultValue={list.name} />
             <Button disabled={isLoading} intent="accept">
               Submit
             </Button>
           </form>
-        </DialogDemo>
+        </Dialog>
       )}
       <div className="border-b py-2 -mx-4 px-5  border-zinc-200 dark:border-zinc-700 last-of-type:border-b-0">
         <div className="flex justify-between mb-2">

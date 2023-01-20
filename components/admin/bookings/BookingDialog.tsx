@@ -1,11 +1,14 @@
 "use client";
 //Components
-import { DialogDemo } from "@components/shared/Dialog";
 import { Button } from "@components/shared/Button";
 import { Input } from "@components/shared/Input";
 import { Select } from "@components/shared/Select";
 import { DatePicker } from "@components/bookings/DatePicker/DatePicker";
 import { Textarea } from "@components/shared/Textarea";
+
+import dynamic from "next/dynamic";
+
+const Dialog = dynamic(() => import("@components/shared/Dialog").then((mod) => mod.Dialog));
 
 //Data
 import { photoshootTypes } from "@lib/photoshoot";
@@ -38,6 +41,8 @@ export function BookingDialog() {
   const [selectedFeatures, setFeatures] = useState<string[]>([]);
   const [isPending, refresh] = useRouteRefresh();
   const [loading, toggle] = useToggle();
+  const [lazyLoad, lazyLoadToggle] = useToggle();
+  const [dialog, dialogToggle] = useToggle();
 
   const shootDetails = photoshootTypes.get(shootType ? shootType : "regular shoot")!;
 
@@ -100,97 +105,104 @@ export function BookingDialog() {
   const isLoading = isPending || loading;
 
   return (
-    <DialogDemo title={"Create booking"} trigger={<Button>Create booking</Button>}>
-      <form className="space-y-2" onSubmit={handleSubmit}>
-        <div className="flex gap-2">
-          <Input
-            label="First Name"
-            onChange={handleChange}
-            value={form?.first_name}
-            name={"first_name"}
-            id={"first_name"}
-            required
-          />
-          <Input
-            label="Last Name"
-            onChange={handleChange}
-            value={form?.last_name}
-            name={"last_name"}
-            id={"last_name"}
-            required
-          />
-        </div>
-        <div className="flex gap-2">
-          <Input label="Email" onChange={handleChange} value={form?.email} name={"email"} id={"email"} required />
-          <Input
-            label="Phone number"
-            onChange={handleChange}
-            value={form?.phone}
-            name={"phone"}
-            id={"phone"}
-            required
-          />
-        </div>
-        <div className="flex gap-2 items-end">
-          <div className="basis-1/2">
-            <Input
-              type={"time"}
-              label={"Time"}
-              value={form?.time}
-              onChange={handleChange}
-              name={"time"}
-              id={"time"}
-              required
-            />
-          </div>
-          <div className="basis-1/2">
-            <DatePicker date={date} onChange={setDate} />
-          </div>
-        </div>
-        <div className="flex w-full">
-          <Select
-            label={"Photoshoot"}
-            data={selectData}
-            onValueChange={(value: typeof shootType) => setShootType(value)}
-            value={shootType}
-            className="w-full"
-          />
-        </div>
-        <div className="flex gap-2">
-          <Textarea
-            label="Description"
-            onChange={handleChange}
-            value={form.description}
-            name={"description"}
-            id={"description"}
-            rows={3}
-          />
-        </div>
-        <div className="flex flex-wrap justify-evenly gap-5">
-          {shootDetails &&
-            shootDetails.features.map((feature) => {
-              const value = feature.label.toLowerCase();
-              const checked = selectedFeatures.includes(value);
-              return (
-                <p key={feature.label}>
-                  <label htmlFor={feature.label}>{feature.label}</label>
-                  <input
-                    id={feature.label}
-                    type="checkbox"
-                    checked={checked}
-                    onChange={onFeatureChange}
-                    className="accent-red-600 h-5 w-5 "
-                    name="features"
-                    value={value}
-                  />
-                </p>
-              );
-            })}
-        </div>
-        <Button disabled={isLoading} fullWidth intent={"accept"}>
-          Submit
-        </Button>
-      </form>
-    </DialogDemo>
+    <>
+      <Button onClick={dialogToggle.on} onMouseEnter={!lazyLoad ? lazyLoadToggle.on : undefined}>
+        Create booking
+      </Button>
+      {lazyLoad && (
+        <Dialog open={dialog} onOpenChange={dialogToggle.set} title={"Create booking"}>
+          <form className="space-y-2" onSubmit={handleSubmit}>
+            <div className="flex gap-2">
+              <Input
+                label="First Name"
+                onChange={handleChange}
+                value={form?.first_name}
+                name={"first_name"}
+                id={"first_name"}
+                required
+              />
+              <Input
+                label="Last Name"
+                onChange={handleChange}
+                value={form?.last_name}
+                name={"last_name"}
+                id={"last_name"}
+                required
+              />
+            </div>
+            <div className="flex gap-2">
+              <Input label="Email" onChange={handleChange} value={form?.email} name={"email"} id={"email"} required />
+              <Input
+                label="Phone number"
+                onChange={handleChange}
+                value={form?.phone}
+                name={"phone"}
+                id={"phone"}
+                required
+              />
+            </div>
+            <div className="flex gap-2 items-end">
+              <div className="basis-1/2">
+                <Input
+                  type={"time"}
+                  label={"Time"}
+                  value={form?.time}
+                  onChange={handleChange}
+                  name={"time"}
+                  id={"time"}
+                  required
+                />
+              </div>
+              <div className="basis-1/2">
+                <DatePicker date={date} onChange={setDate} />
+              </div>
+            </div>
+            <div className="flex w-full">
+              <Select
+                label={"Photoshoot"}
+                data={selectData}
+                onValueChange={(value: typeof shootType) => setShootType(value)}
+                value={shootType}
+                className="w-full"
+              />
+            </div>
+            <div className="flex gap-2">
+              <Textarea
+                label="Description"
+                onChange={handleChange}
+                value={form.description}
+                name={"description"}
+                id={"description"}
+                rows={3}
+              />
+            </div>
+            <div className="flex flex-wrap justify-evenly gap-5">
+              {shootDetails &&
+                shootDetails.features.map((feature) => {
+                  const value = feature.label.toLowerCase();
+                  const checked = selectedFeatures.includes(value);
+                  return (
+                    <p key={feature.label}>
+                      <label htmlFor={feature.label}>{feature.label}</label>
+                      <input
+                        id={feature.label}
+                        type="checkbox"
+                        checked={checked}
+                        onChange={onFeatureChange}
+                        className="accent-red-600 h-5 w-5 "
+                        name="features"
+                        value={value}
+                      />
+                    </p>
+                  );
+                })}
+            </div>
+            <Button disabled={isLoading} fullWidth intent={"accept"}>
+              Submit
+            </Button>
+          </form>
+        </Dialog>
+      )}
+    </>
   );
 }

@@ -1,7 +1,7 @@
 import { FlexContainer } from "@components/shared";
 import prisma from "@lib/prisma";
 import { TaskProvider } from "@components/admin/tasks/home/TasksProvider";
-import { Modal } from "@components/admin/tasks/home/Modal";
+import { CreateTaskModal } from "@components/admin/tasks/home/CreateTaskModal";
 import { cache } from "react";
 import { verifyToken } from "@lib/firebase/admin/auth";
 
@@ -15,6 +15,7 @@ const getTasks = cache(async () => {
   const taskListsPromise = prisma.taskLists.findMany({ include: { tasks: true } });
 
   const [tasks, taskLists] = await Promise.all([tasksPromise, taskListsPromise]);
+  await prisma.$disconnect();
 
   const serializedTasks = tasks.map((task) => {
     return {
@@ -39,7 +40,6 @@ const getTasks = cache(async () => {
     };
   });
 
-  await prisma.$disconnect();
   return { tasks: serializedTasks, taskLists: serializedTaskList };
 });
 
@@ -53,7 +53,7 @@ export default async function Layout({ children }: PropTypes) {
         <FlexContainer className="justify-evenly items-center">
           <p>Total tasks: {tasks.length}</p>
 
-          <Modal taskLists={taskLists} />
+          <CreateTaskModal taskLists={taskLists} />
         </FlexContainer>
       </div>
       <TaskProvider taskLists={taskLists} tasks={tasks}>

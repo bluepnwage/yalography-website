@@ -4,19 +4,22 @@ import { ScrollAreaDemo } from "@components/shared/ScrollArea";
 import { Select } from "@components/shared/Select";
 import { TabsDemo } from "@components/shared/Tabs";
 import { Textarea } from "@components/shared/Textarea";
-import { photoshootTypes } from "@lib/photoshoot";
-import { FormEvent, useState, useEffect } from "react";
-import { useRouteRefresh } from "@lib/hooks/useRouteRefresh";
+import { Image } from "@components/shared/Image";
+import { ImageDropdown } from "./ImageDropdown";
 import { Dropzone } from "./Dropzone";
 import { Badge } from "@components/shared/Badge";
 import { Button } from "@components/shared/Button";
+
 import { toast } from "react-toastify";
-import type { SerializedProject } from "@lib/prisma";
-import type { Images } from "@prisma/client";
+import { useRouteRefresh } from "@lib/hooks/useRouteRefresh";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useToggle } from "@lib/hooks/useToggle";
-import { Image } from "@components/shared/Image";
-import { ImageDropdown } from "./ImageDropdown";
+import { photoshootTypes } from "@lib/photoshoot";
+
+import type { FormEvent } from "react";
+import type { SerializedProject } from "@lib/prisma";
+import type { Images } from "@prisma/client";
 
 type ProjectJoin = SerializedProject & { images: Images[] };
 
@@ -161,7 +164,6 @@ export function Editor({ projectData }: PropTypes) {
         body: JSON.stringify({ id, projectId: null })
       });
       if (res.ok) {
-        // setProject((prev) => ({ ...prev, images: prev.images.filter((image) => image.id !== id) }));
         refresh();
       } else throw new Error("Failed to unlink image");
     } catch (error) {
@@ -182,7 +184,6 @@ export function Editor({ projectData }: PropTypes) {
         body: JSON.stringify({ id })
       });
       if (res.ok) {
-        // setProject((prev) => ({ ...prev, images: prev.images.filter((image) => image.id !== id) }));
         refresh();
       } else {
         throw new Error("Failed to delete image");
@@ -372,9 +373,9 @@ export function Editor({ projectData }: PropTypes) {
               <img src={thumbnailURL} className="h-full w-full" />
             </figure>
             <div className="space-y-4 p-2">
-              <div className="flex justify-between">
-                <p className="font-bold text-2xl">{project.title}</p>
-                <Badge color={"violet"} className="capitalize ">
+              <div className="flex gap-4 justify-between">
+                <p className="font-bold basis-2/4 text-2xl">{project.title}</p>
+                <Badge size={"sm"} color={"violet"} className="capitalize ">
                   {selectedType.includes("wedding") ? "Wedding" : selectedType}
                 </Badge>
               </div>

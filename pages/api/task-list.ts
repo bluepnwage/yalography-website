@@ -1,6 +1,10 @@
-import type { NextApiHandler } from "next";
 import prisma from "@lib/prisma";
-import { TaskLists } from "@prisma/client";
+import { logError } from "@lib/notion";
+import { serverError } from "@util/serverError";
+import { handlePromise } from "@util/handle-promise";
+
+import type { TaskLists } from "@prisma/client";
+import type { NextApiHandler } from "next";
 
 async function createTaskList(data: TaskLists) {
   await prisma.$connect();
@@ -23,20 +27,55 @@ async function deleteTaskList(id: number) {
   return taskList;
 }
 
+const apiURL = "/api/task-list";
+
 const handler: NextApiHandler = async (req, res) => {
   try {
     const json = req.body;
     switch (req.method) {
       case "POST": {
-        const data = await createTaskList(json);
+        const promise = createTaskList(json);
+        const [status, data] = await handlePromise(promise);
+        if (status === "error") {
+          logError({
+            title: "Create task list",
+            apiURL,
+            description: data.message,
+            stackTrace: data.stack,
+            statusCode: 500
+          });
+          throw new Error("There was an error creating a task list.");
+        }
         return res.status(201).json({ message: "Task list created", data });
       }
       case "PUT": {
-        const data = await updateTaskList(json);
+        const promise = updateTaskList(json);
+        const [status, data] = await handlePromise(promise);
+        if (status === "error") {
+          logError({
+            title: "Update task list",
+            apiURL,
+            description: data.message,
+            stackTrace: data.stack,
+            statusCode: 500
+          });
+          throw new Error("There was an error updating a task list.");
+        }
         return res.status(200).json({ message: "Task list updated", data });
       }
       case "DELETE": {
-        const data = await deleteTaskList(json.id);
+        const promise = deleteTaskList(json.id);
+        const [status, data] = await handlePromise(promise);
+        if (status === "error") {
+          logError({
+            title: "Delete task list",
+            apiURL,
+            description: data.message,
+            stackTrace: data.stack,
+            statusCode: 500
+          });
+          throw new Error("There was an error deleting a task list.");
+        }
         return res.status(200).json({ message: "Task list deleted", data });
       }
       default: {
@@ -44,7 +83,13 @@ const handler: NextApiHandler = async (req, res) => {
       }
     }
   } catch (error) {
-    return res.status(500).json({ message: "An error occurred on the server" });
+    if (error instanceof Error) {
+      res.status(500).json({ message: error.message });
+    } else {
+      const e = error as any;
+      await logError({ title: "Server error", apiURL, description: e.message, stackTrace: e.stack, statusCode: 500 });
+      res.status(500).json({ message: serverError });
+    }
   }
 };
 export default handler;
