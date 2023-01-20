@@ -27,8 +27,24 @@ export function ContactForm() {
             <address>Marigot, Saint Martin</address>
           </div>
           <div className="flex gap-4">
-            <Instagram size={36} className="stroke-gray-100" />
-            <Facebook size={36} className="stroke-gray-100" />
+            <a
+              title={"Instagram page"}
+              aria-label={"Instagram page"}
+              href={"https://instagram.com/yalography"}
+              target={"_blank"}
+              rel={"noreferrer"}
+            >
+              <Instagram size={36} className="stroke-gray-100" />
+            </a>
+            <a
+              aria-label="Facebook page"
+              title={"Facebook page"}
+              href={"https://www.facebook.com/yalographysxm"}
+              target={"_blank"}
+              rel={"noreferrer"}
+            >
+              <Facebook size={36} className="stroke-gray-100" />
+            </a>
           </div>
         </div>
         <div className="col-span-full lg:col-span-8 rounded-md p-6">

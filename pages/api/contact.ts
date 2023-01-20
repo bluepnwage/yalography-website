@@ -6,7 +6,6 @@ const handler: NextApiHandler = async (req, res) => {
     const json = req.body;
     switch (req.method) {
       case "POST": {
-        console.log(json);
         await saveMessage(json);
         return res.status(201).json({ message: "Message sent successfully" });
       }

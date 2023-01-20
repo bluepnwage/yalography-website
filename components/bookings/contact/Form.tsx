@@ -87,8 +87,7 @@ export function Form() {
       <div className="flex w-full gap-4 grow basis-full">
         <Input
           onChange={handleChange}
-          value={form.subject}
-          required
+          value={form.subject || ""}
           wrapperClassName="basis-2/4 grow"
           label="Subject"
           name={"subject"}

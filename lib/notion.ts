@@ -76,7 +76,8 @@ export async function saveMessage(data: FormProps) {
     properties: {
       Name: { title: [{ type: "text", text: { content: fullName } }] },
       Email: { type: "email", email: data.email },
-      Phone: { type: "phone_number", phone_number: data.number }
+      Phone: { type: "phone_number", phone_number: data.number },
+      Subject: { type: "rich_text", rich_text: [{ type: "text", text: { content: data.subject || "N/A" } }] }
     }
   });
   await notion.blocks.children.append({
