@@ -694,3 +694,16 @@ export function Unlink({ className, fill, size }: PropTypes) {
     </svg>
   );
 }
+
+function Menu2() {
+  return (
+    <svg height="24" width="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <g fill="none" stroke="#ffffff" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2">
+        <path d="M0 0h24v24H0z" fill="none" stroke="none" />
+        <path d="M4 6h16" />
+        <path d="M4 12h16" />
+        <path d="M4 18h16" />
+      </g>
+    </svg>
+  );
+}
