@@ -11,7 +11,7 @@ const EditTaskModal = dynamic(() =>
 import { usePagination } from "@lib/hooks/usePagination";
 import { useRouteRefresh } from "@lib/hooks/useRouteRefresh";
 import { useToggle } from "@lib/hooks/useToggle";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useFilter } from "@lib/hooks/useFilter";
 
 import { ActionIcon } from "@components/shared/ActionIcon";
@@ -19,7 +19,7 @@ import { Edit, Trash } from "@lib/icons";
 
 import type { Tasks } from "@prisma/client";
 import type { EditTaskData } from "@components/admin/tasks/home/Tasks";
-import { FilterOptions, filterTasks, SortOptions } from "@util/filterTasks";
+import { filterTasks } from "@util/filterTasks";
 
 export type SerializedTask = Omit<Tasks, "deadline" | "createdAt" | "updatedAt"> & {
   updatedAt: string;
@@ -33,8 +33,13 @@ type PropTypes = {
 
 export function TaskList({ tasks }: PropTypes) {
   const [filterOptions, toggle] = useFilter();
-  const { paginatedList, ...props } = usePagination(10, tasks);
-  const filteredTasks = filterTasks(paginatedList, filterOptions.sort, filterOptions.filter, filterOptions.search);
+  const filteredTasks = filterTasks(tasks, filterOptions.sort, filterOptions.filter, filterOptions.search);
+  const { paginatedList, ...props } = usePagination(10, filteredTasks);
+
+  //Reset page when a filter or sort is applied/removed
+  useEffect(() => {
+    if (props.currentPage !== 1) props.onPageChange(1);
+  }, [filterOptions]);
 
   return (
     <>

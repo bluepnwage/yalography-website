@@ -14,7 +14,7 @@ import { useTasks } from "./TasksProvider";
 import { useToggle } from "@lib/hooks/useToggle";
 import { useRouteRefresh } from "@lib/hooks/useRouteRefresh";
 import { usePagination } from "@lib/hooks/usePagination";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useFilter } from "@lib/hooks/useFilter";
 import dynamic from "next/dynamic";
 
@@ -26,9 +26,12 @@ const EditTaskModal = dynamic(() => import("./EditTaskModal").then((mod) => mod.
 export function Tasks() {
   const { tasks } = useTasks();
   const [filterOptions, toggle] = useFilter();
-  const { paginatedList, ...props } = usePagination(10, tasks);
+  const filteredTasks = filterTasks(tasks, filterOptions.sort, filterOptions.filter, filterOptions.search);
+  const { paginatedList, ...props } = usePagination(10, filteredTasks);
 
-  const filteredTasks = filterTasks(paginatedList, filterOptions.sort, filterOptions.filter, filterOptions.search);
+  useEffect(() => {
+    if (props.currentPage !== 1) props.onPageChange(1);
+  }, [filterOptions]);
 
   return (
     <div className="space-y-2 col-span-8">
