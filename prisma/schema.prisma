@@ -41,6 +41,7 @@ model Projects {
   images       Images[]
   published    Boolean  @default(false)
   type         String?
+  pinned       Boolean  @default(false)
 
   @@map("projects")
 }

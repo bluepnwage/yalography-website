@@ -1,10 +1,9 @@
 "use client";
 import { useRouteRefresh } from "@lib/hooks/useRouteRefresh";
 import { useToggle } from "@lib/hooks/useToggle";
-import { Share, Trash } from "@lib/icons";
+import { Share, Trash, Pin } from "@lib/icons";
 import { useRouter } from "next/navigation";
 import { ActionIcon } from "@components/shared/ActionIcon";
-
 type PropTypes = {
   id: number;
   published: boolean;
@@ -38,7 +37,7 @@ export function ProjectMenu({ id, published, projectName }: PropTypes) {
         refresh();
         router.push("/admin/projects");
       } else {
-        throw new Error(json.message, { cause: json.error });
+        throw new Error(json.message);
       }
     } catch (error) {
       if (error instanceof Error) {
@@ -57,6 +56,7 @@ export function ProjectMenu({ id, published, projectName }: PropTypes) {
 
   return (
     <div className="flex gap-2 self-center h-fit">
+      {/* {} */}
       {published && (
         <ActionIcon aria-label="Share project" onClick={onShare} color="violet" className="p-1">
           <Share size={24} />
