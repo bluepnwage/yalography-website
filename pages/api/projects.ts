@@ -60,6 +60,8 @@ const handler: NextApiHandler = async (req, res) => {
       case "PUT": {
         const query = parseInt(req.query.revalidate as string);
         const pin = parseInt(req.query.pin as string);
+        const revalidatHome = parseInt(req.query.revalidate_home as string);
+
         if (pin) {
           const pinnedCount = await checkPins();
           if (pinnedCount >= 4) {
@@ -68,6 +70,7 @@ const handler: NextApiHandler = async (req, res) => {
               .json({ message: "Exceeded pin count. You can only have a maximum of 4 pinned projects." });
           }
         }
+
         const promise = editProject(json);
         const [status, data] = await handlePromise(promise);
         if (status === "error") {
@@ -79,6 +82,9 @@ const handler: NextApiHandler = async (req, res) => {
             statusCode: 500
           });
           throw new Error("There was an error editing a project.");
+        }
+        if (revalidatHome && !development) {
+          await res.revalidate("/");
         }
         if (!development && query) {
           await Promise.all([res.revalidate(`/projects/${json.id}`), res.revalidate("/projects")]);

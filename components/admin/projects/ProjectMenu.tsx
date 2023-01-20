@@ -57,7 +57,7 @@ export function ProjectMenu({ id, published, projectName, pinned }: PropTypes) {
     toggle.on();
     const { toast } = await import("react-toastify");
     const endpoint = new URL("/api/projects", location.origin);
-    endpoint.searchParams.set("revalidate", "1");
+    endpoint.searchParams.set("revalidate_home", "1");
     endpoint.searchParams.set("pin", "1");
     try {
       const res = await fetch("/api/projects", {
