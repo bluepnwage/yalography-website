@@ -53,7 +53,7 @@ export function TaskList({ tasks }: PropTypes) {
         onSortChange={toggle.onSort}
       />
       <section>
-        {filteredTasks.map((task) => {
+        {paginatedList.map((task) => {
           return <Task key={task.id} taskData={task} />;
         })}
         <Pagination {...props} />

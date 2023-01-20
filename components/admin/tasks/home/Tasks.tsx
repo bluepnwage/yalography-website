@@ -55,7 +55,7 @@ export function Tasks() {
           </tr>
         </thead>
         <tbody>
-          {filteredTasks.map((task) => {
+          {paginatedList.map((task) => {
             return <TaskRow key={task.id} taskData={task} />;
           })}
         </tbody>
