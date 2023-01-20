@@ -664,3 +664,21 @@ export function MenuIcon({ className, fill, size }: PropTypes) {
     </svg>
   );
 }
+
+
+function MapPin() {
+
+	return (
+		<svg height="24" width="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+	<g fill="none" stroke="#ffffff" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2">
+		<path d="M0 0h24v24H0z" fill="none" stroke="none"/>
+		<path d="M3 3l18 18"/>
+		<path d="M15 4.5l-3.249 3.249m-2.57 1.433L7 10l-1.5 1.5 7 7L14 17l.82-2.186m1.43-2.563L19.5 9"/>
+		<path d="M9 15l-4.5 4.5"/>
+		<path d="M14.5 4L20 9.5"/>
+	</g>
+</svg>
+	);
+};
+
+export default MapPin;
