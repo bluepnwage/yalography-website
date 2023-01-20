@@ -5,22 +5,13 @@ import Image from "next/image";
 
 import prisma from "@lib/prisma";
 import { notFound } from "next/navigation";
-//Assets
-import pixel from "@public/pixel.jpg";
+import { findProject } from "@util/findProject";
 
 export async function generateStaticParams() {
   await prisma.$connect();
   const ids = await prisma.projects.findMany({ where: { published: true }, select: { id: true } });
   await prisma.$disconnect();
   return ids.map((id) => ({ id: `${id.id}` }));
-}
-
-async function findProject(id: number) {
-  await prisma.$connect();
-  const project = await prisma.projects.findUnique({ where: { id }, include: { images: true } });
-  await prisma.$disconnect();
-  if (!project) notFound();
-  return project;
 }
 
 export default async function DynamicProjectPage({ params }: { params: { id: string } }) {
@@ -30,7 +21,15 @@ export default async function DynamicProjectPage({ params }: { params: { id: str
   return (
     <>
       <div className="mb-10">
-        <Image src={pixel} alt={""} style={{ objectFit: "cover", height: "50vh" }} />
+        <Image
+          loading="eager"
+          className="w-full  object-cover"
+          src={project.thumbnail!}
+          width={1200}
+          height={900}
+          alt={""}
+          style={{ objectFit: "cover", height: "50vh" }}
+        />
       </div>{" "}
       <Section>
         <div className="w-11/12">
@@ -43,10 +42,7 @@ export default async function DynamicProjectPage({ params }: { params: { id: str
           <Grid lg={2} fullWidth className="mb-10 lg:mb-36">
             <div className="col-span-full lg:col-span-1">
               <header className="mb-5">
-                <Title order={"h2"} size={"md"} color={"red"}>
-                  Overview
-                </Title>
-                <Title order={"h3"}>Random title to introduce project</Title>
+                <Title order={"h2"}>Overview</Title>
               </header>
               <p className="text-lg">{project.description}</p>
             </div>

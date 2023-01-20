@@ -1,6 +1,5 @@
 import { Grid, Title } from "@components/shared";
-import Image from "next/image";
-import pixel from "@public/pixel2.jpg";
+import { Image } from "@components/shared/Image";
 import { Images } from "@prisma/client";
 
 type PropTypes = {
@@ -19,7 +18,15 @@ export function Gallery({ images }: PropTypes) {
       <Grid fullWidth>
         {images.map((image) => {
           return (
-            <Image key={image.id} src={image.url} alt={""} className="col-span-full lg:col-span-4 object-contain" />
+            <Image
+              containerClass="col-span-full lg:col-span-4 object-cover"
+              key={image.id}
+              src={image.url}
+              width={image.width}
+              height={image.height}
+              alt={""}
+              className="h-full w-full"
+            />
           );
         })}
       </Grid>
