@@ -1,13 +1,14 @@
-import dynamic from "next/dynamic";
-import prisma from "@lib/prisma";
 import { Card, Skeleton, Title } from "@components/shared";
-import { formatNum } from "@util/formatNum";
 
+import prisma from "@lib/prisma";
+import { formatNum } from "@util/formatNum";
+import dynamic from "next/dynamic";
+import { cache } from "react";
 const Table = dynamic(() => import("./Table"), { ssr: false, loading: () => <TableLoading /> });
 
 export type TableData = Awaited<ReturnType<typeof getOrders>>;
 
-async function getOrders() {
+const getOrders = cache(async () => {
   await prisma.$connect();
   const orders = await prisma.orders.findMany({
     include: { booking: { select: { firstName: true, lastName: true, type: true, email: true } } },
@@ -22,7 +23,7 @@ async function getOrders() {
       createdAt: order.createdAt.toDateString()
     };
   });
-}
+});
 
 export async function TableContainer() {
   const orders = await getOrders();

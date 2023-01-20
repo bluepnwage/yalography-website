@@ -39,7 +39,7 @@ export function Calendar() {
   return (
     <>
       <div className="basis-1/2 bg-gray-50 border-zinc-300 dark:bg-zinc-900 rounded-md -ml-4 -my-4 px-4 py-4 border dark:border-zinc-700">
-        <MantineProvider theme={{ primaryColor: "red", fontFamily: "Inter", colorScheme: "dark" }}>
+        <MantineProvider theme={{ primaryColor: "red", fontFamily: "var(--font-inter)", colorScheme: "dark" }}>
           <MantineCalendar
             classNames={{
               day: `text-gray-900 dark:text-gray-100 hover:bg-gray-300 dark:hover:bg-zinc-600

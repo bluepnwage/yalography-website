@@ -24,10 +24,10 @@ export function CalendarTable({ todaysBookings, date }: PropTypes) {
   return (
     <div className="space-y-2 basis-3/4 w-full">
       <Table striped className="h-3/4">
-        <thead className="border-b  dark:border-zinc-700">
+        <thead className="border-b border-zinc-200  dark:border-zinc-700">
           <tr>
-            <th className="border-r border-zinc-700">Name</th>
-            <th className="border-r border-zinc-700">Type</th>
+            <th className="border-r border-zinc-200 dark:border-zinc-700">Name</th>
+            <th className="border-r border-zinc-200 dark:border-zinc-700">Type</th>
             <th>Status</th>
           </tr>
         </thead>
@@ -35,10 +35,10 @@ export function CalendarTable({ todaysBookings, date }: PropTypes) {
           {paginatedList.map((booking, key) => {
             return (
               <tr key={key}>
-                <td className="border-r border-zinc-700">
+                <td className="border-r border-zinc-200 dark:border-zinc-700">
                   {booking.firstName} {booking.lastName}
                 </td>
-                <td className="border-r capitalize border-zinc-700">{booking.type}</td>
+                <td className="border-r capitalize border-zinc-200 dark:border-zinc-700">{booking.type}</td>
                 <td className="capitalize">{booking.status}</td>
                 <td>
                   <Link

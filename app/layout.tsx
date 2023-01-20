@@ -24,7 +24,7 @@ export default function RootLayout({ children }: PropTypes) {
           <ToastProvider />
           <ScrollToTop />
         </Suspense>
-        <Header />
+        <Header  />
         {children}
         <Footer />
       </body>

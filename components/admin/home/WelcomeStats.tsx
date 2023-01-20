@@ -4,46 +4,32 @@ import { ClipboardCheck, ClipboardMoney } from "@lib/icons";
 
 import prisma from "@lib/prisma";
 import { formatNum } from "@util/formatNum";
+import { cache, Suspense } from "react";
 
-async function getBookings() {
+export function WelcomeStats() {
+  return (
+    <div className="flex gap-4 items-stretch mb-20">
+      <Suspense fallback={<WelcomeCardLoading />}>
+        {/*@ts-expect-error */}
+        <WelcomeCard />
+      </Suspense>
+      <Suspense fallback={<OrdersContainerLoading />}>
+        {/*@ts-expect-error */}
+        <OrdersContainer />
+      </Suspense>
+    </div>
+  );
+}
+
+const getPending = cache(async () => {
   await prisma.$connect();
-  const pending = await prisma.bookings.count({
-    where: { status: "pending" }
-  });
-  const orders = await prisma.orders.aggregate({ _count: { _all: true }, _sum: { quote: true } });
+  const pending = await prisma.bookings.count({ where: { status: "pending" } });
   await prisma.$disconnect();
-  return { pending, orders };
-}
+  return pending;
+});
 
-export async function WelcomeStats() {
-  const { orders, pending } = await getBookings();
-  const totalSum = orders._sum.quote ? orders._sum.quote / 100 : 0;
-  return (
-    <div className="flex gap-4 items-stretch mb-20">
-      <WelcomeCard stat={pending} />
-      <Orders stat={orders._count._all} title={"Completed bookings"} Icon={<ClipboardCheck size={48} />} />
-      <Orders stat={`$${formatNum(totalSum)}`} title={"Total Revenue"} Icon={<ClipboardMoney size={48} />} />
-    </div>
-  );
-}
-
-export async function WelcomeStatsLoading() {
-  return (
-    <div className="flex gap-4 items-stretch mb-20">
-      <WelcomeCardLoading />
-      <OrdersLoading />
-      <OrdersLoading />
-    </div>
-  );
-}
-
-type PropTypes = {
-  stat: number | string;
-  title?: string;
-  Icon?: React.ReactNode;
-};
-
-function WelcomeCard({ stat }: PropTypes) {
+async function WelcomeCard() {
+  const stat = await getPending();
   return (
     <Card className="space-y-2 basis-3/6">
       <Title order={"h1"} size={"xl"}>
@@ -70,6 +56,31 @@ function WelcomeCardLoading() {
   );
 }
 
+const getOrders = cache(async () => {
+  await prisma.$connect();
+  const orders = await prisma.orders.aggregate({ _count: { _all: true }, _sum: { quote: true } });
+  await prisma.$disconnect();
+  return orders;
+});
+
+async function OrdersContainer() {
+  const orders = await getOrders();
+  const totalSum = orders._sum.quote ? orders._sum.quote / 100 : 0;
+
+  return (
+    <>
+      <Orders stat={orders._count._all} title={"Completed bookings"} Icon={<ClipboardCheck size={48} />} />
+      <Orders stat={`$${formatNum(totalSum)}`} title={"Total Revenue"} Icon={<ClipboardMoney size={48} />} />
+    </>
+  );
+}
+
+type PropTypes = {
+  stat: number | string;
+  title?: string;
+  Icon?: React.ReactNode;
+};
+
 function Orders({ stat, Icon, title }: PropTypes) {
   return (
     <Card className="basis-1/6 grow flex items-center">
@@ -82,6 +93,14 @@ function Orders({ stat, Icon, title }: PropTypes) {
   );
 }
 
+function OrdersContainerLoading() {
+  return (
+    <>
+      <OrdersLoading />
+      <OrdersLoading />
+    </>
+  );
+}
 function OrdersLoading() {
   return (
     <Card className="basis-1/6 grow flex items-center relative overflow-hidden">

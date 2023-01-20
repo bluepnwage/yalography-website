@@ -1,15 +1,18 @@
 "use client";
 import { useState } from "react";
 import { cx } from "cva";
+
 export function ThemeSwitcher() {
   const [mode, setMode] = useState<"light" | "dark">("dark");
   const onToggle = () => {
     const html = document.documentElement;
     if (mode === "dark") {
-      html.className = "font-sans light-mode";
+      html.classList.remove("dark", "dark-mode");
+      html.classList.add("light-mode");
       setMode("light");
     } else {
-      html.className = "font-sans dark dark-mode";
+      html.classList.add("dark", "dark-mode");
+      html.classList.remove("light-mode");
       setMode("dark");
     }
   };
