@@ -5,6 +5,8 @@ import { Project, ServiceCard, Stats } from "@components/home";
 import { Ballon, Bouquet, BoxArchive, Email, Globe, Location, Maternity, Person } from "@lib/icons";
 import Image from "next/image";
 
+import prisma from "@lib/prisma";
+
 //Assets
 import heroImg from "@public/main-image.jpg";
 import photographer from "@public/photographer-lg.jpg";
@@ -18,7 +20,20 @@ import styles from "./Home.module.css";
 //Types
 import type * as Props from "@components/home";
 
-export default function HomePage() {
+const getProjects = async () => {
+  await prisma.$connect();
+  const projects = await prisma.projects.findMany({
+    where: { pinned: true },
+    select: { id: true, thumbnail: true, title: true }
+  });
+  await prisma.$disconnect();
+  return projects;
+};
+
+export type PinnedProject = Awaited<ReturnType<typeof getProjects>>[0];
+
+export default async function HomePage() {
+  const projects = await getProjects();
   return (
     <main>
       {/* Hero section */}
@@ -106,8 +121,8 @@ export default function HomePage() {
               View all projects
             </Button>
           </div>
-          {projects.map((proj, key) => {
-            return <Project {...proj} key={key} />;
+          {projects.map((proj) => {
+            return <Project project={proj} key={proj.id} />;
           })}
         </Grid>
       </Section>
@@ -161,11 +176,4 @@ const serviceTypes: Props.ServiceCardProps[] = [
   { title: "Portrait Photography", Icon: <Person className={"fill-gray-100"} /> },
   { title: "Event Photography", Icon: <Ballon className="stroke-gray-100" /> },
   { title: "Decor Photography", Icon: <BoxArchive className="fill-gray-100" /> }
-];
-
-const projects: Props.ProjectProps[] = [
-  { title: "Model", image: model, href: "", colSpan: "lg:col-span-4", rowSpan: "lg:row-span-2" },
-  { title: "Wedding", image: wedding, href: "", colSpan: "lg:col-span-4", rowSpan: "lg:row-span-2" },
-  { title: "Airport", image: airport, href: "", colSpan: "lg:col-span-4", rowSpan: "lg:row-span-2" },
-  { title: "Pixel Art", image: pixel, href: "", colSpan: "lg:col-span-8", rowSpan: "lg:row-span-1" }
 ];

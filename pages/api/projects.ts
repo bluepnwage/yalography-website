@@ -29,6 +29,13 @@ async function deleteProject(id: number) {
   return project;
 }
 
+async function checkPins() {
+  await prisma.$connect();
+  const pinnedCount = await prisma.projects.count({ where: { pinned: true } });
+  await prisma.$disconnect();
+  return pinnedCount;
+}
+
 const apiURL = "/api/projects";
 
 const handler: NextApiHandler = async (req, res) => {
@@ -52,6 +59,15 @@ const handler: NextApiHandler = async (req, res) => {
       }
       case "PUT": {
         const query = parseInt(req.query.revalidate as string);
+        const pin = parseInt(req.query.pin as string);
+        if (pin) {
+          const pinnedCount = await checkPins();
+          if (pinnedCount >= 4) {
+            return res
+              .status(400)
+              .json({ message: "Exceeded pin count. You can only have a maximum of 4 pinned projects." });
+          }
+        }
         const promise = editProject(json);
         const [status, data] = await handlePromise(promise);
         if (status === "error") {
