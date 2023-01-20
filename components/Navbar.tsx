@@ -3,6 +3,8 @@ import { ThemeSwitcher } from "./ThemeSwitcher";
 import logo from "@public/logo.png";
 import Image from "next/image";
 import { Admin } from "./Admin";
+import { MobileMenu } from "./MobileMenu";
+import { Suspense } from "react";
 
 interface NavLinkProps {
   href: string;
@@ -41,6 +43,7 @@ export function Header() {
           </ul>
         </nav>
         <div className="flex gap-4 items-center">
+          <MobileMenu />
           <Admin />
           <ThemeSwitcher />
         </div>

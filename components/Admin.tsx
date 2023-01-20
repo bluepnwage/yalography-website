@@ -40,7 +40,7 @@ export function Admin() {
   return (
     <>
       {user && (
-        <Button component="a" href={"/admin"} intent="secondary">
+        <Button className="hidden md:inline-block" component="a" href={"/admin"} intent="secondary">
           Dashboard
         </Button>
       )}
