@@ -1,5 +1,5 @@
 import { PageIntro } from "@components/PageIntro";
-import { Filter, Project } from "@components/projects";
+import { Project } from "@components/projects";
 import { Grid, Section, Title } from "@components/shared";
 
 import prisma from "@lib/prisma";
@@ -23,8 +23,7 @@ export default async function ProjectsPage() {
         <br />
         SXM has to offer
       </PageIntro>
-      <Filter />
-      <Section>
+      <Section className="mt-16">
         <Title order="h2" className="text-3xl mb-10">
           Projects
         </Title>

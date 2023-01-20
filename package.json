@@ -28,6 +28,7 @@
     "@radix-ui/react-scroll-area": "^1.0.2",
     "@radix-ui/react-select": "^1.1.2",
     "@radix-ui/react-tabs": "^1.0.1",
+    "@tailwindcss/line-clamp": "^0.4.2",
     "cva": "npm:class-variance-authority@^0.3.0",
     "dayjs": "^1.11.6",
     "firebase": "^9.15.0",
