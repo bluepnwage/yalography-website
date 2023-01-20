@@ -3,7 +3,7 @@ module.exports = {
   content: ["./app/**/*.{js,ts,jsx,tsx}", "./pages/**/*.{js,ts,jsx,tsx}", "./components/**/*.{js,ts,jsx,tsx}"],
   theme: {
     fontFamily: {
-      sans: ["Inter"]
+      sans: ["var(--font-inter)"]
     },
     extend: {
       keyframes: {
