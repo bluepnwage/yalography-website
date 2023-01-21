@@ -11,7 +11,7 @@ export function LastOrder() {
   return (
     <>
       <h2 className="font-bold mb-2 text-gray-900 dark:text-gray-100">Last order</h2>
-      <p>{last.orders.createdAt}</p>
+      <p>{last?.orders.createdAt}</p>
     </>
   );
 }

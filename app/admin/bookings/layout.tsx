@@ -41,7 +41,7 @@ const getCompletedBookings = cache(async () => {
     return {
       ...booking,
       date: booking.date.toDateString(),
-      orders: { ...booking.orders, createdAt: booking.orders?.createdAt.toDateString() }
+      orders: { ...booking?.orders, createdAt: booking.orders?.createdAt.toDateString() }
     };
   });
 });
