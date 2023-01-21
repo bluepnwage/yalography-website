@@ -26,10 +26,17 @@ const handler: NextApiHandler = async (req, res) => {
     return res.status(200).json({ message: "Error successfully logged" });
   } catch (error) {
     if (error instanceof Error) {
-      console.log(error);
-      console.log("This is indeed an error");
+      await logError({
+        title: "Server error",
+        apiURL: "/api/error-log",
+        description: error.message,
+        stackTrace: error.stack,
+        statusCode: 500
+      });
+      return res.status(500).json({ message: error.message });
+    } else {
+      return res.status(500).json({ message: "An error occurred on the server" });
     }
-    return res.status(500).json({ message: "An error occurred on the server" });
   }
 };
 
