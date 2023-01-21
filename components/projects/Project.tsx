@@ -16,11 +16,11 @@ export function Project({ project }: PropTypes) {
         </figure>
       </Anchor>
       <div className="p-2 space-y-4">
-        <div className="flex flex-wrap grow justify-between basis-2/3 items-center">
-          <Title order={"h3"} className="text-2xl">
+        <div className="flex  grow justify-between basis-2/3 items-center">
+          <Title order={"h3"} size={"lg"}>
             {project.title}
           </Title>
-          <Badge size={"sm"} color={"violet"}>
+          <Badge size={"sm"} className="w-fit h-fit truncate" color={"violet"}>
             {project.type}
           </Badge>
         </div>
