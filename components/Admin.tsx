@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, startTransition } from "react";
+import { useState, useEffect, useTransition } from "react";
 import { onIdTokenChanged, User } from "firebase/auth";
 import { auth } from "@lib/firebase/auth";
 import { Button } from "./shared/Button";
@@ -25,13 +25,14 @@ export function Admin() {
       startTransition(() => {
         setUser(user);
         if (user) {
-          const token = await user?.getIdToken();
-          await fetch("/api/admin", {
-            method: "POST",
-            headers: { Authorization: `Bearer ${token}` }
+          user?.getIdToken().then((token) => {
+            fetch("/api/admin", {
+              method: "POST",
+              headers: { Authorization: `Bearer ${token}` }
+            });
           });
         } else {
-          await fetch("/api/admin", {
+          fetch("/api/admin", {
             method: "DELETE"
           });
         }
