@@ -21,9 +21,9 @@ export function Project({ project }: PropTypes) {
           alt={""}
           className="h-full w-full object-cover  absolute top-0 left-0 duration-200 ease-out group-hover:opacity-20"
         />
-        <figcaption className="space-y-5 z-10 block mt-auto opacity-0 group-hover:opacity-100 duration-200 ease-out">
+        <figcaption className="z-10 block mt-auto opacity-0 group-hover:opacity-100 duration-200 ease-out">
           <p className="font-bold text-xl">{project.title}</p>
-          <Anchor href={`/projects/${project.id}`}>View project →</Anchor>
+          <p className="text-yellow-600 dark:text-yellow-500">View project →</p>
         </figcaption>
       </figure>
     </Link>

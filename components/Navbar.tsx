@@ -45,7 +45,7 @@ export function Header() {
         <div className="flex gap-4 items-center">
           <Suspense fallback={null}>
             <MobileMenu />
-            {/* <Admin /> */}
+            <Admin />
             <ThemeSwitcher />
           </Suspense>
         </div>
