@@ -43,9 +43,11 @@ export function Header() {
           </ul>
         </nav>
         <div className="flex gap-4 items-center">
-          <MobileMenu />
-          <Admin />
-          <ThemeSwitcher />
+          <Suspense fallback={null}>
+            <MobileMenu />
+            <Admin />
+            <ThemeSwitcher />
+          </Suspense>
         </div>
       </div>
     </header>
