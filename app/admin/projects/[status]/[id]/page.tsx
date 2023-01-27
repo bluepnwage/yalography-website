@@ -14,11 +14,20 @@ const getProject = cache(async (id: number) => {
   return { ...project, createdAt: project.createdAt.toDateString() };
 });
 
+const getGalleryImages = cache(async () => {
+  await prisma.$connect();
+  const images = await prisma.images.findMany();
+  await prisma.$disconnect();
+  return images;
+});
+
 export default async function Page({ params }: { params: { status: "drafted" | "published"; id: string } }) {
   const id = parseInt(params.id);
   if (!id) notFound();
+  const imagesPromise = getGalleryImages();
+  const projectPromise = getProject(id);
 
-  const project = await getProject(id);
+  const [images, project] = await Promise.all([imagesPromise, projectPromise]);
 
   return (
     <>
@@ -44,7 +53,7 @@ export default async function Page({ params }: { params: { status: "drafted" | "
         <Anchor href={`/admin/projects/${params.status}/1`}>{project.name}</Anchor>
       </Breadcrumbs>
       <div className="mt-2">
-        <Editor projectData={project} />
+        <Editor projectData={project} galleryImages={images} />
       </div>
     </>
   );

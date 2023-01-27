@@ -1,6 +1,5 @@
 "use client";
 import { Input } from "@components/shared/Input";
-import { ScrollAreaDemo } from "@components/shared/ScrollArea";
 import { Select } from "@components/shared/Select";
 import { TabsDemo } from "@components/shared/Tabs";
 import { Textarea } from "@components/shared/Textarea";
@@ -9,13 +8,15 @@ import { ImageDropdown } from "./ImageDropdown";
 import { Dropzone } from "./Dropzone";
 import { Badge } from "@components/shared/Badge";
 import { Button } from "@components/shared/Button";
+import { Pagination } from "@components/shared/Pagination";
 
 import { toast } from "react-toastify";
 import { useRouteRefresh } from "@lib/hooks/useRouteRefresh";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { useToggle } from "@lib/hooks/useToggle";
 import { photoshootTypes } from "@lib/photoshoot";
+import { usePagination } from "@lib/hooks/usePagination";
 
 import type { FormEvent } from "react";
 import type { SerializedProject } from "@lib/prisma";
@@ -25,9 +26,10 @@ type ProjectJoin = SerializedProject & { images: Images[] };
 
 type PropTypes = {
   projectData: ProjectJoin;
+  galleryImages: Images[];
 };
 
-export function Editor({ projectData }: PropTypes) {
+export function Editor({ projectData, galleryImages }: PropTypes) {
   const [thumbnail, setThumbnail] = useState<File | null>(null);
   const [images, setImages] = useState<File[] | null>(null);
   const [isPending, refresh] = useRouteRefresh();
@@ -35,6 +37,13 @@ export function Editor({ projectData }: PropTypes) {
   const [selectedType, setSelectedType] = useState(projectData.type || "");
   const [loading, toggle] = useToggle();
   const router = useRouter();
+  const { paginatedList, ...props } = usePagination(4, images ? images : []);
+  const { paginatedList: galleryPagination, ...galleryProps } = usePagination(
+    4,
+    galleryImages.filter((image) => !project.images.some((img) => img.id === image.id))
+  );
+  const [galleryIds, setGalleryIds] = useState<number[]>([]);
+  const edited = useRef(false);
 
   //update state whenever the root is refreshed
   useEffect(() => {
@@ -128,6 +137,18 @@ export function Editor({ projectData }: PropTypes) {
       } else {
         endpoint.searchParams.set("revalidate", "0");
       }
+      if (edited.current && galleryIds.length > 0) {
+        const imagesEndpoint = new URL("/api/images", location.origin);
+        imagesEndpoint.searchParams.set("multiple", "1");
+        const res = await fetch(imagesEndpoint, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ ids: galleryIds, projectId: project.id })
+        });
+        if (!res.ok) {
+          throw new Error();
+        }
+      }
 
       const res = await fetch(endpoint, {
         method: "PUT",
@@ -199,6 +220,16 @@ export function Editor({ projectData }: PropTypes) {
 
   const deleteSelectedImage = (file: File) => {
     setImages((prev) => prev?.filter((prev) => prev.name !== file.name) || null);
+  };
+
+  const selectImage = (id: number) => {
+    //If selected image is not  linked to project then mark edited as true
+    if (!project.images.some((image) => image.id === id)) edited.current = true;
+    setGalleryIds((prev) => [...prev, id]);
+  };
+
+  const removeImage = (id: number) => {
+    setGalleryIds((prev) => prev.filter((imageID) => imageID !== id));
   };
 
   return (
@@ -299,7 +330,7 @@ export function Editor({ projectData }: PropTypes) {
             </div>
             <div className="grid grid-cols-4 col-span-full gap-4">
               <p className="col-span-full text-xl font-semibold">Selected images:</p>
-              {images?.map((file, key) => {
+              {paginatedList.map((file, key) => {
                 const url = URL.createObjectURL(file);
                 return (
                   <div key={file.name} className="h-full w-full flex flex-col gap-4">
@@ -318,6 +349,28 @@ export function Editor({ projectData }: PropTypes) {
                   </div>
                 );
               })}
+              <div className="col-span-full">{paginatedList.length > 0 && <Pagination {...props} />}</div>
+              <p className="col-span-full text-xl font-semibold">Gallery images </p>
+              {galleryPagination.map((image) => {
+                const selected = galleryIds.includes(image.id);
+                const onClick = () => (selected ? removeImage(image.id) : selectImage(image.id));
+                return (
+                  <div key={image.id} className="h-full w-full flex flex-col gap-4">
+                    <Image
+                      src={image.url}
+                      alt={""}
+                      width={image.width}
+                      height={image.height}
+                      containerClass={`grow ring-red-600 dark:ring-red-500 ${selected ? "ring-2" : "ring-0"}`}
+                      className="w-full h-full object-cover"
+                    />
+                    <Button intent={selected ? "reject" : "accept"} onClick={onClick}>
+                      {selected ? "Remove image" : "Select image"}
+                    </Button>
+                  </div>
+                );
+              })}
+              <div className="col-span-full">{galleryPagination.length > 0 && <Pagination {...galleryProps} />}</div>
             </div>
           </div>
         </TabsDemo.Content>
@@ -346,7 +399,7 @@ export function Editor({ projectData }: PropTypes) {
                 See the images that brought this project to life
               </h3>
             </header>
-            <div className="flex gap-4">
+            <div className="flex gap-4 flex-wrap">
               {project.images.length === 0 &&
                 images?.map((image, key) => {
                   const url = URL.createObjectURL(image);

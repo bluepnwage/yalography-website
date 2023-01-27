@@ -13,7 +13,7 @@ async function createImage(data: Images) {
   return image;
 }
 
-async function editImage(data: Images) {
+async function editImage(data: Partial<Images>) {
   await prisma.$connect();
   const image = await prisma.images.update({ where: { id: data.id }, data });
   await prisma.$disconnect();
@@ -48,6 +48,14 @@ const handler: NextApiHandler = async (req, res) => {
         return res.status(201).json({ message: "Image created", data });
       }
       case "PUT": {
+        const query = parseInt(req.query.multiple as string);
+        if (query) {
+          const promises = json.ids.map((id: number) => {
+            return editImage({ id, projectId: json.projectId });
+          }) as Promise<Images>[];
+          const data = await Promise.all(promises);
+          return res.status(200).json({ message: "Images updated", data });
+        }
         const promise = editImage(json);
         const [status, data] = await handlePromise(promise);
         if (status === "error") {
