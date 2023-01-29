@@ -2,25 +2,26 @@ import { Title } from "@components/shared";
 import Image from "next/image";
 import pixel from "@public/pixel2.jpg";
 
-export function SkillDetail() {
+type PropTypes = {
+  title: string;
+  subTitle: string;
+  children: React.ReactNode;
+};
+
+export function SkillDetail({ children, subTitle, title }: PropTypes) {
   return (
     <article className="flex gap-10 flex-col-reverse col-span-full lg:col-span-1 lg:flex-row lg:even:flex-row-reverse">
       <div className="basis-1/2 grow">
         <header className="mb-5 space-y-2">
           <Title order="h2" size={"md"} color="red">
-            Editing
+            {title}
           </Title>
-          <Title order="h3">Something about editing</Title>
+          <Title order="h3">{subTitle}</Title>
         </header>
-        <p className="text-lg">
-          Commodo nulla laboris non ullamco veniam consequat laborum esse. Nulla magna laboris pariatur qui
-          reprehenderit mollit anim officia. Deserunt sunt Lorem duis culpa officia non culpa ex. Mollit veniam
-          reprehenderit in minim fugiat incididunt irure magna nostrud ex labore eu duis in. Irure consectetur nisi
-          aliquip incididunt amet incididunt.
-        </p>
+        <p className="text-lg">{children}</p>
       </div>
       <figure className="bg-red-600 basis-1/2 grow">
-        <Image src={pixel} className="w-full h-full" alt={""} />
+        <Image src={pixel} className="w-full h-full object-cover" alt={""} />
       </figure>
     </article>
   );

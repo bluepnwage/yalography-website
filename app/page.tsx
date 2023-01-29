@@ -68,7 +68,7 @@ export default async function HomePage() {
       <Section>
         <Grid>
           <figure className="col-span-full lg:col-span-4 bg-red-600">
-            <Image src={photographer} alt={""} className="w-full h-full" />
+            <Image src={photographer} alt={""} className="w-full h-full object-cover" />
           </figure>
           <div className="col-span-full lg:col-span-7 p-5">
             <header className="mb-7 space-y-2">
@@ -80,11 +80,13 @@ export default async function HomePage() {
               </Title>
             </header>
             <p className="leading-loose text-lg mb-10">
-              My journey as a photographer began when I was a young teen, and I have been exploring the world of
-              photography ever since. Over the years, I have had the privilege to work with some of the most renowned
-              companies in the Caribbean. I have honed my skills to capture the beauty of the world, with the goal of
-              helping others to appreciate its wonders. I am now proud to offer my services as a photographer, and I
-              look forward to working with you.
+              Over the past 12 years, my photography journey has been a rollercoaster of learning and growth. I&apos;ve
+              had the opportunity to learn new techniques and hone my skills, and I&apos;ve met a diverse range of
+              people, from photographers and models to art directors and creative directors. These connections have
+              opened doors for me, leading to collaborations with important brands and opportunities to attend events
+              such as weddings and the Sxm Food Festival. Each event has been a unique experience that has allowed me to
+              develop my craft and expand my portfolio. I&apos;m grateful for the opportunities I&apos;ve had and the
+              people I&apos;ve met along the way, and I&apos;m excited to see what the next 12 years will bring.
             </p>
             <Stats />
             <Button href="/about" component="a" className="mx-auto block">

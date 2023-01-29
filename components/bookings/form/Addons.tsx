@@ -12,7 +12,8 @@ type PropTypes = {
 export function Addon({ checked, onChange, value, feature }: PropTypes) {
   const inputID = useId();
   return (
-    <div
+    <label
+      htmlFor={`${value}-checkbox`}
       className={`flex border duration-200 ease-out p-4 items-center gap-4 rounded-md ${
         checked ? "border-red-600 dark:border-red-500" : "border-zinc-400 dark:border-zinc-700"
       }`}
@@ -31,15 +32,12 @@ export function Addon({ checked, onChange, value, feature }: PropTypes) {
       </p>
       <div className="grow basis-11/12">
         <div className="flex justify-between">
-          <label htmlFor={`${value}-checkbox`} className="font-semibold">
-            {feature.label}
-          </label>
-          <p>+${feature.price}</p>
+          <span className="font-semibold">{feature.label}</span>
         </div>
         <p id={inputID} className="text-gray-400">
           {feature.description}
         </p>
       </div>
-    </div>
+    </label>
   );
 }
