@@ -3,6 +3,7 @@ import { PageIntro } from "@components/PageIntro";
 import { Grid, Section, Title } from "@components/shared";
 import { SkillDetail, Company, Skill } from "@components/about";
 import { Button } from "@components/shared/Button";
+import { MovieFilter, AutoFix, PhotoSelectLarge } from "@lib/icons";
 import Image from "next/image";
 
 //Assets
@@ -18,8 +19,8 @@ export default function AboutPage() {
         </span>
       </PageIntro>
       <Section className="mt-16">
-        <Grid lg={2}>
-          <article className="lg:pr-10 col-span-full lg:col-span-1">
+        <Grid className="mx-2 lg:mx-0" lg={2}>
+          <article className="lg:pr-10  col-span-full lg:col-span-1">
             <header className="space-y-2 mb-5">
               <Title order="h2" size={"md"} color="red">
                 About us
@@ -35,10 +36,10 @@ export default function AboutPage() {
               constantly striving to create unique and captivating photos that will inspire and move others.
             </p>
             <strong className="block my-4">Some of my skills include:</strong>
-            <Grid lg={2} className="w-full">
-              <Skill label="Adobe Photoshop" />
-              <Skill label="Adobe Lightroom" />
-              <Skill label="Adobe Premier Pro" />
+            <Grid lg={2} fullWidth>
+              <Skill Icon={PhotoSelectLarge} label="Adobe Photoshop" />
+              <Skill Icon={AutoFix} label="Adobe Lightroom" />
+              <Skill Icon={MovieFilter} label="Adobe Premier Pro" />
             </Grid>
           </article>
           <figure className="bg-red-600 w-full h-full col-span-full lg:col-span-1">
@@ -47,19 +48,26 @@ export default function AboutPage() {
         </Grid>
       </Section>
       <Section margin={false} className="bg-gray-50 dark:bg-zinc-800 px-5 py-16">
-        <div className="w-full gap-5 flex ">
-          <div className="basis-3/5 grow pr-5 space-y-4">
-            <Title order={"h2"}>The most renowned companies in SXM have worked with Yalography</Title>
+        <div className="w-full gap-5 flex-col flex lg:flex-row ">
+          <div className="basis-3/5 grow lg:pr-5 space-y-4">
+            <Title order={"h2"} className="text-center mb-4 lg:mb-0 lg:text-start">
+              The most renowned companies in SXM have worked with Yalography
+            </Title>
             <p className="text-xl">
               My experience and passion for photography have allowed me to create stunning images and to help these
               companies tell their stories in an impactful way. I strive to provide the best services to my clients and
               I am committed to delivering results that exceed their expectations.
             </p>
-            <Button component={"a"} href={"/"} className="py-4 px-6">
+            <Button
+              fullWidth
+              component={"a"}
+              href={"/bookings#contact"}
+              className="py-4 px-6 w-full lg:w-fit text-center"
+            >
               Contact me
             </Button>
           </div>
-          <Grid lg={2} gap={"none"} className="basis-2/5 grow gap-1">
+          <Grid lg={2} gap={"none"} fullWidth className="basis-2/5 grow gap-1 w-full">
             {companies.map((company, key) => {
               return <Company companyName={company} key={key} />;
             })}

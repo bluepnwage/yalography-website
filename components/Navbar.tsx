@@ -22,10 +22,16 @@ export function Header() {
   return (
     <header className="flex justify-center z-20 items-center border-b bg-white border-gray-200 dark:border-gray-600 dark:bg-zinc-900 bg-opacity-80 dark:bg-opacity-80  h-16  backdrop-blur-md sticky top-0 left-0 duration-200 ease-out">
       <div className="w-11/12 flex justify-between items-center">
-        <div className="flex gap-4 items-center">
-          <Image src={logo} alt={""} className="h-12 w-12 bg-zinc-900 dark:bg-transparent rounded-md p-1" />
-          <p className="font-bold text-gray-900 dark:text-white text-lg">Yalography</p>
-        </div>
+        <figure className="flex gap-4 items-center">
+          <Image
+            src={logo}
+            alt={"Official Yalography logo"}
+            className="h-12 w-12 bg-zinc-900 dark:bg-transparent rounded-md p-1"
+          />
+          <figcaption className="font-bold hidden lg:block text-gray-900 dark:text-white text-lg">
+            Yalography
+          </figcaption>
+        </figure>
         <nav className="hidden lg:block">
           <ul className="flex gap-4 items-center h-full text-gray-700 dark:text-gray-300">
             {navLinks.map((link, key) => {
