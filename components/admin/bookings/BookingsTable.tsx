@@ -11,7 +11,7 @@ type PropTypes = {
 };
 
 export default function BookingsTable({ status }: PropTypes) {
-  const bookings = useBookings(status);
+  const bookings = useBookings()[status];
   const { paginatedList, ...props } = usePagination(10, bookings);
   return (
     <>

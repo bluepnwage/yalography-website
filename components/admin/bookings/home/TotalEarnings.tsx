@@ -3,8 +3,8 @@ import { formatNum } from "@util/formatNum";
 import { useBookings } from "../BookingsProvider";
 
 export function TotalEarnings() {
-  const bookings = useBookings("completed");
-  const earnings = bookings.reduce((a, c) => {
+  const { completed } = useBookings();
+  const earnings = completed.reduce((a, c) => {
     const amount = c.orders?.quote ? c.orders.quote / 100 : 0;
     return a + amount;
   }, 0);

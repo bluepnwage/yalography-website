@@ -8,7 +8,7 @@ type PropTypes = {
 };
 
 export function BookingsCard({ status }: PropTypes) {
-  const bookings = useBookings(status).slice(0, 10);
+  const bookings = useBookings()[status].slice(0, 10);
   return (
     <ScrollAreaDemo orientation="vertical" height={500} className="flex flex-col gap-5">
       {bookings.map((booking) => {

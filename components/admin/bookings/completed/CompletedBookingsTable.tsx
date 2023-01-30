@@ -11,8 +11,8 @@ import { formatNum } from "@util/formatNum";
 const Table = dynamic(() => import("@components/shared/Table").then((mod) => mod.Table), { ssr: false });
 
 export function CompletedBookingTable() {
-  const bookings = useBookings("completed");
-  const { paginatedList, ...props } = usePagination(10, bookings);
+  const { completed } = useBookings();
+  const { paginatedList, ...props } = usePagination(10, completed);
   return (
     <>
       <Table striped>

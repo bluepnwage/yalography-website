@@ -9,8 +9,8 @@ import Link from "next/link";
 const Table = dynamic(() => import("@components/shared/Table").then((mod) => mod.Table), { ssr: false });
 
 export function OrdersTable() {
-  const bookings = useBookings("completed");
-  const { paginatedList, ...props } = usePagination(10, bookings);
+  const { completed } = useBookings();
+  const { paginatedList, ...props } = usePagination(10, completed);
   return (
     <>
       <Table radius={"none"} ring={false} striped className="grow ">

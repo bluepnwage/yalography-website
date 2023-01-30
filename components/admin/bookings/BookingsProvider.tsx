@@ -18,6 +18,8 @@ export function BookingsProvider({ children, ...props }: PropTypes) {
   return <BookingsContext.Provider value={props}>{children}</BookingsContext.Provider>;
 }
 
-export function useBookings<T extends keyof ContextProps>(status: T) {
-  return useContext(BookingsContext)![status];
+export function useBookings() {
+  const data = useContext(BookingsContext);
+  if (!data) throw new Error("Hook was not rendered under provider");
+  return data;
 }

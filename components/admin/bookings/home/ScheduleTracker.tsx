@@ -15,25 +15,26 @@ type AllDates = {
 
 export function Calendar() {
   const [date, setDate] = useState<Date | null>(new Date());
-  const bookings = useBookings("approved");
-  const pendingBookings = useBookings("pending");
+  const { approved, pending } = useBookings();
   const allDates: AllDates = { pending: {}, approved: {} };
 
-  const todaysBookings = bookings
+  const todaysBookings = approved
     .filter((booking) => {
       return date?.toDateString() === booking.date;
     })
     .concat(
-      pendingBookings.filter((booking) => {
+      pending.filter((booking) => {
         return date?.toDateString() === booking.date;
       })
     );
 
-  for (let i = 0; i < bookings.length; i++) {
-    allDates.approved[bookings[i].date] = true;
+  //loop over pending and approved bookings to store dates
+  //where there is a booking in allDates obj
+  for (let i = 0; i < approved.length; i++) {
+    allDates.approved[approved[i].date] = true;
   }
-  for (let i = 0; i < pendingBookings.length; i++) {
-    allDates.pending[pendingBookings[i].date] = true;
+  for (let i = 0; i < pending.length; i++) {
+    allDates.pending[pending[i].date] = true;
   }
 
   return (

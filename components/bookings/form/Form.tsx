@@ -260,8 +260,7 @@ function BookingsForm() {
             )}
             {currentStep === 3 && (
               <section>
-                <h2 className="text-marine-blue font-bold text-2xl">Pick add-ons</h2>
-                <p className="text-gray-600 dark:text-gray-400 mb-14">Add-ons help enhance your gaming experience..</p>
+                <h2 className="text-marine-blue font-bold text-2xl mb-14">Pick add-ons</h2>
                 {shootDetails && (
                   <div className="space-y-4">
                     {shootDetails.features.length > 0 &&

@@ -5,8 +5,8 @@ import { Button } from "@components/shared/Button";
 import { Anchor, Breadcrumbs } from "@components/shared";
 
 export default function Booking({ params }: { params: { id: string } }) {
-  const bookings = useBookings("completed");
-  const order = bookings.find(({ orders }) => orders.id === parseInt(params.id))!;
+  const { completed } = useBookings();
+  const order = completed.find(({ orders }) => orders.id === parseInt(params.id))!;
   const amount = order.orders.quote ? order.orders.quote / 100 : 0;
   return (
     <>

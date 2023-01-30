@@ -1,5 +1,6 @@
 import { Anchor, Breadcrumbs } from "@components/shared";
 import { BookingMenu } from "@components/admin/bookings/dynamic/Menu";
+import { Buttons } from "./Buttons";
 
 import prisma from "@lib/prisma";
 import { cache } from "react";
@@ -90,6 +91,7 @@ export default async function Booking({ params }: { params: { status: "pending" 
           </div>
         </div>
       </section>
+      <Buttons />
     </>
   );
 }
