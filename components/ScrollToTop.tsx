@@ -1,18 +1,18 @@
 "use client";
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
-import { useRef } from "react";
+import { useState } from "react";
 
 export function ScrollToTop() {
   const path = usePathname();
-  const isFirstMount = useRef(true);
+  const [isFirstMount, setFirstMount] = useState(true);
 
   useEffect(() => {
-    isFirstMount.current = false;
+    setFirstMount(false);
   }, []);
 
   useEffect(() => {
-    if (isFirstMount.current) return;
+    if (isFirstMount) return;
     window.scrollTo({ top: 0, behavior: "auto" });
   }, [path]);
   return <></>;

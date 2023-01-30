@@ -173,7 +173,7 @@ export function Editor({ projectData, galleryImages }: PropTypes) {
   const previewDisabled =
     !project.title ||
     !project.description ||
-    (project.images.length === 0 && !images) ||
+    (project.images.length === 0 && !images && galleryIds.length === 0) ||
     (!project.thumbnail && !thumbnail);
 
   const unlinkImage = async (id: number) => {
