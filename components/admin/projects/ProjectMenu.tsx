@@ -60,7 +60,7 @@ export function ProjectMenu({ id, published, projectName, pinned }: PropTypes) {
     endpoint.searchParams.set("revalidate_home", "1");
     endpoint.searchParams.set("pin", "1");
     try {
-      const res = await fetch("/api/projects", {
+      const res = await fetch(endpoint, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id, pinned: !pinned })

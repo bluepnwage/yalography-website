@@ -60,8 +60,7 @@ const handler: NextApiHandler = async (req, res) => {
       case "PUT": {
         const query = parseInt(req.query.revalidate as string);
         const pin = parseInt(req.query.pin as string);
-        const revalidatHome = parseInt(req.query.revalidate_home as string);
-
+        const revalidateHome = parseInt(req.query.revalidate_home as string);
         if (pin) {
           const pinnedCount = await checkPins();
           if (pinnedCount >= 4) {
@@ -83,7 +82,7 @@ const handler: NextApiHandler = async (req, res) => {
           });
           throw new Error("There was an error editing a project.");
         }
-        if (revalidatHome && !development) {
+        if (revalidateHome && !development) {
           await res.revalidate("/");
         }
         if (!development && query) {
