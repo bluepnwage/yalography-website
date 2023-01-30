@@ -90,8 +90,8 @@ export default async function Booking({ params }: { params: { status: "pending" 
             </div>
           </div>
         </div>
+        <Buttons id={booking.id} status={params.status} />
       </section>
-      <Buttons />
     </>
   );
 }
