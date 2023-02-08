@@ -24,7 +24,8 @@ export function DatePicker({ ...props }: DatePickerProps) {
         yearPickerControls: "text-rose-600 stroke-rose-600",
         calendarHeaderControl: "text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-zinc-600",
         calendarHeaderLevel: "text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-zinc-600",
-        rightSection: "stroke-gray-900 dark:stroke-gray-400"
+        rightSection: "stroke-gray-900 dark:stroke-gray-400",
+        required: "text-red-600 dark:text-red-500"
       }}
     />
   );

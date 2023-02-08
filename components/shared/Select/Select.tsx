@@ -19,7 +19,9 @@ type SelectProps = {
 export function Select({ data, placeholder, label, className, triggerHeight, ...props }: SelectProps) {
   return (
     <div className={`${className}`}>
-      <span className="mb-[7px] block">{label}</span>
+      <span className="mb-[7px] block">{label}
+      {props.required &&<span className='inline-block ml-1 text-red-600 dark:text-red-500'>*</span>}
+      </span>
       <RadixSelect.Root {...props}>
         <RadixSelect.Trigger
           className={cx(

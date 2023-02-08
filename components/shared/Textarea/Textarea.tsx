@@ -31,7 +31,9 @@ type PropTypes = ComponentPropsWithoutRef<"textarea"> &
 export function Textarea({ label, className, radius, resize, wrapperClassName, rows, ...props }: PropTypes) {
   return (
     <p className={wrapperClassName || "w-full"}>
-      <label htmlFor={props.id}>{label}</label>
+      <label htmlFor={props.id}>
+        {label} {props.required && <span className="inline-block ml-1 text-red-600 dark:text-red-500">*</span>}
+      </label>
       <textarea {...props} rows={rows || 3} className={styles({ className, radius, resize })} />
     </p>
   );

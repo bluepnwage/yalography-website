@@ -163,6 +163,7 @@ function BookingsForm() {
                   name={"first_name"}
                   label={"First Name"}
                   placeholder={"e.g. Stephen"}
+                  required
                 />
                 <Input
                   id="last_name"
@@ -171,6 +172,7 @@ function BookingsForm() {
                   name={"last_name"}
                   label={"Last Name"}
                   placeholder={"e.g. King"}
+                  required
                 />
                 <Input
                   id="email"
@@ -179,6 +181,7 @@ function BookingsForm() {
                   name={"email"}
                   label={"Email Address"}
                   placeholder={"e.g. stephen.king@lorem.com"}
+                  required
                 />
                 <Input
                   id="phone"
@@ -187,6 +190,7 @@ function BookingsForm() {
                   name={"phone"}
                   label={"Phone Number"}
                   placeholder={"555 555-555"}
+                  required
                 />
               </section>
             )}
@@ -200,9 +204,15 @@ function BookingsForm() {
                   value={shootType}
                   onValueChange={onShootTypeChange}
                   data={selectData}
+                  required
                 />
                 <fieldset>
-                  <legend className="mb-2">Environment:</legend>
+                  <legend className="mb-2">
+                    Environment:{" "}
+                    <span aria-label="required" className="text-red-600 inline-block ml-1 dark:text-red-500">
+                      *
+                    </span>
+                  </legend>
                   <div className="flex gap-4">
                     <p>
                       <label htmlFor="inside">Inside</label>
@@ -237,6 +247,7 @@ function BookingsForm() {
                   minDate={dayjs(new Date()).add(8, "days").toDate()}
                   label="Date"
                   onChange={setDate}
+                  required
                 />
                 <Input
                   className="accent-red-600 w-full"
@@ -246,6 +257,7 @@ function BookingsForm() {
                   onChange={handleChange}
                   name="time"
                   id="time"
+                  required
                 />
                 <Textarea
                   value={form?.description}
