@@ -21,6 +21,11 @@
   cursor: pointer;
 }
 
+.checkbox:disabled,
+.checkbox:disabled::before {
+  cursor: not-allowed;
+}
+
 .checkbox[data-bg="true"]:hover::before {
   opacity: 0.3;
 }

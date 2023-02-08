@@ -20,6 +20,7 @@ import { Edit, Trash } from "@lib/icons";
 import type { Tasks } from "@prisma/client";
 import type { EditTaskData } from "@components/admin/tasks/home/Tasks";
 import { filterTasks } from "@util/filterTasks";
+import { Checkbox } from "@components/shared/Checkbox";
 
 export type SerializedTask = Omit<Tasks, "deadline" | "createdAt" | "updatedAt"> & {
   updatedAt: string;
@@ -142,11 +143,11 @@ export function Task({ taskData }: TaskPropTypes) {
         <div className="flex justify-between items-center mb-2 ">
           <div className="flex gap-2 items-center">
             <p className="flex items-center gap-2">
-              <input
+              <Checkbox
+                color="emerald"
                 onChange={onStatusToggle}
                 id={`${task.id}-${task.name}`}
                 type={"checkbox"}
-                className="accent-emerald-600"
                 checked={task.status}
               />
               <label htmlFor={`${task.id}-${task.name}`}>{task.name}</label>

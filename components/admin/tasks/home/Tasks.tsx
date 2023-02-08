@@ -6,6 +6,7 @@ import { ActionIcon } from "@components/shared/ActionIcon";
 import { Edit, Trash } from "@lib/icons";
 import { FilterBar } from "./Filter";
 import { Pagination } from "@components/shared/Pagination";
+import { Checkbox } from "@components/shared/Checkbox";
 
 //Hooks/util functions
 import { cx } from "cva";
@@ -143,14 +144,13 @@ function TaskRow({ taskData }: PropTypes) {
     <>
       {lazyLoad && <EditTaskModal onEdit={onEdit} open={dialog} onOpenChange={dialogToggle.set} task={task} />}
       <tr className="border-b border-zinc-200 dark:border-zinc-700 last-of-type:border-0">
-        <td className="py-2 space-x-2 text-start pl-2 ">
-          <input
+        <td className="py-2 space-x-2 flex items-center text-start pl-2 ">
+          <Checkbox
+            color="emerald"
             disabled={isLoading}
             onChange={onStatusToggle}
             checked={task.status}
             id={`${task.id}-${task.name}`}
-            type={"checkbox"}
-            className="accent-emerald-600 disabled:cursor-not-allowed"
           />
           <label htmlFor={`${task.id}-${task.name}`}>{task.name}</label>
         </td>
