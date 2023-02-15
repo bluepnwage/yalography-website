@@ -12,9 +12,10 @@ import type { SerializedImageFolder } from "@lib/prisma";
 type PropTypes = {
   onDialogClose: () => void;
   folders: SerializedImageFolder[];
+  environment: "dev" | "prod";
 };
 
-export function Dropzone({ onDialogClose, folders }: PropTypes) {
+export function Dropzone({ onDialogClose, folders, environment }: PropTypes) {
   const [files, setFiles] = useState<File[]>([]);
   const [loading, toggle] = useToggle();
   const [selectedFolder, setSelectedFolder] = useState("");
@@ -28,8 +29,8 @@ export function Dropzone({ onDialogClose, folders }: PropTypes) {
     toggle.on();
     try {
       const { uploadImage } = await import("@lib/firebase/storage");
-      const promises = files.map((file) =>
-        uploadImage(file, { folderID: selectedFolder ? parseInt(selectedFolder) : undefined })
+      const promises = files.map(file =>
+        uploadImage(file, { folderID: selectedFolder ? parseInt(selectedFolder) : undefined, environment })
       );
       await Promise.all(promises);
       refresh();
@@ -50,7 +51,7 @@ export function Dropzone({ onDialogClose, folders }: PropTypes) {
   };
 
   const isLoading = isPending || loading;
-  const selectData = folders.map((folder) => {
+  const selectData = folders.map(folder => {
     return {
       label: folder.name,
       value: `${folder.id}`
@@ -63,7 +64,7 @@ export function Dropzone({ onDialogClose, folders }: PropTypes) {
           root: "data-[loading=true]:bg-zinc-500 dark:data-[loading=true]:bg-zinc-900 hover:bg-zinc-200/30 dark:hover:bg-zinc-700/30 dark:bg-zinc-800 bg-white border-zinc-200 dark:border-zinc-700"
         }}
         onDrop={onDrop}
-        onReject={(files) => console.log("rejected files", files)}
+        onReject={files => console.log("rejected files", files)}
         maxSize={3 * 1024 ** 2}
         accept={IMAGE_MIME_TYPE}
         loading={isLoading}

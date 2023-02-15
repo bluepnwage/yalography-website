@@ -1,25 +1,28 @@
 import { getStorage, uploadBytes, ref, getDownloadURL, deleteObject } from "firebase/storage";
-import type { UploadResult, StorageError } from "firebase/storage";
+import type { UploadResult } from "firebase/storage";
 import type { Images } from "@prisma/client";
 
 import { app } from "./config";
 
 const storage = getStorage(app);
 
+export type Env = { environment: "prod" | "dev" };
+
 type UploadOptions = {
   folderID?: number;
   projectID?: number;
-};
+} & Env;
 
 export async function uploadImage(file: File, options: UploadOptions) {
-  const imageRef = ref(storage, `gallery/${file.name}`);
+  const fileName = crypto.randomUUID();
+  const imageRef = ref(storage, `gallery-${options.environment}/${fileName}`);
   const image = await uploadBytes(imageRef, file);
 
-  readFile(file, image, options?.folderID, options?.projectID);
+  readFile(file, image, fileName, options?.folderID, options?.projectID);
 }
 
 //function to get the width and height of an image then upload to db
-function readFile(file: File, upload: UploadResult, folderID?: number, projectID?: number) {
+function readFile(file: File, upload: UploadResult, fileName: string, folderID?: number, projectID?: number) {
   const fileReader = new FileReader();
 
   fileReader.onloadend = async () => {
@@ -31,7 +34,7 @@ function readFile(file: File, upload: UploadResult, folderID?: number, projectID
       height: image.height,
       alt: "",
       url: imageURL,
-      name: crypto.randomUUID(),
+      name: fileName,
       type: file.type,
       size: file.size,
       fullPath: upload.metadata.fullPath,
@@ -43,7 +46,9 @@ function readFile(file: File, upload: UploadResult, folderID?: number, projectID
   fileReader.readAsDataURL(file);
 }
 
-async function uploadToDB(data: Omit<Images, "id" | "published" | "projectId" | "folderId"> & { folderId?: number }) {
+async function uploadToDB(
+  data: Omit<Images, "id" | "published" | "projectId" | "folderId"> & { folderId?: number }
+) {
   const res = await fetch("/api/images", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -59,16 +64,16 @@ export async function deleteImage(fullPath: string) {
   await deleteObject(imageRef);
 }
 
-export async function uploadThumbnail(file: File, projectName: string) {
-  const imageRef = ref(storage, `thumbnails/${projectName}-thumbnail`);
+export async function uploadThumbnail(file: File, projectName: string, environment: Env["environment"]) {
+  const imageRef = ref(storage, `thumbnails-${environment}/${projectName}-thumbnail`);
   const upload = await uploadBytes(imageRef, file);
   const url = getDownloadURL(upload.ref);
   return url;
 }
 
-export async function deleteThumbnail(projectName: string) {
+export async function deleteThumbnail(projectName: string, environment: Env["environment"]) {
   try {
-    const imageRef = ref(storage, `thumbnail/${projectName}-thumbnail`);
+    const imageRef = ref(storage, `thumbnail-${environment}/${projectName}-thumbnail`);
     await deleteObject(imageRef);
   } catch (error) {
     if (error instanceof Error) {

@@ -16,7 +16,7 @@ const getImages = cache(async () => {
 
   await prisma.$disconnect();
 
-  const serializedFolders = folders.map((folder) => {
+  const serializedFolders = folders.map(folder => {
     return {
       ...folder,
       createdAt: folder.createdAt.toDateString()
@@ -27,6 +27,8 @@ const getImages = cache(async () => {
 
 export const dynamic = "force-dynamic";
 export const revalidate = process.env.NODE_ENV === "development" ? false : 0;
+
+const environment = process.env.NODE_ENV === "production" ? "prod" : "dev";
 
 type PropTypes = {
   children: React.ReactNode;
@@ -52,7 +54,7 @@ export default async function Layout({ children }: PropTypes) {
             <p>Total folders: {folders.length}</p>
           </div>
           <div className="space-x-2">
-            <UploadDialog folders={folders} />
+            <UploadDialog environment={environment} folders={folders} />
             <Revalidate />
           </div>
         </FlexContainer>

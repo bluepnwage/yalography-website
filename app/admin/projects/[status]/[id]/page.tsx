@@ -21,6 +21,8 @@ const getGalleryImages = cache(async () => {
   return images;
 });
 
+const environment = process.env.NODE_ENV === "production" ? "prod" : "dev";
+
 export default async function Page({ params }: { params: { status: "drafted" | "published"; id: string } }) {
   const id = parseInt(params.id);
   if (!id) notFound();
@@ -43,7 +45,13 @@ export default async function Page({ params }: { params: { status: "drafted" | "
             </Badge>
           </div>
         </div>
-        <ProjectMenu pinned={project.pinned} projectName={project.name} id={project.id} published={project.published} />
+        <ProjectMenu
+          environment={environment}
+          pinned={project.pinned}
+          projectName={project.name}
+          id={project.id}
+          published={project.published}
+        />
       </div>
       <Breadcrumbs>
         <Anchor href={"/admin/projects"}>Projects</Anchor>
@@ -53,7 +61,7 @@ export default async function Page({ params }: { params: { status: "drafted" | "
         <Anchor href={`/admin/projects/${params.status}/1`}>{project.name}</Anchor>
       </Breadcrumbs>
       <div className="mt-2">
-        <Editor projectData={project} galleryImages={images} />
+        <Editor environment={environment} projectData={project} galleryImages={images} />
       </div>
     </>
   );

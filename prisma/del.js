@@ -9,7 +9,8 @@ const deleteEver = async () => {
     prisma.orders.deleteMany(),
     prisma.taskLists.deleteMany(),
     prisma.tasks.deleteMany(),
-    prisma.imageFolders.deleteMany()
+    prisma.imageFolders.deleteMany(),
+    prisma.images.deleteMany()
   ]);
   await prisma.$disconnect();
 };

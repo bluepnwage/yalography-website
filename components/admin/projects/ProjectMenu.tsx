@@ -4,14 +4,15 @@ import { useToggle } from "@lib/hooks/useToggle";
 import { Share, Trash, Pin, Unpin } from "@lib/icons";
 import { useRouter } from "next/navigation";
 import { ActionIcon } from "@components/shared/ActionIcon";
+import { Env } from "@lib/firebase/storage";
 type PropTypes = {
   id: number;
   published: boolean;
   projectName: string;
   pinned: boolean;
-};
+} & Env;
 
-export function ProjectMenu({ id, published, projectName, pinned }: PropTypes) {
+export function ProjectMenu({ id, published, projectName, pinned, environment }: PropTypes) {
   const [isPending, refresh] = useRouteRefresh();
   const [loading, toggle] = useToggle();
   const router = useRouter();
@@ -26,7 +27,7 @@ export function ProjectMenu({ id, published, projectName, pinned }: PropTypes) {
     const endpoint = new URL("/api/projects", location.origin);
     endpoint.searchParams.set("revalidate", published ? "1" : "0");
     try {
-      await deleteThumbnail(projectName);
+      await deleteThumbnail(projectName, environment);
       const res = await fetch(endpoint, {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
@@ -99,7 +100,13 @@ export function ProjectMenu({ id, published, projectName, pinned }: PropTypes) {
           <Share />
         </ActionIcon>
       )}
-      <ActionIcon disabled={isLoading} onClick={onDelete} aria-label="Delete project" color="red" className="p-1">
+      <ActionIcon
+        disabled={isLoading}
+        onClick={onDelete}
+        aria-label="Delete project"
+        color="red"
+        className="p-1"
+      >
         <Trash />
       </ActionIcon>
     </div>

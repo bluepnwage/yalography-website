@@ -27,9 +27,10 @@ type ProjectJoin = SerializedProject & { images: Images[] };
 type PropTypes = {
   projectData: ProjectJoin;
   galleryImages: Images[];
+  environment: "dev" | "prod";
 };
 
-export function Editor({ projectData, galleryImages }: PropTypes) {
+export function Editor({ projectData, galleryImages, environment }: PropTypes) {
   const [thumbnail, setThumbnail] = useState<File | null>(null);
   const [images, setImages] = useState<File[] | null>(null);
   const [isPending, refresh] = useRouteRefresh();
@@ -40,7 +41,7 @@ export function Editor({ projectData, galleryImages }: PropTypes) {
   const { paginatedList, ...props } = usePagination(4, images ? images : []);
   const { paginatedList: galleryPagination, ...galleryProps } = usePagination(
     4,
-    galleryImages.filter((image) => !project.images.some((img) => img.id === image.id))
+    galleryImages.filter(image => !project.images.some(img => img.id === image.id))
   );
   const [galleryIds, setGalleryIds] = useState<number[]>([]);
   const edited = useRef(false);
@@ -50,12 +51,16 @@ export function Editor({ projectData, galleryImages }: PropTypes) {
     setProject(projectData);
   }, [projectData]);
 
-  const thumbnailURL = thumbnail ? URL.createObjectURL(thumbnail) : project.thumbnail ? project.thumbnail : "";
+  const thumbnailURL = thumbnail
+    ? URL.createObjectURL(thumbnail)
+    : project.thumbnail
+    ? project.thumbnail
+    : "";
   const selectData = Array.from(photoshootTypes).map(([key, value]) => ({ label: value.label, value: key }));
 
   const onChange = (e: FormEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.currentTarget;
-    setProject((prev) => ({ ...prev, [name]: value }));
+    setProject(prev => ({ ...prev, [name]: value }));
   };
 
   const onThumbnailDrop = (file: File[] | null) => {
@@ -90,7 +95,9 @@ export function Editor({ projectData, galleryImages }: PropTypes) {
         throw new Error();
       }
     } catch (error) {
-      toast.error(`Failed to ${project.published ? "draft" : "publish"} project. Please try again in a few minutes.`);
+      toast.error(
+        `Failed to ${project.published ? "draft" : "publish"} project. Please try again in a few minutes.`
+      );
     } finally {
       toggle.off();
     }
@@ -109,13 +116,13 @@ export function Editor({ projectData, galleryImages }: PropTypes) {
       //then upload a new thumbnail
       if ((!url && thumbnail) || (url !== thumbnailURL && thumbnail)) {
         const { uploadThumbnail } = await import("@lib/firebase/storage");
-        url = await uploadThumbnail(thumbnail, project.name);
+        url = await uploadThumbnail(thumbnail, project.name, environment);
         console.log("thumbnail uploaded");
       }
 
       if (images && images.length > 0) {
         const { uploadImage } = await import("@lib/firebase/storage");
-        const promise = images.map((image) => uploadImage(image, { projectID: project.id }));
+        const promise = images.map(image => uploadImage(image, { projectID: project.id, environment }));
         await Promise.all(promise);
       }
 
@@ -219,17 +226,17 @@ export function Editor({ projectData, galleryImages }: PropTypes) {
   };
 
   const deleteSelectedImage = (file: File) => {
-    setImages((prev) => prev?.filter((prev) => prev.name !== file.name) || null);
+    setImages(prev => prev?.filter(prev => prev.name !== file.name) || null);
   };
 
   const selectImage = (id: number) => {
     //If selected image is not  linked to project then mark edited as true
-    if (!project.images.some((image) => image.id === id)) edited.current = true;
-    setGalleryIds((prev) => [...prev, id]);
+    if (!project.images.some(image => image.id === id)) edited.current = true;
+    setGalleryIds(prev => [...prev, id]);
   };
 
   const removeImage = (id: number) => {
-    setGalleryIds((prev) => prev.filter((imageID) => imageID !== id));
+    setGalleryIds(prev => prev.filter(imageID => imageID !== id));
   };
 
   return (
@@ -254,7 +261,14 @@ export function Editor({ projectData, galleryImages }: PropTypes) {
         </TabsDemo.List>
         <TabsDemo.Content value="information">
           <section className="space-y-5">
-            <Input value={project?.title || ""} onChange={onChange} label="Title" id="title" name="title" required />
+            <Input
+              value={project?.title || ""}
+              onChange={onChange}
+              label="Title"
+              id="title"
+              name="title"
+              required
+            />
             <Textarea
               value={project?.description || ""}
               onChange={onChange}
@@ -262,13 +276,20 @@ export function Editor({ projectData, galleryImages }: PropTypes) {
               id="description"
               name="description"
             />
-            <Select value={selectedType} onValueChange={setSelectedType} label="Photoshoot type" data={selectData} />
+            <Select
+              value={selectedType}
+              onValueChange={setSelectedType}
+              label="Photoshoot type"
+              data={selectData}
+            />
             <div className=" mt-5">
               <p>Thumbnail:</p>
               <div className="flex gap-5">
                 <Dropzone onDrop={onThumbnailDrop} />
                 <div className="bg-zinc-200 flex rounded-md items-center dark:bg-zinc-900 basis-2/4 grow">
-                  {!thumbnailURL && <p className="text-xl mx-auto font-semibold">Thumbnail will be displayed here.</p>}
+                  {!thumbnailURL && (
+                    <p className="text-xl mx-auto font-semibold">Thumbnail will be displayed here.</p>
+                  )}
                   <img src={thumbnailURL} />
                 </div>
               </div>
@@ -310,7 +331,7 @@ export function Editor({ projectData, galleryImages }: PropTypes) {
               {project.images.length > 0 && (
                 <>
                   <p className="col-span-full text-xl font-semibold">Saved images</p>
-                  {project.images.map((image) => {
+                  {project.images.map(image => {
                     return (
                       <div key={image.id} className="w-full col-span-2 relative h-full">
                         <Image
@@ -351,7 +372,7 @@ export function Editor({ projectData, galleryImages }: PropTypes) {
               })}
               <div className="col-span-full">{paginatedList.length > 0 && <Pagination {...props} />}</div>
               <p className="col-span-full text-xl font-semibold">Gallery images </p>
-              {galleryPagination.map((image) => {
+              {galleryPagination.map(image => {
                 const selected = galleryIds.includes(image.id);
                 const onClick = () => (selected ? removeImage(image.id) : selectImage(image.id));
                 return (
@@ -370,7 +391,9 @@ export function Editor({ projectData, galleryImages }: PropTypes) {
                   </div>
                 );
               })}
-              <div className="col-span-full">{galleryPagination.length > 0 && <Pagination {...galleryProps} />}</div>
+              <div className="col-span-full">
+                {galleryPagination.length > 0 && <Pagination {...galleryProps} />}
+              </div>
             </div>
           </div>
         </TabsDemo.Content>
