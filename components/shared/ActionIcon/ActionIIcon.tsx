@@ -48,3 +48,5 @@ export const ActionIcon = forwardRef<HTMLButtonElement, PropTypes>(
     );
   }
 );
+
+ActionIcon.displayName = "ActionIcon";
