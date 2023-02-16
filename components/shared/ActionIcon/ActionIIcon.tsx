@@ -1,5 +1,6 @@
 "use client";
-import type { ComponentPropsWithoutRef } from "react";
+import type { ComponentPropsWithRef } from "react";
+import { forwardRef } from "react";
 import { cva, VariantProps } from "cva";
 
 const styles = cva("flex items-center justify-center active:top-[2px]", {
@@ -31,12 +32,19 @@ const styles = cva("flex items-center justify-center active:top-[2px]", {
   }
 });
 
-type PropTypes = ComponentPropsWithoutRef<"button"> & VariantProps<typeof styles>;
+type PropTypes = ComponentPropsWithRef<"button"> & VariantProps<typeof styles>;
 
-export function ActionIcon({ className, radius, color, children, disabled, ...props }: PropTypes) {
-  return (
-    <button {...props} disabled={disabled} className={styles({ className, radius, color, disabled })}>
-      {children}
-    </button>
-  );
-}
+export const ActionIcon = forwardRef<HTMLButtonElement, PropTypes>(
+  ({ className, radius, color, children, disabled, ...props }, ref) => {
+    return (
+      <button
+        {...props}
+        ref={ref}
+        disabled={disabled}
+        className={styles({ className, radius, color, disabled })}
+      >
+        {children}
+      </button>
+    );
+  }
+);

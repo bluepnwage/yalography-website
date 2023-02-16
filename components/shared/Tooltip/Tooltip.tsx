@@ -4,14 +4,14 @@ import styles from "./styles.module.css";
 
 type PropTypes = {
   content: React.ReactNode;
-  trigger: React.ReactNode;
+  children: React.ReactNode;
 };
 
-export function Tooltip({ content, trigger }: PropTypes) {
+export function Tooltip({ content, children }: PropTypes) {
   return (
     <RadixTooltip.Provider>
       <RadixTooltip.Root>
-        <RadixTooltip.Trigger asChild>{trigger}</RadixTooltip.Trigger>
+        <RadixTooltip.Trigger asChild>{children}</RadixTooltip.Trigger>
         <RadixTooltip.Portal>
           <RadixTooltip.Content
             className={`${styles.TooltipContent} bg-white dark:bg-zinc-800`}

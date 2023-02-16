@@ -1,10 +1,14 @@
 "use client";
+import { ActionIcon } from "@components/shared/ActionIcon";
+import { Share, Trash, Pin, Unpin } from "@lib/icons";
+import { Tooltip } from "@components/shared/Tooltip";
+
 import { useRouteRefresh } from "@lib/hooks/useRouteRefresh";
 import { useToggle } from "@lib/hooks/useToggle";
-import { Share, Trash, Pin, Unpin } from "@lib/icons";
 import { useRouter } from "next/navigation";
-import { ActionIcon } from "@components/shared/ActionIcon";
-import { Env } from "@lib/firebase/storage";
+
+import type { Env } from "@lib/firebase/storage";
+
 type PropTypes = {
   id: number;
   published: boolean;
@@ -86,29 +90,35 @@ export function ProjectMenu({ id, published, projectName, pinned, environment }:
 
   return (
     <div className="flex gap-2 self-center h-fit">
-      <ActionIcon
-        className="p-1"
-        disabled={isLoading}
-        onClick={onPin}
-        color={pinned ? "orange" : "emerald"}
-        aria-label="Pin to homepage"
-      >
-        {pinned ? <Unpin /> : <Pin />}
-      </ActionIcon>
-      {published && (
-        <ActionIcon aria-label="Share project" onClick={onShare} color="violet" className="p-1">
-          <Share />
+      <Tooltip content={pinned ? "Unpin from homepage" : "Pin to homepage"}>
+        <ActionIcon
+          className="p-1"
+          disabled={isLoading}
+          onClick={onPin}
+          color={pinned ? "orange" : "emerald"}
+          aria-label={pinned ? "Unpin from homepage" : "Pin to homepage"}
+        >
+          {pinned ? <Unpin /> : <Pin />}
         </ActionIcon>
+      </Tooltip>
+      {published && (
+        <Tooltip content="Share project">
+          <ActionIcon aria-label="Share project" onClick={onShare} color="violet" className="p-1">
+            <Share />
+          </ActionIcon>
+        </Tooltip>
       )}
-      <ActionIcon
-        disabled={isLoading}
-        onClick={onDelete}
-        aria-label="Delete project"
-        color="red"
-        className="p-1"
-      >
-        <Trash />
-      </ActionIcon>
+      <Tooltip content="Delete project">
+        <ActionIcon
+          disabled={isLoading}
+          onClick={onDelete}
+          aria-label="Delete project"
+          color="red"
+          className="p-1"
+        >
+          <Trash />
+        </ActionIcon>
+      </Tooltip>
     </div>
   );
 }
