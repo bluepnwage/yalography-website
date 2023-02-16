@@ -64,7 +64,7 @@ const handler: NextApiHandler = async (req, res) => {
         return res.status(200).json({ message: "Folder updated", data });
       }
       case "DELETE": {
-        const promise = deleteFolder(json);
+        const promise = deleteFolder(json.id);
         const [status, data] = await handlePromise(promise);
         if (status === "error") {
           logError({
@@ -87,6 +87,14 @@ const handler: NextApiHandler = async (req, res) => {
     if (error instanceof Error) {
       res.status(500).json({ message: error.message });
     } else {
+      const e = error as any;
+      await logError({
+        title: "Server error",
+        apiURL,
+        description: e.message,
+        stackTrace: e.stack,
+        statusCode: 500
+      });
       res.status(500).json({ message: serverError });
     }
   }
