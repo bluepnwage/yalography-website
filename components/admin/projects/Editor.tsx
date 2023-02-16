@@ -21,14 +21,14 @@ import { usePagination } from "@lib/hooks/usePagination";
 import type { FormEvent } from "react";
 import type { SerializedProject } from "@lib/prisma";
 import type { Images } from "@prisma/client";
+import { Env } from "@lib/firebase/storage";
 
 type ProjectJoin = SerializedProject & { images: Images[] };
 
 type PropTypes = {
   projectData: ProjectJoin;
   galleryImages: Images[];
-  environment: "dev" | "prod";
-};
+} & Env;
 
 export function Editor({ projectData, galleryImages, environment }: PropTypes) {
   const [thumbnail, setThumbnail] = useState<File | null>(null);

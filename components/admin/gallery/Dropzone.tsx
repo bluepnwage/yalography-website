@@ -8,12 +8,12 @@ import { Select } from "@components/shared/Select";
 import { toast } from "react-toastify";
 
 import type { SerializedImageFolder } from "@lib/prisma";
+import { Env } from "@lib/firebase/storage";
 
 type PropTypes = {
   onDialogClose: () => void;
   folders: SerializedImageFolder[];
-  environment: "dev" | "prod";
-};
+} & Env;
 
 export function Dropzone({ onDialogClose, folders, environment }: PropTypes) {
   const [files, setFiles] = useState<File[]>([]);

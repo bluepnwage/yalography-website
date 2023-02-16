@@ -8,11 +8,11 @@ const Dialog = dynamic(() => import("@components/shared/Dialog").then(mod => mod
 
 import { useToggle } from "@lib/hooks/useToggle";
 import type { SerializedImageFolder } from "@lib/prisma";
+import { Env } from "@lib/firebase/storage";
 
 type PropTypes = {
   folders: SerializedImageFolder[];
-  environment: "dev" | "prod";
-};
+} & Env;
 
 export function UploadDialog({ folders, environment }: PropTypes) {
   const [dialog, dialogToggle] = useToggle();

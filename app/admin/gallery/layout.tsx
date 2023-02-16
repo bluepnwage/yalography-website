@@ -6,6 +6,7 @@ import { cache } from "react";
 import { GalleryProvider } from "@components/admin/gallery/GalleryProvider";
 import prisma from "@lib/prisma";
 import { verifyToken } from "@lib/firebase/admin/auth";
+import { getEnv } from "@util/get-env";
 
 const getImages = cache(async () => {
   await prisma.$connect();
@@ -28,7 +29,7 @@ const getImages = cache(async () => {
 export const dynamic = "force-dynamic";
 export const revalidate = process.env.NODE_ENV === "development" ? false : 0;
 
-const environment = process.env.NODE_ENV === "production" ? "prod" : "dev";
+const environment = getEnv();
 
 type PropTypes = {
   children: React.ReactNode;

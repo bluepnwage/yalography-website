@@ -6,7 +6,7 @@ import { app } from "./config";
 
 const storage = getStorage(app);
 
-export type Env = { environment: "prod" | "dev" };
+export type Env = { environment: "production" | "dev" | "preview" };
 
 type UploadOptions = {
   folderID?: number;

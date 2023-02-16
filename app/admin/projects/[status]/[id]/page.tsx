@@ -5,6 +5,7 @@ import prisma from "@lib/prisma";
 import { cache } from "react";
 import { notFound } from "next/navigation";
 import { ProjectMenu } from "@components/admin/projects/ProjectMenu";
+import { getEnv } from "@util/get-env";
 
 const getProject = cache(async (id: number) => {
   await prisma.$connect();
@@ -21,7 +22,7 @@ const getGalleryImages = cache(async () => {
   return images;
 });
 
-const environment = process.env.NODE_ENV === "production" ? "prod" : "dev";
+const environment = getEnv();
 
 export default async function Page({ params }: { params: { status: "drafted" | "published"; id: string } }) {
   const id = parseInt(params.id);
