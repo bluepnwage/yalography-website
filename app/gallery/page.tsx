@@ -34,7 +34,7 @@ export default async function GalleryPage() {
                 : image.width / image.height < 1
                 ? "row-span-2"
                 : "";
-            const objectPosition = className === "lg:col-span-2" ? `20%` : undefined;
+            const objectPosition = className === "lg:col-span-2" ? `center 20%` : undefined;
             return (
               <Image
                 key={image.id}
