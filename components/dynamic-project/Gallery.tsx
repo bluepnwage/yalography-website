@@ -16,7 +16,7 @@ export function Gallery({ images }: PropTypes) {
         <Title order={"h3"}>See the images that brought this project to life</Title>
       </div>
       <Grid fullWidth>
-        {images.map((image) => {
+        {images.map(image => {
           return (
             <Image
               containerClass="col-span-full lg:col-span-4 object-cover"
@@ -25,7 +25,7 @@ export function Gallery({ images }: PropTypes) {
               width={image.width}
               height={image.height}
               alt={""}
-              className="h-full w-full"
+              className="h-full w-full object-cover"
             />
           );
         })}
