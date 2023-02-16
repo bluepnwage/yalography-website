@@ -42,7 +42,7 @@ export default async function GalleryPage() {
                 height={image.height}
                 style={{ objectPosition }}
                 src={image.url}
-                alt={""}
+                alt={image.alt || ""}
                 containerClass={`w-full overflow-hidden ${className}`}
                 className="w-full h-full object-cover"
               />

@@ -5,11 +5,38 @@ import { Button } from "@components/shared/Button";
 import { Input } from "@components/shared/Input";
 import dynamic from "next/dynamic";
 
-const Dialog = dynamic(() => import("@components/shared/Dialog").then((mod) => mod.Dialog));
+const Dialog = dynamic(() => import("@components/shared/Dialog").then(mod => mod.Dialog));
 
 import { useToggle } from "@lib/hooks/useToggle";
 import { useRouteRefresh } from "@lib/hooks/useRouteRefresh";
 import { useState } from "react";
+import { useReducer } from "react";
+
+const initialState = {
+  renameDialog: false,
+  captionDialog: false
+};
+
+type ActionType = keyof typeof initialState;
+
+type Actions = {
+  payload: boolean;
+  type: ActionType;
+};
+
+function reducer(state: typeof initialState, action: Actions): typeof initialState {
+  switch (action.type) {
+    case "renameDialog": {
+      return { ...state, renameDialog: action.payload };
+    }
+    case "captionDialog": {
+      return { ...state, captionDialog: action.payload };
+    }
+    default: {
+      return state;
+    }
+  }
+}
 
 import type { Images } from "@prisma/client";
 import type { FormEvent } from "react";
@@ -22,12 +49,15 @@ export function UploadedImage({ image: imageData }: PropTypes) {
   const [loading, toggle] = useToggle();
   const [isPending, refresh] = useRouteRefresh();
   const [lazyLoad, lazyLoadToggle] = useToggle();
-  const [dialog, dialogToggle] = useToggle();
   const [image, setImage] = useState(imageData);
+  const [dialog, dispatch] = useReducer(reducer, initialState);
 
   const onDelete = async () => {
     toggle.on();
-    const [{ toast }, { deleteImage }] = await Promise.all([import("react-toastify"), import("@lib/firebase/storage")]);
+    const [{ toast }, { deleteImage }] = await Promise.all([
+      import("react-toastify"),
+      import("@lib/firebase/storage")
+    ]);
     try {
       await deleteImage(image.fullPath);
       const res = await fetch("/api/images", {
@@ -69,8 +99,8 @@ export function UploadedImage({ image: imageData }: PropTypes) {
         body: JSON.stringify({ id: image.id, name })
       });
       if (res.ok) {
-        setImage((prev) => ({ ...prev, name }));
-        dialogToggle.off();
+        setImage(prev => ({ ...prev, name }));
+        dispatch({ payload: false, type: "renameDialog" });
       } else {
         throw new Error("There was en error renaming the image.");
       }
@@ -128,14 +158,56 @@ export function UploadedImage({ image: imageData }: PropTypes) {
     }
   };
 
+  const onEditCaption = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const alt = new FormData(e.currentTarget).get("caption") as string;
+    toggle.on();
+    const { toast } = await import("react-toastify");
+    try {
+      const res = await fetch("/api/images", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ alt, id: image.id })
+      });
+      if (res.ok) {
+        toast.success("Caption edited.");
+        dispatch({ payload: false, type: "captionDialog" });
+      } else {
+        throw new Error();
+      }
+    } catch (error) {
+      toast.error("Failed to edit caption.");
+    } finally {
+      toggle.off();
+    }
+  };
+
   const isLoading = isPending || loading;
 
   return (
     <>
       {lazyLoad && (
-        <Dialog open={dialog} onOpenChange={dialogToggle.set} title="Rename image">
+        <Dialog
+          open={dialog.renameDialog}
+          onOpenChange={payload => dispatch({ payload, type: "renameDialog" })}
+          title="Rename image"
+        >
           <form onSubmit={onRename} className="space-y-4">
             <Input defaultValue={image.name} label="Name" id="image_name" name="image_name" required />
+            <Button disabled={isLoading} intent="accept">
+              Submit
+            </Button>
+          </form>
+        </Dialog>
+      )}
+      {lazyLoad && (
+        <Dialog
+          title="Edit caption"
+          open={dialog.captionDialog}
+          onOpenChange={payload => dispatch({ payload, type: "captionDialog" })}
+        >
+          <form onSubmit={onEditCaption} className="space-y-4">
+            <Input label="Caption" id="caption" name="caption" />
             <Button disabled={isLoading} intent="accept">
               Submit
             </Button>
@@ -161,9 +233,19 @@ export function UploadedImage({ image: imageData }: PropTypes) {
             </Dropdown.Trigger>
             <Dropdown.Content>
               <Dropdown.Label>Manage image</Dropdown.Label>
-              <Dropdown.Item onClick={dialogToggle.on} onMouseEnter={!lazyLoad ? lazyLoadToggle.on : undefined}>
+              <Dropdown.Item
+                onClick={() => dispatch({ payload: true, type: "renameDialog" })}
+                onMouseEnter={!lazyLoad ? lazyLoadToggle.on : undefined}
+              >
                 <Edit />
                 Rename image
+              </Dropdown.Item>
+              <Dropdown.Item
+                onClick={() => dispatch({ payload: true, type: "captionDialog" })}
+                onMouseEnter={!lazyLoad ? lazyLoadToggle.on : undefined}
+              >
+                <Edit />
+                Edit caption
               </Dropdown.Item>
               <Dropdown.Item onClick={onCopy}>
                 <Upload />
@@ -190,7 +272,7 @@ export function UploadedImage({ image: imageData }: PropTypes) {
         </div>
         <div className="grow">
           <div className="flex justify-between ">
-            <p className="font-bold text-xl">{truncate(image.name)}</p>
+            <p className="font-bold text-xl truncate">{image.name}</p>
           </div>
           <div className="flex justify-between">
             <p>{image.type}</p>
@@ -202,10 +284,7 @@ export function UploadedImage({ image: imageData }: PropTypes) {
   );
 }
 
-function truncate(word: string) {
-  if (word.length > 15) return `${word.slice(0, 10)}...`;
-  return word;
-}
+
 
 function Trash() {
   return (
@@ -287,7 +366,13 @@ function Edit() {
 
 function DotsVertical() {
   return (
-    <svg height={16} width={16} className={"stroke-gray-100"} viewBox="0 0 24 24" xmlns="http:www.w3.org/2000/svg">
+    <svg
+      height={16}
+      width={16}
+      className={"stroke-gray-100"}
+      viewBox="0 0 24 24"
+      xmlns="http:www.w3.org/2000/svg"
+    >
       <g fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2">
         <path d="M0 0h24v24H0z" fill="none" stroke="none" />
         <circle cx="12" cy="12" r="1" />
