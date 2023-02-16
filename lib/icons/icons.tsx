@@ -472,7 +472,7 @@ export function Check({ className, fill, size }: PropTypes) {
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <g fill="none" stroke="#ffffff" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2">
+      <g fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2">
         <path d="M0 0h24v24H0z" fill="none" stroke="none" />
         <path d="M5 12l5 5L20 7" />
       </g>
@@ -577,8 +577,24 @@ function Zoom() {
   return (
     <svg height="12" width="12" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
       <g fill="#ffffff" stroke="#ffffff" strokeWidth="1">
-        <line fill="none" strokeLinecap="round" strokeLinejoin="round" x1="11.5" x2="8.328" y1="11.5" y2="8.328" />
-        <circle cx="5.5" cy="5.5" fill="none" r="4" stroke="#ffffff" strokeLinecap="round" strokeLinejoin="round" />
+        <line
+          fill="none"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          x1="11.5"
+          x2="8.328"
+          y1="11.5"
+          y2="8.328"
+        />
+        <circle
+          cx="5.5"
+          cy="5.5"
+          fill="none"
+          r="4"
+          stroke="#ffffff"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
       </g>
     </svg>
   );
