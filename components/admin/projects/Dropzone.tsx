@@ -1,11 +1,6 @@
 "use client";
-import { Button } from "@components/shared/Button";
 import { Dropzone as MantineDropzone, IMAGE_MIME_TYPE } from "@mantine/dropzone";
-import { useState } from "react";
-import { useToggle } from "@lib/hooks/useToggle";
-import { useRouteRefresh } from "@lib/hooks/useRouteRefresh";
-import { Select } from "@components/shared/Select";
-import { toast } from "react-toastify";
+import { Check, XClose } from "@lib/icons";
 
 type PropTypes = {
   onDrop: (file: File[] | null) => void;
@@ -13,11 +8,10 @@ type PropTypes = {
 };
 
 export function Dropzone({ onDrop, multiple }: PropTypes) {
-  const [loading, toggle] = useToggle();
-  const [selectedFolder, setSelectedFolder] = useState("");
-  const [isPending, refresh] = useRouteRefresh();
-
-  const isLoading = isPending || loading;
+  const onReject = async () => {
+    const { toast } = await import("react-toastify");
+    toast.error("The image you dropped is too large.");
+  };
 
   return (
     <>
@@ -26,18 +20,17 @@ export function Dropzone({ onDrop, multiple }: PropTypes) {
         classNames={{
           root: "data-[loading=true]:bg-zinc-500 grow basis-2/4 dark:data-[loading=true]:bg-zinc-900 hover:bg-zinc-200/30 dark:hover:bg-zinc-700/30 dark:bg-zinc-800 bg-white border-zinc-200 dark:border-zinc-700"
         }}
-        onDrop={(files) => onDrop(files)}
-        onReject={(files) => console.log("rejected files", files)}
+        onDrop={files => onDrop(files)}
+        onReject={onReject}
         maxSize={3 * 1024 ** 2}
         accept={IMAGE_MIME_TYPE}
-        loading={isLoading}
       >
         <div className="flex justify-center gap-4" style={{ minHeight: 220, pointerEvents: "none" }}>
           <MantineDropzone.Accept>
-            <p className="text-5xl text-gray-100">Check</p>
+            <Check className="stroke-emerald-600 dark:stroke-emerald-500" size={64} />
           </MantineDropzone.Accept>
           <MantineDropzone.Reject>
-            <p>X</p>
+            <XClose className="fill-red-600 dark:fill-red-500" size={64} />
           </MantineDropzone.Reject>
           <MantineDropzone.Idle>
             <Photo />
@@ -49,10 +42,6 @@ export function Dropzone({ onDrop, multiple }: PropTypes) {
           </div>
         </div>
       </MantineDropzone>
-      {/* 
-      <Button onClick={onUpload} disabled={isLoading} fullWidth intent={"accept"}>
-        Submit
-      </Button> */}
     </>
   );
 }
