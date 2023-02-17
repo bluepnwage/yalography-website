@@ -1,13 +1,23 @@
-"use client";
-import { useBookings } from "@components/admin/bookings/BookingsProvider";
+import prisma from "@lib/prisma";
+import { cache } from "react";
 import { formatNum } from "@util/formatNum";
+import { notFound } from "next/navigation";
 import { Button } from "@components/shared/Button";
 import { Anchor, Breadcrumbs } from "@components/shared";
 
-export default function Booking({ params }: { params: { id: string } }) {
-  const { completed } = useBookings();
-  const order = completed.find(({ orders }) => orders.id === parseInt(params.id))!;
-  const amount = order.orders.quote ? order.orders.quote / 100 : 0;
+const getOrder = cache(async (id: number) => {
+  const order = await prisma.orders.findUnique({ where: { id }, include: { booking: true } });
+  if (!order || !order.booking) notFound();
+  return order;
+});
+
+//params is based on order id NOT booking id
+export default async function Booking({ params }: { params: { id: string } }) {
+  const id = parseInt(params.id);
+  if (!id) notFound();
+  const order = await getOrder(id);
+  const amount = order.quote * 100;
+  const { booking } = order;
   return (
     <>
       <Breadcrumbs>
@@ -22,7 +32,7 @@ export default function Booking({ params }: { params: { id: string } }) {
           <div className="border-b border-zinc-200 dark:border-zinc-700 -mx-4 -mt-4 px-4 py-1 mb-4">
             <h1 className="font-bold text-4xl">Order details</h1>
           </div>
-          <p className="text-gray-400 mb-4">Booking #{order.orders.id}</p>
+          <p className="text-gray-400 mb-4">Booking #{order.bookingId}</p>
           <div className="space-y-2">
             <div className="flex justify-between">
               <p className="font-semibold text-gray-400">Quote:</p>
@@ -30,29 +40,29 @@ export default function Booking({ params }: { params: { id: string } }) {
             </div>
             <div className="flex justify-between">
               <p className="font-semibold text-gray-400">Environment:</p>
-              <p>{order.environment ? "Inside" : "Outside"}</p>
+              <p>{booking.environment ? "Inside" : "Outside"}</p>
             </div>
             <div className="flex justify-between">
               <p className="font-semibold text-gray-400">Photoshoot type:</p>
-              <p className="capitalize">{order.type}</p>
+              <p className="capitalize">{booking.type}</p>
             </div>
             <div className="flex justify-between">
               <p className="font-semibold text-gray-400">Date:</p>
               <p className="capitalize">
-                {order.date}, {order.time}
+                {booking.date.toDateString()}, {booking.time}
               </p>
             </div>
             <div className="">
               <p className="font-semibold text-gray-400">Add-ons:</p>
               <ul className="capitalize list-disc pl-4">
-                {order?.features?.split(",").map((feature) => {
+                {booking.features?.split(",").map(feature => {
                   return <li key={feature}>{feature}</li>;
                 })}
               </ul>
             </div>
             <div className="flex flex-col items-center gap-2">
               <p className="font-semibold text-gray-400">Description:</p>
-              <p className="capitalize">{order.description}</p>
+              <p className="capitalize">{booking.description}</p>
             </div>
           </div>
         </div>
@@ -64,16 +74,16 @@ export default function Booking({ params }: { params: { id: string } }) {
             <div className="flex justify-between  ">
               <p className="font-semibold text-gray-400">Name:</p>
               <p>
-                {order.firstName} {order.lastName}
+                {booking.firstName} {booking.lastName}
               </p>
             </div>
             <div className="flex justify-between  ">
               <p className="font-semibold text-gray-400">Email:</p>
-              <p>{order.email}</p>
+              <p>{booking.email}</p>
             </div>
             <div className="flex justify-between ">
               <p className="font-semibold text-gray-400">Phone:</p>
-              <p>{order.phone}</p>
+              <p>{booking.phone}</p>
             </div>
             <Button fullWidth intent="accept" className="block">
               Request review
