@@ -1,5 +1,5 @@
 type PropTypes = {
-  type: "Task list" | "Project" | "Folder" | "Booking";
+  type: "Task list" | "Project" | "Folder" | "Booking" | "Page";
 };
 export function AdminNotFound({ type }: PropTypes) {
   return (
