@@ -24,7 +24,7 @@ export default async function GalleryPage() {
       </PageIntro>
       <Section className="mt-20">
         <div
-          style={{ gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gridAutoRows: "240px" }}
+          style={{ gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gridAutoRows: "300px" }}
           className="grid grid-flow-dense gap-3 w-11/12"
         >
           {images.map(image => {
@@ -43,6 +43,7 @@ export default async function GalleryPage() {
                 style={{ objectPosition }}
                 src={image.url}
                 alt={image.alt || ""}
+                refMargin={"100px"}
                 containerClass={`w-full overflow-hidden ${className}`}
                 className="w-full h-full object-cover"
               />

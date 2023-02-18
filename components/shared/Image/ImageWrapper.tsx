@@ -9,7 +9,7 @@ export default function ImageWrapper({ ...props }: ImageProps) {
     <NextImage
       {...props}
       className={`duration-700 ease-in-out ${
-        loading ? "blur-md grayscale  bg-red-500 " : "blur-0 grayscale-0"
+        loading ? "blur-md grayscale  bg-red-400 dark:bg-red-900 " : "blur-0 grayscale-0"
       } ${props.className}`}
       onLoadingComplete={toggle.off}
     />
