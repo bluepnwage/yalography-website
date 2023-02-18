@@ -21,7 +21,7 @@ export default async function DynamicProjectPage({ params }: { params: { id: str
   const project = await findProject(id);
   return (
     <>
-      <Section>
+      <Section className="mt-16">
         <div className="w-11/12">
           <Breadcrumbs>
             <Anchor href={"/"}>Home</Anchor>
