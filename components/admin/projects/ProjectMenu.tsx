@@ -40,7 +40,7 @@ export function ProjectMenu({ id, published, projectName, pinned, environment }:
       });
       const json = await res.json();
       if (res.ok) {
-        toast.dismiss(id);
+        toast.dismiss(toastID);
         toast.success(json.message);
         refresh();
         router.push("/admin/projects");
