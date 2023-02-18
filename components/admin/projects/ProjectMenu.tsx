@@ -67,7 +67,7 @@ export function ProjectMenu({ id, published, projectName, pinned, environment }:
     const endpoint = new URL("/api/projects", location.origin);
     endpoint.searchParams.set("revalidate_home", "1");
     endpoint.searchParams.set("pin", "1");
-    const id = toast.loading(pinned ? "Remove project from homepage" : "Pinning project to homepage");
+    const toastID = toast.loading(pinned ? "Remove project from homepage" : "Pinning project to homepage");
     try {
       const res = await fetch(endpoint, {
         method: "PUT",
@@ -77,15 +77,17 @@ export function ProjectMenu({ id, published, projectName, pinned, environment }:
       const json = await res.json();
       if (res.ok) {
         refresh();
-        toast.dismiss(id);
+        toast.dismiss(toastID);
         toast.success(pinned ? "Project unpinned from homepage" : "Project pinned to homepage");
       } else {
         throw new Error(json.message);
       }
     } catch (error) {
       if (error instanceof Error) {
-        toast.dismiss(id);
-        toast.error(error.message);
+        toast.dismiss(toastID);
+        toast.error(
+          `There was an error ${pinned ? "removing the project from" : "pinning the project to"} homepage`
+        );
       }
     } finally {
       toggle.off();
