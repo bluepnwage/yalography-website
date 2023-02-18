@@ -30,7 +30,7 @@ export function ProjectMenu({ id, published, projectName, pinned, environment }:
 
     const endpoint = new URL("/api/projects", location.origin);
     endpoint.searchParams.set("revalidate", published ? "1" : "0");
-    const id = toast.loading("Deleting project.");
+    const toastID = toast.loading("Deleting project.");
     try {
       await deleteThumbnail(projectName, environment);
       const res = await fetch(endpoint, {
@@ -49,7 +49,7 @@ export function ProjectMenu({ id, published, projectName, pinned, environment }:
       }
     } catch (error) {
       if (error instanceof Error) {
-        toast.dismiss(id);
+        toast.dismiss(toastID);
         toast.error(error.message);
       }
     } finally {
