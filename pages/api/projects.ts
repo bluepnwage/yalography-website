@@ -91,7 +91,7 @@ const handler: NextApiHandler = async (req, res) => {
         return res.status(200).json({ message: "Project updated", data });
       }
       case "DELETE": {
-        const query = parseInt(req.query.revalidate as string);
+        const revalidate = parseInt(req.query.revalidate as string);
         const promise = deleteProject(json.id);
         const [status, data] = await handlePromise(promise);
         if (status === "error") {
@@ -104,8 +104,11 @@ const handler: NextApiHandler = async (req, res) => {
           });
           throw new Error("There was an error deleting a project.");
         }
-        if (!development && query) {
+        if (!development && revalidate) {
           await Promise.all([res.revalidate(`/projects/${json.id}`), res.revalidate("/projects")]);
+        }
+        if (data.pinned && !development) {
+          await res.revalidate("/");
         }
         return res.status(200).json({ message: "Project deleted", data });
       }
@@ -118,7 +121,13 @@ const handler: NextApiHandler = async (req, res) => {
       res.status(500).json({ message: error.message });
     } else {
       const e = error as any;
-      await logError({ title: "Server error", apiURL, description: e.message, stackTrace: e.stack, statusCode: 500 });
+      await logError({
+        title: "Server error",
+        apiURL,
+        description: e.message,
+        stackTrace: e.stack,
+        statusCode: 500
+      });
       res.status(500).json({ message: serverError });
     }
   }
