@@ -8,14 +8,27 @@ type PropTypes = {
 
 export function Project({ project }: PropTypes) {
   return (
-    <Card className="flex flex-col col-span-full shadow-md dark:shadow-none lg:col-span-3 gap-4 overflow-hidden ">
-      <Anchor href={`/projects/${project.id}`} className="basis-1/3 -m-4">
-        <figure className="w-full h-full">
-          <Image src={project.thumbnail!} alt={""} className="h-full w-full object-cover" />
+    <Card className="flex flex-col col-span-full h-96 shadow-md dark:shadow-none lg:col-span-3 gap-4 overflow-hidden ">
+      <Anchor href={`/projects/${project.id}`} className="basis-2/3 -m-4 ">
+        <figure className="w-full h-full relative overflow-hidden">
+          <Image
+            src={project.thumbnail!}
+            loading="lazy"
+            decoding="async"
+            alt={""}
+            className="h-full w-full absolute top-0 left-0 object-cover blur-sm"
+          />
+          <Image
+            src={project.thumbnail!}
+            loading="lazy"
+            decoding="async"
+            alt={""}
+            className="h-full w-full absolute z-10 object-contain"
+          />
         </figure>
       </Anchor>
-      <div className="p-2 space-y-4">
-        <div className="flex  grow justify-between basis-2/3 items-center">
+      <div className="p-2 space-y-4 basis-1/3">
+        <div className="flex  grow justify-between  items-center">
           <Title order={"h3"} size={"lg"}>
             {project.title}
           </Title>

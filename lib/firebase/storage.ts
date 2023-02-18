@@ -1,7 +1,7 @@
 import { getStorage, uploadBytes, ref, getDownloadURL, deleteObject } from "firebase/storage";
 import type { UploadResult } from "firebase/storage";
 import type { Images } from "@prisma/client";
-
+import { transformImage } from "@lib/cloudinary";
 import { app } from "./config";
 
 const storage = getStorage(app);
@@ -16,7 +16,8 @@ type UploadOptions = {
 export async function uploadImage(file: File, options: UploadOptions) {
   const fileName = crypto.randomUUID();
   const imageRef = ref(storage, `gallery-${options.environment}/${fileName}`);
-  const image = await uploadBytes(imageRef, file);
+  const newImage = await transformImage(file);
+  const image = await uploadBytes(imageRef, newImage);
 
   readFile(file, image, fileName, options?.folderID, options?.projectID);
 }
@@ -66,7 +67,8 @@ export async function deleteImage(fullPath: string) {
 
 export async function uploadThumbnail(file: File, projectName: string, environment: Env["environment"]) {
   const imageRef = ref(storage, `thumbnails-${environment}/${projectName}-thumbnail`);
-  const upload = await uploadBytes(imageRef, file);
+  const newImage = await transformImage(file);
+  const upload = await uploadBytes(imageRef, newImage);
   const url = getDownloadURL(upload.ref);
   return url;
 }
