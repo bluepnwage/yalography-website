@@ -3,6 +3,7 @@ import { useState, useTransition } from "react";
 export function usePagination<T>(rowsPerPage: number, list: T[]) {
   const [currentPage, setCurrentPage] = useState(1);
   const [, startTransition] = useTransition();
+
   const indexOfLast = currentPage * rowsPerPage;
   const indexOfFirst = indexOfLast - rowsPerPage;
   const paginatedList = list.slice(indexOfFirst, indexOfLast);

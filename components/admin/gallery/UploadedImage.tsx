@@ -184,7 +184,7 @@ export function UploadedImage({ image: imageData }: PropTypes) {
 
   const isLoading = isPending || loading;
 
-  const longWidth = image.width > image.height
+  const longWidth = image.width > image.height;
 
   return (
     <>
@@ -263,7 +263,14 @@ export function UploadedImage({ image: imageData }: PropTypes) {
               </Dropdown.Item>
             </Dropdown.Content>
           </Dropdown>
-          <img src={image.url} width={image.width} className="absolute blur-sm top-0 left-0 w-full h-full" />
+          <Image
+            alt={""}
+            containerClass="w-full blur-sm h-full absolute top-0 left-0"
+            src={image.url}
+            width={image.width}
+            height={image.height}
+            className="blur-sm object-cover  w-full h-full"
+          />
           <Image
             containerClass="w-full h-full z-10"
             width={image.width}
