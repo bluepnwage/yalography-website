@@ -1,7 +1,6 @@
 "use client";
 //Components
 import { Button } from "@components/shared/Button";
-// import { Dropzone } from "./Dropzone";
 import dynamic from "next/dynamic";
 
 const Dialog = dynamic(() => import("@components/shared/Dialog").then(mod => mod.Dialog));

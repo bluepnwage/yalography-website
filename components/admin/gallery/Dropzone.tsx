@@ -52,6 +52,7 @@ export function Dropzone({ onDialogClose, folders, environment }: PropTypes) {
       toast.success("Images successfully uploaded.");
     } catch (error) {
       if (error instanceof Error) {
+        toast.dismiss(id);
         toast.error(error.message);
       }
     } finally {

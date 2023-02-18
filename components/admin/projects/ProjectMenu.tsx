@@ -30,6 +30,7 @@ export function ProjectMenu({ id, published, projectName, pinned, environment }:
 
     const endpoint = new URL("/api/projects", location.origin);
     endpoint.searchParams.set("revalidate", published ? "1" : "0");
+    const id = toast.loading("Deleting project.");
     try {
       await deleteThumbnail(projectName, environment);
       const res = await fetch(endpoint, {
@@ -39,6 +40,7 @@ export function ProjectMenu({ id, published, projectName, pinned, environment }:
       });
       const json = await res.json();
       if (res.ok) {
+        toast.dismiss(id);
         toast.success(json.message);
         refresh();
         router.push("/admin/projects");
@@ -47,6 +49,7 @@ export function ProjectMenu({ id, published, projectName, pinned, environment }:
       }
     } catch (error) {
       if (error instanceof Error) {
+        toast.dismiss(id);
         toast.error(error.message);
       }
     } finally {
@@ -64,6 +67,7 @@ export function ProjectMenu({ id, published, projectName, pinned, environment }:
     const endpoint = new URL("/api/projects", location.origin);
     endpoint.searchParams.set("revalidate_home", "1");
     endpoint.searchParams.set("pin", "1");
+    const id = toast.loading(pinned ? "Remove project from homepage" : "Pinning project to homepage");
     try {
       const res = await fetch(endpoint, {
         method: "PUT",
@@ -73,12 +77,14 @@ export function ProjectMenu({ id, published, projectName, pinned, environment }:
       const json = await res.json();
       if (res.ok) {
         refresh();
+        toast.dismiss(id);
         toast.success(pinned ? "Project unpinned from homepage" : "Project pinned to homepage");
       } else {
         throw new Error(json.message);
       }
     } catch (error) {
       if (error instanceof Error) {
+        toast.dismiss(id);
         toast.error(error.message);
       }
     } finally {

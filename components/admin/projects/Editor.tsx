@@ -10,7 +10,6 @@ import { Badge } from "@components/shared/Badge";
 import { Button } from "@components/shared/Button";
 import { Pagination } from "@components/shared/Pagination";
 
-import { toast } from "react-toastify";
 import { useRouteRefresh } from "@lib/hooks/useRouteRefresh";
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
@@ -21,7 +20,7 @@ import { usePagination } from "@lib/hooks/usePagination";
 import type { FormEvent } from "react";
 import type { SerializedProject } from "@lib/prisma";
 import type { Images } from "@prisma/client";
-import { Env } from "@lib/firebase/storage";
+import type { Env } from "@lib/firebase/storage";
 
 type ProjectJoin = SerializedProject & { images: Images[] };
 
@@ -56,6 +55,7 @@ export function Editor({ projectData, galleryImages, environment }: PropTypes) {
     : project.thumbnail
     ? project.thumbnail
     : "";
+
   const selectData = Array.from(photoshootTypes).map(([key, value]) => ({ label: value.label, value: key }));
 
   const onChange = (e: FormEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -76,18 +76,21 @@ export function Editor({ projectData, galleryImages, environment }: PropTypes) {
   };
 
   const onStatus = async () => {
-    //Call on save so admin woudlnt have to remember saving everytime
-    await onSave(false);
     const endpoint = new URL("/api/projects", location.origin);
     endpoint.searchParams.set("revalidate", `1`);
     toggle.on();
+    const { toast } = await import("react-toastify");
+    const id = toast.loading(project.published ? "Drafting project..." : "Publishing project");
     try {
+      //Call on save so admin woudlnt have to remember saving everytime
+      await onSave(false);
       const res = await fetch(endpoint, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ published: !project.published, id: project.id })
       });
       if (res.ok) {
+        toast.dismiss(id);
         toast.success(project.published ? "Project drafted" : "Project published");
         refresh();
         router.push(`/admin/projects/${project.published ? "drafted" : "published"}/${project.id}`);
@@ -95,9 +98,8 @@ export function Editor({ projectData, galleryImages, environment }: PropTypes) {
         throw new Error();
       }
     } catch (error) {
-      toast.error(
-        `Failed to ${project.published ? "draft" : "publish"} project. Please try again in a few minutes.`
-      );
+      toast.dismiss(id);
+      toast.error(`Failed to ${project.published ? "draft" : "publish"} project. `);
     } finally {
       toggle.off();
     }
@@ -109,6 +111,9 @@ export function Editor({ projectData, galleryImages, environment }: PropTypes) {
   const onSave = async (refreshRoot?: boolean) => {
     let url = project.thumbnail;
     toggle.on();
+    const { toast } = await import("react-toastify");
+    const id = toast.loading("Saving project...", { autoClose: false });
+
     try {
       //if theres no previous thumbnail  uploaded already
       //or
@@ -117,7 +122,6 @@ export function Editor({ projectData, galleryImages, environment }: PropTypes) {
       if ((!url && thumbnail) || (url !== thumbnailURL && thumbnail)) {
         const { uploadThumbnail } = await import("@lib/firebase/storage");
         url = await uploadThumbnail(thumbnail, project.name, environment);
-        console.log("thumbnail uploaded");
       }
 
       if (images && images.length > 0) {
@@ -137,13 +141,7 @@ export function Editor({ projectData, galleryImages, environment }: PropTypes) {
         thumbnail: url
       };
 
-      const endpoint = new URL("/api/projects", location.origin);
-
-      if (refreshRoot) {
-        endpoint.searchParams.set("revalidate", project.published ? "1" : "0");
-      } else {
-        endpoint.searchParams.set("revalidate", "0");
-      }
+      //Update the ids of the selected images to match the id of the project
       if (edited.current && galleryIds.length > 0) {
         const imagesEndpoint = new URL("/api/images", location.origin);
         imagesEndpoint.searchParams.set("multiple", "1");
@@ -153,8 +151,16 @@ export function Editor({ projectData, galleryImages, environment }: PropTypes) {
           body: JSON.stringify({ ids: galleryIds, projectId: project.id })
         });
         if (!res.ok) {
-          throw new Error();
+          throw new Error("Failed to link selected images to project.");
         }
+      }
+
+      const endpoint = new URL("/api/projects", location.origin);
+
+      if (refreshRoot) {
+        endpoint.searchParams.set("revalidate", project.published ? "1" : "0");
+      } else {
+        endpoint.searchParams.set("revalidate", "0");
       }
 
       const res = await fetch(endpoint, {
@@ -167,10 +173,18 @@ export function Editor({ projectData, galleryImages, environment }: PropTypes) {
           refresh();
           setImages(null);
         }
+        toast.dismiss(id);
         toast.success("Project saved");
+      } else {
+        throw new Error("Failed to save project");
       }
     } catch (error) {
-      toast.error("Failed to save changes.");
+      toast.dismiss(id);
+      if (error instanceof Error) {
+        toast.error(error.message);
+      } else {
+        toast.error("An error ocurred while saving the project.");
+      }
     } finally {
       toggle.off();
     }
@@ -185,6 +199,8 @@ export function Editor({ projectData, galleryImages, environment }: PropTypes) {
 
   const unlinkImage = async (id: number) => {
     toggle.on();
+    const { toast } = await import("react-toastify");
+
     try {
       const res = await fetch("/api/images", {
         method: "PUT",
@@ -193,7 +209,9 @@ export function Editor({ projectData, galleryImages, environment }: PropTypes) {
       });
       if (res.ok) {
         refresh();
-      } else throw new Error("Failed to unlink image");
+      } else {
+        throw new Error("Failed to unlink image");
+      }
     } catch (error) {
       if (error instanceof Error) {
         toast.error(error.message);
@@ -205,6 +223,8 @@ export function Editor({ projectData, galleryImages, environment }: PropTypes) {
 
   const deleteImage = async (id: number) => {
     toggle.on();
+    const { toast } = await import("react-toastify");
+
     try {
       const res = await fetch("/api/images", {
         method: "DELETE",
