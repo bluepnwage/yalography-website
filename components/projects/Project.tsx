@@ -11,14 +11,14 @@ export function Project({ project }: PropTypes) {
     <Card className="flex flex-col col-span-full h-96 shadow-md dark:shadow-none lg:col-span-3 gap-4 overflow-hidden ">
       <Anchor href={`/projects/${project.id}`} className="basis-2/3 -m-4 ">
         <figure className="w-full h-full relative overflow-hidden">
-          <Image
+          <img
             src={project.thumbnail!}
             loading="lazy"
             decoding="async"
             alt={""}
             className="h-full w-full absolute top-0 left-0 object-cover blur-sm"
           />
-          <Image
+          <img
             src={project.thumbnail!}
             loading="lazy"
             decoding="async"

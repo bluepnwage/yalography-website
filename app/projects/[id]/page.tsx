@@ -1,7 +1,6 @@
 //Components
 import { Gallery } from "@components/dynamic-project";
 import { Section, Title, Breadcrumbs, Anchor, Grid, Card } from "@components/shared";
-import Image from "next/image";
 
 import prisma from "@lib/prisma";
 import { notFound } from "next/navigation";
@@ -19,6 +18,8 @@ export default async function DynamicProjectPage({ params }: { params: { id: str
   const id = parseInt(params?.id);
   if (!id) notFound();
   const project = await findProject(id);
+  if (!project) notFound();
+
   return (
     <>
       <Section className="mt-16">
