@@ -184,6 +184,8 @@ export function UploadedImage({ image: imageData }: PropTypes) {
 
   const isLoading = isPending || loading;
 
+  const longWidth = image.width > image.height
+
   return (
     <>
       {lazyLoad && (
@@ -261,13 +263,14 @@ export function UploadedImage({ image: imageData }: PropTypes) {
               </Dropdown.Item>
             </Dropdown.Content>
           </Dropdown>
+          <img src={image.url} width={image.width} className="absolute blur-sm top-0 left-0 w-full h-full" />
           <Image
-            containerClass="w-full h-full"
+            containerClass="w-full h-full z-10"
             width={image.width}
             height={image.height}
             alt={""}
             src={image.url}
-            className="h-full w-full object-cover z-0"
+            className="h-full w-full object-contain z-10"
           />
         </div>
         <div className="grow">
@@ -283,8 +286,6 @@ export function UploadedImage({ image: imageData }: PropTypes) {
     </>
   );
 }
-
-
 
 function Trash() {
   return (
