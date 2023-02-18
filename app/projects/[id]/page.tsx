@@ -21,17 +21,6 @@ export default async function DynamicProjectPage({ params }: { params: { id: str
   const project = await findProject(id);
   return (
     <>
-      <div className="mb-10">
-        <Image
-          loading="eager"
-          className="w-full  object-cover"
-          src={project.thumbnail!}
-          width={1200}
-          height={900}
-          alt={""}
-          style={{ objectFit: "cover", height: "50vh" }}
-        />
-      </div>{" "}
       <Section>
         <div className="w-11/12">
           <Breadcrumbs>
