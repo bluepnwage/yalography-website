@@ -32,10 +32,14 @@ export function Dropzone({ onDialogClose, folders, environment }: PropTypes) {
   const onUpload = async () => {
     if (files.length === 0) return;
     toggle.on();
+
     const [{ uploadImage }, { toast }] = await Promise.all([
       import("@lib/firebase/storage"),
       import("react-toastify")
     ]);
+    const id = toast.loading("Compressing and uploading images. This may take a while...", {
+      autoClose: false
+    });
     try {
       const promises = files.map(file =>
         uploadImage(file, { folderID: selectedFolder ? parseInt(selectedFolder) : undefined, environment })
@@ -44,11 +48,8 @@ export function Dropzone({ onDialogClose, folders, environment }: PropTypes) {
       refresh();
       toggle.off();
       onDialogClose();
-      if (files.length > 1) {
-        toast.success("Images successfully uploaded.");
-      } else {
-        toast.success("Image successfully uploaded.");
-      }
+      toast.dismiss(id);
+      toast.success("Images successfully uploaded.");
     } catch (error) {
       if (error instanceof Error) {
         toast.error(error.message);
