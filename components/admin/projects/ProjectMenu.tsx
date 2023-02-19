@@ -66,7 +66,7 @@ export function ProjectMenu({ id, published, projectName, pinned, environment }:
     const { toast } = await import("react-toastify");
     const endpoint = new URL("/api/projects", location.origin);
     endpoint.searchParams.set("revalidate_home", "1");
-    endpoint.searchParams.set("pin", "1");
+    endpoint.searchParams.set("pin", pinned ? "0" : "1");
     const toastID = toast.loading(pinned ? "Remove project from homepage" : "Pinning project to homepage");
     try {
       const res = await fetch(endpoint, {
@@ -80,7 +80,12 @@ export function ProjectMenu({ id, published, projectName, pinned, environment }:
         toast.dismiss(toastID);
         toast.success(pinned ? "Project unpinned from homepage" : "Project pinned to homepage");
       } else {
-        throw new Error(json.message);
+        if (res.status === 400) {
+          toast.error(json.message);
+          toast.dismiss(toastID);
+        } else {
+          throw new Error(json.message);
+        }
       }
     } catch (error) {
       if (error instanceof Error) {
