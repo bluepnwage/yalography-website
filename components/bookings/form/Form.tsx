@@ -9,6 +9,7 @@ import { Steps } from "./Steps";
 import { Addon } from "./Addons";
 import { Success } from "./Success";
 import dynamic from "next/dynamic";
+import { useForm } from "./useBookingsForm";
 
 const DatePicker = dynamic(
   () => import("@components/shared/DatePicker/DatePicker").then(mod => mod.DatePicker),
@@ -18,7 +19,6 @@ const DatePicker = dynamic(
 );
 
 //Data/hooks
-import { useBookingsForm } from "./useBookingsForm";
 import { useState, useRef } from "react";
 import { photoshootTypes } from "@lib/photoshoot";
 import { useToggle } from "@lib/hooks/useToggle";
@@ -49,7 +49,7 @@ type Form = {
 };
 
 function BookingsForm() {
-  const { state, dispatch, validate } = useBookingsForm();
+  const { contact, details, validate } = useForm();
   const [currentStep, setCurrentStep] = useState(1);
   const [form, setForm] = useState<Partial<Form>>({});
   const [shootType, setShootType] = useState<Lowercase<ShootTypes> | "">("");
@@ -61,7 +61,8 @@ function BookingsForm() {
   const stepOneIncomplete = !form.first_name || !form.last_name || !form.email || !form.phone;
   const stepTwoIncomplete = !date || !form.time || !shootType;
 
-  const shootDetails = photoshootTypes.get(shootType ? shootType : "regular shoot")!;
+  const shootType1 = (details.state.shootType?.value as unknown as Lowercase<ShootTypes>) || "regular shoot";
+  const shootDetails = photoshootTypes.get(shootType1)!;
 
   const prevStep = () => {
     if (currentStep === 1) return;
@@ -70,19 +71,34 @@ function BookingsForm() {
   };
 
   const nextStep = () => {
+    let error = false;
     if (currentStep === 4) return;
-    const test = validate();
-    console.log(test);
-    //prevent user from going to next step without filling out information for current step
-    if (currentStep === 1 && stepOneIncomplete) return;
-    if (currentStep === 2 && stepTwoIncomplete) return;
+    if (currentStep === 1) {
+      error = validate("contact");
+    } else if (currentStep === 2) {
+      console.log("Hello????");
+      error = validate("details");
+    }
+    console.log(error);
+    console.log("bruh???");
+    if (error) {
+      return;
+    }
     containerRef.current?.scrollIntoView({ behavior: "smooth" });
     setCurrentStep(prev => prev + 1);
+    //prevent user from going to next step without filling out information for current step
+    // if (currentStep === 1 && stepOneIncomplete) return;
+    // if (currentStep === 2 && stepTwoIncomplete) return;
+    // setCurrentStep(prev => prev + 1);
   };
 
   const handleChange = (e: FormEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.currentTarget;
-    dispatch({ type: "change", payload: { value, error: false }, key: name as any });
+    if (currentStep === 1) {
+      contact.dispatch({ type: "change", payload: { value, error: false }, key: name as any });
+    } else if (currentStep === 2) {
+      details.dispatch({ key: name, payload: { value, error: false }, type: "change" });
+    }
   };
 
   const onFeatureChange = (e: FormEvent<HTMLInputElement>) => {
@@ -167,8 +183,8 @@ function BookingsForm() {
                 </p>
                 <Input
                   id="first_name"
-                  value={state.first_name.value}
-                  error={state.first_name.error}
+                  value={contact.state.first_name.value}
+                  error={contact.state.first_name.error}
                   onChange={handleChange}
                   name={"first_name"}
                   label={"First Name"}
@@ -177,8 +193,8 @@ function BookingsForm() {
                 />
                 <Input
                   id="last_name"
-                  value={state.last_name.value}
-                  error={state.last_name.error}
+                  value={contact.state.last_name.value}
+                  error={contact.state.last_name.error}
                   onChange={handleChange}
                   name={"last_name"}
                   label={"Last Name"}
@@ -187,9 +203,9 @@ function BookingsForm() {
                 />
                 <Input
                   id="email"
-                  value={state.email.value}
+                  value={contact.state.email.value}
                   onChange={handleChange}
-                  error={state.email.error}
+                  error={contact.state.email.error}
                   name={"email"}
                   label={"Email Address"}
                   placeholder={"e.g. stephen.king@lorem.com"}
@@ -197,8 +213,8 @@ function BookingsForm() {
                 />
                 <Input
                   id="phone"
-                  value={state.phone.value}
-                  error={state.phone.error}
+                  value={contact.state.phone.value}
+                  error={contact.state.phone.error}
                   onChange={handleChange}
                   name={"phone"}
                   label={"Phone Number"}
@@ -212,10 +228,13 @@ function BookingsForm() {
                 <h2 className="text-marine-blue font-bold text-2xl">Select your photoshoot</h2>
 
                 <Select
+                  error={details.state.shootType?.error}
                   label="Photoshoot"
                   placeholder="Photoshoot type"
-                  value={shootType}
-                  onValueChange={onShootTypeChange}
+                  value={details.state.shootType?.value}
+                  onValueChange={value =>
+                    details.dispatch({ key: "shootType", type: "change", payload: { value, error: false } })
+                  }
                   data={selectData}
                   required
                 />
@@ -232,7 +251,7 @@ function BookingsForm() {
                       <input
                         required
                         onChange={handleChange}
-                        checked={form.environment === "inside"}
+                        checked={details.state.environment?.value === "inside"}
                         className="accent-red-500 h-5 w-5"
                         id="inside"
                         name="environment"
@@ -246,7 +265,7 @@ function BookingsForm() {
                         required
                         onChange={handleChange}
                         className="accent-red-500 h-5 w-5"
-                        checked={form.environment === "outside"}
+                        checked={details.state.environment?.value === "outside"}
                         id="outside"
                         name="environment"
                         value={"outside"}
@@ -254,26 +273,36 @@ function BookingsForm() {
                       />
                     </p>
                   </div>
+                  {details.state.environment?.error && (
+                    <span className="text-sm text-red-600 dark:text-red-500">
+                      Please select one of the options.
+                    </span>
+                  )}
                 </fieldset>
                 <DatePicker
-                  value={date}
+                  value={details.state.date?.value}
                   minDate={dayjs(new Date()).add(8, "days").toDate()}
                   label="Date"
-                  onChange={setDate}
+                  name="date"
+                  onChange={value =>
+                    details.dispatch({ type: "change", key: "date", payload: { value, error: false } })
+                  }
+                  error={details.state.date?.error}
                   required
                 />
                 <Input
                   className="accent-red-600 w-full"
                   label="Time"
                   type={"time"}
-                  value={form?.time}
+                  value={details.state.time?.value}
+                  error={details.state.time?.error}
                   onChange={handleChange}
                   name="time"
                   id="time"
                   required
                 />
                 <Textarea
-                  value={form?.description}
+                  value={details.state.description?.value}
                   onChange={handleChange}
                   name="description"
                   id="description"

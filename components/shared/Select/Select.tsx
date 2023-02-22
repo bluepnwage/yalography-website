@@ -14,19 +14,24 @@ type SelectProps = {
   label: string;
   className?: string;
   triggerHeight?: string;
+  error?: boolean;
 } & RadixSelect.SelectProps;
 
-export function Select({ data, placeholder, label, className, triggerHeight, ...props }: SelectProps) {
+export function Select({ data, placeholder, label, className, triggerHeight, error, ...props }: SelectProps) {
   return (
     <div className={`${className}`}>
-      <span className="mb-[7px] block">{label}
-      {props.required &&<span className='inline-block ml-1 text-red-600 dark:text-red-500'>*</span>}
+      <span className="mb-[7px] block">
+        {label}
+        {props.required && <span className="inline-block ml-1 text-red-600 dark:text-red-500">*</span>}
       </span>
       <RadixSelect.Root {...props}>
         <RadixSelect.Trigger
           className={cx(
-            "rounded-md h-7 relative inline-flex ring-1 ring-gray-400 dark:ring-gray-700 px-2 w-full justify-between data-[placeholder]:text-gray-500 data-[placeholder]:dark:text-gray-400 focus:ring-red-600  dark:focus:ring-red-600  items-center py-2 radius-md gap-2 bg-zinc-100 dark:bg-zinc-700 text-gray-900 dark:text-gray-100",
-            triggerHeight ? triggerHeight : "h-10"
+            "rounded-md h-7 relative inline-flex ring-1  px-2 w-full justify-between data-[placeholder]:text-gray-500 data-[placeholder]:dark:text-gray-400 items-center py-2 radius-md gap-2 bg-zinc-100 dark:bg-zinc-700 text-gray-900 dark:text-gray-100",
+            triggerHeight ? triggerHeight : "h-10",
+            error
+              ? "ring-red-600 dark:ring-red-500 focus:ring-red-600  dark:focus:ring-red-600"
+              : "ring-gray-400 dark:ring-gray-700"
           )}
         >
           <RadixSelect.Value placeholder={placeholder} />
@@ -48,6 +53,7 @@ export function Select({ data, placeholder, label, className, triggerHeight, ...
           </RadixSelect.Content>
         </RadixSelect.Portal>
       </RadixSelect.Root>
+      {error && <span className="text-sm text-red-600 dark:text-red-500">Please select a value.</span>}
     </div>
   );
 }
