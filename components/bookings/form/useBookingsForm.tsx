@@ -8,28 +8,33 @@ function createObj<T extends {}, U>(state: T, dispatch: Dispatch<Actions<U>>) {
   return { state, dispatch };
 }
 
-type State = Record<Fields, Payload<string>>;
+type State = Record<Fields, Partial<Payload<string>>>;
 
-type Actions<T> = {
-  type: ActionType;
-  payload: Payload<T>;
-  key: string;
+type Actions<T> =
+  | {
+      type: ActionType;
+      payload: Payload<T>;
+      key: string;
+    }
+  | { type: "reset" };
+
+const initialContact: State = {
+  first_name: {},
+  email: {},
+  last_name: {},
+  phone: {}
 };
 
-const initialState: State = {
-  first_name: { value: "", error: false },
-  email: { value: "", error: false },
-  last_name: { value: "", error: false },
-  phone: { value: "", error: false }
-};
-
-function reducer(state: typeof initialState, action: Actions<string>) {
+function reducer(state: typeof initialContact, action: Actions<string>): typeof initialContact {
   switch (action.type) {
     case "change": {
       return { ...state, [action.key]: action.payload };
     }
     case "error": {
       return { ...state, [action.key]: action.payload };
+    }
+    case "reset": {
+      return { email: {}, first_name: {}, last_name: {}, phone: {} };
     }
     default: {
       return state;
@@ -38,18 +43,18 @@ function reducer(state: typeof initialState, action: Actions<string>) {
 }
 
 type DetailsState = {
-  environment: Payload<"inside" | "outside" | "">;
-  date: Payload<Date | null>;
-  shootType: Payload<string>;
-  time: Payload<string>;
-  description: Payload<string>;
+  environment: Partial<Payload<"inside" | "outside" | "">>;
+  date: Partial<Payload<Date | null>>;
+  shootType: Partial<Payload<string>>;
+  time: Partial<Payload<string>>;
+  description: Partial<Payload<string>>;
 };
 
 const initialDetails: Partial<DetailsState> = {
-  date: { value: null, error: false },
-  environment: { value: "", error: false },
-  shootType: { value: "", error: false },
-  time: { value: "", error: false }
+  date: {},
+  environment: {},
+  shootType: {},
+  time: {}
 };
 
 function detailsReducer(
@@ -70,7 +75,7 @@ function detailsReducer(
 }
 export function useForm() {
   const [detailsState, detailsDispatch] = useReducer(detailsReducer, initialDetails);
-  const [contactState, contactDispatch] = useReducer(reducer, initialState);
+  const [contactState, contactDispatch] = useReducer(reducer, initialContact);
 
   const validate = (stateKey: "contact" | "details") => {
     let hasError = false;
@@ -79,13 +84,11 @@ export function useForm() {
       Object.entries(contactState).forEach(([key, value]) => {
         const newKey = key as unknown as Fields;
         if (!value.value) {
-          console.log(key, value);
           contactDispatch({ type: "error", payload: { value: "", error: true }, key: newKey });
           hasError = true;
         }
       });
     } else if (stateKey === "details") {
-      console.log("something is wrong");
       Object.entries(detailsState).forEach(([key, value]) => {
         const newKey = key;
         if (!value.value && newKey !== "description") {

@@ -51,15 +51,10 @@ type Form = {
 function BookingsForm() {
   const { contact, details, validate } = useForm();
   const [currentStep, setCurrentStep] = useState(1);
-  const [form, setForm] = useState<Partial<Form>>({});
-  const [shootType, setShootType] = useState<Lowercase<ShootTypes> | "">("");
   const [date, setDate] = useState<Date | null>(null);
   const [selectedFeatures, setFeatures] = useState<string[]>([]);
   const [loading, toggle] = useToggle();
   const containerRef = useRef<HTMLDivElement | null>(null);
-
-  const stepOneIncomplete = !form.first_name || !form.last_name || !form.email || !form.phone;
-  const stepTwoIncomplete = !date || !form.time || !shootType;
 
   const shootType1 = (details.state.shootType?.value as unknown as Lowercase<ShootTypes>) || "regular shoot";
   const shootDetails = photoshootTypes.get(shootType1)!;
@@ -76,20 +71,13 @@ function BookingsForm() {
     if (currentStep === 1) {
       error = validate("contact");
     } else if (currentStep === 2) {
-      console.log("Hello????");
       error = validate("details");
     }
-    console.log(error);
-    console.log("bruh???");
     if (error) {
       return;
     }
     containerRef.current?.scrollIntoView({ behavior: "smooth" });
     setCurrentStep(prev => prev + 1);
-    //prevent user from going to next step without filling out information for current step
-    // if (currentStep === 1 && stepOneIncomplete) return;
-    // if (currentStep === 2 && stepTwoIncomplete) return;
-    // setCurrentStep(prev => prev + 1);
   };
 
   const handleChange = (e: FormEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -116,15 +104,15 @@ function BookingsForm() {
     const { toast } = await import("react-toastify");
     try {
       const data = {
-        firstName: form.first_name!,
-        lastName: form.last_name!,
-        email: form.email!,
-        phone: form.phone!,
-        time: form.time!,
-        description: form?.description! || null,
-        date: date!,
-        type: shootType,
-        environment: form.environment === "inside",
+        firstName: contact.state.first_name.value!,
+        lastName: contact.state.last_name.value!,
+        email: contact.state.email.value!,
+        phone: contact.state.phone.value!,
+        time: details.state.time?.value!,
+        description: details.state.description?.value! || null,
+        date: details.state.date?.value!,
+        type: shootType1,
+        environment: details.state.environment?.value === "inside" || false,
         features: selectedFeatures.join(",")
       };
       const res = await fetch("/api/bookings", {
@@ -134,10 +122,10 @@ function BookingsForm() {
       });
       if (res.ok) {
         setCurrentStep(5);
-        setForm({});
+        contact.dispatch({ type: "reset" });
+        details.dispatch({ type: "reset" });
         setFeatures([]);
         setDate(null);
-        setShootType("");
       } else {
         const json = await res.json();
         throw new Error(json.message);
@@ -151,11 +139,6 @@ function BookingsForm() {
     } finally {
       toggle.off();
     }
-  };
-
-  const onShootTypeChange = (value: typeof shootType) => {
-    if (selectedFeatures.length > 0) setFeatures([]);
-    setShootType(value);
   };
 
   const prevDisabled = currentStep === 1;
@@ -359,27 +342,27 @@ function BookingsForm() {
                   <hr className="h-1 w-full my-2 border-zinc-400 dark:border-zinc-700" />
                   <p className="text-gray-600 dark:text-gray-300">
                     <span className="font-semibold text-gray-900 dark:text-gray-100">Name:</span>{" "}
-                    {form.first_name} {form.last_name}
+                    {contact.state.first_name?.value} {contact.state.last_name?.value}
                   </p>
                   <p className="text-gray-600 dark:text-gray-300">
                     <span className="font-semibold text-gray-900 dark:text-gray-100">Email:</span>{" "}
-                    {form.email}
+                    {contact.state.email?.value}
                   </p>
                   <p className="text-gray-600 dark:text-gray-300">
                     <span className="font-semibold text-gray-900 dark:text-gray-100">Phone number:</span>{" "}
-                    {form.phone}
+                    {contact.state.phone?.value}
                   </p>
                   <p className="text-gray-600 dark:text-gray-300">
                     <span className="font-semibold text-gray-900 dark:text-gray-100">Environment:</span>{" "}
-                    {form.environment}
+                    {details.state.environment?.value}
                   </p>
                   <p className="text-gray-600 dark:text-gray-300">
                     <span className="font-semibold text-gray-900 dark:text-gray-100">Date:</span>{" "}
-                    {date?.toDateString()}, {form.time}
+                    {details.state.date?.value?.toDateString()}, {details.state.time?.value}
                   </p>
                   <p className="text-gray-600 dark:text-gray-300">
                     <span className="font-semibold text-gray-900 dark:text-gray-100">Comments:</span>{" "}
-                    {form.description}
+                    {details.state.description?.value}
                   </p>
                   <p className="text-gray-600 dark:text-gray-300 capitalize">
                     <span className="font-semibold text-gray-900 dark:text-gray-100">Add-ons:</span>{" "}
