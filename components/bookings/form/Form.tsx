@@ -10,16 +10,19 @@ import { Addon } from "./Addons";
 import { Success } from "./Success";
 import dynamic from "next/dynamic";
 
-const DatePicker = dynamic(() => import("@components/shared/DatePicker/DatePicker").then((mod) => mod.DatePicker), {
-  loading: () => <Input label="Date" />
-});
+const DatePicker = dynamic(
+  () => import("@components/shared/DatePicker/DatePicker").then(mod => mod.DatePicker),
+  {
+    loading: () => <Input label="Date" />
+  }
+);
 
 //Data/hooks
+import { useBookingsForm } from "./useBookingsForm";
 import { useState, useRef } from "react";
 import { photoshootTypes } from "@lib/photoshoot";
 import { useToggle } from "@lib/hooks/useToggle";
 import dayjs from "dayjs";
-import { toast } from "react-toastify";
 
 //Types
 import type { FormEvent } from "react";
@@ -46,6 +49,7 @@ type Form = {
 };
 
 function BookingsForm() {
+  const { state, dispatch, validate } = useBookingsForm();
   const [currentStep, setCurrentStep] = useState(1);
   const [form, setForm] = useState<Partial<Form>>({});
   const [shootType, setShootType] = useState<Lowercase<ShootTypes> | "">("");
@@ -62,36 +66,38 @@ function BookingsForm() {
   const prevStep = () => {
     if (currentStep === 1) return;
     containerRef.current?.scrollIntoView({ behavior: "smooth" });
-    setCurrentStep((prev) => prev - 1);
+    setCurrentStep(prev => prev - 1);
   };
 
   const nextStep = () => {
     if (currentStep === 4) return;
-
+    const test = validate();
+    console.log(test);
     //prevent user from going to next step without filling out information for current step
     if (currentStep === 1 && stepOneIncomplete) return;
     if (currentStep === 2 && stepTwoIncomplete) return;
     containerRef.current?.scrollIntoView({ behavior: "smooth" });
-    setCurrentStep((prev) => prev + 1);
+    setCurrentStep(prev => prev + 1);
   };
 
   const handleChange = (e: FormEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.currentTarget;
-    setForm((prev) => ({ ...prev, [name]: value }));
+    dispatch({ type: "change", payload: { value, error: false }, key: name as any });
   };
 
   const onFeatureChange = (e: FormEvent<HTMLInputElement>) => {
     const { checked, value } = e.currentTarget;
     if (checked) {
-      setFeatures((prev) => [...prev, value]);
+      setFeatures(prev => [...prev, value]);
     } else {
-      setFeatures((prev) => prev.filter((v) => v !== value));
+      setFeatures(prev => prev.filter(v => v !== value));
     }
   };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     toggle.on();
+    const { toast } = await import("react-toastify");
     try {
       const data = {
         firstName: form.first_name!,
@@ -149,7 +155,10 @@ function BookingsForm() {
           <Steps currentStep={currentStep} />
         </div>
         {currentStep < 5 && (
-          <form onSubmit={handleSubmit} className="basis-2/3 grow py-5 px-4 lg:px-16 flex flex-col justify-between">
+          <form
+            onSubmit={handleSubmit}
+            className="basis-2/3 grow py-5 px-4 lg:px-16 flex flex-col justify-between"
+          >
             {currentStep === 1 && (
               <section className="space-y-4">
                 <h2 className="text-marine-blue font-bold text-2xl mb-2">Personal info</h2>
@@ -158,7 +167,8 @@ function BookingsForm() {
                 </p>
                 <Input
                   id="first_name"
-                  value={form.first_name}
+                  value={state.first_name.value}
+                  error={state.first_name.error}
                   onChange={handleChange}
                   name={"first_name"}
                   label={"First Name"}
@@ -167,7 +177,8 @@ function BookingsForm() {
                 />
                 <Input
                   id="last_name"
-                  value={form.last_name}
+                  value={state.last_name.value}
+                  error={state.last_name.error}
                   onChange={handleChange}
                   name={"last_name"}
                   label={"Last Name"}
@@ -176,8 +187,9 @@ function BookingsForm() {
                 />
                 <Input
                   id="email"
-                  value={form.email}
+                  value={state.email.value}
                   onChange={handleChange}
+                  error={state.email.error}
                   name={"email"}
                   label={"Email Address"}
                   placeholder={"e.g. stephen.king@lorem.com"}
@@ -185,7 +197,8 @@ function BookingsForm() {
                 />
                 <Input
                   id="phone"
-                  value={form.phone}
+                  value={state.phone.value}
+                  error={state.phone.error}
                   onChange={handleChange}
                   name={"phone"}
                   label={"Phone Number"}
@@ -276,7 +289,7 @@ function BookingsForm() {
                 {shootDetails && (
                   <div className="space-y-4">
                     {shootDetails.features.length > 0 &&
-                      shootDetails.features.map((feature) => {
+                      shootDetails.features.map(feature => {
                         const value = feature.label.toLowerCase();
                         const checked = selectedFeatures.includes(value);
                         return (
@@ -316,25 +329,28 @@ function BookingsForm() {
                   </div>
                   <hr className="h-1 w-full my-2 border-zinc-400 dark:border-zinc-700" />
                   <p className="text-gray-600 dark:text-gray-300">
-                    <span className="font-semibold text-gray-900 dark:text-gray-100">Name:</span> {form.first_name}{" "}
-                    {form.last_name}
+                    <span className="font-semibold text-gray-900 dark:text-gray-100">Name:</span>{" "}
+                    {form.first_name} {form.last_name}
                   </p>
                   <p className="text-gray-600 dark:text-gray-300">
-                    <span className="font-semibold text-gray-900 dark:text-gray-100">Email:</span> {form.email}
+                    <span className="font-semibold text-gray-900 dark:text-gray-100">Email:</span>{" "}
+                    {form.email}
                   </p>
                   <p className="text-gray-600 dark:text-gray-300">
-                    <span className="font-semibold text-gray-900 dark:text-gray-100">Phone number:</span> {form.phone}
+                    <span className="font-semibold text-gray-900 dark:text-gray-100">Phone number:</span>{" "}
+                    {form.phone}
                   </p>
                   <p className="text-gray-600 dark:text-gray-300">
                     <span className="font-semibold text-gray-900 dark:text-gray-100">Environment:</span>{" "}
                     {form.environment}
                   </p>
                   <p className="text-gray-600 dark:text-gray-300">
-                    <span className="font-semibold text-gray-900 dark:text-gray-100">Date:</span> {date?.toDateString()}
-                    , {form.time}
+                    <span className="font-semibold text-gray-900 dark:text-gray-100">Date:</span>{" "}
+                    {date?.toDateString()}, {form.time}
                   </p>
                   <p className="text-gray-600 dark:text-gray-300">
-                    <span className="font-semibold text-gray-900 dark:text-gray-100">Comments:</span> {form.description}
+                    <span className="font-semibold text-gray-900 dark:text-gray-100">Comments:</span>{" "}
+                    {form.description}
                   </p>
                   <p className="text-gray-600 dark:text-gray-300 capitalize">
                     <span className="font-semibold text-gray-900 dark:text-gray-100">Add-ons:</span>{" "}
