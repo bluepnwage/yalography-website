@@ -6,9 +6,11 @@ export function DatePicker({ ...props }: DatePickerProps) {
   return (
     <MantineDatePicker
       {...props}
+      error={props.error ? "Please select a date." : undefined}
       classNames={{
         input: `border-gray-400 dark:text-gray-400 text-gray-600 font-sans dark:border-gray-700
-         bg-zinc-100 dark:bg-zinc-700 rounded-md`,
+         bg-zinc-100 dark:bg-zinc-700 rounded-md 
+         aria-[invalid=true]:border-red-600 aria-[invalid=true]:dark:border-red-600 `,
         label: "text-gray-900 font-sans dark:text-gray-300 text-base",
         dropdown: "bg-white border-gray-400 dark:border-gray-700 dark:bg-zinc-800",
         day: `text-gray-900 disabled:text-gray-400 dark:disabled:text-gray-600 text-gray-900 dark:text-gray-100 hover:bg-gray-300 dark:hover:bg-zinc-600
@@ -25,7 +27,8 @@ export function DatePicker({ ...props }: DatePickerProps) {
         calendarHeaderControl: "text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-zinc-600",
         calendarHeaderLevel: "text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-zinc-600",
         rightSection: "stroke-gray-900 dark:stroke-gray-400",
-        required: "text-red-600 dark:text-red-500"
+        required: "text-red-600 dark:text-red-500",
+        error: "text-sm text-red-600 dark:text-red-500"
       }}
     />
   );

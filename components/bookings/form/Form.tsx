@@ -9,17 +9,20 @@ import { Steps } from "./Steps";
 import { Addon } from "./Addons";
 import { Success } from "./Success";
 import dynamic from "next/dynamic";
+import { useForm } from "./useBookingsForm";
 
-const DatePicker = dynamic(() => import("@components/shared/DatePicker/DatePicker").then((mod) => mod.DatePicker), {
-  loading: () => <Input label="Date" />
-});
+const DatePicker = dynamic(
+  () => import("@components/shared/DatePicker/DatePicker").then(mod => mod.DatePicker),
+  {
+    loading: () => <Input label="Date" />
+  }
+);
 
 //Data/hooks
 import { useState, useRef } from "react";
 import { photoshootTypes } from "@lib/photoshoot";
 import { useToggle } from "@lib/hooks/useToggle";
 import dayjs from "dayjs";
-import { toast } from "react-toastify";
 
 //Types
 import type { FormEvent } from "react";
@@ -46,63 +49,70 @@ type Form = {
 };
 
 function BookingsForm() {
+  const { contact, details, validate } = useForm();
   const [currentStep, setCurrentStep] = useState(1);
-  const [form, setForm] = useState<Partial<Form>>({});
-  const [shootType, setShootType] = useState<Lowercase<ShootTypes> | "">("");
   const [date, setDate] = useState<Date | null>(null);
   const [selectedFeatures, setFeatures] = useState<string[]>([]);
   const [loading, toggle] = useToggle();
   const containerRef = useRef<HTMLDivElement | null>(null);
 
-  const stepOneIncomplete = !form.first_name || !form.last_name || !form.email || !form.phone;
-  const stepTwoIncomplete = !date || !form.time || !shootType;
-
-  const shootDetails = photoshootTypes.get(shootType ? shootType : "regular shoot")!;
+  const shootType1 = (details.state.shootType?.value as unknown as Lowercase<ShootTypes>) || "regular shoot";
+  const shootDetails = photoshootTypes.get(shootType1)!;
 
   const prevStep = () => {
     if (currentStep === 1) return;
     containerRef.current?.scrollIntoView({ behavior: "smooth" });
-    setCurrentStep((prev) => prev - 1);
+    setCurrentStep(prev => prev - 1);
   };
 
   const nextStep = () => {
+    let error = false;
     if (currentStep === 4) return;
-
-    //prevent user from going to next step without filling out information for current step
-    if (currentStep === 1 && stepOneIncomplete) return;
-    if (currentStep === 2 && stepTwoIncomplete) return;
+    if (currentStep === 1) {
+      error = validate("contact");
+    } else if (currentStep === 2) {
+      error = validate("details");
+    }
+    if (error) {
+      return;
+    }
     containerRef.current?.scrollIntoView({ behavior: "smooth" });
-    setCurrentStep((prev) => prev + 1);
+    setCurrentStep(prev => prev + 1);
   };
 
   const handleChange = (e: FormEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.currentTarget;
-    setForm((prev) => ({ ...prev, [name]: value }));
+    if (currentStep === 1) {
+      contact.dispatch({ type: "change", payload: { value, error: false }, key: name as any });
+    } else if (currentStep === 2) {
+      details.dispatch({ key: name, payload: { value, error: false }, type: "change" });
+    }
   };
 
   const onFeatureChange = (e: FormEvent<HTMLInputElement>) => {
     const { checked, value } = e.currentTarget;
     if (checked) {
-      setFeatures((prev) => [...prev, value]);
+      setFeatures(prev => [...prev, value]);
     } else {
-      setFeatures((prev) => prev.filter((v) => v !== value));
+      setFeatures(prev => prev.filter(v => v !== value));
     }
   };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     toggle.on();
+    const { toast } = await import("react-toastify");
     try {
       const data = {
-        firstName: form.first_name!,
-        lastName: form.last_name!,
-        email: form.email!,
-        phone: form.phone!,
-        time: form.time!,
-        description: form?.description! || null,
-        date: date!,
-        type: shootType,
-        environment: form.environment === "inside",
+        firstName: contact.state.first_name.value!,
+        lastName: contact.state.last_name.value!,
+        email: contact.state.email.value!,
+        phone: contact.state.phone.value!,
+        time: details.state.time?.value!,
+        description: details.state.description?.value! || null,
+        date: details.state.date?.value!,
+        type: shootType1,
+        environment: details.state.environment?.value === "inside" || false,
         features: selectedFeatures.join(",")
       };
       const res = await fetch("/api/bookings", {
@@ -112,10 +122,10 @@ function BookingsForm() {
       });
       if (res.ok) {
         setCurrentStep(5);
-        setForm({});
+        contact.dispatch({ type: "reset" });
+        details.dispatch({ type: "reset" });
         setFeatures([]);
         setDate(null);
-        setShootType("");
       } else {
         const json = await res.json();
         throw new Error(json.message);
@@ -131,11 +141,6 @@ function BookingsForm() {
     }
   };
 
-  const onShootTypeChange = (value: typeof shootType) => {
-    if (selectedFeatures.length > 0) setFeatures([]);
-    setShootType(value);
-  };
-
   const prevDisabled = currentStep === 1;
 
   return (
@@ -149,7 +154,10 @@ function BookingsForm() {
           <Steps currentStep={currentStep} />
         </div>
         {currentStep < 5 && (
-          <form onSubmit={handleSubmit} className="basis-2/3 grow py-5 px-4 lg:px-16 flex flex-col justify-between">
+          <form
+            onSubmit={handleSubmit}
+            className="basis-2/3 grow py-5 px-4 lg:px-16 flex flex-col justify-between"
+          >
             {currentStep === 1 && (
               <section className="space-y-4">
                 <h2 className="text-marine-blue font-bold text-2xl mb-2">Personal info</h2>
@@ -158,7 +166,8 @@ function BookingsForm() {
                 </p>
                 <Input
                   id="first_name"
-                  value={form.first_name}
+                  value={contact.state.first_name.value}
+                  error={contact.state.first_name.error}
                   onChange={handleChange}
                   name={"first_name"}
                   label={"First Name"}
@@ -167,7 +176,8 @@ function BookingsForm() {
                 />
                 <Input
                   id="last_name"
-                  value={form.last_name}
+                  value={contact.state.last_name.value}
+                  error={contact.state.last_name.error}
                   onChange={handleChange}
                   name={"last_name"}
                   label={"Last Name"}
@@ -176,8 +186,9 @@ function BookingsForm() {
                 />
                 <Input
                   id="email"
-                  value={form.email}
+                  value={contact.state.email.value}
                   onChange={handleChange}
+                  error={contact.state.email.error}
                   name={"email"}
                   label={"Email Address"}
                   placeholder={"e.g. stephen.king@lorem.com"}
@@ -185,7 +196,8 @@ function BookingsForm() {
                 />
                 <Input
                   id="phone"
-                  value={form.phone}
+                  value={contact.state.phone.value}
+                  error={contact.state.phone.error}
                   onChange={handleChange}
                   name={"phone"}
                   label={"Phone Number"}
@@ -199,10 +211,13 @@ function BookingsForm() {
                 <h2 className="text-marine-blue font-bold text-2xl">Select your photoshoot</h2>
 
                 <Select
+                  error={details.state.shootType?.error}
                   label="Photoshoot"
                   placeholder="Photoshoot type"
-                  value={shootType}
-                  onValueChange={onShootTypeChange}
+                  value={details.state.shootType?.value}
+                  onValueChange={value =>
+                    details.dispatch({ key: "shootType", type: "change", payload: { value, error: false } })
+                  }
                   data={selectData}
                   required
                 />
@@ -219,7 +234,7 @@ function BookingsForm() {
                       <input
                         required
                         onChange={handleChange}
-                        checked={form.environment === "inside"}
+                        checked={details.state.environment?.value === "inside"}
                         className="accent-red-500 h-5 w-5"
                         id="inside"
                         name="environment"
@@ -233,7 +248,7 @@ function BookingsForm() {
                         required
                         onChange={handleChange}
                         className="accent-red-500 h-5 w-5"
-                        checked={form.environment === "outside"}
+                        checked={details.state.environment?.value === "outside"}
                         id="outside"
                         name="environment"
                         value={"outside"}
@@ -241,26 +256,36 @@ function BookingsForm() {
                       />
                     </p>
                   </div>
+                  {details.state.environment?.error && (
+                    <span className="text-sm text-red-600 dark:text-red-500">
+                      Please select one of the options.
+                    </span>
+                  )}
                 </fieldset>
                 <DatePicker
-                  value={date}
+                  value={details.state.date?.value}
                   minDate={dayjs(new Date()).add(8, "days").toDate()}
                   label="Date"
-                  onChange={setDate}
+                  name="date"
+                  onChange={value =>
+                    details.dispatch({ type: "change", key: "date", payload: { value, error: false } })
+                  }
+                  error={details.state.date?.error}
                   required
                 />
                 <Input
                   className="accent-red-600 w-full"
                   label="Time"
                   type={"time"}
-                  value={form?.time}
+                  value={details.state.time?.value}
+                  error={details.state.time?.error}
                   onChange={handleChange}
                   name="time"
                   id="time"
                   required
                 />
                 <Textarea
-                  value={form?.description}
+                  value={details.state.description?.value}
                   onChange={handleChange}
                   name="description"
                   id="description"
@@ -276,7 +301,7 @@ function BookingsForm() {
                 {shootDetails && (
                   <div className="space-y-4">
                     {shootDetails.features.length > 0 &&
-                      shootDetails.features.map((feature) => {
+                      shootDetails.features.map(feature => {
                         const value = feature.label.toLowerCase();
                         const checked = selectedFeatures.includes(value);
                         return (
@@ -316,25 +341,28 @@ function BookingsForm() {
                   </div>
                   <hr className="h-1 w-full my-2 border-zinc-400 dark:border-zinc-700" />
                   <p className="text-gray-600 dark:text-gray-300">
-                    <span className="font-semibold text-gray-900 dark:text-gray-100">Name:</span> {form.first_name}{" "}
-                    {form.last_name}
+                    <span className="font-semibold text-gray-900 dark:text-gray-100">Name:</span>{" "}
+                    {contact.state.first_name?.value} {contact.state.last_name?.value}
                   </p>
                   <p className="text-gray-600 dark:text-gray-300">
-                    <span className="font-semibold text-gray-900 dark:text-gray-100">Email:</span> {form.email}
+                    <span className="font-semibold text-gray-900 dark:text-gray-100">Email:</span>{" "}
+                    {contact.state.email?.value}
                   </p>
                   <p className="text-gray-600 dark:text-gray-300">
-                    <span className="font-semibold text-gray-900 dark:text-gray-100">Phone number:</span> {form.phone}
+                    <span className="font-semibold text-gray-900 dark:text-gray-100">Phone number:</span>{" "}
+                    {contact.state.phone?.value}
                   </p>
                   <p className="text-gray-600 dark:text-gray-300">
                     <span className="font-semibold text-gray-900 dark:text-gray-100">Environment:</span>{" "}
-                    {form.environment}
+                    {details.state.environment?.value}
                   </p>
                   <p className="text-gray-600 dark:text-gray-300">
-                    <span className="font-semibold text-gray-900 dark:text-gray-100">Date:</span> {date?.toDateString()}
-                    , {form.time}
+                    <span className="font-semibold text-gray-900 dark:text-gray-100">Date:</span>{" "}
+                    {details.state.date?.value?.toDateString()}, {details.state.time?.value}
                   </p>
                   <p className="text-gray-600 dark:text-gray-300">
-                    <span className="font-semibold text-gray-900 dark:text-gray-100">Comments:</span> {form.description}
+                    <span className="font-semibold text-gray-900 dark:text-gray-100">Comments:</span>{" "}
+                    {details.state.description?.value}
                   </p>
                   <p className="text-gray-600 dark:text-gray-300 capitalize">
                     <span className="font-semibold text-gray-900 dark:text-gray-100">Add-ons:</span>{" "}
