@@ -20,7 +20,6 @@
     "@mantine/dates": "^5.10.0",
     "@mantine/dropzone": "^5.10.0",
     "@mantine/hooks": "^5.10.0",
-    "@next/font": "^13.1.6",
     "@notionhq/client": "^2.2.3",
     "@prisma/client": "^4.8.0",
     "@radix-ui/react-dialog": "^1.0.2",

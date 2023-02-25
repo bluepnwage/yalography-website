@@ -4,10 +4,10 @@ import { Header } from "@components/Navbar";
 import { ScrollToTop } from "@components/ScrollToTop";
 import { Suspense } from "react";
 import { ToastProvider } from "@components/ToastProvider";
-import { Inter } from "@next/font/google";
 import { Metadata } from "next";
+import { Inter as Font } from "next/font/google";
 
-const inter = Inter({
+const inter = Font({
   subsets: ["latin"],
   display: "optional",
   variable: "--font-inter"
