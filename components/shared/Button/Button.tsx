@@ -46,7 +46,11 @@ export function Button<C extends ElementType = "button">({
   return (
     <>
       {component === "a" ? (
-        <Link {...buttonProps} href={buttonProps.href} className={styles({ fullWidth, intent, className, disabled })}>
+        <Link
+          {...buttonProps}
+          href={buttonProps.href}
+          className={styles({ fullWidth, intent, className, disabled })}
+        >
           {children}
         </Link>
       ) : (
