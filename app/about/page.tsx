@@ -8,6 +8,7 @@ import Image from "next/image";
 
 //Assets
 import gigaChad from "@public/giga-chad.jpg";
+import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "About"
