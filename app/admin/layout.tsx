@@ -1,7 +1,12 @@
 import { Nav } from "@components/admin/Nav";
 import { verifyToken } from "@lib/firebase/admin/auth";
+import { Metadata } from "next";
 
 export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = {
+  title: "Admin"
+};
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   await verifyToken();

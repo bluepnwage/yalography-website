@@ -10,15 +10,12 @@ import prisma from "@lib/prisma";
 //Assets
 import heroImg from "@public/main-image.jpg";
 import photographer from "@public/photographer-lg.jpg";
-import model from "@public/model2-sm.jpg";
-import wedding from "@public/wedding-md.jpg";
-import pixel from "@public/pixel.jpg";
-import airport from "@public/airport-md.jpg";
 import bgImage from "@public/bg.jpg";
 import styles from "./Home.module.css";
 
 //Types
 import type * as Props from "@components/home";
+import { Metadata } from "next";
 
 const getProjects = async () => {
   await prisma.$connect();
@@ -31,6 +28,15 @@ const getProjects = async () => {
 };
 
 export type PinnedProject = Awaited<ReturnType<typeof getProjects>>[0];
+
+export const metadata: Metadata = {
+  description: `Preserve the beauty and memories of St. Martin with the expertise of a professional photographer.
+   Specializing in capturing stunning landscapes, vibrant culture, and unforgettable moments,
+    we offer professional photography services for weddings, maternity, couples, families and travelers. 
+    From picturesque beaches to colorful local markets, let us create personalized and lasting memories 
+    for you to cherish forever. Whether it's a special event or a milestone,
+     our experienced team will help you create stunning photos that will last a lifetime.`
+};
 
 export default async function HomePage() {
   const projects = await getProjects();
@@ -51,9 +57,9 @@ export default async function HomePage() {
               </Title>
             </header>
             <p className="leading-loose mb-4 text-xl">
-              Are you looking for a photographer to capture your special moments? Look no further! With my years of
-              professional experience and an eye for detail, I can ensure that your photos will be of the highest
-              quality and truly capture the beauty of the moment.
+              Are you looking for a photographer to capture your special moments? Look no further! With my
+              years of professional experience and an eye for detail, I can ensure that your photos will be of
+              the highest quality and truly capture the beauty of the moment.
             </p>
             <Button href="/bookings" component="a" className="block mx-auto">
               Request Session
@@ -80,13 +86,14 @@ export default async function HomePage() {
               </Title>
             </header>
             <p className="leading-loose text-lg mb-10">
-              Over the past 12 years, my photography journey has been a rollercoaster of learning and growth. I&apos;ve
-              had the opportunity to learn new techniques and hone my skills, and I&apos;ve met a diverse range of
-              people, from photographers and models to art directors and creative directors. These connections have
-              opened doors for me, leading to collaborations with important brands and opportunities to attend events
-              such as weddings and the Sxm Food Festival. Each event has been a unique experience that has allowed me to
-              develop my craft and expand my portfolio. I&apos;m grateful for the opportunities I&apos;ve had and the
-              people I&apos;ve met along the way, and I&apos;m excited to see what the next 12 years will bring.
+              Over the past 12 years, my photography journey has been a rollercoaster of learning and growth.
+              I&apos;ve had the opportunity to learn new techniques and hone my skills, and I&apos;ve met a
+              diverse range of people, from photographers and models to art directors and creative directors.
+              These connections have opened doors for me, leading to collaborations with important brands and
+              opportunities to attend events such as weddings and the Sxm Food Festival. Each event has been a
+              unique experience that has allowed me to develop my craft and expand my portfolio. I&apos;m
+              grateful for the opportunities I&apos;ve had and the people I&apos;ve met along the way, and
+              I&apos;m excited to see what the next 12 years will bring.
             </p>
             <Stats />
             <Button href="/about" component="a" className="mx-auto block">
@@ -123,7 +130,7 @@ export default async function HomePage() {
               View all projects
             </Button>
           </div>
-          {projects.map((proj) => {
+          {projects.map(proj => {
             return <Project project={proj} key={proj.id} />;
           })}
         </Grid>

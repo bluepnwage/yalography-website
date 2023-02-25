@@ -2,6 +2,7 @@ import { PageIntro } from "@components/PageIntro";
 import { Section } from "@components/shared";
 import prisma from "@lib/prisma";
 import { Image } from "@components/shared/Image";
+import { Metadata } from "next";
 
 async function getImages() {
   await prisma.$connect();
@@ -9,6 +10,10 @@ async function getImages() {
   await prisma.$disconnect();
   return images;
 }
+
+export const metadata: Metadata = {
+  title: "Gallery"
+};
 
 export default async function GalleryPage() {
   const images = await getImages();

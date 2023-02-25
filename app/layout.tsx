@@ -5,6 +5,7 @@ import { ScrollToTop } from "@components/ScrollToTop";
 import { Suspense } from "react";
 import { ToastProvider } from "@components/ToastProvider";
 import { Inter } from "@next/font/google";
+import { Metadata } from "next";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -16,15 +17,21 @@ type PropTypes = {
   children: React.ReactNode;
 };
 
+export const metadata: Metadata = {
+  title: { default: "SXM Photography | Yalography", template: "%s | Yalography" },
+  icons: { icon: "/logo.png" }
+};
+
 export default function RootLayout({ children }: PropTypes) {
   return (
     <html lang="en" className={`dark dark-mode ${inter.variable}`}>
+      <head />
       <body className="dark:bg-zinc-900 bg-gray-100 text-gray-900 dark:text-gray-300 duration-200 ease-out">
         <Suspense fallback={null}>
           <ToastProvider />
           <ScrollToTop />
         </Suspense>
-        <Header  />
+        <Header />
         {children}
         <Footer />
       </body>

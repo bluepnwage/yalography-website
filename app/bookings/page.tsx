@@ -3,6 +3,11 @@ import { BookingsFormContainer } from "@components/bookings/form/Form";
 import { Section, Title } from "@components/shared";
 import { PageIntro } from "@components/PageIntro";
 import { Suspense } from "react";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Bookings"
+};
 
 export default function BookingsPage() {
   return (

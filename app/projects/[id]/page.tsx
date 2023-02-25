@@ -4,8 +4,25 @@ import { Section, Title, Breadcrumbs, Anchor, Grid, Card } from "@components/sha
 
 import prisma from "@lib/prisma";
 import { notFound } from "next/navigation";
-import { findProject } from "@util/findProject";
 import { cx } from "cva";
+import { cache } from "react";
+import type { Metadata } from "next";
+
+const findProject = cache(async (id: number) => {
+  await prisma.$connect();
+  const project = await prisma.projects.findUnique({ where: { id }, include: { images: true } });
+  await prisma.$disconnect();
+
+  return project;
+});
+
+export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
+  const id = parseInt(params.id);
+  if (!id) notFound();
+  const project = await findProject(id);
+  if (!project) notFound();
+  return { title: project.title, description: project.description };
+}
 
 export async function generateStaticParams() {
   await prisma.$connect();

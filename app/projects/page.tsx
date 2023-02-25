@@ -3,6 +3,7 @@ import { Project } from "@components/projects";
 import { Grid, Section, Title } from "@components/shared";
 
 import prisma from "@lib/prisma";
+import { Metadata } from "next";
 
 async function getProjects() {
   await prisma.$connect();
@@ -10,6 +11,10 @@ async function getProjects() {
   await prisma.$disconnect();
   return projects;
 }
+
+export const metadata: Metadata = {
+  title: "Projects"
+};
 
 export default async function ProjectsPage() {
   const projects = await getProjects();
@@ -28,7 +33,7 @@ export default async function ProjectsPage() {
           Projects
         </Title>
         <Grid className="gap-5 w-11/12">
-          {projects.map((project) => {
+          {projects.map(project => {
             return <Project project={project} key={project.id} />;
           })}
         </Grid>
