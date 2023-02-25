@@ -3,6 +3,7 @@ import * as RadixDialog from "@radix-ui/react-dialog";
 import styles from "./styles.module.css";
 import { XClose } from "@lib/icons";
 import { DialogProvider, useDialog } from "./DialogContext";
+import { motion, AnimatePresence } from "framer-motion";
 
 type ContentProps = {
   portalProps?: RadixDialog.DialogPortalProps;
@@ -32,14 +33,39 @@ function Close({ children, ...props }: RadixDialog.DialogCloseProps) {
 }
 
 function Content({ children, portalProps, overlayProps, ...props }: ContentProps) {
+  const { title } = useDialog();
+  const id = title.replaceAll(" ", "-").toLowerCase() + "-id";
   return (
     <RadixDialog.Portal {...portalProps}>
-      <RadixDialog.Overlay {...overlayProps} className={styles.DialogOverlay} />
-      <RadixDialog.Content {...props} className={`${styles.DialogContent} bg-white dark:bg-zinc-800`}>
-        <Title />
-        {children}
-        <Close />
-      </RadixDialog.Content>
+      <RadixDialog.Overlay {...overlayProps} asChild className={styles.DialogOverlay}>
+        <motion.div
+          key={`${id}-overlay`}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.4 }}
+        />
+      </RadixDialog.Overlay>
+      <div className={styles.DialogContentContainer}>
+        <RadixDialog.Content
+          asChild
+          {...props}
+          className={`${styles.DialogContent} bg-white dark:bg-zinc-800`}
+        >
+          <motion.div
+            key={`${id}-content`}
+            transition={{ duration: 0.4, delay: 0.2, type: "spring" }}
+            exit={{ y: -100, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            initial={{ y: -100, opacity: 0 }}
+            id={id}
+          >
+            <Title />
+            {children}
+            <Close />
+          </motion.div>
+        </RadixDialog.Content>
+      </div>
     </RadixDialog.Portal>
   );
 }
@@ -61,12 +87,16 @@ export function Dialog({
 }: RadixDialog.DialogProps & { trigger?: React.ReactNode; title: string }) {
   return (
     <>
-      <RadixDialog.Root {...props}>
-        <DialogProvider title={title}>
-          {trigger && <Trigger />}
-          <Content>{children}</Content>
-        </DialogProvider>
-      </RadixDialog.Root>
+      <AnimatePresence>
+        {props.open && (
+          <RadixDialog.Root {...props}>
+            <DialogProvider title={title}>
+              {trigger && <Trigger />}
+              <Content>{children}</Content>
+            </DialogProvider>
+          </RadixDialog.Root>
+        )}
+      </AnimatePresence>
     </>
   );
 }
