@@ -1,4 +1,13 @@
-import { getStorage, uploadBytes, ref, getDownloadURL, deleteObject } from "firebase/storage";
+import {
+  getStorage,
+  uploadBytes,
+  ref,
+  getDownloadURL,
+  deleteObject,
+  list,
+  updateMetadata,
+  StorageReference
+} from "firebase/storage";
 import type { UploadResult } from "firebase/storage";
 import type { Images } from "@prisma/client";
 import { transformImage } from "@lib/cloudinary";
@@ -97,4 +106,26 @@ export async function deleteThumbnail(projectName: string, environment: Env["env
       }
     }
   }
+}
+
+const meta = {
+  cacheControl: "max-age=31536000, immutable"
+};
+
+async function update(ref: StorageReference) {
+  await updateMetadata(ref, meta);
+}
+
+export async function listImages() {
+  const folder = ref(storage, "gallery-preview/");
+  let token: string | undefined;
+  do {
+    const images = await list(folder, { maxResults: 10, pageToken: token });
+    token = images.nextPageToken;
+    const promise = images.items.map(image => {
+      return update(image);
+    });
+    await Promise.all(promise);
+  } while (token);
+  console.log("Updates successfull");
 }

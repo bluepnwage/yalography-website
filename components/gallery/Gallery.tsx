@@ -2,7 +2,6 @@
 import type { Images } from "@prisma/client";
 import { useToggle } from "@lib/hooks/useToggle";
 import { Image } from "@components/shared/Image";
-// import { Carousel } from "./Carousel";
 import { useState } from "react";
 import styles from "./styles.module.css";
 import dynamic from "next/dynamic";
@@ -16,6 +15,7 @@ export function Gallery({ images }: PropTypes) {
   const [dialog, toggle] = useToggle();
   const [lazy, lazyLoad] = useToggle();
   const [index, setIndex] = useState(0);
+  const prevValue = usePrevious(index);
 
   const currentImage = images[index];
 
@@ -42,7 +42,16 @@ export function Gallery({ images }: PropTypes) {
 
   return (
     <>
-      {lazy && <Carousel next={next} prev={prev} curr={currentImage} open={dialog} setOpen={toggle.set} />}
+      {lazy && (
+        <Carousel
+          direction={prevValue ? (index > prevValue ? 1 : -1) : 1}
+          next={next}
+          prev={prev}
+          curr={currentImage}
+          open={dialog}
+          setOpen={toggle.set}
+        />
+      )}
       <div className={styles.grid}>
         {images.map((image, index) => {
           const className =
@@ -64,11 +73,19 @@ export function Gallery({ images }: PropTypes) {
               alt={image.alt || ""}
               refMargin={"100px"}
               containerClass={`w-full h-full cursor-pointer overflow-hidden ${className}`}
-              className="w-full h-full object-cover"
+              className={`w-full h-full ${styles.img} object-cover`}
             />
           );
         })}
       </div>
     </>
   );
+}
+
+function usePrevious(count: number) {
+  const [prev, setPrev] = useState([null, count]);
+  if (prev[1] !== count) {
+    setPrev([prev[1], count]);
+  }
+  return prev[0];
 }

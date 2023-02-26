@@ -4,7 +4,7 @@ import styles from "./styles.module.css";
 import { XClose } from "@lib/icons";
 import { DialogProvider, useDialog } from "./DialogContext";
 import { motion, AnimatePresence } from "framer-motion";
-
+import { cx } from "cva";
 type ContentProps = {
   portalProps?: RadixDialog.DialogPortalProps;
   overlayProps?: RadixDialog.DialogOverlayProps;
@@ -20,13 +20,19 @@ function Trigger({ children, ...props }: RadixDialog.DialogTriggerProps) {
 }
 
 function Close({ children, ...props }: RadixDialog.DialogCloseProps) {
+  const { carousel } = useDialog();
   return (
     <RadixDialog.Close {...props} asChild>
       <button
         aria-label="Close"
-        className="absolute right-5 top-5 hover:bg-zinc-200 dark:hover:bg-zinc-700 inline-flex items-center justify-center h-10 w-10 rounded-full duration-200 ease-out focus:ring-1 ring-black/10"
+        className={cx(
+          `absolute hover:bg-zinc-200 dark:hover:bg-zinc-700
+         inline-flex items-center justify-center h-10 w-10 rounded-full
+          duration-200 ease-out focus:ring-1 ring-black/10`,
+          carousel ? "right-0 top-0 z-[9999]" : "right-5 top-5"
+        )}
       >
-        <XClose fill />
+        <XClose fill className={cx(carousel ? "fill-zinc-800 dark:fill-white" : "")} />
       </button>
     </RadixDialog.Close>
   );
@@ -51,7 +57,9 @@ function Content({ children, portalProps, overlayProps, ...props }: ContentProps
           data-carousel={carousel}
           asChild
           {...props}
-          className={`${styles.DialogContent} relative bg-white dark:bg-zinc-800`}
+          className={`${styles.DialogContent} relative ${
+            !carousel ? "bg-white dark:bg-zinc-800" : "bg-transparent"
+          }`}
         >
           <motion.div
             key={`${id}-content`}
@@ -63,7 +71,7 @@ function Content({ children, portalProps, overlayProps, ...props }: ContentProps
           >
             {!carousel && <Title />}
             {children}
-            {!carousel && <Close />}
+            <Close />
           </motion.div>
         </RadixDialog.Content>
       </div>
