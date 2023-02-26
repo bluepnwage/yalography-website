@@ -33,7 +33,7 @@ function Close({ children, ...props }: RadixDialog.DialogCloseProps) {
 }
 
 function Content({ children, portalProps, overlayProps, ...props }: ContentProps) {
-  const { title } = useDialog();
+  const { title, carousel } = useDialog();
   const id = title.replaceAll(" ", "-").toLowerCase() + "-id";
   return (
     <RadixDialog.Portal {...portalProps}>
@@ -48,9 +48,10 @@ function Content({ children, portalProps, overlayProps, ...props }: ContentProps
       </RadixDialog.Overlay>
       <div className={styles.DialogContentContainer}>
         <RadixDialog.Content
+          data-carousel={carousel}
           asChild
           {...props}
-          className={`${styles.DialogContent} bg-white dark:bg-zinc-800`}
+          className={`${styles.DialogContent} relative bg-white dark:bg-zinc-800`}
         >
           <motion.div
             key={`${id}-content`}
@@ -60,9 +61,9 @@ function Content({ children, portalProps, overlayProps, ...props }: ContentProps
             initial={{ y: -100, opacity: 0 }}
             id={id}
           >
-            <Title />
+            {!carousel && <Title />}
             {children}
-            <Close />
+            {!carousel && <Close />}
           </motion.div>
         </RadixDialog.Content>
       </div>
@@ -83,14 +84,15 @@ export function Dialog({
   children,
   trigger,
   title,
+  carousel,
   ...props
-}: RadixDialog.DialogProps & { trigger?: React.ReactNode; title: string }) {
+}: RadixDialog.DialogProps & { trigger?: React.ReactNode; title: string; carousel?: boolean }) {
   return (
     <>
       <AnimatePresence>
         {props.open && (
           <RadixDialog.Root {...props}>
-            <DialogProvider title={title}>
+            <DialogProvider trigger={trigger} carousel={carousel} title={title}>
               {trigger && <Trigger />}
               <Content>{children}</Content>
             </DialogProvider>

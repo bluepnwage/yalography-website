@@ -4,6 +4,7 @@ import { createContext, useContext } from "react";
 type DialogProviderProps = {
   title: string;
   trigger?: React.ReactNode;
+  carousel?: boolean;
 };
 
 const DialogContext = createContext<DialogProviderProps | null>(null);

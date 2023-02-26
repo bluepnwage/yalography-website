@@ -5,6 +5,7 @@
   position: fixed;
   inset: 0;
   z-index: 5000;
+  backdrop-filter: blur(7px);
 }
 
 .DialogContentContainer {
@@ -29,6 +30,16 @@
   padding: 25px;
   z-index: 5001;
 }
+
+.DialogContent[data-carousel="true"] {
+  max-width: 90vw;
+  width: 90vw;
+  height: 90vh;
+  max-height: 90vh;
+  padding: 0px;
+  overflow: hidden;
+}
+
 .DialogContent:focus {
   outline: none;
 }
