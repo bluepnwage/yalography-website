@@ -53,7 +53,9 @@ export function Header() {
           <Suspense fallback={null}>
             <MobileMenu />
           </Suspense>
-          <AdminWrapper />
+          <Suspense fallback={null}>
+            <AdminWrapper />
+          </Suspense>
           <Suspense fallback={null}>
             <ThemeSwitcher />
           </Suspense>
