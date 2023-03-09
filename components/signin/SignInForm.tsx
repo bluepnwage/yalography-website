@@ -12,7 +12,12 @@ export function SignInForm() {
     const email = new FormData(e.currentTarget).get("email") as string;
     const password = new FormData(e.currentTarget).get("password") as string;
     const { signIn } = await import("@lib/firebase/auth");
-    await signIn(email, password);
+    const { user } = await signIn(email, password);
+    const token = await user.getIdToken();
+    await fetch("/api/admin", {
+      headers: { Authorization: `Bearer ${token}` },
+      method: "POST"
+    });
     router.push("/");
   };
   return (

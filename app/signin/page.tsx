@@ -7,6 +7,7 @@ import pixel from "@public/pixel.jpg";
 import admin from "@lib/firebase/admin/config";
 
 export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 async function verifyToken() {
   const nextCookies = cookies();

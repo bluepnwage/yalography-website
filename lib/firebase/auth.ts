@@ -9,5 +9,5 @@ export async function signIn(email: string, password: string) {
 }
 
 export async function logOut() {
-  await signOut(auth);
+  await Promise.all([signOut(auth), fetch("/api/admin", { method: "DELETE" })]);
 }
