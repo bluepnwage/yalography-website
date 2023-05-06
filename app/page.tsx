@@ -9,8 +9,7 @@ import prisma from "@lib/prisma";
 
 //Assets
 import heroImg from "@public/main-image.jpg";
-import photographer from "@public/photographer-lg.jpg";
-import bgImage from "@public/bg.jpg";
+import photographer from "@public/yasmino-lg.jpg";
 import styles from "./Home.module.css";
 
 //Types
@@ -163,8 +162,8 @@ export default async function HomePage() {
             <p className="font-semibold text-xl">Address</p>
             <address>Marigot, Saint-Martin</address>
           </div>
-          <figure className="bg-white ring-1  ring-black  ring-opacity-5 dark:ring-0 dark:bg-zinc-800 col-span-full row-start-1 lg:col-span-6  w-full h-full lg:row-span-2">
-            <Image src={bgImage} alt={""} className="h-full w-full object-cover" />
+          <figure className="bg-white ring-1 overflow-hidden relative  ring-black  ring-opacity-5 dark:ring-0 dark:bg-zinc-800 col-span-full row-start-1 lg:col-span-6  w-full lg:row-span-2">
+            <Image src={heroImg} alt={""} fill className="object-cover" />
           </figure>
           <div className="bg-white ring-1 duration-200 ease-out ring-black ring-opacity-5 dark:ring-0 dark:bg-zinc-800 col-span-6 h-64 w-full gap-4 flex flex-col justify-center items-center">
             <p className="font-bold text-xl">Book a reservation</p>

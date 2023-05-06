@@ -7,8 +7,12 @@ import { MovieFilter, AutoFix, PhotoSelectLarge } from "@lib/icons";
 import Image from "next/image";
 
 //Assets
-import gigaChad from "@public/giga-chad.jpg";
-import { Metadata } from "next";
+import yasmino from "@public/yasmino-lg.jpg";
+import villa from "@public/about/villa-md.jpg";
+import tj from "@public/about/tj-project-md.jpg";
+import about from "@public/about/about-md.jpg";
+
+import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "About"
@@ -48,8 +52,14 @@ export default function AboutPage() {
               <Skill Icon={MovieFilter} label="Adobe Premier Pro" />
             </Grid>
           </article>
-          <figure className="bg-red-600 w-full h-full col-span-full lg:col-span-1">
-            <Image src={gigaChad} alt={""} className="w-full h-full" />
+          <figure className="bg-red-600 w-full relative col-span-full lg:col-span-1">
+            <Image
+              src={yasmino}
+              fill
+              alt={""}
+              style={{ objectPosition: "center top" }}
+              className="object-cover"
+            />
           </figure>
         </Grid>
       </Section>
@@ -85,7 +95,7 @@ export default function AboutPage() {
         className={`svg-background py-16 border-t border-zinc-200 dark:border-zinc-700`}
       >
         <Grid lg={1} className={"gap-16 lg:gap-36"}>
-          <SkillDetail title="Capturing" subTitle="Capturing the best possible photographs">
+          <SkillDetail img={villa} title="Capturing" subTitle="Capturing the best possible photographs">
             This requires a combination of technical skills and creativity. It starts with understanding the
             basics of composition, lighting, and exposure, as well as knowing how to use your camera and
             lenses. But it also involves being able to anticipate and seize the right moment, and having a
@@ -94,7 +104,7 @@ export default function AboutPage() {
             importantly, always be in the right mindset, and be willing to put in the time and effort to get
             the perfect shot.
           </SkillDetail>
-          <SkillDetail title="Editing" subTitle="Editing is an essential and timeless process">
+          <SkillDetail img={tj} title="Editing" subTitle="Editing is an essential and timeless process">
             Editing is necessary to achieve the best possible result in photography. It allows you to refine
             your images, correct any imperfections and enhance the overall look and feel of the photograph.
             It&apos;s a process that requires attention to detail and a good understanding of color, contrast,
@@ -103,7 +113,7 @@ export default function AboutPage() {
             bring out the best in your images and make them truly stand out. It&apos;s an ongoing process that
             takes time and patience.
           </SkillDetail>
-          <SkillDetail title="Your brand" subTitle="Enhance your brand image">
+          <SkillDetail img={about} title="Your brand" subTitle="Enhance your brand image">
             Yalography offers a range of services to enhance your brand image through professional
             photography. Our team is comprised of experienced photographers, MUAs and Hair dressers that can
             capture stunning images that showcase your products, services, and brand story. We understand the

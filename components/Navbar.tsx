@@ -2,7 +2,6 @@ import Link from "next/link";
 import { ThemeSwitcher } from "./ThemeSwitcher";
 import logo from "@public/logo.png";
 import Image from "next/image";
-// import { Admin } from "./Admin";
 import { MobileMenu } from "./MobileMenu";
 import { Suspense } from "react";
 import { AdminWrapper } from "./AdminWrapper";
