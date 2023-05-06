@@ -11,6 +11,7 @@ import yasmino from "@public/yasmino-lg.jpg";
 import villa from "@public/about/villa-md.jpg";
 import tj from "@public/about/tj-project-md.jpg";
 import about from "@public/about/about-md.jpg";
+import sxmOffice from "@public/about/sxm-office-md.jpg";
 
 import type { Metadata } from "next";
 
@@ -122,6 +123,14 @@ export default function AboutPage() {
             expertise to create high-quality, engaging content that will help your brand stand out. With
             Yalography&apos;s services, you can be sure that your brand image will be elevated to new heights
             and leave a lasting impression on your audience.
+          </SkillDetail>
+          <SkillDetail img={sxmOffice} title="Our partner" subTitle="Your hair matters">
+            Nicky Hair Tech is our premier partner for all your hair styling needs. With a team of experienced
+            and highly skilled hair stylists, Nicky Hair Tech is committed to providing exceptional services
+            that help their clients look and feel their best. Nicky Hair Tech has the expertise and creativity
+            to bring your vision to life. With a focus on customer satisfaction and a passion for delivering
+            the best results, Nicky Hair Tech is the perfect partner for anyone seeking top-quality hair
+            styling services for the perfect photoshoot.
           </SkillDetail>
         </Grid>
       </Section>
