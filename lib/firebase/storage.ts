@@ -25,7 +25,7 @@ export async function uploadImage(file: File, options: UploadOptions) {
   const fileName = crypto.randomUUID();
   const imageRef = ref(storage, `gallery-${options.environment}/${fileName}`);
 
-  readFile(file, imageRef, fileName, options?.folderID, options?.projectID);
+  await readFile(file, imageRef, fileName, options?.folderID, options?.projectID);
 }
 
 //function to get the width and height of an image then upload to db
@@ -37,30 +37,33 @@ function readFile(
   projectID?: number
 ) {
   const fileReader = new FileReader();
-
-  fileReader.onloadend = async () => {
-    const image = new Image();
-    image.src = fileReader.result as string;
-
-    const newImage = await transformImage(file, image.width);
-    const storageImage = await uploadBytes(imageRef, newImage, meta);
-    const imageURL = await getDownloadURL(storageImage.ref);
-
-    const imageData = {
-      width: image.width,
-      height: image.height,
-      alt: "",
-      url: imageURL,
-      name: fileName,
-      type: file.type,
-      size: file.size,
-      fullPath: storageImage.metadata.fullPath,
-      folderId: folderID,
-      projectId: projectID
-    };
-    await uploadToDB(imageData);
-  };
   fileReader.readAsDataURL(file);
+
+  return new Promise<void>(res => {
+    fileReader.onloadend = async () => {
+      const image = new Image();
+      image.src = fileReader.result as string;
+
+      const newImage = await transformImage(file, image.width);
+      const storageImage = await uploadBytes(imageRef, newImage, meta);
+      const imageURL = await getDownloadURL(storageImage.ref);
+
+      const imageData = {
+        width: image.width,
+        height: image.height,
+        alt: "",
+        url: imageURL,
+        name: fileName,
+        type: file.type,
+        size: file.size,
+        fullPath: storageImage.metadata.fullPath,
+        folderId: folderID,
+        projectId: projectID
+      };
+      await uploadToDB(imageData);
+      res();
+    };
+  });
 }
 
 async function uploadToDB(
