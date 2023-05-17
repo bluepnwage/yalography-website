@@ -4,14 +4,13 @@ import prisma from "@lib/prisma";
 // import { Image } from "@components/shared/Image";
 import { Metadata } from "next";
 import { Gallery } from "@components/gallery/Gallery";
-import { listImages, transform } from "@lib/cloud";
-import Image from "next/image";
+import { transformImage } from "@lib/cloudinary";
 
 async function getImages() {
   await prisma.$connect();
   const images = await prisma.images.findMany();
   await prisma.$disconnect();
-  return images;
+  return images.map(img => ({ ...img, url: transformImage("w_2000", img.publicId, img.type) }));
 }
 
 export const metadata: Metadata = {
@@ -19,8 +18,7 @@ export const metadata: Metadata = {
 };
 
 export default async function GalleryPage() {
-  // const images = await getImages();
-  const images = await listImages();
+  const images = await getImages();
   return (
     <>
       <PageIntro>
@@ -37,12 +35,10 @@ export default async function GalleryPage() {
           {images.map(img => {
             return (
               <img
-                key={img.public_id}
+                key={img.id}
                 alt={""}
                 className={`${img.width - img.height > 1 ? "col-span-2" : "row-span-2"}`}
-                // width={720}
-                // height={480}
-                src={transform("w_2000", img.public_id, img.format)}
+                src={img.url}
               />
             );
           })}

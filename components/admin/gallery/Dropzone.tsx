@@ -34,14 +34,16 @@ export function Dropzone({ onDialogClose, folders, environment }: PropTypes) {
     toggle.on();
 
     const [{ uploadToCloudinary }, { toast }] = await Promise.all([
-      import("@lib/cloudinary"),
+      import("@lib/upload-image"),
       import("react-toastify")
     ]);
     const id = toast.loading("Compressing and uploading images. This may take a while...", {
       autoClose: false
     });
     try {
-      const promises = files.map(file => uploadToCloudinary(file));
+      const promises = files.map(file =>
+        uploadToCloudinary(file, selectedFolder ? parseInt(selectedFolder) : undefined)
+      );
       await Promise.all(promises);
       refresh();
       toggle.off();

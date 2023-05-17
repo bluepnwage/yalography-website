@@ -1,57 +1,31 @@
-import { Cloudinary } from "@cloudinary/url-gen";
-import { Resize } from "@cloudinary/url-gen/actions";
-import { uploadToDB } from "./firebase/storage";
+import cloudinary from "cloudinary";
 
-const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
-const presetName = process.env.NEXT_PUBLIC_CLOUDINARY_PRESET;
-export const endpoint = `https://api.cloudinary.com/v1_1/db5isi6l1/image/upload`;
+const cloud_name = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
+const api_key = process.env.CLOUDINARY_API_KEY;
+const api_secret = process.env.CLOUDINARY_API_SECRET;
 
-const cloudinary = new Cloudinary({
-  cloud: {
-    cloudName
-  }
+cloudinary.v2.config({
+  cloud_name,
+  api_key,
+  api_secret
 });
-export async function uploadToCloudinary(image: Blob) {
-  const formData = new FormData();
-  formData.append("file", image);
-  formData.append("upload_preset", "uvsalod6");
-  const res = await fetch(endpoint, {
-    method: "POST",
-    body: formData
-  });
 
-  if (res.ok) {
-    const json = (await res.json()) as CloudinaryResponse;
-
-    await uploadToDB({
-      alt: "",
-      height: json.height,
-      width: json.width,
-      name: crypto.randomUUID(),
-      url: json.url,
-      type: json.type,
-      size: json.bytes,
-      fullPath: json.public_id
-    });
-  } else {
-    throw new Error("Failed to transform image");
-  }
+export async function deleteResource(ids: string[]) {
+  await cloudinary.v2.api.delete_resources(ids);
 }
 
-type CloudinaryResponse = {
-  public_id: string;
-  version: string;
+export function transformImage(transform: string, public_id: string, format: string) {
+  return `https://res.cloudinary.com/${cloud_name}/image/upload/c_scale,${transform}/${public_id}.${format}`;
+}
+
+type Response = {
+  resources: CloudinaryAsset[];
+  total_count: number;
+};
+
+type CloudinaryAsset = {
   width: number;
   height: number;
   format: string;
-  created_at: string;
-  resource_type: string;
-  tags: any[];
-  bytes: number;
-  type: string;
-  etag: string;
-  url: string;
-  secure_url: string;
-  signature: string;
-  original_filename: string;
+  public_id: string;
 };

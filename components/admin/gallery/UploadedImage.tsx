@@ -54,16 +54,12 @@ export function UploadedImage({ image: imageData }: PropTypes) {
 
   const onDelete = async () => {
     toggle.on();
-    const [{ toast }, { deleteImage }] = await Promise.all([
-      import("react-toastify"),
-      import("@lib/firebase/storage")
-    ]);
+    const [{ toast }] = await Promise.all([import("react-toastify")]);
     try {
-      await deleteImage(image.fullPath);
       const res = await fetch("/api/images", {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id: image.id })
+        body: JSON.stringify({ id: image.id, publicId: image.publicId })
       });
       const json = await res.json();
       if (res.ok) {
@@ -116,7 +112,7 @@ export function UploadedImage({ image: imageData }: PropTypes) {
 
   const onDownload = async () => {
     const endpoint = new URL("/api/download-image", location.origin);
-    endpoint.searchParams.set("name", image.fullPath);
+    endpoint.searchParams.set("name", image.publicId);
     endpoint.searchParams.set("type", image.type);
     try {
       const res = await fetch(endpoint);
