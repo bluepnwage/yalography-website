@@ -56,11 +56,11 @@ export function Gallery({ images }: PropTypes) {
         {images.map((image, index) => {
           const className =
             image.width / image.height > 1
-              ? "lg:col-span-2"
+              ? "lg:col-span-2 row-span-2"
               : image.width / image.height < 1
               ? "row-span-2"
               : "";
-          const objectPosition = className === "lg:col-span-2" ? `center 20%` : undefined;
+          const objectPosition = className === "lg:col-span-2 row-span-2" ? `center 20%` : undefined;
           return (
             <Image
               onMouseEnter={!lazy ? lazyLoad.on : undefined}
