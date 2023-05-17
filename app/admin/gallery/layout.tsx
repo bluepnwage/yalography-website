@@ -7,7 +7,7 @@ import { GalleryProvider } from "@components/admin/gallery/GalleryProvider";
 import prisma from "@lib/prisma";
 import { verifyToken } from "@lib/firebase/admin/auth";
 import { getEnv } from "@util/get-env";
-import { transformImage } from "@lib/cloudinary";
+import { transformImage } from "@lib/transform-image";
 
 const getImages = cache(async () => {
   await prisma.$connect();

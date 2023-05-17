@@ -42,7 +42,7 @@ export function Dropzone({ onDialogClose, folders, environment }: PropTypes) {
     });
     try {
       const promises = files.map(file =>
-        uploadToCloudinary(file, selectedFolder ? parseInt(selectedFolder) : undefined)
+        uploadToCloudinary(file, { folderId: selectedFolder ? parseInt(selectedFolder) : undefined })
       );
       await Promise.all(promises);
       refresh();

@@ -14,15 +14,6 @@ export async function deleteResource(ids: string[]) {
   await cloudinary.v2.api.delete_resources(ids);
 }
 
-export function transformImage(transform: string, public_id: string, format: string) {
-  return `https://res.cloudinary.com/${cloud_name}/image/upload/c_scale,${transform}/${public_id}.${format}`;
-}
-
-type Response = {
-  resources: CloudinaryAsset[];
-  total_count: number;
-};
-
 type CloudinaryAsset = {
   width: number;
   height: number;

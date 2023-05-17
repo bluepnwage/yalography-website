@@ -4,7 +4,7 @@ import prisma from "@lib/prisma";
 // import { Image } from "@components/shared/Image";
 import { Metadata } from "next";
 import { Gallery } from "@components/gallery/Gallery";
-import { transformImage } from "@lib/cloudinary";
+import { transformImage } from "@lib/transform-image";
 
 async function getImages() {
   await prisma.$connect();
