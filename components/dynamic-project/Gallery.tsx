@@ -1,5 +1,6 @@
-import { Grid, Title } from "@components/shared";
+import { Title } from "@components/shared";
 import { Image } from "@components/shared/Image";
+import { transformImage } from "@lib/transform-image";
 import type { Images } from "@prisma/client";
 import styles from "./styles.module.css";
 type PropTypes = {
@@ -22,7 +23,7 @@ export function Gallery({ images }: PropTypes) {
             <Image
               containerClass={` ${fit}`}
               key={image.id}
-              src={image.url}
+              src={transformImage("w_1500", image.publicId, image.type)}
               width={image.width}
               height={image.height}
               alt={""}
