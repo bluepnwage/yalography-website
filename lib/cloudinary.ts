@@ -26,10 +26,10 @@ async function uploadToCloudinary(image: Blob): Promise<CloudinaryResponse> {
   }
 }
 
-export async function transformImage(file: File) {
+export async function transformImage(file: File, width?: number) {
   const image = await uploadToCloudinary(file);
   const cloudImage = cloudinary.image(image.public_id);
-  cloudImage.resize(Resize.scale().width(2000));
+  cloudImage.resize(Resize.scale().width(width ? width / 1.5 : 1200));
   const newImage = await fetch(cloudImage.toURL());
   return newImage.blob();
 }

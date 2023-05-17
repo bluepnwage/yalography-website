@@ -8,7 +8,6 @@ import {
   updateMetadata,
   StorageReference
 } from "firebase/storage";
-import type { UploadResult } from "firebase/storage";
 import type { Images } from "@prisma/client";
 import { transformImage } from "@lib/cloudinary";
 import { app } from "./config";
@@ -25,20 +24,28 @@ type UploadOptions = {
 export async function uploadImage(file: File, options: UploadOptions) {
   const fileName = crypto.randomUUID();
   const imageRef = ref(storage, `gallery-${options.environment}/${fileName}`);
-  const newImage = await transformImage(file);
-  const image = await uploadBytes(imageRef, newImage);
 
-  readFile(file, image, fileName, options?.folderID, options?.projectID);
+  readFile(file, imageRef, fileName, options?.folderID, options?.projectID);
 }
 
 //function to get the width and height of an image then upload to db
-function readFile(file: File, upload: UploadResult, fileName: string, folderID?: number, projectID?: number) {
+function readFile(
+  file: File,
+  imageRef: StorageReference,
+  fileName: string,
+  folderID?: number,
+  projectID?: number
+) {
   const fileReader = new FileReader();
 
   fileReader.onloadend = async () => {
     const image = new Image();
     image.src = fileReader.result as string;
-    const imageURL = await getDownloadURL(upload.ref);
+
+    const newImage = await transformImage(file, image.width);
+    const storageImage = await uploadBytes(imageRef, newImage, meta);
+    const imageURL = await getDownloadURL(storageImage.ref);
+
     const imageData = {
       width: image.width,
       height: image.height,
@@ -47,7 +54,7 @@ function readFile(file: File, upload: UploadResult, fileName: string, folderID?:
       name: fileName,
       type: file.type,
       size: file.size,
-      fullPath: upload.metadata.fullPath,
+      fullPath: storageImage.metadata.fullPath,
       folderId: folderID,
       projectId: projectID
     };
