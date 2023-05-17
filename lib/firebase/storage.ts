@@ -44,8 +44,8 @@ function readFile(
       const image = new Image();
       image.src = fileReader.result as string;
 
-      const newImage = await transformImage(file, image.width);
-      const storageImage = await uploadBytes(imageRef, newImage, meta);
+      // const newImage = await transformImage(file, image.width);
+      const storageImage = await uploadBytes(imageRef, file, meta);
       const imageURL = await getDownloadURL(storageImage.ref);
 
       const imageData = {
