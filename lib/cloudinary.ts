@@ -1,37 +1,41 @@
 import { Cloudinary } from "@cloudinary/url-gen";
 import { Resize } from "@cloudinary/url-gen/actions";
+import { uploadToDB } from "./firebase/storage";
 
 const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
 const presetName = process.env.NEXT_PUBLIC_CLOUDINARY_PRESET;
-export const endpoint = `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`;
+export const endpoint = `https://api.cloudinary.com/v1_1/db5isi6l1/image/upload`;
 
 const cloudinary = new Cloudinary({
   cloud: {
     cloudName
   }
 });
-async function uploadToCloudinary(image: Blob): Promise<CloudinaryResponse> {
+export async function uploadToCloudinary(image: Blob) {
   const formData = new FormData();
   formData.append("file", image);
-  formData.append("upload_preset", presetName);
+  formData.append("upload_preset", "uvsalod6");
   const res = await fetch(endpoint, {
     method: "POST",
     body: formData
   });
+
   if (res.ok) {
-    const json = await res.json();
-    return json;
+    const json = (await res.json()) as CloudinaryResponse;
+
+    await uploadToDB({
+      alt: "",
+      height: json.height,
+      width: json.width,
+      name: crypto.randomUUID(),
+      url: json.url,
+      type: json.type,
+      size: json.bytes,
+      fullPath: json.public_id
+    });
   } else {
     throw new Error("Failed to transform image");
   }
-}
-
-export async function transformImage(file: File, width?: number) {
-  const image = await uploadToCloudinary(file);
-  const cloudImage = cloudinary.image(image.public_id);
-  cloudImage.resize(Resize.scale().width(width ? width / 1.5 : 1200));
-  const newImage = await fetch(cloudImage.toURL());
-  return newImage.blob();
 }
 
 type CloudinaryResponse = {

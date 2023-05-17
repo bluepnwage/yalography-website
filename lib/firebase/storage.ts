@@ -9,7 +9,7 @@ import {
   StorageReference
 } from "firebase/storage";
 import type { Images } from "@prisma/client";
-import { transformImage } from "@lib/cloudinary";
+// import { transformImage } from "@lib/cloudinary";
 import { app } from "./config";
 
 const storage = getStorage(app);
@@ -69,7 +69,7 @@ function readFile(
   });
 }
 
-async function uploadToDB(
+export async function uploadToDB(
   data: Omit<Images, "id" | "published" | "projectId" | "folderId"> & { folderId?: number }
 ) {
   const res = await fetch("/api/images", {
@@ -89,10 +89,10 @@ export async function deleteImage(fullPath: string) {
 
 export async function uploadThumbnail(file: File, projectName: string, environment: Env["environment"]) {
   const imageRef = ref(storage, `thumbnails-${environment}/${projectName}-thumbnail`);
-  const newImage = await transformImage(file);
-  const upload = await uploadBytes(imageRef, newImage);
-  const url = getDownloadURL(upload.ref);
-  return url;
+  // const newImage = await transformImage(file);
+  // const upload = await uploadBytes(imageRef, newImage);
+  // const url = getDownloadURL(upload.ref);
+  return "";
 }
 
 export async function deleteThumbnail(projectName: string, environment: Env["environment"]) {
