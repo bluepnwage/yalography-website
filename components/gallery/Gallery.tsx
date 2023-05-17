@@ -64,7 +64,9 @@ export function Gallery({ images }: PropTypes) {
               src={image.url}
               alt={image.alt || ""}
               refMargin={"100px"}
-              containerClass={`${image.width - image.height > 1 ? "col-span-2" : "row-span-2"}`}
+              containerClass={`${
+                image.width - image.height > 1 ? "col-span-2" : "lg:col-span-1 col-span-2 row-span-2"
+              }`}
               className={`w-full h-full `}
             />
           );
