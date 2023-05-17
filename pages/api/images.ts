@@ -2,6 +2,7 @@ import prisma from "@lib/prisma";
 import { serverError } from "@util/serverError";
 import { logError } from "@lib/notion";
 import { handlePromise } from "@util/handle-promise";
+import { deleteResource } from "@lib/cloudinary";
 
 import type { Images } from "@prisma/client";
 import type { NextApiHandler } from "next";
@@ -20,9 +21,10 @@ async function editImage(data: Partial<Images>) {
   return image;
 }
 
-async function deleteImage(id: number) {
+async function deleteImage(id: number, publicId: string) {
   await prisma.$connect();
   const image = await prisma.images.delete({ where: { id } });
+  await deleteResource([publicId]);
   await prisma.$disconnect();
   return image;
 }
@@ -71,7 +73,7 @@ const handler: NextApiHandler = async (req, res) => {
         return res.status(200).json({ message: "Image updated", data });
       }
       case "DELETE": {
-        const promise = deleteImage(json.id);
+        const promise = deleteImage(json.id, json.publicId);
         const [status, data] = await handlePromise(promise);
         if (status === "error") {
           logError({
@@ -94,7 +96,13 @@ const handler: NextApiHandler = async (req, res) => {
       res.status(500).json({ message: error.message });
     } else {
       const e = error as any;
-      await logError({ title: "Server error", apiURL, description: e.message, stackTrace: e.stack, statusCode: 500 });
+      await logError({
+        title: "Server error",
+        apiURL,
+        description: e.message,
+        stackTrace: e.stack,
+        statusCode: 500
+      });
       res.status(500).json({ message: serverError });
     }
   }

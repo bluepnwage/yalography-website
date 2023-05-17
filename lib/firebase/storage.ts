@@ -9,7 +9,7 @@ import {
   StorageReference
 } from "firebase/storage";
 import type { Images } from "@prisma/client";
-import { transformImage } from "@lib/cloudinary";
+// import { transformImage } from "@lib/cloudinary";
 import { app } from "./config";
 
 const storage = getStorage(app);
@@ -25,51 +25,7 @@ const meta = {
   cacheControl: "max-age=31536000, immutable"
 };
 
-export async function uploadImage(file: File, options: UploadOptions) {
-  const fileName = crypto.randomUUID();
-  const imageRef = ref(storage, `gallery-${options.environment}/${fileName}`);
-
-  await readFile(file, imageRef, fileName, options?.folderID, options?.projectID);
-}
-
-//function to get the width and height of an image then upload to db
-function readFile(
-  file: File,
-  imageRef: StorageReference,
-  fileName: string,
-  folderID?: number,
-  projectID?: number
-) {
-  const fileReader = new FileReader();
-  fileReader.readAsDataURL(file);
-
-  return new Promise<void>(res => {
-    fileReader.onloadend = async () => {
-      const image = new Image();
-      image.src = fileReader.result as string;
-
-      const storageImage = await uploadBytes(imageRef, file, meta);
-      const imageURL = await getDownloadURL(storageImage.ref);
-
-      const imageData = {
-        width: image.width,
-        height: image.height,
-        alt: "",
-        url: imageURL,
-        name: fileName,
-        type: file.type,
-        size: file.size,
-        fullPath: storageImage.metadata.fullPath,
-        folderId: folderID,
-        projectId: projectID
-      };
-      await uploadToDB(imageData);
-      res();
-    };
-  });
-}
-
-async function uploadToDB(
+export async function uploadToDB(
   data: Omit<Images, "id" | "published" | "projectId" | "folderId"> & { folderId?: number }
 ) {
   const res = await fetch("/api/images", {
@@ -79,45 +35,6 @@ async function uploadToDB(
   });
   if (!res.ok) {
     throw new Error("Failed to upload to database");
-  }
-}
-
-export async function deleteImage(fullPath: string) {
-  const imageRef = ref(storage, fullPath);
-  await deleteObject(imageRef);
-}
-
-export async function uploadThumbnail(file: File, projectName: string, environment: Env["environment"]) {
-  const imageRef = ref(storage, `thumbnails-${environment}/${projectName}-thumbnail`);
-  const newImage = await transformImage(file);
-  const upload = await uploadBytes(imageRef, newImage);
-  const url = getDownloadURL(upload.ref);
-  return url;
-}
-
-export async function deleteThumbnail(projectName: string, environment: Env["environment"]) {
-  try {
-    const imageRef = ref(storage, `thumbnail-${environment}/${projectName}-thumbnail`);
-    await deleteObject(imageRef);
-  } catch (error) {
-    if (error instanceof Error) {
-      const res = await fetch("/api/error-log", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          title: "Upload image",
-          status: 500,
-          stackTrace: error.stack,
-          description: error.message
-        })
-      });
-      if (res.ok) {
-        throw new Error(
-          "There was en error when trying to delete your project. The team has already been notified and will find a fix as soon as possible.",
-          { cause: error }
-        );
-      }
-    }
   }
 }
 

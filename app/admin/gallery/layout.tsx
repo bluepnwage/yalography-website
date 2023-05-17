@@ -7,13 +7,14 @@ import { GalleryProvider } from "@components/admin/gallery/GalleryProvider";
 import prisma from "@lib/prisma";
 import { verifyToken } from "@lib/firebase/admin/auth";
 import { getEnv } from "@util/get-env";
+import { transformImage } from "@lib/transform-image";
 
 const getImages = cache(async () => {
   await prisma.$connect();
   const imagesPromise = prisma.images.findMany({ where: { folderId: null } });
   const foldersPromise = prisma.imageFolders.findMany({ include: { Images: true } });
 
-  const [images, folders] = await Promise.all([imagesPromise, foldersPromise]);
+  const [cloudinaryImages, folders] = await Promise.all([imagesPromise, foldersPromise]);
 
   await prisma.$disconnect();
 
@@ -23,6 +24,14 @@ const getImages = cache(async () => {
       createdAt: folder.createdAt.toDateString()
     };
   });
+
+  const images = cloudinaryImages.map(img => {
+    return {
+      ...img,
+      url: transformImage("w_900", img.publicId, img.type)
+    };
+  });
+
   return { images, folders: serializedFolders };
 });
 

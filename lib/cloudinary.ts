@@ -1,53 +1,22 @@
-import { Cloudinary } from "@cloudinary/url-gen";
-import { Resize } from "@cloudinary/url-gen/actions";
+import cloudinary from "cloudinary";
 
-const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
-const presetName = process.env.NEXT_PUBLIC_CLOUDINARY_PRESET;
-export const endpoint = `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`;
+const cloud_name = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
+const api_key = process.env.CLOUDINARY_API_KEY;
+const api_secret = process.env.CLOUDINARY_API_SECRET;
 
-const cloudinary = new Cloudinary({
-  cloud: {
-    cloudName
-  }
+cloudinary.v2.config({
+  cloud_name,
+  api_key,
+  api_secret
 });
-async function uploadToCloudinary(image: Blob): Promise<CloudinaryResponse> {
-  const formData = new FormData();
-  formData.append("file", image);
-  formData.append("upload_preset", presetName);
-  const res = await fetch(endpoint, {
-    method: "POST",
-    body: formData
-  });
-  if (res.ok) {
-    const json = await res.json();
-    return json;
-  } else {
-    throw new Error("Failed to transform image");
-  }
+
+export async function deleteResource(ids: string[]) {
+  await cloudinary.v2.api.delete_resources(ids);
 }
 
-export async function transformImage(file: File, width?: number) {
-  const image = await uploadToCloudinary(file);
-  const cloudImage = cloudinary.image(image.public_id);
-  cloudImage.resize(Resize.scale().width(width ? width / 1.5 : 1200));
-  const newImage = await fetch(cloudImage.toURL());
-  return newImage.blob();
-}
-
-type CloudinaryResponse = {
-  public_id: string;
-  version: string;
+type CloudinaryAsset = {
   width: number;
   height: number;
   format: string;
-  created_at: string;
-  resource_type: string;
-  tags: any[];
-  bytes: number;
-  type: string;
-  etag: string;
-  url: string;
-  secure_url: string;
-  signature: string;
-  original_filename: string;
+  public_id: string;
 };

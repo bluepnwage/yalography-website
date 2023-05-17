@@ -33,8 +33,8 @@ export function Dropzone({ onDialogClose, folders, environment }: PropTypes) {
     if (files.length === 0) return;
     toggle.on();
 
-    const [{ uploadImage }, { toast }] = await Promise.all([
-      import("@lib/firebase/storage"),
+    const [{ uploadToCloudinary }, { toast }] = await Promise.all([
+      import("@lib/upload-image"),
       import("react-toastify")
     ]);
     const id = toast.loading("Compressing and uploading images. This may take a while...", {
@@ -42,7 +42,7 @@ export function Dropzone({ onDialogClose, folders, environment }: PropTypes) {
     });
     try {
       const promises = files.map(file =>
-        uploadImage(file, { folderID: selectedFolder ? parseInt(selectedFolder) : undefined, environment })
+        uploadToCloudinary(file, { folderId: selectedFolder ? parseInt(selectedFolder) : undefined })
       );
       await Promise.all(promises);
       refresh();

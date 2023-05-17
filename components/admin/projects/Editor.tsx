@@ -16,6 +16,7 @@ import { useRouter } from "next/navigation";
 import { useToggle } from "@lib/hooks/useToggle";
 import { photoshootTypes } from "@lib/photoshoot";
 import { usePagination } from "@lib/hooks/usePagination";
+import { transformImage } from "@lib/transform-image";
 
 import type { FormEvent } from "react";
 import type { SerializedProject } from "@lib/prisma";
@@ -120,13 +121,13 @@ export function Editor({ projectData, galleryImages, environment }: PropTypes) {
       //if theres already a previous thumbnail but the user wants to change the thumbnail
       //then upload a new thumbnail
       if ((!url && thumbnail) || (url !== thumbnailURL && thumbnail)) {
-        const { uploadThumbnail } = await import("@lib/firebase/storage");
-        url = await uploadThumbnail(thumbnail, project.name, environment);
+        const { uploadThumbnail } = await import("@lib/upload-image");
+        url = await uploadThumbnail(thumbnail);
       }
 
       if (images && images.length > 0) {
-        const { uploadImage } = await import("@lib/firebase/storage");
-        const promise = images.map(image => uploadImage(image, { projectID: project.id, environment }));
+        const { uploadToCloudinary } = await import("@lib/upload-image");
+        const promise = images.map(image => uploadToCloudinary(image, { projectId: project.id }));
         await Promise.all(promise);
       }
 
@@ -357,7 +358,7 @@ export function Editor({ projectData, galleryImages, environment }: PropTypes) {
                         <Image
                           width={image.width}
                           height={image.height}
-                          src={image.url}
+                          src={transformImage("w_900", image.publicId, image.type)}
                           alt={""}
                           containerClass={"w-full h-full"}
                           className="w-full h-full object-cover"
@@ -398,7 +399,7 @@ export function Editor({ projectData, galleryImages, environment }: PropTypes) {
                 return (
                   <div key={image.id} className="h-full w-full flex flex-col gap-4">
                     <Image
-                      src={image.url}
+                      src={transformImage("w_900", image.publicId, image.type)}
                       alt={""}
                       width={image.width}
                       height={image.height}
