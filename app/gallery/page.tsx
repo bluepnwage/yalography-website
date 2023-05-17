@@ -37,6 +37,7 @@ export default async function GalleryPage() {
           {images.map(img => {
             return (
               <img
+                key={img.public_id}
                 alt={""}
                 className={`${img.width - img.height > 1 ? "col-span-2" : "row-span-2"}`}
                 // width={720}
