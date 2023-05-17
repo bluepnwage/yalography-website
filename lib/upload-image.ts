@@ -41,7 +41,7 @@ export async function uploadToCloudinary(image: Blob, options?: UploadOptions) {
       width: json.width,
       name: crypto.randomUUID(),
       url: json.url,
-      type: json.type,
+      type: json.format,
       size: json.bytes,
       publicId: json.public_id,
       projectId: options?.projectId,
