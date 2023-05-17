@@ -52,15 +52,8 @@ export function Gallery({ images }: PropTypes) {
           setOpen={toggle.set}
         />
       )}
-      <div className={styles.grid}>
+      <div style={{ gridAutoFlow: "dense" }} className="grid grid-cols-2 gap-2 w-[90%]">
         {images.map((image, index) => {
-          const className =
-            image.width / image.height > 1
-              ? "lg:col-span-2"
-              : image.width / image.height < 1
-              ? "row-span-2"
-              : "";
-          const objectPosition = className === "lg:col-span-2" ? `center 20%` : undefined;
           return (
             <Image
               onMouseEnter={!lazy ? lazyLoad.on : undefined}
@@ -68,12 +61,13 @@ export function Gallery({ images }: PropTypes) {
               key={image.id}
               width={image.width}
               height={image.height}
-              style={{ objectPosition }}
               src={image.url}
               alt={image.alt || ""}
               refMargin={"100px"}
-              containerClass={`w-full h-full cursor-pointer overflow-hidden ${className}`}
-              className={`w-full h-full ${styles.img} object-cover`}
+              containerClass={`${
+                image.width - image.height > 1 ? "col-span-2" : "lg:col-span-1 col-span-2 row-span-2"
+              }`}
+              className={`w-full h-full `}
             />
           );
         })}

@@ -23,16 +23,12 @@ export function ProjectMenu({ id, published, projectName, pinned, environment }:
 
   const onDelete = async () => {
     toggle.on();
-    const [{ toast }, { deleteThumbnail }] = await Promise.all([
-      import("react-toastify"),
-      import("@lib/firebase/storage")
-    ]);
+    const { toast } = await import("react-toastify");
 
     const endpoint = new URL("/api/projects", location.origin);
     endpoint.searchParams.set("revalidate", published ? "1" : "0");
     const toastID = toast.loading("Deleting project.");
     try {
-      await deleteThumbnail(projectName, environment);
       const res = await fetch(endpoint, {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
