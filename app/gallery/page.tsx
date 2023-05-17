@@ -1,7 +1,6 @@
 import { PageIntro } from "@components/PageIntro";
 import { Section } from "@components/shared";
 import prisma from "@lib/prisma";
-// import { Image } from "@components/shared/Image";
 import { Metadata } from "next";
 import { Gallery } from "@components/gallery/Gallery";
 import { transformImage } from "@lib/transform-image";
@@ -30,19 +29,7 @@ export default async function GalleryPage() {
         Through Our Gallery
       </PageIntro>
       <Section className="mt-20">
-        {/* <Gallery images={images} /> */}
-        <div style={{ gridAutoFlow: "dense" }} className="grid grid-cols-2 gap-2 w-[90%]">
-          {images.map(img => {
-            return (
-              <img
-                key={img.id}
-                alt={""}
-                className={`${img.width - img.height > 1 ? "col-span-2" : "row-span-2"}`}
-                src={img.url}
-              />
-            );
-          })}
-        </div>
+        <Gallery images={images} />
       </Section>
     </>
   );

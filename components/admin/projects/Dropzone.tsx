@@ -22,7 +22,6 @@ export function Dropzone({ onDrop, multiple }: PropTypes) {
         }}
         onDrop={files => onDrop(files)}
         onReject={onReject}
-        maxSize={3 * 1024 ** 2}
         accept={IMAGE_MIME_TYPE}
       >
         <div className="flex justify-center gap-4" style={{ minHeight: 220, pointerEvents: "none" }}>

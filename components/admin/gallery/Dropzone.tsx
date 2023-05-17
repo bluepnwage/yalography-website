@@ -86,7 +86,6 @@ export function Dropzone({ onDialogClose, folders, environment }: PropTypes) {
           }}
           onDrop={onDrop}
           onReject={onFileReject}
-          maxSize={3 * 1024 ** 2}
           accept={IMAGE_MIME_TYPE}
           loading={isLoading}
         >
