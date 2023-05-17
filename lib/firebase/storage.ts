@@ -21,6 +21,10 @@ type UploadOptions = {
   projectID?: number;
 } & Env;
 
+const meta = {
+  cacheControl: "max-age=31536000, immutable"
+};
+
 export async function uploadImage(file: File, options: UploadOptions) {
   const fileName = crypto.randomUUID();
   const imageRef = ref(storage, `gallery-${options.environment}/${fileName}`);
@@ -44,7 +48,6 @@ function readFile(
       const image = new Image();
       image.src = fileReader.result as string;
 
-      // const newImage = await transformImage(file, image.width);
       const storageImage = await uploadBytes(imageRef, file, meta);
       const imageURL = await getDownloadURL(storageImage.ref);
 
@@ -117,10 +120,6 @@ export async function deleteThumbnail(projectName: string, environment: Env["env
     }
   }
 }
-
-const meta = {
-  cacheControl: "max-age=31536000, immutable"
-};
 
 async function update(ref: StorageReference) {
   await updateMetadata(ref, meta);
