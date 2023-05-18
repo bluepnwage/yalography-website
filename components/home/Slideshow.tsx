@@ -25,16 +25,7 @@ const variants = {
     };
   }
 };
-const map = new Map<string, string>();
-function prefetch(img: string) {
-  if (!map.has(img)) {
-    const link = document.createElement("link");
-    link.href = `/slideshow/${img}`;
-    link.rel = "prefetch";
-    document.head.append(link);
-    map.set(img, img);
-  }
-}
+
 export const Slideshow = () => {
   const [[page, direction], setPage] = useState([0, 0]);
   const timerId = useRef<NodeJS.Timer | undefined>();
@@ -56,7 +47,6 @@ export const Slideshow = () => {
   const imageIndex = wrap(0, images.length, page);
 
   const paginate = useCallback(() => {
-    prefetch(images[imageIndex + 1]);
     setPage(prev => [prev[0] + 1, 1]);
   }, []);
 
