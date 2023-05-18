@@ -3,6 +3,7 @@ import { Grid, Section, ThemeIcon, Title } from "@components/shared";
 import { Button } from "@components/shared/Button";
 import { Project, ServiceCard, Stats } from "@components/home";
 import { Ballon, Bouquet, BoxArchive, Email, Globe, Location, Maternity, Person } from "@lib/icons";
+import { Slideshow } from "@components/home/Slideshow";
 import Image from "next/image";
 
 import prisma from "@lib/prisma";
@@ -14,7 +15,7 @@ import styles from "./Home.module.css";
 
 //Types
 import type * as Props from "@components/home";
-import { Metadata } from "next";
+import type { Metadata } from "next";
 
 const getProjects = async () => {
   await prisma.$connect();
@@ -71,7 +72,7 @@ export default async function HomePage() {
       </Section>
       {/* About section */}
       <Section>
-        <Grid>
+        <Grid className="mb-16">
           <figure className="col-span-full lg:col-span-4 bg-red-600">
             <Image src={photographer} alt={""} className="w-full h-full object-cover" />
           </figure>
@@ -100,6 +101,7 @@ export default async function HomePage() {
             </Button>
           </div>
         </Grid>
+        <Slideshow />
       </Section>
       {/* Services section */}
       <Section>
