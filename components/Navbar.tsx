@@ -4,7 +4,7 @@ import logo from "@public/logo.png";
 import Image from "next/image";
 import { MobileMenu } from "./MobileMenu";
 import { Suspense } from "react";
-import { AdminWrapper } from "./AdminWrapper";
+import { Admin } from "./Admin";
 
 interface NavLinkProps {
   href: string;
@@ -53,7 +53,7 @@ export function Header() {
             <MobileMenu />
           </Suspense>
           <Suspense fallback={null}>
-            <AdminWrapper />
+            <Admin />
           </Suspense>
           <Suspense fallback={null}>
             <ThemeSwitcher />

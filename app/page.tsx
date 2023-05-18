@@ -5,6 +5,7 @@ import { Project, ServiceCard, Stats } from "@components/home";
 import { Ballon, Bouquet, BoxArchive, Email, Globe, Location, Maternity, Person } from "@lib/icons";
 import { Slideshow } from "@components/home/Slideshow";
 import Image from "next/image";
+import { Suspense } from "react";
 
 import prisma from "@lib/prisma";
 
@@ -101,7 +102,9 @@ export default async function HomePage() {
             </Button>
           </div>
         </Grid>
-        <Slideshow />
+        <Suspense fallback={null}>
+          <Slideshow />
+        </Suspense>
       </Section>
       {/* Services section */}
       <Section>
