@@ -3,7 +3,9 @@ import { Grid, Section, ThemeIcon, Title } from "@components/shared";
 import { Button } from "@components/shared/Button";
 import { Project, ServiceCard, Stats } from "@components/home";
 import { Ballon, Bouquet, BoxArchive, Email, Globe, Location, Maternity, Person } from "@lib/icons";
+import { Slideshow } from "@components/home/Slideshow";
 import Image from "next/image";
+import { Suspense } from "react";
 
 import prisma from "@lib/prisma";
 
@@ -14,7 +16,7 @@ import styles from "./Home.module.css";
 
 //Types
 import type * as Props from "@components/home";
-import { Metadata } from "next";
+import type { Metadata } from "next";
 
 const getProjects = async () => {
   await prisma.$connect();
@@ -71,7 +73,7 @@ export default async function HomePage() {
       </Section>
       {/* About section */}
       <Section>
-        <Grid>
+        <Grid className="mb-16">
           <figure className="col-span-full lg:col-span-4 bg-red-600">
             <Image src={photographer} alt={""} className="w-full h-full object-cover" />
           </figure>
@@ -100,6 +102,9 @@ export default async function HomePage() {
             </Button>
           </div>
         </Grid>
+        <Suspense fallback={null}>
+          <Slideshow />
+        </Suspense>
       </Section>
       {/* Services section */}
       <Section>
@@ -117,18 +122,18 @@ export default async function HomePage() {
       </Section>
       {/* Projects section */}
       <Section>
-        <Grid className="grid-rows-5 lg:grid-rows-3">
-          <div className="bg-white ring-1 ring-black ring-opacity-5 dark:ring-0 dark:bg-zinc-800 col-span-full lg:col-span-4 p-4 h-64 flex flex-col justify-center items-center gap-10">
-            <header className="text-center space-y-2">
-              <Title color={"red"} order={"h2"} size={"md"}>
-                Projects
-              </Title>
-              <Title order={"h3"}>Check out some of our works</Title>
-            </header>
-            <Button component="a" href={"/projects"}>
-              View all projects
-            </Button>
-          </div>
+        <div className=" flex flex-col justify-center items-center gap-10   mb-16">
+          <header className="text-center space-y-2">
+            <Title color={"red"} order={"h2"} size={"md"}>
+              Projects
+            </Title>
+            <Title order={"h3"}>Check out some of our works</Title>
+          </header>
+          <Button component="a" href={"/projects"}>
+            View all projects
+          </Button>
+        </div>
+        <Grid>
           {projects.map(proj => {
             return <Project project={proj} key={proj.id} />;
           })}

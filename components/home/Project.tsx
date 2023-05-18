@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { Anchor } from "@components/shared";
 import Link from "next/link";
 import type { PinnedProject } from "@app/page";
 
@@ -10,7 +9,8 @@ export interface PropTypes {
 export function Project({ project }: PropTypes) {
   return (
     <Link
-      className={`lg:col-span-4 lg:row-span-2 last-of-type:lg:row-span-1 last-of-type:lg:col-span-8 col-span-full bg-black flex items-end p-4 group  relative  h-full w-full`}
+      className={`first-of-type:col-span-5 col-span-7 last-of-type:col-span-5 h-96 bg-black flex items-end p-4 group
+        relative  w-full`}
       href={`projects/${project.id}`}
     >
       <figure className={`h-full w-full flex items-end`}>
