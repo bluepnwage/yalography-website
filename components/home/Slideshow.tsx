@@ -67,6 +67,7 @@ export const Slideshow = () => {
       <AnimatePresence initial={false} custom={direction}>
         <motion.img
           key={page}
+          alt={""}
           className="h-full w-full absolute object-cover"
           src={`/slideshow/${images[imageIndex]}`}
           custom={direction}
