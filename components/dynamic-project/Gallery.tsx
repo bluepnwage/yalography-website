@@ -2,7 +2,7 @@ import { Title } from "@components/shared";
 import { Image } from "@components/shared/Image";
 import { transformImage } from "@lib/transform-image";
 import type { Images } from "@prisma/client";
-import styles from "./styles.module.css";
+
 type PropTypes = {
   images: Images[];
 };
@@ -16,18 +16,17 @@ export function Gallery({ images }: PropTypes) {
         </Title>
         <Title order={"h3"}>See the images that brought this project to life</Title>
       </div>
-      <section className={styles.grid}>
+      <section className={"grid grid-cols-3 gap-8"}>
         {images.map(image => {
-          const fit = image.width > image.height ? `${styles.colSpan} ${styles.rowSpan}` : styles.rowSpan;
           return (
             <Image
-              containerClass={` ${fit}`}
+              containerClass={``}
               key={image.id}
               src={transformImage("w_1500", image.publicId, image.type)}
               width={image.width}
               height={image.height}
               alt={""}
-              className={`h-full w-full `}
+              className={`h-full w-full object-cover`}
             />
           );
         })}
