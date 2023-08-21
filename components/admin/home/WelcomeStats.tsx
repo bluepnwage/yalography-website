@@ -10,11 +10,9 @@ export function WelcomeStats() {
   return (
     <div className="flex gap-4 items-stretch mb-20">
       <Suspense fallback={<WelcomeCardLoading />}>
-        {/*@ts-expect-error */}
         <WelcomeCard />
       </Suspense>
       <Suspense fallback={<OrdersContainerLoading />}>
-        {/*@ts-expect-error */}
         <OrdersContainer />
       </Suspense>
     </div>
