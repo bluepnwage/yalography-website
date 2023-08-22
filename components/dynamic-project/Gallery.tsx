@@ -1,6 +1,8 @@
 import { Title } from "@components/shared";
 import { Image } from "@components/shared/Image";
 import { transformImage } from "@lib/transform-image";
+import { cx } from "cva";
+
 import type { Images } from "@prisma/client";
 
 type PropTypes = {
@@ -8,9 +10,12 @@ type PropTypes = {
 };
 
 export function Gallery({ images }: PropTypes) {
+  const sortedImages = images.sort(img => {
+    return img.width / img.height > 1 ? 1 : -1;
+  });
   return (
     <>
-      <div className="text-center space-y-2 py-10">
+      <div className="text-center space-y-2 py-10 mt-10 lg:mt-20">
         <Title order={"h2"} color={"red"} size={"md"}>
           Gallery
         </Title>
