@@ -1,10 +1,11 @@
-import { Anchor, Breadcrumbs } from "@components/shared";
-import { BookingMenu } from "@components/admin/bookings/dynamic/Menu";
-import { Buttons } from "./Buttons";
+import { Home } from "@lib/icons";
+import { IconChevronRight } from "@tabler/icons-react";
 
 import prisma from "@lib/prisma";
 import { cache } from "react";
 import { notFound } from "next/navigation";
+import Link from "next/link";
+import { BookingButtons } from "@components/admin/bookings/dynamic/booking-buttons";
 
 const getBooking = cache(async (id: number) => {
   await prisma.$connect();
@@ -14,84 +15,110 @@ const getBooking = cache(async (id: number) => {
   return { ...booking, date: booking.date.toDateString() };
 });
 
-export default async function Booking({ params }: { params: { status: "pending" | "approved"; id: string } }) {
+export default async function Booking({
+  params
+}: {
+  params: { status: "pending" | "approved"; id: string };
+}) {
   const id = parseInt(params.id);
   if (!id) notFound();
   const booking = await getBooking(id);
 
   return (
     <>
-      <Breadcrumbs>
-        <Anchor href={"/admin/bookings"}>Bookings</Anchor>
-        <Anchor href={`/admin/bookings/${params.status}`} className="capitalize">
-          {params.status}
-        </Anchor>
-        <Anchor href={`/admin/bookings/${params.status}/${params.id}`}>{booking.id}</Anchor>
-      </Breadcrumbs>
-      <section className="grid grid-cols-12 gap-4 mt-5">
-        <div className="col-span-4 row-span-1 row-start-1 p-4 flex flex-col  bg-white dark:bg-zinc-800 rounded-md ring-1 ring-zinc-200 dark:ring-zinc-700">
-          <div className="py-2 mb-4 -mx-4 px-4 -mt-4 border-b dark:border-zinc-700 border-zinc-200">
-            <h2 className="font-bold text-2xl">Customer details</h2>
+      <div className="flex gap-5">
+        <div className="basis-4/5">
+          <div className="border-b border-gray-600 flex justify-between pb-4">
+            <div className="flex text-sm gap-4 items-center">
+              <Link href={"/admin/"}>
+                <Home size={14} />
+              </Link>
+              <IconChevronRight size={14} />
+              <Link href={"/admin/bookings"}>Bookings</Link>
+              <IconChevronRight size={14} />
+              <Link href={`/admin/bookings/${params.status}/${params.id}`}>{booking.id}</Link>
+            </div>
+            <BookingButtons id={booking.id} status={params.status} />
           </div>
-          <div className="flex flex-col grow space-y-4 justify-evenly">
-            <div className="flex justify-between  ">
-              <p className="font-semibold text-gray-400">Name:</p>
-              <p>
-                {booking.firstName} {booking.lastName}
+          <section className=" mt-10">
+            <header className="col-span-full ">
+              <h1 className="font-semibold text-gray-50 text-4xl capitalize">{booking.type}</h1>
+              <p className="mt-4 text-gray-300">
+                Booking is{" "}
+                <span className="font-semibold">{relativeTime(new Date(booking.date).toString())}</span>
               </p>
+            </header>
+            <div className="my-10">
+              <h2 className="mb-6 font semibold text-gray-50 text-2xl">Contact information</h2>
+              <div className="flex flex-col gap-2">
+                <p>
+                  {booking.firstName} {booking.lastName}
+                </p>
+                <p>{booking.phone}</p>
+                <p>{booking.email}</p>
+              </div>
             </div>
-            <div className="flex justify-between  ">
-              <p className="font-semibold text-gray-400">Email:</p>
-              <p>{booking.email}</p>
+            <div className="mb-10">
+              <h2 className="mb-6 font semibold text-gray-50 text-2xl">Comments</h2>
+              <p>{booking.description}</p>
             </div>
-            <div className="flex justify-between ">
-              <p className="font-semibold text-gray-400">Phone:</p>
-              <p>{booking.phone}</p>
-            </div>
-          </div>
+          </section>
         </div>
-        <div className="col-span-4 row-span-1 row-start-2 p-4 flex flex-col  bg-white dark:bg-zinc-800 rounded-md ring-1 ring-zinc-200 dark:ring-zinc-700">
-          <div className="py-2 mb-4 -mx-4 px-4 -mt-4 border-b dark:border-zinc-700 border-zinc-200">
-            <h2 className="font-bold text-2xl">Add-ons</h2>
-          </div>
-          <div className="flex flex-col grow space-y-4 justify-evenly">
-            <ul className="list-disc pl-4">
-              {booking.features?.split(",").map((feature) => {
-                return <li key={feature}>{feature}</li>;
-              })}
-            </ul>
-          </div>
-        </div>
-
-        <div className="col-span-8 row-start-1 row-span-2 ring-1 bg-white p-4 ring-zinc-200 dark:ring-zinc-700 dark:bg-zinc-800 rounded-md">
-          <div className="border-b flex justify-between border-zinc-200 dark:border-zinc-700 -mx-4 -mt-4 px-4 py-1 mb-4">
-            <h1 className="font-bold text-4xl">Order details</h1>
-            <BookingMenu id={booking.id} status={params.status} />
-          </div>
-          <p className="text-gray-400 mb-4">Booking #{booking.id}</p>
-          <div className="space-y-2">
-            <div className="flex justify-between">
-              <p className="font-semibold text-gray-400">Environment:</p>
-              <p>{booking.environment ? "Inside" : "Outside"}</p>
-            </div>
-            <div className="flex justify-between">
-              <p className="font-semibold text-gray-400">Photoshoot type:</p>
-              <p className="capitalize">{booking.type}</p>
-            </div>
-            <div className="flex justify-between">
-              <p className="font-semibold text-gray-400">Date:</p>
-              <p className="capitalize">
-                {booking.date}, {booking.time}
-              </p>
-            </div>
-            <div className="flex flex-col gap-2">
-              <p className="font-semibold text-gray-400">Description:</p>
-              <p className="capitalize">{booking.description}</p>
-            </div>
-          </div>
-        </div>
-        <Buttons id={booking.id} status={params.status} />
-      </section>
+        <Sidebar
+          date={booking.date}
+          environment={booking.environment}
+          features={booking.features?.split(",") || []}
+          status={booking.status || ""}
+        />
+      </div>
     </>
   );
+}
+
+type PropTypes = {
+  status: string;
+  date: string;
+  environment: boolean;
+  features: string[];
+};
+
+function Sidebar({ date, environment, features, status }: PropTypes) {
+  return (
+    <div className="basis-1/5 border-l border-l-gray-600 pt-14 px-4">
+      <p className="font-medium text-lg mb-8 text-gray-50">Details</p>
+      <ul className="space-y-4 dark:text-gray-300 mb-8 capitalize">
+        <li className="flex justify-between">
+          <span className="font-medium dark:text-gray-100">Status</span> {status}
+        </li>
+        <li className="flex justify-between">
+          <span className="font-medium dark:text-gray-100">Date</span> {formatDate(new Date(date))}
+        </li>
+        <li className="flex justify-between">
+          <span className="font-medium dark:text-gray-100">Environment</span>{" "}
+          {environment ? "Inside" : "Outside"}
+        </li>
+      </ul>
+      <p className="font-medium text-lg mb-4 text-gray-50">Add-ons</p>
+      <ul className="space-y-4 dark:text-gray-300 mb-8 list-disc list-inside">
+        {features.map((feature, index) => {
+          return (
+            <li key={index} className="flex justify-between capitalize">
+              {feature}
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  );
+}
+
+function formatDate(date: Date) {
+  const formatter = new Intl.DateTimeFormat("en-US", { dateStyle: "medium" });
+  return formatter.format(date);
+}
+
+function relativeTime(date: string) {
+  const formatter = new Intl.RelativeTimeFormat("en-US", { style: "long" });
+  const days = Date.parse(date) - Date.now();
+  return formatter.format(Math.round(days / 1000 / 60 / 60 / 24), "days");
 }

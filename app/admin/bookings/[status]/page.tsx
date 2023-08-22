@@ -3,10 +3,6 @@ import { Title } from "@components/shared";
 import { verifyToken } from "@lib/firebase/admin/auth";
 import { notFound } from "next/navigation";
 
-export function generateStaticParams() {
-  return [{ status: "pending" }, { status: "approved" }];
-}
-
 export default async function BookingsPage({ params }: { params: { status: "approved" | "pending" } }) {
   await verifyToken();
   if (params.status !== "approved" && params.status !== "pending") notFound();

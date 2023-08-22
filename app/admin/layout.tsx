@@ -14,7 +14,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
     <div>
       <Nav />
       <>
-        <div className="w-4/5 ml-auto p-5">{children}</div>
+        <div className="w-5/6 ml-auto p-5">{children}</div>
       </>
     </div>
   );

@@ -35,9 +35,12 @@ const getBookings = async () => {
 
 const getCompletedBookings = cache(async () => {
   await prisma.$connect();
-  const completed = await prisma.bookings.findMany({ where: { status: "completed" }, include: { orders: true } });
+  const completed = await prisma.bookings.findMany({
+    where: { status: "completed" },
+    include: { orders: true }
+  });
   await prisma.$disconnect();
-  return completed.map((booking) => {
+  return completed.map(booking => {
     return {
       ...booking,
       date: booking.date.toDateString(),
@@ -55,7 +58,7 @@ export default async function Layout({ children }: PropTypes) {
   const [bookings, completedBookings] = await Promise.all([bookingsPromise, completedBookingsPromise]);
   return (
     <>
-      <div className="border-b mb-5 z-10 -mt-5 bg-white border-zinc-200 dark:bg-zinc-900 p-5 dark:border-zinc-600 -mx-5 sticky top-[64px] ">
+      {/* <div className="border-b mb-5 z-10 -mt-5 bg-white border-zinc-200 dark:bg-zinc-900 p-5 dark:border-zinc-600 -mx-5 sticky top-[64px] ">
         <FlexContainer className="justify-evenly">
           <div className="text-center">
             <p>Pending bookings: {bookings.pending.length}</p>
@@ -71,7 +74,7 @@ export default async function Layout({ children }: PropTypes) {
           </div>
           <BookingDialog />
         </FlexContainer>
-      </div>
+      </div> */}
       <BookingsProvider completed={completedBookings} {...bookings}>
         {children}
       </BookingsProvider>
