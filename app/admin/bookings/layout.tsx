@@ -1,10 +1,10 @@
-import { Anchor, FlexContainer } from "@components/shared";
-import { BookingsProvider } from "@components/admin/bookings/BookingsProvider";
-import { BookingDialog } from "@components/admin/bookings/BookingDialog";
+import { Anchor, FlexContainer } from "@/components/shared";
+import { BookingsProvider } from "@/components/admin/bookings/BookingsProvider";
+import { BookingDialog } from "@/components/admin/bookings-dialog";
 
 import { cache } from "react";
-import prisma from "@lib/prisma";
-import { verifyToken } from "@lib/firebase/admin/auth";
+import prisma from "@/lib/prisma";
+import { verifyToken } from "@/lib/firebase/admin/auth";
 
 export const dynamic = "force-dynamic";
 

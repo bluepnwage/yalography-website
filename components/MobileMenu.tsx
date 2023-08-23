@@ -1,5 +1,5 @@
 "use client";
-import { MenuIcon, XClose } from "@lib/icons";
+import { MenuIcon, XClose } from "@/lib/icons";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";

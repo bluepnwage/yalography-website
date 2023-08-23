@@ -1,5 +1,5 @@
-import { logError } from "@lib/notion";
-import { handlePromise } from "@util/handle-promise";
+import { logError } from "@/lib/notion";
+import { handlePromise } from "@/util/handle-promise";
 import type { NextApiHandler } from "next";
 
 async function test() {

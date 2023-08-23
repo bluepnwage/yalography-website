@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Badge, Anchor, Card, Title } from "@components/shared";
+import { Badge, Anchor, Card, Title } from "@/components/shared";
 import type { Projects } from "@prisma/client";
 
 type PropTypes = {

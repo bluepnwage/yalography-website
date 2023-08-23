@@ -1,21 +1,21 @@
 "use client";
-import { ScrollAreaDemo } from "@components/shared/ScrollArea";
-import { Edit, Trash } from "@lib/icons";
-import { ActionIcon } from "@components/shared/ActionIcon";
+import { ScrollAreaDemo } from "@/components/shared/ScrollArea";
+import { Edit, Trash } from "@/lib/icons";
+import { ActionIcon } from "@/components/shared/ActionIcon";
 import { CreateList } from "./ListMenu";
-import { Input } from "@components/shared/Input";
-import { Button } from "@components/shared/Button";
+import { Input } from "@/components/shared/Input";
+import { Button } from "@/components/shared/Button";
 import Link from "next/link";
 
 import { useTasks } from "./TasksProvider";
-import { useToggle } from "@lib/hooks/useToggle";
-import { useRouteRefresh } from "@lib/hooks/useRouteRefresh";
+import { useToggle } from "@/lib/hooks/useToggle";
+import { useRouteRefresh } from "@/lib/hooks/useRouteRefresh";
 import dynamic from "next/dynamic";
 
-import type { SerializedTask, SerializedTaskList } from "@lib/prisma";
+import type { SerializedTask, SerializedTaskList } from "@/lib/prisma";
 import type { FormEvent } from "react";
 
-const Dialog = dynamic(() => import("@components/shared/Dialog").then((mod) => mod.Dialog));
+const Dialog = dynamic(() => import("@/components/shared/Dialog").then(mod => mod.Dialog));
 
 export function TaskLists() {
   const { taskLists } = useTasks();
@@ -27,7 +27,7 @@ export function TaskLists() {
         <CreateList />
       </div>
       <ScrollAreaDemo height={300} orientation="vertical" className="">
-        {taskLists.map((list) => {
+        {taskLists.map(list => {
           return <List key={list.id} list={list} />;
         })}
       </ScrollAreaDemo>
@@ -45,7 +45,7 @@ function List({ list }: PropTypes) {
   const [lazyLoad, lazyLoadToggle] = useToggle();
   const [dialog, dialogToggle] = useToggle();
 
-  const pending = list.tasks.filter((task) => !task.status);
+  const pending = list.tasks.filter(task => !task.status);
 
   const onDelete = async () => {
     toggle.on();
@@ -126,7 +126,12 @@ function List({ list }: PropTypes) {
             >
               <Edit size={16} className="stroke-indigo-200" />
             </ActionIcon>
-            <ActionIcon disabled={isLoading} onClick={onDelete} aria-label="Delete task list" className="h-7 w-7">
+            <ActionIcon
+              disabled={isLoading}
+              onClick={onDelete}
+              aria-label="Delete task list"
+              className="h-7 w-7"
+            >
               <Trash size={16} className="stroke-red-200" />
             </ActionIcon>
           </div>

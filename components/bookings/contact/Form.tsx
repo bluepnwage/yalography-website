@@ -1,9 +1,9 @@
 "use client";
-import { Button } from "@components/shared/Button";
-import { Input } from "@components/shared/Input";
-import { Textarea } from "@components/shared/Textarea";
-import { useToggle } from "@lib/hooks/useToggle";
-import { FormProps } from "@lib/notion";
+import { Button } from "@/components/shared/Button";
+import { Input } from "@/components/shared/Input";
+import { Textarea } from "@/components/shared/Textarea";
+import { useToggle } from "@/lib/hooks/useToggle";
+import { FormProps } from "@/lib/notion";
 import { FormEvent, useState } from "react";
 
 export function Form() {
@@ -12,7 +12,7 @@ export function Form() {
 
   const handleChange = (e: FormEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.currentTarget;
-    setForm((prev) => ({ ...prev, [name]: value }));
+    setForm(prev => ({ ...prev, [name]: value }));
   };
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -94,7 +94,14 @@ export function Form() {
           id={"subject"}
         />
       </div>
-      <Textarea required value={form.message || ""} name="message" onChange={handleChange} rows={5} label="Message" />
+      <Textarea
+        required
+        value={form.message || ""}
+        name="message"
+        onChange={handleChange}
+        rows={5}
+        label="Message"
+      />
       <Button disabled={loading} className="self-end">
         Submit message
       </Button>

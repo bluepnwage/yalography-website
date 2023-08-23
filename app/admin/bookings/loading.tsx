@@ -1,4 +1,4 @@
-import { Card, Skeleton, FlexContainer, Grid } from "@components/shared";
+import { Card, Skeleton, FlexContainer, Grid } from "@/components/shared";
 
 export default function Loading() {
   const bestShoots = Array(5).fill(null);

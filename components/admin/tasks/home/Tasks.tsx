@@ -1,28 +1,28 @@
 "use client";
 //Components
-import { Table } from "@components/shared/Table";
-import { Badge } from "@components/shared/Badge";
-import { ActionIcon } from "@components/shared/ActionIcon";
-import { Edit, Trash } from "@lib/icons";
+import { Table } from "@/components/shared/Table";
+import { Badge } from "@/components/shared/Badge";
+import { ActionIcon } from "@/components/shared/ActionIcon";
+import { Edit, Trash } from "@/lib/icons";
 import { FilterBar } from "./Filter";
-import { Pagination } from "@components/shared/Pagination";
-import { Checkbox } from "@components/shared/Checkbox";
+import { Pagination } from "@/components/shared/Pagination";
+import { Checkbox } from "@/components/shared/Checkbox";
 
 //Hooks/util functions
 import { cx } from "cva";
-import { filterTasks } from "@util/filterTasks";
+import { filterTasks } from "@/util/filterTasks";
 import { useTasks } from "./TasksProvider";
-import { useToggle } from "@lib/hooks/useToggle";
-import { useRouteRefresh } from "@lib/hooks/useRouteRefresh";
-import { usePagination } from "@lib/hooks/usePagination";
+import { useToggle } from "@/lib/hooks/useToggle";
+import { useRouteRefresh } from "@/lib/hooks/useRouteRefresh";
+import { usePagination } from "@/lib/hooks/usePagination";
 import { useState, useEffect } from "react";
-import { useFilter } from "@lib/hooks/useFilter";
+import { useFilter } from "@/lib/hooks/useFilter";
 import dynamic from "next/dynamic";
 
 //Types
-import type { SerializedTask } from "@lib/prisma";
+import type { SerializedTask } from "@/lib/prisma";
 
-const EditTaskModal = dynamic(() => import("./EditTaskModal").then((mod) => mod.EditTaskModal));
+const EditTaskModal = dynamic(() => import("./EditTaskModal").then(mod => mod.EditTaskModal));
 
 export function Tasks() {
   const { tasks } = useTasks();
@@ -56,7 +56,7 @@ export function Tasks() {
           </tr>
         </thead>
         <tbody>
-          {paginatedList.map((task) => {
+          {paginatedList.map(task => {
             return <TaskRow key={task.id} taskData={task} />;
           })}
         </tbody>
@@ -70,7 +70,10 @@ type PropTypes = {
   taskData: SerializedTask;
 };
 
-export type EditTaskData = Pick<SerializedTask, "deadline" | "id" | "name" | "priority" | "description" | "groupId">;
+export type EditTaskData = Pick<
+  SerializedTask,
+  "deadline" | "id" | "name" | "priority" | "description" | "groupId"
+>;
 
 function TaskRow({ taskData }: PropTypes) {
   const [loading, toggle] = useToggle();
@@ -84,7 +87,7 @@ function TaskRow({ taskData }: PropTypes) {
     const { toast } = await import("react-toastify");
 
     const lastStatus = task.status;
-    setTask((prev) => ({ ...prev, status: !prev.status }));
+    setTask(prev => ({ ...prev, status: !prev.status }));
     try {
       const res = await fetch("/api/tasks", {
         method: "PUT",
@@ -95,7 +98,7 @@ function TaskRow({ taskData }: PropTypes) {
       if (res.ok) {
         refresh();
       } else {
-        setTask((prev) => ({ ...prev, status: lastStatus }));
+        setTask(prev => ({ ...prev, status: lastStatus }));
         throw new Error(json.message, { cause: json.error });
       }
     } catch (error) {
@@ -108,7 +111,7 @@ function TaskRow({ taskData }: PropTypes) {
   };
 
   const onEdit = (data: EditTaskData) => {
-    setTask((prev) => ({ ...prev, ...data }));
+    setTask(prev => ({ ...prev, ...data }));
     refresh();
   };
 
@@ -142,7 +145,9 @@ function TaskRow({ taskData }: PropTypes) {
 
   return (
     <>
-      {lazyLoad && <EditTaskModal onEdit={onEdit} open={dialog} onOpenChange={dialogToggle.set} task={task} />}
+      {lazyLoad && (
+        <EditTaskModal onEdit={onEdit} open={dialog} onOpenChange={dialogToggle.set} task={task} />
+      )}
       <tr className="border-b border-zinc-200 dark:border-zinc-700 last-of-type:border-0">
         <td className="py-2 space-x-2 flex items-center text-start pl-2 ">
           <Checkbox
@@ -179,7 +184,12 @@ function TaskRow({ taskData }: PropTypes) {
           >
             <Edit size={16} className="stroke-violet-200" />
           </ActionIcon>
-          <ActionIcon disabled={isLoading} onClick={onDelete} aria-label="Delete task list" className="h-7 w-7 inline">
+          <ActionIcon
+            disabled={isLoading}
+            onClick={onDelete}
+            aria-label="Delete task list"
+            className="h-7 w-7 inline"
+          >
             <Trash size={16} className="stroke-red-200" />
           </ActionIcon>
         </td>

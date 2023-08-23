@@ -1,5 +1,5 @@
 "use client";
-import { Button } from "@components/shared/Button";
+import { Button } from "@/components/shared/Button";
 const revalidateSecret = process.env.NEXT_PUBLIC_REVALIDATE_SECRET;
 
 export function Revalidate() {

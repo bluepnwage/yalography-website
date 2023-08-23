@@ -1,7 +1,7 @@
-import { Card, Skeleton, Title } from "@components/shared";
+import { Card, Skeleton, Title } from "@/components/shared";
 
-import prisma from "@lib/prisma";
-import { formatNum } from "@util/formatNum";
+import prisma from "@/lib/prisma";
+import { formatNum } from "@/util/formatNum";
 import dynamic from "next/dynamic";
 import { cache } from "react";
 const Table = dynamic(() => import("./Table"), { ssr: false, loading: () => <TableLoading /> });
@@ -16,7 +16,7 @@ const getOrders = cache(async () => {
     orderBy: { createdAt: "desc" }
   });
   await prisma.$disconnect();
-  return orders.map((order) => {
+  return orders.map(order => {
     return {
       ...order,
       quote: formatNum(order.quote / 100),

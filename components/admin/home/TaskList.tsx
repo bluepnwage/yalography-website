@@ -1,14 +1,14 @@
 import { Todo } from "./Todo";
-import { Card, Skeleton, Title } from "@components/shared";
-import { ScrollAreaDemo } from "@components/shared/ScrollArea";
+import { Card, Skeleton, Title } from "@/components/shared";
+import { ScrollAreaDemo } from "@/components/shared/ScrollArea";
 
-import prisma from "@lib/prisma";
+import prisma from "@/lib/prisma";
 
 async function getIncompleteTasks() {
   await prisma.$connect();
   const tasks = await prisma.tasks.findMany({ take: 15, where: { status: false } });
   await prisma.$disconnect();
-  return tasks.map((task) => ({
+  return tasks.map(task => ({
     ...task,
     updatedAt: task.updatedAt.toDateString(),
     createdAt: task.createdAt.toDateString(),

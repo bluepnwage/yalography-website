@@ -3,8 +3,11 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   images: { domains: ["firebasestorage.googleapis.com", "res.cloudinary.com"] },
-  experimental: {
-    appDir: true
+  modularizeImports: {
+    "@aomdev/ui": {
+      transform: "@aomdev/ui/src/{{ kebabCase member }}",
+      skipDefaultConversion: true
+    }
   }
 };
 

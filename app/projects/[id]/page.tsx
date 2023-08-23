@@ -1,8 +1,8 @@
 //Components
-import { Gallery } from "@components/dynamic-project";
-import { Section, Title, Breadcrumbs, Anchor, Grid, Card } from "@components/shared";
+import { Gallery } from "@/components/dynamic-project";
+import { Section, Title, Breadcrumbs, Anchor, Grid, Card } from "@/components/shared";
 
-import prisma from "@lib/prisma";
+import prisma from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import { cx } from "cva";
 import { cache } from "react";

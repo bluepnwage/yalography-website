@@ -1,16 +1,18 @@
 "use client";
-import { Button } from "@components/shared/Button";
-import { Dropdown } from "@components/shared/Dropdown";
-import { Input } from "@components/shared/Input";
-import { DotsVertical, CircleCheck, Trash, CalendarTime } from "@lib/icons";
+import { Button } from "@/components/shared/Button";
+import { Dropdown } from "@/components/shared/Dropdown";
+import { Input } from "@/components/shared/Input";
+import { DotsVertical, CircleCheck, Trash, CalendarTime } from "@/lib/icons";
 import dynamic from "next/dynamic";
 
-const Dialog = dynamic(() => import("@components/shared/Dialog").then((mod) => mod.Dialog));
-const DatePicker = dynamic(() => import("@components/shared/DatePicker/DatePicker").then((mod) => mod.DatePicker));
+const Dialog = dynamic(() => import("@/components/shared/Dialog").then(mod => mod.Dialog));
+const DatePicker = dynamic(() =>
+  import("@/components/shared/DatePicker/DatePicker").then(mod => mod.DatePicker)
+);
 
 import { useRouter } from "next/navigation";
-import { useRouteRefresh } from "@lib/hooks/useRouteRefresh";
-import { useToggle } from "@lib/hooks/useToggle";
+import { useRouteRefresh } from "@/lib/hooks/useRouteRefresh";
+import { useToggle } from "@/lib/hooks/useToggle";
 import { useState } from "react";
 
 import type { FormEvent } from "react";
@@ -180,7 +182,13 @@ export function BookingMenu({ status, id }: MenuProps) {
       {lazyLoad && (
         <Dialog open={rescheduleDialog} onOpenChange={rescheduleToggle.set} title="Reschedule booking">
           <form className="space-y-4" onSubmit={onReschedule}>
-            <DatePicker value={newDate} onChange={setNewDate} required name="reschedule" minDate={new Date()} />
+            <DatePicker
+              value={newDate}
+              onChange={setNewDate}
+              required
+              name="reschedule"
+              minDate={new Date()}
+            />
             <Input required type={"time"} label="Time" id="time" name="time" />
             <Button disabled={!newDate || isLoading}>Submit</Button>
           </form>
@@ -207,7 +215,10 @@ export function BookingMenu({ status, id }: MenuProps) {
                 <CircleCheck size={16} className="stroke-yellow-500 inline-block mr-2" />
                 Approve booking
               </Dropdown.Item>
-              <Dropdown.Item onClick={rescheduleToggle.on} onMouseEnter={!lazyLoad ? lazyLoadToggle.on : undefined}>
+              <Dropdown.Item
+                onClick={rescheduleToggle.on}
+                onMouseEnter={!lazyLoad ? lazyLoadToggle.on : undefined}
+              >
                 {" "}
                 <CalendarTime size={16} className="stroke-yellow-500 inline-block mr-2" />
                 Reschedule booking

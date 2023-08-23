@@ -1,6 +1,6 @@
-import { Images } from "@components/admin/gallery/Images";
-import { Grid } from "@components/shared";
-import { Folders } from "@components/admin/gallery/Folders";
+import { Images } from "@/components/admin/gallery/Images";
+import { Grid } from "@/components/shared";
+import { Folders } from "@/components/admin/gallery/Folders";
 
 export default function GalleryPage() {
   return (

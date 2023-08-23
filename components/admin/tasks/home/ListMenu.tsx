@@ -1,15 +1,15 @@
 "use client";
 //Components
-import { Button } from "@components/shared/Button";
-import { Input } from "@components/shared/Input";
-import { ActionIcon } from "@components/shared/ActionIcon";
+import { Button } from "@/components/shared/Button";
+import { Input } from "@/components/shared/Input";
+import { ActionIcon } from "@/components/shared/ActionIcon";
 
 //Hooks
-import { useToggle } from "@lib/hooks/useToggle";
-import { useRouteRefresh } from "@lib/hooks/useRouteRefresh";
+import { useToggle } from "@/lib/hooks/useToggle";
+import { useRouteRefresh } from "@/lib/hooks/useRouteRefresh";
 import dynamic from "next/dynamic";
 
-const Dialog = dynamic(() => import("@components/shared/Dialog").then((mod) => mod.Dialog));
+const Dialog = dynamic(() => import("@/components/shared/Dialog").then(mod => mod.Dialog));
 
 import type { FormEvent } from "react";
 

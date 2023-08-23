@@ -1,8 +1,8 @@
 "use client";
-import type { FeatureSpec } from "@lib/features";
+import type { FeatureSpec } from "@/lib/features";
 import type { FormEvent } from "react";
 import { useId } from "react";
-import { Checkbox } from "@components/shared/Checkbox";
+import { Checkbox } from "@/components/shared/Checkbox";
 type PropTypes = {
   checked: boolean;
   value: string;

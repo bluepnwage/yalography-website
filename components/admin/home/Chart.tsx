@@ -1,9 +1,9 @@
 "use client";
 import { PieChart, Pie, Legend, Cell, ResponsiveContainer, Tooltip } from "recharts";
 import { BookingsTotal } from "./BookingsTotal";
-import { Button } from "@components/shared/Button";
+import { Button } from "@/components/shared/Button";
 
-import { useToggle } from "@lib/hooks/useToggle";
+import { useToggle } from "@/lib/hooks/useToggle";
 
 type ChartData = {
   type: string;
@@ -14,7 +14,17 @@ type PropTypes = {
   data: ChartData[];
 };
 
-const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#e43535", "#7248d0", "#24d2f5", "#7b899d", "#d6438e"];
+const COLORS = [
+  "#0088FE",
+  "#00C49F",
+  "#FFBB28",
+  "#FF8042",
+  "#e43535",
+  "#7248d0",
+  "#24d2f5",
+  "#7b899d",
+  "#d6438e"
+];
 
 export function Chart({ data }: PropTypes) {
   const [pieChartView, toggle] = useToggle(true);

@@ -1,21 +1,23 @@
 "use client";
-import { Dropdown } from "@components/shared/Dropdown";
-import { DotsVertical, Edit } from "@lib/icons";
-import { Button } from "@components/shared/Button";
-import { Input } from "@components/shared/Input";
-import { Trash, Pin, Plus } from "@lib/icons";
+import { Dropdown } from "@/components/shared/Dropdown";
+import { DotsVertical, Edit } from "@/lib/icons";
+import { Button } from "@/components/shared/Button";
+import { Input } from "@/components/shared/Input";
+import { Trash, Pin, Plus } from "@/lib/icons";
 import dynamic from "next/dynamic";
 
-import { useRouteRefresh } from "@lib/hooks/useRouteRefresh";
-import { useToggle } from "@lib/hooks/useToggle";
+import { useRouteRefresh } from "@/lib/hooks/useRouteRefresh";
+import { useToggle } from "@/lib/hooks/useToggle";
 import { useRouter } from "next/navigation";
 
 import type { FormEvent } from "react";
-import { Select } from "@components/shared/Select";
-import { Textarea } from "@components/shared/Textarea";
+import { Select } from "@/components/shared/Select";
+import { Textarea } from "@/components/shared/Textarea";
 
-const Dialog = dynamic(() => import("@components/shared/Dialog").then((mod) => mod.Dialog));
-const DatePicker = dynamic(() => import("@components/shared/DatePicker/DatePicker").then((mod) => mod.DatePicker));
+const Dialog = dynamic(() => import("@/components/shared/Dialog").then(mod => mod.Dialog));
+const DatePicker = dynamic(() =>
+  import("@/components/shared/DatePicker/DatePicker").then(mod => mod.DatePicker)
+);
 
 type PropTypes = {
   groupId: number;
@@ -188,7 +190,10 @@ export function Menu({ groupId, pinned, title }: PropTypes) {
         <Dropdown.Content side="left">
           <Dropdown.Item onMouseEnter={!lazyLoad ? lazyLoadToggle.on : undefined} onClick={dialogToggle.on}>
             {" "}
-            <Plus size={16} className="stroke-yellow-500 ring-1 ring-yellow-500 rounded-full inline-block mr-2" />
+            <Plus
+              size={16}
+              className="stroke-yellow-500 ring-1 ring-yellow-500 rounded-full inline-block mr-2"
+            />
             Create task
           </Dropdown.Item>
           <Dropdown.Item onMouseEnter={!lazyLoad ? lazyLoadToggle.on : undefined} onClick={renameToggle.on}>

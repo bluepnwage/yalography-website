@@ -1,9 +1,9 @@
-import { formatNum } from "@util/formatNum";
-import { ScrollAreaDemo } from "@components/shared/ScrollArea";
-import { Skeleton } from "@components/shared";
+import { formatNum } from "@/util/formatNum";
+import { ScrollAreaDemo } from "@/components/shared/ScrollArea";
+import { Skeleton } from "@/components/shared";
 import { cache } from "react";
 
-import prisma from "@lib/prisma";
+import prisma from "@/lib/prisma";
 
 type PopularShoots = {
   [type: string]: { count: number; total: number };
@@ -40,7 +40,7 @@ export async function PopularMonths() {
 
   return (
     <ScrollAreaDemo height={500} orientation={"vertical"} className="grow">
-      {data.map((booking) => {
+      {data.map(booking => {
         return (
           <div
             key={booking.type}
@@ -67,7 +67,10 @@ export async function PopularMonths() {
 export function PopularMonthsLoading() {
   const data = Array(5).fill(null);
   return (
-    <div style={{ minHeight: 400 }} className="relative w-full h-full overflow-hidden justify-evenly flex flex-col">
+    <div
+      style={{ minHeight: 400 }}
+      className="relative w-full h-full overflow-hidden justify-evenly flex flex-col"
+    >
       <Skeleton.Shimmer />
       {data.map((_, key) => {
         return (

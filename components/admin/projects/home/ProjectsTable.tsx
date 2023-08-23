@@ -1,8 +1,8 @@
 "use client";
-import { Table } from "@components/shared/Table";
+import { Table } from "@/components/shared/Table";
 import Link from "next/link";
 import { useProjects } from "../ProjectsProvider";
-import { Badge } from "@components/shared/Badge";
+import { Badge } from "@/components/shared/Badge";
 
 export function ProjectsTable() {
   const { drafted, published } = useProjects();
@@ -18,13 +18,16 @@ export function ProjectsTable() {
           </tr>
         </thead>
         <tbody>
-          {projects.map((project) => {
+          {projects.map(project => {
             return (
               <tr key={project.id} className="text-center py-2 ">
                 <td className="py-2 border-r border-zinc-200 dark:border-zinc-700">{project.name}</td>
                 <td className="py-2 border-r border-zinc-200 dark:border-zinc-700">{project.createdAt}</td>
                 <td className="py-2">
-                  <Badge className="inline-block mx-auto w-fit" color={project.published ? "emerald" : "orange"}>
+                  <Badge
+                    className="inline-block mx-auto w-fit"
+                    color={project.published ? "emerald" : "orange"}
+                  >
                     {project.published ? "Published" : "Drafted"}
                   </Badge>
                 </td>

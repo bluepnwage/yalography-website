@@ -1,9 +1,9 @@
 "use client";
 import Link from "next/link";
-import { usePagination } from "@lib/hooks/usePagination";
-import { Pagination } from "@components/shared/Pagination";
+import { usePagination } from "@/lib/hooks/usePagination";
+import { Pagination } from "@/components/shared/Pagination";
 import { useProjects } from "./ProjectsProvider";
-import { Table } from "@components/shared/Table";
+import { Table } from "@/components/shared/Table";
 
 type PropTypes = {
   status: "drafted" | "published";
@@ -23,7 +23,7 @@ export function ProjectsTable({ status }: PropTypes) {
           </tr>
         </thead>
         <tbody>
-          {paginatedList.map((project) => {
+          {paginatedList.map(project => {
             return (
               <tr key={project.id} className="text-center py-2 ">
                 <td className="py-2 border-r border-zinc-200 dark:border-zinc-700">{project.name}</td>

@@ -1,6 +1,6 @@
 "use client";
-import { Input } from "@components/shared/Input";
-import { Button } from "@components/shared/Button";
+import { Input } from "@/components/shared/Input";
+import { Button } from "@/components/shared/Button";
 import { useRouter } from "next/navigation";
 import type { FormEvent } from "react";
 
@@ -11,7 +11,7 @@ export function SignInForm() {
     e.preventDefault();
     const email = new FormData(e.currentTarget).get("email") as string;
     const password = new FormData(e.currentTarget).get("password") as string;
-    const { signIn } = await import("@lib/firebase/auth");
+    const { signIn } = await import("@/lib/firebase/auth");
     const { user } = await signIn(email, password);
     const token = await user.getIdToken();
     await fetch("/api/admin", {

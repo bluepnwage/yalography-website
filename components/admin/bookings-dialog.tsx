@@ -1,26 +1,24 @@
 "use client";
 //Components
-import { Button } from "@components/shared/Button";
-import { Input } from "@components/shared/Input";
-import { Select } from "@components/shared/Select";
-import { DatePicker } from "@components/bookings/DatePicker/DatePicker";
-import { Textarea } from "@components/shared/Textarea";
+import { DatePicker } from "@/components/bookings/DatePicker/DatePicker";
+import { Dialog, Button, TextInput, Select, Textarea, Popover, Calendar, Label } from "@aomdev/ui";
+import { inputStyles } from "@aomdev/ui/src/input-wrapper/styles";
+import { cardStyles } from "@aomdev/ui/src/card/styles";
 
-import dynamic from "next/dynamic";
-
-const Dialog = dynamic(() => import("@components/shared/Dialog").then((mod) => mod.Dialog));
+import { IconX } from "@tabler/icons-react";
 
 //Data
-import { photoshootTypes } from "@lib/photoshoot";
+import { photoshootTypes } from "@/lib/photoshoot";
 
 //Types
 import type { FormEvent } from "react";
-import type { ShootTypes } from "@lib/photoshoot";
+import type { ShootTypes } from "@/lib/photoshoot";
+import type { DialogProps } from "@aomdev/ui";
 
 //Hooks
 import { useState } from "react";
-import { useRouteRefresh } from "@lib/hooks/useRouteRefresh";
-import { useToggle } from "@lib/hooks/useToggle";
+import { useRouteRefresh } from "@/lib/hooks/useRouteRefresh";
+import { useToggle } from "@/lib/hooks/useToggle";
 import { toast } from "react-toastify";
 
 const selectData = Array.from(photoshootTypes).map(([key, value]) => ({ label: value.label, value: key }));
@@ -34,29 +32,27 @@ type Form = {
   description: string;
 };
 
-export function BookingDialog() {
+export function BookingDialog(props: DialogProps) {
   const [form, setForm] = useState<Partial<Form>>({});
   const [shootType, setShootType] = useState<Lowercase<ShootTypes> | "">("");
-  const [date, setDate] = useState<Date | null>(null);
+  const [date, setDate] = useState<Date>();
   const [selectedFeatures, setFeatures] = useState<string[]>([]);
   const [isPending, refresh] = useRouteRefresh();
   const [loading, toggle] = useToggle();
-  const [lazyLoad, lazyLoadToggle] = useToggle();
-  const [dialog, dialogToggle] = useToggle();
 
   const shootDetails = photoshootTypes.get(shootType ? shootType : "regular shoot")!;
 
   const handleChange = (e: FormEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.currentTarget;
-    setForm((prev) => ({ ...prev, [name]: value }));
+    setForm(prev => ({ ...prev, [name]: value }));
   };
 
   const onFeatureChange = (e: FormEvent<HTMLInputElement>) => {
     const { checked, value } = e.currentTarget;
     if (checked) {
-      setFeatures((prev) => [...prev, value]);
+      setFeatures(prev => [...prev, value]);
     } else {
-      setFeatures((prev) => prev.filter((v) => v !== value));
+      setFeatures(prev => prev.filter(v => v !== value));
     }
   };
 
@@ -85,7 +81,7 @@ export function BookingDialog() {
       if (res.ok) {
         setForm({});
         setFeatures([]);
-        setDate(null);
+        setDate(undefined);
         refresh();
         setShootType("");
         toast.success(json.message);
@@ -106,14 +102,18 @@ export function BookingDialog() {
 
   return (
     <>
-      <Button onClick={dialogToggle.on} onMouseEnter={!lazyLoad ? lazyLoadToggle.on : undefined}>
-        Create booking
-      </Button>
-      {lazyLoad && (
-        <Dialog open={dialog} onOpenChange={dialogToggle.set} title={"Create booking"}>
-          <form className="space-y-2" onSubmit={handleSubmit}>
+      <Dialog {...props}>
+        <Dialog.Content>
+          <div className="flex items-center justify-between">
+            <Dialog.Title>Create booking</Dialog.Title>
+            <Dialog.Close>
+              <IconX />
+            </Dialog.Close>
+          </div>
+          <form className="space-y-4 mt-6" onSubmit={handleSubmit}>
             <div className="flex gap-2">
-              <Input
+              <TextInput
+                autoFocus
                 label="First Name"
                 onChange={handleChange}
                 value={form?.first_name}
@@ -121,7 +121,7 @@ export function BookingDialog() {
                 id={"first_name"}
                 required
               />
-              <Input
+              <TextInput
                 label="Last Name"
                 onChange={handleChange}
                 value={form?.last_name}
@@ -131,8 +131,15 @@ export function BookingDialog() {
               />
             </div>
             <div className="flex gap-2">
-              <Input label="Email" onChange={handleChange} value={form?.email} name={"email"} id={"email"} required />
-              <Input
+              <TextInput
+                label="Email"
+                onChange={handleChange}
+                value={form?.email}
+                name={"email"}
+                id={"email"}
+                required
+              />
+              <TextInput
                 label="Phone number"
                 onChange={handleChange}
                 value={form?.phone}
@@ -142,8 +149,8 @@ export function BookingDialog() {
               />
             </div>
             <div className="flex gap-2 items-end">
-              <div className="basis-1/2">
-                <Input
+              <div className="basis-1/2 grow">
+                <TextInput
                   type={"time"}
                   label={"Time"}
                   value={form?.time}
@@ -153,21 +160,39 @@ export function BookingDialog() {
                   required
                 />
               </div>
-              <div className="basis-1/2">
-                <DatePicker date={date} onChange={setDate} />
+            </div>
+            <div className="flex gap-2 items-end">
+              <div className="basis-1/2 grow space-y-1">
+                <Label htmlFor="date">Date</Label>
+                <Popover>
+                  <Popover.Trigger asChild>
+                    <button className={inputStyles({ className: "w-full" })}>{date?.toDateString()}</button>
+                  </Popover.Trigger>
+                  <Popover.Content className={cardStyles({ className: "z-[9999]" })}>
+                    <Calendar
+                      disabled={[{ before: new Date() }]}
+                      selected={date}
+                      onSelect={setDate}
+                      mode="single"
+                    />
+                  </Popover.Content>
+                </Popover>
+                <input type="date" hidden id="date" value={date?.toISOString()} />
               </div>
             </div>
-            <div className="flex w-full">
+            <div className="space-y-1 w-full">
+              <Label htmlFor="">Shoot type</Label>
               <Select
-                label={"Photoshoot"}
-                data={selectData}
+                fullWidth
+                items={selectData}
                 onValueChange={(value: typeof shootType) => setShootType(value)}
                 value={shootType}
-                className="w-full"
               />
             </div>
-            <div className="flex gap-2">
+            <div className="flex gap-2 w-full">
               <Textarea
+                style={{ width: "100%" }}
+                className="w-full"
                 label="Description"
                 onChange={handleChange}
                 value={form.description}
@@ -178,7 +203,7 @@ export function BookingDialog() {
             </div>
             <div className="flex flex-wrap justify-evenly gap-5">
               {shootDetails &&
-                shootDetails.features.map((feature) => {
+                shootDetails.features.map(feature => {
                   const value = feature.label.toLowerCase();
                   const checked = selectedFeatures.includes(value);
                   return (
@@ -197,12 +222,12 @@ export function BookingDialog() {
                   );
                 })}
             </div>
-            <Button disabled={isLoading} fullWidth intent={"accept"}>
+            <Button disabled={isLoading} fullWidth>
               Submit
             </Button>
           </form>
-        </Dialog>
-      )}
+        </Dialog.Content>
+      </Dialog>
     </>
   );
 }

@@ -1,4 +1,4 @@
-import { Grid, Skeleton, Card, FlexContainer } from "@components/shared";
+import { Grid, Skeleton, Card, FlexContainer } from "@/components/shared";
 
 export default function GalleryLoading() {
   return (

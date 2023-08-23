@@ -1,22 +1,17 @@
 "use client";
-import { Button } from "@components/shared/Button";
-import { Input } from "@components/shared/Input";
 import { useRouter } from "next/navigation";
-import { useToggle } from "@lib/hooks/useToggle";
-import { useRouteRefresh } from "@lib/hooks/useRouteRefresh";
-
-import dynamic from "next/dynamic";
-
-const Dialog = dynamic(() => import("@components/shared/Dialog").then((mod) => mod.Dialog));
+import { useToggle } from "@/lib/hooks/useToggle";
+import { useRouteRefresh } from "@/lib/hooks/useRouteRefresh";
+import { Dialog, Button, TextInput } from "@aomdev/ui";
 
 import type { FormEvent } from "react";
+import type { DialogProps } from "@aomdev/ui";
+import { IconX } from "@tabler/icons-react";
 
-export function CreateProjectModal() {
+export function ProjectDialog(props: DialogProps) {
   const router = useRouter();
   const [loading, toggle] = useToggle();
   const [isPending, refresh] = useRouteRefresh();
-  const [dialog, dialogToggle] = useToggle();
-  const [lazyLoad, lazyLoadToggle] = useToggle();
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -34,7 +29,7 @@ export function CreateProjectModal() {
       if (res.ok) {
         refresh();
         router.push(`/admin/projects/drafted/${json.data.id}`);
-        dialogToggle.off();
+        if (props.onOpenChange) props.onOpenChange(false);
       } else {
         throw new Error(json.message, { cause: json.error });
       }
@@ -51,19 +46,22 @@ export function CreateProjectModal() {
 
   return (
     <>
-      <Button onMouseEnter={!lazyLoad ? lazyLoadToggle.on : undefined} onClick={dialogToggle.on}>
-        Create project
-      </Button>
-      {lazyLoad && (
-        <Dialog title="Create new project" open={dialog} onOpenChange={dialogToggle.set}>
-          <form onSubmit={onSubmit} className="space-y-2">
-            <Input label="Project name" name="project_name" required id="project_name" />
-            <Button disabled={isLoading} intent="accept">
+      <Dialog {...props}>
+        <Dialog.Content className="w-1/4">
+          <div className="flex justify-between items-center">
+            <Dialog.Title>Create new project</Dialog.Title>
+            <Dialog.Close>
+              <IconX />
+            </Dialog.Close>
+          </div>
+          <form onSubmit={onSubmit} className="space-y-4 mt-6">
+            <TextInput autoFocus label="Project name" name="project_name" required id="project_name" />
+            <Button disabled={isLoading} className="block ml-auto">
               Create project
             </Button>
           </form>
-        </Dialog>
-      )}
+        </Dialog.Content>
+      </Dialog>
     </>
   );
 }

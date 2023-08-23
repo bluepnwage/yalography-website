@@ -1,8 +1,8 @@
-import { PageIntro } from "@components/PageIntro";
-import { Project } from "@components/projects";
-import { Grid, Section, Title } from "@components/shared";
+import { PageIntro } from "@/components/PageIntro";
+import { Project } from "@/components/projects";
+import { Grid, Section, Title } from "@/components/shared";
 
-import prisma from "@lib/prisma";
+import prisma from "@/lib/prisma";
 import { Metadata } from "next";
 
 async function getProjects() {

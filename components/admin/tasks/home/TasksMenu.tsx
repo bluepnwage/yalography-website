@@ -1,7 +1,7 @@
 "use client";
 //Components
-import { Dropdown } from "@components/shared/Dropdown";
-import { DotsVertical } from "@lib/icons";
+import { Dropdown } from "@/components/shared/Dropdown";
+import { DotsVertical } from "@/lib/icons";
 
 export function TasksMenu() {
   return (

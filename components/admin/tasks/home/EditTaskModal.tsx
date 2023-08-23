@@ -1,15 +1,15 @@
 "use client";
-import { Button } from "@components/shared/Button";
-import { DatePicker } from "@components/shared/DatePicker/DatePicker";
-import { Dialog } from "@components/shared/Dialog";
-import { Input } from "@components/shared/Input";
-import { Select } from "@components/shared/Select";
-import { Textarea } from "@components/shared/Textarea";
+import { Button } from "@/components/shared/Button";
+import { DatePicker } from "@/components/shared/DatePicker/DatePicker";
+import { Dialog } from "@/components/shared/Dialog";
+import { Input } from "@/components/shared/Input";
+import { Select } from "@/components/shared/Select";
+import { Textarea } from "@/components/shared/Textarea";
 
 import { useTasks } from "./TasksProvider";
-import { useToggle } from "@lib/hooks/useToggle";
+import { useToggle } from "@/lib/hooks/useToggle";
 
-import type { SerializedTask } from "@lib/prisma";
+import type { SerializedTask } from "@/lib/prisma";
 import type { FormEvent } from "react";
 import type { EditTaskData } from "./Tasks";
 import type { TaskPriority } from "@prisma/client";
@@ -24,7 +24,7 @@ type PropTypes = {
 export function EditTaskModal({ onOpenChange, open, task, onEdit }: PropTypes) {
   const { taskLists } = useTasks();
   const [loading, toggle] = useToggle();
-  const selectData = taskLists.map((list) => ({ label: list.name, value: `${list.id}` }));
+  const selectData = taskLists.map(list => ({ label: list.name, value: `${list.id}` }));
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();

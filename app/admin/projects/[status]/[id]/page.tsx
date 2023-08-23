@@ -1,11 +1,11 @@
-import { Badge, Title, Breadcrumbs, Anchor } from "@components/shared";
-import { Editor } from "@components/admin/projects/Editor";
+import { Badge, Title, Breadcrumbs, Anchor } from "@/components/shared";
+import { Editor } from "@/components/admin/projects/Editor";
 
-import prisma from "@lib/prisma";
+import prisma from "@/lib/prisma";
 import { cache } from "react";
 import { notFound } from "next/navigation";
-import { ProjectMenu } from "@components/admin/projects/ProjectMenu";
-import { getEnv } from "@util/get-env";
+import { ProjectMenu } from "@/components/admin/projects/ProjectMenu";
+import { getEnv } from "@/util/get-env";
 
 const getProject = cache(async (id: number) => {
   await prisma.$connect();

@@ -1,5 +1,5 @@
 "use client";
-import { Button } from "@components/shared/Button";
+import { Button } from "@/components/shared/Button";
 import { useState } from "react";
 import { cx } from "cva";
 
@@ -19,7 +19,7 @@ export function Todo({ tasks }: TodoProps) {
   const [list, setList] = useState<TaskList[]>(tasks);
 
   const filterList = (taskId: number) => {
-    setList((prev) => prev.filter((task) => task.id !== taskId));
+    setList(prev => prev.filter(task => task.id !== taskId));
   };
 
   return (

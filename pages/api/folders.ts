@@ -1,7 +1,7 @@
-import prisma from "@lib/prisma";
-import { handlePromise } from "@util/handle-promise";
-import { serverError } from "@util/serverError";
-import { logError } from "@lib/notion";
+import prisma from "@/lib/prisma";
+import { handlePromise } from "@/util/handle-promise";
+import { serverError } from "@/util/serverError";
+import { logError } from "@/lib/notion";
 
 import type { ImageFolders } from "@prisma/client";
 import type { NextApiHandler } from "next";

@@ -1,9 +1,9 @@
 import type { NextApiHandler } from "next";
 import type { Bookings } from "@prisma/client";
-import prisma from "@lib/prisma";
-import { logError } from "@lib/notion";
-import { handlePromise } from "@util/handle-promise";
-import { serverError } from "@util/serverError";
+import prisma from "@/lib/prisma";
+import { logError } from "@/lib/notion";
+import { handlePromise } from "@/util/handle-promise";
+import { serverError } from "@/util/serverError";
 
 async function createBooking(data: Bookings) {
   await prisma.$connect();

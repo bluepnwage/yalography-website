@@ -2,7 +2,7 @@
 import { useGallery } from "./GalleryProvider";
 import { CreateFolder } from "./CreateFolder";
 import { FolderDropdown } from "./FolderDropdown";
-import { SerializedImageFolder } from "@lib/prisma";
+import { SerializedImageFolder } from "@/lib/prisma";
 import { useState } from "react";
 import Link from "next/link";
 

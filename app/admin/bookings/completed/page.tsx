@@ -1,10 +1,10 @@
 //Client components
-import { CompletedBookingTable } from "@components/admin/bookings/completed/CompletedBookingsTable";
+import { CompletedBookingTable } from "@/components/admin/bookings/completed/CompletedBookingsTable";
 
 //Server components
-import { Grid, Title } from "@components/shared";
+import { Grid, Title } from "@/components/shared";
 
-import { verifyToken } from "@lib/firebase/admin/auth";
+import { verifyToken } from "@/lib/firebase/admin/auth";
 
 export default async function CompletedBookingsPage() {
   await verifyToken();

@@ -1,78 +1,59 @@
 //Server components
-import { Title, Card, Grid } from "@components/shared";
-import { Calendar } from "@components/admin/bookings/home/ScheduleTracker";
-import { ChartSuspense } from "./ChartSuspense";
-import { PopularMonthsSuspense } from "./PopularMonthsSuspense";
+import { Grid } from "@/components/shared";
+
+import { Calendar } from "@/components/admin/bookings/home/ScheduleTracker";
+import { Card } from "@aomdev/ui";
+import { IconClockHour11, IconCheck } from "@tabler/icons-react";
+import { Title } from "@aomdev/ui";
 
 //Client components
-import { LastOrder } from "@components/admin/bookings/home/LastOrder";
-import { TotalEarnings } from "@components/admin/bookings/home/TotalEarnings";
-import { BookingsCard } from "@components/admin/bookings/home/BookingsCard";
-import { OrdersTable } from "@components/admin/bookings/home/OrdersTable";
+import { OrdersTable } from "@/components/admin/bookings/home/orders-table";
+import { UpcomingBookings } from "@/components/admin/bookings/home/upcoming-bookings";
+import { BookingCard } from "@/components/admin/bookings/home/booking-card";
+import { StatCard } from "@/components/admin/bookings/home/stat-card";
+import { ChartContainer, ChartLoading } from "./ChartContainer";
+import { Suspense } from "react";
+import { PopularMonths, PopularMonthsLoading } from "./PopularMonths";
 
 export const dynamic = "force-dynamic";
 
 export default function BookingsPage() {
   return (
     <>
+      <Grid fullWidth className="mb-36">
+        <div className="w-full col-span-full flex gap-4">
+          <Card className="w-full basis-2/3 flex">
+            <Calendar />
+          </Card>
+          <div className="flex flex-col gap-4 grow justify-stretch">
+            <BookingCard title="pending" icon={<IconClockHour11 size={"75%"} />} />
+            <BookingCard title="approved" icon={<IconCheck size={"75%"} />} />
+          </div>
+        </div>
+        <UpcomingBookings />
+        <StatCard />
+      </Grid>
       <Grid fullWidth>
-        <Card className="col-span-6 ">
-          <Title className="mb-2" size={"xl"}>
-            Bookings
-          </Title>
-          <p className="text-gray-500 text-sm dark:text-gray-400">Stay up to date with all of your bookings</p>
-        </Card>
-        <Card className="col-span-3">
-          <TotalEarnings />
-        </Card>
-        <Card className="col-span-3">
-          <LastOrder />
-        </Card>
-        <Card className="w-full col-span-full flex">
-          <Calendar />
-        </Card>
-        <div className="col-span-4 relative overflow-hidden bg-white dark:bg-zinc-800 rounded-md flex flex-col">
+        <Card className="col-span-4 relative overflow-hidden  rounded-md flex flex-col">
           <div className="px-4 py-2 border-b border-zinc-200 dark:border-zinc-700">
-            <Title order={"h2"} size={"xl"}>
+            <Title order={2} className="font-heading font-medium">
               Best selling photoshoots
             </Title>
           </div>
-          <PopularMonthsSuspense />
-        </div>
-        <div className="col-span-8 ring-1 ring-zinc-200 dark:ring-zinc-700 rounded-md bg-white dark:bg-zinc-800 flex flex-col  justify-between h-full">
-          <div className="border-b border-zinc-200 dark:border-zinc-700 p-2">
-            <Title order={"h2"} size={"xl"}>
-              Completed bookings
-            </Title>
-          </div>
+          <Suspense fallback={<PopularMonthsLoading />}>
+            <PopularMonths />
+          </Suspense>
+        </Card>
+        <Suspense fallback={<ChartLoading />}>
+          <ChartContainer />
+        </Suspense>
+        <div className="col-span-full pt-6 ">
+          <Title order={2} className="font-heading font-medium">
+            Completed bookings
+          </Title>
           <OrdersTable />
         </div>
-        <ChartSuspense />
-        <Bookings />
       </Grid>
     </>
-  );
-}
-
-function Bookings() {
-  return (
-    <Grid fullWidth className="col-span-full">
-      <Card style={{ padding: 0 }} className="col-span-6 w-full p-0 overflow-hidden">
-        <header className="border-zinc-200 border-b dark:border-zinc-700 px-4 py-2">
-          <Title size={"xl"} order={"h2"}>
-            Pending bookings
-          </Title>
-        </header>
-        <BookingsCard status={"pending"} />
-      </Card>
-      <Card style={{ padding: 0 }} className="col-span-6 w-full p-0 overflow-hidden">
-        <header className="border-b  border-zinc-200 dark:border-zinc-700 px-4 py-2">
-          <Title size={"xl"} order={"h2"}>
-            Approved bookings
-          </Title>
-        </header>
-        <BookingsCard status={"approved"} />
-      </Card>
-    </Grid>
   );
 }

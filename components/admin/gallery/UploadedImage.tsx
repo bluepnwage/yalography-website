@@ -1,14 +1,14 @@
 "use client";
-import { Dropdown } from "@components/shared/Dropdown";
-import { Image } from "@components/shared/Image";
-import { Button } from "@components/shared/Button";
-import { Input } from "@components/shared/Input";
+import { Dropdown } from "@/components/shared/Dropdown";
+import { Image } from "@/components/shared/Image";
+import { Button } from "@/components/shared/Button";
+import { Input } from "@/components/shared/Input";
 import dynamic from "next/dynamic";
 
-const Dialog = dynamic(() => import("@components/shared/Dialog").then(mod => mod.Dialog));
+const Dialog = dynamic(() => import("@/components/shared/Dialog").then(mod => mod.Dialog));
 
-import { useToggle } from "@lib/hooks/useToggle";
-import { useRouteRefresh } from "@lib/hooks/useRouteRefresh";
+import { useToggle } from "@/lib/hooks/useToggle";
+import { useRouteRefresh } from "@/lib/hooks/useRouteRefresh";
 import { useState } from "react";
 import { useReducer } from "react";
 

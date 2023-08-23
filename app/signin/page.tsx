@@ -1,10 +1,10 @@
-import { SignInForm } from "@components/signin/SignInForm";
+import { SignInForm } from "@/components/signin/SignInForm";
 import Image from "next/image";
 
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import pixel from "@public/pixel.jpg";
-import admin from "@lib/firebase/admin/config";
+import pixel from "@/public/pixel.jpg";
+import admin from "@/lib/firebase/admin/config";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;

@@ -1,5 +1,5 @@
 "use client";
-import { Dialog } from "@components/shared/Dialog";
+import { Dialog } from "@/components/shared/Dialog";
 import { motion } from "framer-motion";
 import { Images } from "@prisma/client";
 import { AnimatePresence } from "framer-motion";

@@ -1,10 +1,10 @@
 "use client";
 //Components
 import { MantineProvider } from "@mantine/core";
-import { Button } from "@components/shared/Button";
-import { Input } from "@components/shared/Input";
-import { Select } from "@components/shared/Select";
-import { Textarea } from "@components/shared/Textarea";
+import { Button } from "@/components/shared/Button";
+import { Input } from "@/components/shared/Input";
+import { Select } from "@/components/shared/Select";
+import { Textarea } from "@/components/shared/Textarea";
 import { Steps } from "./Steps";
 import { Addon } from "./Addons";
 import { Success } from "./Success";
@@ -12,7 +12,7 @@ import dynamic from "next/dynamic";
 import { useForm } from "./useBookingsForm";
 
 const DatePicker = dynamic(
-  () => import("@components/shared/DatePicker/DatePicker").then(mod => mod.DatePicker),
+  () => import("@/components/shared/DatePicker/DatePicker").then(mod => mod.DatePicker),
   {
     loading: () => <Input label="Date" />
   }
@@ -20,13 +20,13 @@ const DatePicker = dynamic(
 
 //Data/hooks
 import { useState, useRef } from "react";
-import { photoshootTypes } from "@lib/photoshoot";
-import { useToggle } from "@lib/hooks/useToggle";
+import { photoshootTypes } from "@/lib/photoshoot";
+import { useToggle } from "@/lib/hooks/useToggle";
 import dayjs from "dayjs";
 
 //Types
 import type { FormEvent } from "react";
-import type { ShootTypes } from "@lib/photoshoot";
+import type { ShootTypes } from "@/lib/photoshoot";
 
 const selectData = Array.from(photoshootTypes).map(([key, value]) => ({ label: value.label, value: key }));
 

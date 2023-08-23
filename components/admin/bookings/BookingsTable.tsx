@@ -1,10 +1,10 @@
 "use client";
 import Link from "next/link";
-import { usePagination } from "@lib/hooks/usePagination";
-import { Pagination } from "@components/shared/Pagination";
+import { usePagination } from "@/lib/hooks/usePagination";
+import { Pagination } from "@/components/shared/Pagination";
 import { useBookings } from "./BookingsProvider";
-import { photoshootTypes } from "@lib/photoshoot";
-import { Table } from "@components/shared/Table";
+import { photoshootTypes } from "@/lib/photoshoot";
+import { Table } from "@/components/shared/Table";
 
 type PropTypes = {
   status: "pending" | "approved";
@@ -24,7 +24,7 @@ export default function BookingsTable({ status }: PropTypes) {
           </tr>
         </thead>
         <tbody>
-          {paginatedList.map((booking) => {
+          {paginatedList.map(booking => {
             return (
               <tr key={booking.id} className="text-center py-2 ">
                 <td className="py-2 border-r border-zinc-200 dark:border-zinc-700">

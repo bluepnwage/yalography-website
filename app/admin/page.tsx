@@ -1,5 +1,5 @@
-import { WelcomeStats } from "@components/admin/home/WelcomeStats";
-import { Stats } from "@components/admin/home/Stats";
+import { WelcomeStats } from "@/components/admin/home/WelcomeStats";
+import { Stats } from "@/components/admin/home/Stats";
 
 export const dynamic = "force-dynamic";
 

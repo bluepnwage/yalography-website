@@ -9,7 +9,7 @@ import {
   StorageReference
 } from "firebase/storage";
 import type { Images } from "@prisma/client";
-// import { transformImage } from "@lib/cloudinary";
+// import { transformImage } from "@/lib/cloudinary";
 import { app } from "./config";
 
 const storage = getStorage(app);

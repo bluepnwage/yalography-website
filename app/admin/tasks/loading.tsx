@@ -1,4 +1,4 @@
-import { Card, FlexContainer, Grid, Skeleton, Title } from "@components/shared";
+import { Card, FlexContainer, Grid, Skeleton, Title } from "@/components/shared";
 
 export default function TasksPageLoading() {
   const taskLists = Array(5).fill(null);

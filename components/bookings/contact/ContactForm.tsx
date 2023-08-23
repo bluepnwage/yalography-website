@@ -1,5 +1,5 @@
-import { Grid, Section, Title } from "@components/shared";
-import { Email, Facebook, Instagram, Location, Phone } from "@lib/icons";
+import { Grid, Section, Title } from "@/components/shared";
+import { Email, Facebook, Instagram, Location, Phone } from "@/lib/icons";
 import { Form } from "./Form";
 import { Suspense } from "react";
 
@@ -9,7 +9,10 @@ export function ContactForm() {
       <Title className="mb-4" order={"h2"}>
         Contact
       </Title>
-      <Grid gap={"none"} className="bg-white shadow-xl rounded-md overflow-hidden dark:shadow-none dark:bg-zinc-800">
+      <Grid
+        gap={"none"}
+        className="bg-white shadow-xl rounded-md overflow-hidden dark:shadow-none dark:bg-zinc-800"
+      >
         <div className="bg-gradient-to-tr from-rose-500 to-red-600 text-gray-100 space-y-7 col-span-full lg:col-span-4 p-6 ">
           <Title order={"h3"} size={"lg"} className="text-gray-100">
             Contact information

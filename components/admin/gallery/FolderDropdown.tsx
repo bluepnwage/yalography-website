@@ -1,16 +1,16 @@
 "use client";
-import { Button } from "@components/shared/Button";
-import { Input } from "@components/shared/Input";
-import { Dropdown } from "@components/shared/Dropdown";
-import { useRouteRefresh } from "@lib/hooks/useRouteRefresh";
-import { useToggle } from "@lib/hooks/useToggle";
+import { Button } from "@/components/shared/Button";
+import { Input } from "@/components/shared/Input";
+import { Dropdown } from "@/components/shared/Dropdown";
+import { useRouteRefresh } from "@/lib/hooks/useRouteRefresh";
+import { useToggle } from "@/lib/hooks/useToggle";
 import dynamic from "next/dynamic";
 
 import { toast } from "react-toastify";
 
 import type { FormEvent } from "react";
 
-const DialogDemo = dynamic(() => import("@components/shared/Dialog").then((mod) => mod.Dialog));
+const DialogDemo = dynamic(() => import("@/components/shared/Dialog").then(mod => mod.Dialog));
 
 type DropdownProps = {
   id: number;
@@ -88,8 +88,8 @@ export function FolderDropdown({ id, renameFolder }: DropdownProps) {
       {lazyLoad && (
         <DialogDemo title="Confirm delete" open={dialog} onOpenChange={dialogToggle.set}>
           <p className="mb-2">
-            Proceeding will also delete every image associated with this folder. Are you sure you would like to
-            continue?
+            Proceeding will also delete every image associated with this folder. Are you sure you would like
+            to continue?
           </p>
           <Button disabled={isLoading} intent="secondary" className="inline-block mr-4">
             Cancel
@@ -133,7 +133,13 @@ export function FolderDropdown({ id, renameFolder }: DropdownProps) {
 
 function DotsVertical() {
   return (
-    <svg height={16} width={16} className={"stroke-gray-100"} viewBox="0 0 24 24" xmlns="http:www.w3.org/2000/svg">
+    <svg
+      height={16}
+      width={16}
+      className={"stroke-gray-100"}
+      viewBox="0 0 24 24"
+      xmlns="http:www.w3.org/2000/svg"
+    >
       <g fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2">
         <path d="M0 0h24v24H0z" fill="none" stroke="none" />
         <circle cx="12" cy="12" r="1" />

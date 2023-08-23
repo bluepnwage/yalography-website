@@ -1,7 +1,7 @@
 "use client";
-import { Select } from "@components/shared/Select";
-import { Input } from "@components/shared/Input";
-import { FilterOptions, SortOptions } from "@util/filterTasks";
+import { Select } from "@/components/shared/Select";
+import { Input } from "@/components/shared/Input";
+import { FilterOptions, SortOptions } from "@/util/filterTasks";
 
 type PropTypes = {
   onSortChange: (value: SortOptions | null) => void;
@@ -57,7 +57,7 @@ export function FilterBar({
         </div>
         <div className="basis-1/4 grow">
           <Input
-            onChange={(e) => onSearchChange(e.currentTarget.value)}
+            onChange={e => onSearchChange(e.currentTarget.value)}
             value={searchValue}
             placeholder="Search"
             label=""

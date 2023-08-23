@@ -1,6 +1,6 @@
-import { Title } from "@components/shared";
-import { Image } from "@components/shared/Image";
-import { transformImage } from "@lib/transform-image";
+import { Title } from "@/components/shared";
+import { Image } from "@/components/shared/Image";
+import { transformImage } from "@/lib/transform-image";
 import type { Images } from "@prisma/client";
 
 type PropTypes = {

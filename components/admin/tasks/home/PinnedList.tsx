@@ -1,20 +1,20 @@
 "use client";
-import { Dropdown } from "@components/shared/Dropdown";
-import { DotsVertical, Trash, Pin } from "@lib/icons";
+import { Dropdown } from "@/components/shared/Dropdown";
+import { DotsVertical, Trash, Pin } from "@/lib/icons";
 import Link from "next/link";
 
-import { useRouteRefresh } from "@lib/hooks/useRouteRefresh";
-import { useToggle } from "@lib/hooks/useToggle";
+import { useRouteRefresh } from "@/lib/hooks/useRouteRefresh";
+import { useToggle } from "@/lib/hooks/useToggle";
 import { useTasks } from "./TasksProvider";
 
-import type { SerializedTask, SerializedTaskList } from "@lib/prisma";
+import type { SerializedTask, SerializedTaskList } from "@/lib/prisma";
 
 export function PinnedLists() {
   const { taskLists } = useTasks();
-  const pinnedLists = taskLists.filter((list) => list.pinned);
+  const pinnedLists = taskLists.filter(list => list.pinned);
   return (
     <>
-      {pinnedLists.map((list) => {
+      {pinnedLists.map(list => {
         return <PinnedTaskList key={list.id} list={list} />;
       })}
     </>
@@ -29,7 +29,7 @@ function PinnedTaskList({ list }: PropTypes) {
   const [loading, toggle] = useToggle();
   const [isPending, refresh] = useRouteRefresh();
 
-  const pending = list.tasks.filter((task) => !task.status);
+  const pending = list.tasks.filter(task => !task.status);
 
   const onPin = async () => {
     toggle.on();
@@ -83,7 +83,9 @@ function PinnedTaskList({ list }: PropTypes) {
   const isLoading = isPending || loading;
 
   return (
-    <div className={`col-span-4 rounded-md bg-white p-4 dark:bg-zinc-800 ${isLoading ? "animate-pulse" : ""} `}>
+    <div
+      className={`col-span-4 rounded-md bg-white p-4 dark:bg-zinc-800 ${isLoading ? "animate-pulse" : ""} `}
+    >
       <div className="flex justify-between mb-5">
         <p className="font-semibold text-lg">{list.name}</p>
         <Dropdown>

@@ -1,7 +1,7 @@
-import { Card, Skeleton, Title } from "@components/shared";
+import { Card, Skeleton, Title } from "@/components/shared";
 import { Chart } from "./Chart";
 
-import prisma from "@lib/prisma";
+import prisma from "@/lib/prisma";
 async function getBookings() {
   await prisma.$connect();
   const bookings = await prisma.bookings.groupBy({

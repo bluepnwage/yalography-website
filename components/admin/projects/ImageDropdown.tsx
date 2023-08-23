@@ -1,6 +1,6 @@
 "use client";
-import { Dropdown } from "@components/shared/Dropdown";
-import { DotsVertical, Trash, Unlink } from "@lib/icons";
+import { Dropdown } from "@/components/shared/Dropdown";
+import { DotsVertical, Trash, Unlink } from "@/lib/icons";
 
 type PropTypes = {
   id: number;

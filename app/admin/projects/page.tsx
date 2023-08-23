@@ -1,6 +1,6 @@
-import { Card, Grid, Title } from "@components/shared";
-import { ProjectsTable } from "@components/admin/projects/home/ProjectsTable";
-import { TotalProjects } from "@components/admin/projects/home/TotalProjects";
+import { Card, Grid, Title } from "@/components/shared";
+import { ProjectsTable } from "@/components/admin/projects/home/ProjectsTable";
+import { TotalProjects } from "@/components/admin/projects/home/TotalProjects";
 
 export default function AdminProjectsPage() {
   return (

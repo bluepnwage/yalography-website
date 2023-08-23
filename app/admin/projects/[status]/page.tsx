@@ -1,5 +1,5 @@
-import { Title } from "@components/shared";
-import { ProjectsTable } from "@components/admin/projects/ProjectsTable";
+import { Title } from "@/components/shared";
+import { ProjectsTable } from "@/components/admin/projects/ProjectsTable";
 import { notFound } from "next/navigation";
 
 export const dynamicParams = false;

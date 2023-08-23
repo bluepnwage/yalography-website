@@ -1,5 +1,5 @@
 "use client";
-import { Photo } from "@lib/icons";
+import { Photo } from "@/lib/icons";
 import dynamic from "next/dynamic";
 import { useInView } from "framer-motion";
 import { useRef } from "react";

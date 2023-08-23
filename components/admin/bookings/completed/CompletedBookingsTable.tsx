@@ -1,14 +1,14 @@
 "use client";
-import { Pagination } from "@components/shared/Pagination";
+import { Pagination } from "@/components/shared/Pagination";
 import Link from "next/link";
 
 import { useBookings } from "../BookingsProvider";
-import { usePagination } from "@lib/hooks/usePagination";
+import { usePagination } from "@/lib/hooks/usePagination";
 
 import dynamic from "next/dynamic";
-import { formatNum } from "@util/formatNum";
+import { formatNum } from "@/util/formatNum";
 
-const Table = dynamic(() => import("@components/shared/Table").then((mod) => mod.Table), { ssr: false });
+const Table = dynamic(() => import("@/components/shared/Table").then(mod => mod.Table), { ssr: false });
 
 export function CompletedBookingTable() {
   const { completed } = useBookings();
@@ -26,7 +26,7 @@ export function CompletedBookingTable() {
           </tr>
         </thead>
         <tbody>
-          {paginatedList.map((booking) => {
+          {paginatedList.map(booking => {
             const amount = booking.orders.quote ? booking.orders.quote / 100 : 0;
             return (
               <tr key={booking.orders.id}>
@@ -35,7 +35,9 @@ export function CompletedBookingTable() {
                 </td>
                 <td className="py-2 border-r border-zinc-200 dark:border-zinc-700">{booking.email}</td>
                 <td className="py-2 border-r border-zinc-200 dark:border-zinc-700">{booking.type}</td>
-                <td className="py-2 border-r border-zinc-200 dark:border-zinc-700">{booking.orders.createdAt}</td>
+                <td className="py-2 border-r border-zinc-200 dark:border-zinc-700">
+                  {booking.orders.createdAt}
+                </td>
                 <td>${formatNum(amount)}</td>
                 <td>
                   <Link

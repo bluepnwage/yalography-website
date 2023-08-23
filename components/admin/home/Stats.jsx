@@ -1,4 +1,4 @@
-import { Grid } from "@components/shared";
+import { Grid } from "@/components/shared";
 import { TaskList, TaskListLoading } from "./TaskList";
 import { Suspense } from "react";
 import { ChartContainer, ChartLoading } from "./ChartContainer";

@@ -1,6 +1,6 @@
 import { Grid, ThemeIcon } from "./shared";
 import Link from "next/link";
-import { Facebook, Instagram } from "@lib/icons";
+import { Facebook, Instagram } from "@/lib/icons";
 
 export function Footer() {
   return (

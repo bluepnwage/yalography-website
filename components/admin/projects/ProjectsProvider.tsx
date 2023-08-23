@@ -1,7 +1,7 @@
 "use client";
 import { useContext, createContext } from "react";
 
-import type { SerializedProject } from "@lib/prisma";
+import type { SerializedProject } from "@/lib/prisma";
 
 type ProjectsContextProps = {
   drafted: SerializedProject[];

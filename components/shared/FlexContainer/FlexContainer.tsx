@@ -2,7 +2,7 @@ import { cva } from "cva";
 import type { VariantProps } from "cva";
 import type { ComponentPropsWithoutRef, ElementType } from "react";
 
-import { GAP_STYLES } from "@util/gap";
+import { GAP_STYLES } from "@/util/gap";
 
 type FlexContainerProps<C extends ElementType> = {
   component?: C;

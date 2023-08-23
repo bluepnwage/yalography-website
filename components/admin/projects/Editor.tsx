@@ -1,27 +1,27 @@
 "use client";
-import { Input } from "@components/shared/Input";
-import { Select } from "@components/shared/Select";
-import { TabsDemo } from "@components/shared/Tabs";
-import { Textarea } from "@components/shared/Textarea";
-import { Image } from "@components/shared/Image";
+import { Input } from "@/components/shared/Input";
+import { Select } from "@/components/shared/Select";
+import { TabsDemo } from "@/components/shared/Tabs";
+import { Textarea } from "@/components/shared/Textarea";
+import { Image } from "@/components/shared/Image";
 import { ImageDropdown } from "./ImageDropdown";
 import { Dropzone } from "./Dropzone";
-import { Badge } from "@components/shared/Badge";
-import { Button } from "@components/shared/Button";
-import { Pagination } from "@components/shared/Pagination";
+import { Badge } from "@/components/shared/Badge";
+import { Button } from "@/components/shared/Button";
+import { Pagination } from "@/components/shared/Pagination";
 
-import { useRouteRefresh } from "@lib/hooks/useRouteRefresh";
+import { useRouteRefresh } from "@/lib/hooks/useRouteRefresh";
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { useToggle } from "@lib/hooks/useToggle";
-import { photoshootTypes } from "@lib/photoshoot";
-import { usePagination } from "@lib/hooks/usePagination";
-import { transformImage } from "@lib/transform-image";
+import { useToggle } from "@/lib/hooks/useToggle";
+import { photoshootTypes } from "@/lib/photoshoot";
+import { usePagination } from "@/lib/hooks/usePagination";
+import { transformImage } from "@/lib/transform-image";
 
 import type { FormEvent } from "react";
-import type { SerializedProject } from "@lib/prisma";
+import type { SerializedProject } from "@/lib/prisma";
 import type { Images } from "@prisma/client";
-import type { Env } from "@lib/firebase/storage";
+import type { Env } from "@/lib/firebase/storage";
 
 type ProjectJoin = SerializedProject & { images: Images[] };
 
@@ -121,12 +121,12 @@ export function Editor({ projectData, galleryImages, environment }: PropTypes) {
       //if theres already a previous thumbnail but the user wants to change the thumbnail
       //then upload a new thumbnail
       if ((!url && thumbnail) || (url !== thumbnailURL && thumbnail)) {
-        const { uploadThumbnail } = await import("@lib/upload-image");
+        const { uploadThumbnail } = await import("@/lib/upload-image");
         url = await uploadThumbnail(thumbnail);
       }
 
       if (images && images.length > 0) {
-        const { uploadToCloudinary } = await import("@lib/upload-image");
+        const { uploadToCloudinary } = await import("@/lib/upload-image");
         const promise = images.map(image => uploadToCloudinary(image, { projectId: project.id }));
         await Promise.all(promise);
       }

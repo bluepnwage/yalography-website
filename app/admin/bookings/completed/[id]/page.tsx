@@ -1,9 +1,9 @@
-import prisma from "@lib/prisma";
+import prisma from "@/lib/prisma";
 import { cache } from "react";
-import { formatNum } from "@util/formatNum";
+import { formatNum } from "@/util/formatNum";
 import { notFound } from "next/navigation";
-import { Button } from "@components/shared/Button";
-import { Anchor, Breadcrumbs } from "@components/shared";
+import { Button } from "@/components/shared/Button";
+import { Anchor, Breadcrumbs } from "@/components/shared";
 
 const getOrder = cache(async (id: number) => {
   const order = await prisma.orders.findUnique({ where: { id }, include: { booking: true } });

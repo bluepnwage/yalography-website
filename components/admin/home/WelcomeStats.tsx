@@ -1,9 +1,9 @@
-import { Card, Title, Skeleton } from "@components/shared";
-import { Button } from "@components/shared/Button";
-import { ClipboardCheck, ClipboardMoney } from "@lib/icons";
+import { Card, Title, Skeleton } from "@/components/shared";
+import { Button } from "@/components/shared/Button";
+import { ClipboardCheck, ClipboardMoney } from "@/lib/icons";
 
-import prisma from "@lib/prisma";
-import { formatNum } from "@util/formatNum";
+import prisma from "@/lib/prisma";
+import { formatNum } from "@/util/formatNum";
 import { cache, Suspense } from "react";
 
 export function WelcomeStats() {

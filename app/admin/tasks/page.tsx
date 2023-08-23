@@ -1,7 +1,7 @@
-import { Title, Grid } from "@components/shared";
-import { PinnedLists } from "@components/admin/tasks/home/PinnedList";
-import { TaskLists } from "@components/admin/tasks/home/TaskList";
-import { Tasks } from "@components/admin/tasks/home/Tasks";
+import { Title, Grid } from "@/components/shared";
+import { PinnedLists } from "@/components/admin/tasks/home/PinnedList";
+import { TaskLists } from "@/components/admin/tasks/home/TaskList";
+import { Tasks } from "@/components/admin/tasks/home/Tasks";
 
 export const revalidate = 0;
 

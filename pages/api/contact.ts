@@ -1,5 +1,5 @@
 import type { NextApiHandler } from "next";
-import { saveMessage } from "@lib/notion";
+import { saveMessage } from "@/lib/notion";
 
 const handler: NextApiHandler = async (req, res) => {
   try {

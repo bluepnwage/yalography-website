@@ -1,26 +1,26 @@
 "use client";
-import { Pagination } from "@components/shared/Pagination";
-import { Badge } from "@components/shared/Badge";
+import { Pagination } from "@/components/shared/Pagination";
+import { Badge } from "@/components/shared/Badge";
 import dynamic from "next/dynamic";
-import { FilterBar } from "@components/admin/tasks/home/Filter";
+import { FilterBar } from "@/components/admin/tasks/home/Filter";
 
 const EditTaskModal = dynamic(() =>
-  import("@components/admin/tasks/home/EditTaskModal").then((mod) => mod.EditTaskModal)
+  import("@/components/admin/tasks/home/EditTaskModal").then(mod => mod.EditTaskModal)
 );
 
-import { usePagination } from "@lib/hooks/usePagination";
-import { useRouteRefresh } from "@lib/hooks/useRouteRefresh";
-import { useToggle } from "@lib/hooks/useToggle";
+import { usePagination } from "@/lib/hooks/usePagination";
+import { useRouteRefresh } from "@/lib/hooks/useRouteRefresh";
+import { useToggle } from "@/lib/hooks/useToggle";
 import { useState, useEffect } from "react";
-import { useFilter } from "@lib/hooks/useFilter";
+import { useFilter } from "@/lib/hooks/useFilter";
 
-import { ActionIcon } from "@components/shared/ActionIcon";
-import { Edit, Trash } from "@lib/icons";
+import { ActionIcon } from "@/components/shared/ActionIcon";
+import { Edit, Trash } from "@/lib/icons";
 
 import type { Tasks } from "@prisma/client";
-import type { EditTaskData } from "@components/admin/tasks/home/Tasks";
-import { filterTasks } from "@util/filterTasks";
-import { Checkbox } from "@components/shared/Checkbox";
+import type { EditTaskData } from "@/components/admin/tasks/home/Tasks";
+import { filterTasks } from "@/util/filterTasks";
+import { Checkbox } from "@/components/shared/Checkbox";
 
 export type SerializedTask = Omit<Tasks, "deadline" | "createdAt" | "updatedAt"> & {
   updatedAt: string;
@@ -54,7 +54,7 @@ export function TaskList({ tasks }: PropTypes) {
         onSortChange={toggle.onSort}
       />
       <section>
-        {paginatedList.map((task) => {
+        {paginatedList.map(task => {
           return <Task key={task.id} taskData={task} />;
         })}
         <Pagination {...props} />
@@ -102,7 +102,7 @@ export function Task({ taskData }: TaskPropTypes) {
   const onStatusToggle = async () => {
     toggle.on();
     const lastStatus = task.status;
-    setTask((prev) => ({ ...prev, status: !prev.status }));
+    setTask(prev => ({ ...prev, status: !prev.status }));
     try {
       const res = await fetch("/api/tasks", {
         method: "PUT",
@@ -113,7 +113,7 @@ export function Task({ taskData }: TaskPropTypes) {
       if (res.ok) {
         refresh();
       } else {
-        setTask((prev) => ({ ...prev, status: lastStatus }));
+        setTask(prev => ({ ...prev, status: lastStatus }));
         throw new Error(json.message, { cause: json.error });
       }
     } catch (error) {
@@ -127,14 +127,16 @@ export function Task({ taskData }: TaskPropTypes) {
   };
 
   const onEdit = (data: EditTaskData) => {
-    setTask((prev) => ({ ...prev, ...data }));
+    setTask(prev => ({ ...prev, ...data }));
     refresh();
   };
 
   const isLoading = loading || isPending;
   return (
     <>
-      {lazyLoad && <EditTaskModal task={task} onEdit={onEdit} onOpenChange={dialogToggle.set} open={dialog} />}
+      {lazyLoad && (
+        <EditTaskModal task={task} onEdit={onEdit} onOpenChange={dialogToggle.set} open={dialog} />
+      )}
       <div
         className={`bg-white first-of-type:mt-4 dark:bg-zinc-800 rounded-md p-4 mb-5 last-of-type:mb-0 ${
           isLoading ? "animate-pulse" : ""

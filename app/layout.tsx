@@ -1,17 +1,14 @@
 import "../styles/globals.css";
-import { Footer } from "@components/Footer";
-import { Header } from "@components/Navbar";
-import { ScrollToTop } from "@components/ScrollToTop";
+import { Footer } from "@/components/Footer";
+import { Header } from "@/components/Navbar";
+import { ScrollToTop } from "@/components/ScrollToTop";
 import { Suspense } from "react";
-import { ToastProvider } from "@components/ToastProvider";
+import { ToastProvider } from "@/components/ToastProvider";
 import { Metadata } from "next";
-import { Inter as Font } from "next/font/google";
+import { Inter, Familjen_Grotesk } from "next/font/google";
 
-const inter = Font({
-  subsets: ["latin"],
-  display: "optional",
-  variable: "--font-inter"
-});
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
+const heading = Familjen_Grotesk({ subsets: ["latin"], variable: "--font-heading" });
 
 type PropTypes = {
   children: React.ReactNode;
@@ -24,9 +21,9 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: PropTypes) {
   return (
-    <html lang="en" className={`dark dark-mode ${inter.variable}`}>
+    <html lang="en" className={`dark dark-mode ${inter.variable} ${heading.variable}`}>
       <head />
-      <body className="dark:bg-zinc-900 bg-gray-100 text-gray-900 dark:text-gray-300 duration-200 ease-out">
+      <body className="dark:bg-neutral-900  text-gray-700 dark:text-gray-100 duration-200 ease-out">
         <Suspense fallback={null}>
           <ToastProvider />
           <ScrollToTop />

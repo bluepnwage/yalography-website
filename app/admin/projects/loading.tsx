@@ -1,4 +1,4 @@
-import { Skeleton, Card, Grid, Title, FlexContainer } from "@components/shared";
+import { Skeleton, Card, Grid, Title, FlexContainer } from "@/components/shared";
 
 export default function ProjectsLoading() {
   const projects = Array(5).fill(null);

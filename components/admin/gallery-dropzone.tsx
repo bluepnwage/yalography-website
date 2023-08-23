@@ -1,17 +1,16 @@
 "use client";
-import { Button } from "@components/shared/Button";
 import { Dropzone as MantineDropzone, IMAGE_MIME_TYPE } from "@mantine/dropzone";
-import { Select } from "@components/shared/Select";
-import { Check, XClose } from "@lib/icons";
-import { Pagination } from "@components/shared/Pagination";
+import { Check, XClose } from "@/lib/icons";
+import { Pagination } from "@/components/shared/Pagination";
+import { Button, Select } from "@aomdev/ui";
 
 import { useState } from "react";
-import { usePagination } from "@lib/hooks/usePagination";
-import { useToggle } from "@lib/hooks/useToggle";
-import { useRouteRefresh } from "@lib/hooks/useRouteRefresh";
+import { usePagination } from "@/lib/hooks/usePagination";
+import { useToggle } from "@/lib/hooks/useToggle";
+import { useRouteRefresh } from "@/lib/hooks/useRouteRefresh";
 
-import type { SerializedImageFolder } from "@lib/prisma";
-import type { Env } from "@lib/firebase/storage";
+import type { SerializedImageFolder } from "@/lib/prisma";
+import type { Env } from "@/lib/firebase/storage";
 
 type PropTypes = {
   onDialogClose: () => void;
@@ -34,7 +33,7 @@ export function Dropzone({ onDialogClose, folders, environment }: PropTypes) {
     toggle.on();
 
     const [{ uploadToCloudinary }, { toast }] = await Promise.all([
-      import("@lib/upload-image"),
+      import("@/lib/upload-image"),
       import("react-toastify")
     ]);
     const id = toast.loading("Compressing and uploading images. This may take a while...", {
@@ -115,9 +114,9 @@ export function Dropzone({ onDialogClose, folders, environment }: PropTypes) {
         ))}
       </ul>
       {files.length > 5 && <Pagination {...paginationProps} />}
-      <Select onValueChange={setSelectedFolder} data={selectData} label="Add to folder" />
+      <Select onValueChange={setSelectedFolder} items={selectData} />
 
-      <Button onClick={onUpload} disabled={isLoading || files.length === 0} fullWidth intent={"accept"}>
+      <Button onClick={onUpload} disabled={isLoading || files.length === 0} fullWidth>
         Submit
       </Button>
     </>

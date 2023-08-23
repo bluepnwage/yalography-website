@@ -1,4 +1,4 @@
-import { ThemeIcon, Card } from "@components/shared";
+import { ThemeIcon, Card } from "@/components/shared";
 
 type PropTypes = {
   label: string;

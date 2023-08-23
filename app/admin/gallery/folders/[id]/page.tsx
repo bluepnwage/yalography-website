@@ -1,9 +1,9 @@
-import { UploadedImage } from "@components/admin/gallery/UploadedImage";
-import { Breadcrumbs } from "@components/shared";
+import { UploadedImage } from "@/components/admin/gallery/UploadedImage";
+import { Breadcrumbs } from "@/components/shared";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-import prisma from "@lib/prisma";
+import prisma from "@/lib/prisma";
 import { cache } from "react";
 
 const getFolder = cache(async (id: number) => {
@@ -34,7 +34,7 @@ export default async function FolderPage({ params }: { params: { id: string } })
       </Breadcrumbs>
       <p className="my-4 font-bold text-xl">{folder.name}</p>
       <div className="grid grid-cols-12 w-full gap-2">
-        {folder.Images.map((image) => {
+        {folder.Images.map(image => {
           return <UploadedImage image={image} key={image.id} />;
         })}
       </div>

@@ -1,7 +1,7 @@
-import prisma from "@lib/prisma";
-import { logError } from "@lib/notion";
-import { serverError } from "@util/serverError";
-import { handlePromise } from "@util/handle-promise";
+import prisma from "@/lib/prisma";
+import { logError } from "@/lib/notion";
+import { serverError } from "@/util/serverError";
+import { handlePromise } from "@/util/handle-promise";
 
 import type { Projects } from "@prisma/client";
 import type { NextApiHandler } from "next";

@@ -1,6 +1,6 @@
 import { NextApiHandler } from "next";
-import admin from "@lib/firebase/admin/config";
-import { logError } from "@lib/notion";
+import admin from "@/lib/firebase/admin/config";
+import { logError } from "@/lib/notion";
 
 const apiURL = "/api/download-image";
 

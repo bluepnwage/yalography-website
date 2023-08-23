@@ -1,7 +1,7 @@
-import { ContactForm } from "@components/bookings";
-import { BookingsFormContainer } from "@components/bookings/form/Form";
-import { Section, Title } from "@components/shared";
-import { PageIntro } from "@components/PageIntro";
+import { ContactForm } from "@/components/bookings";
+import { BookingsFormContainer } from "@/components/bookings/form/Form";
+import { Section, Title } from "@/components/shared";
+import { PageIntro } from "@/components/PageIntro";
 import { Suspense } from "react";
 import { Metadata } from "next";
 

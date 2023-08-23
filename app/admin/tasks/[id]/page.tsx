@@ -1,8 +1,8 @@
-import { FlexContainer, Breadcrumbs, Anchor, Title } from "@components/shared";
+import { FlexContainer, Breadcrumbs, Anchor, Title } from "@/components/shared";
 import { TaskList } from "./TaskList";
-import { Menu } from "@components/admin/tasks/Menu";
+import { Menu } from "@/components/admin/tasks/Menu";
 
-import prisma from "@lib/prisma";
+import prisma from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import { cache } from "react";
 
@@ -19,7 +19,7 @@ export default async function TaskListPage({ params }: { params: { id: string } 
   if (!id) notFound();
   const taskList = await findTaskList(id);
 
-  const list = taskList.tasks.map((task) => {
+  const list = taskList.tasks.map(task => {
     return {
       ...task,
       deadline: task.deadline?.toDateString() || "",

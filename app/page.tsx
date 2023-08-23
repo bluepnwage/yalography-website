@@ -1,21 +1,21 @@
 //Components
-import { Grid, Section, ThemeIcon, Title } from "@components/shared";
-import { Button } from "@components/shared/Button";
-import { Project, ServiceCard, Stats } from "@components/home";
-import { Ballon, Bouquet, BoxArchive, Email, Globe, Location, Maternity, Person } from "@lib/icons";
-import { Slideshow } from "@components/home/Slideshow";
+import { Grid, Section, ThemeIcon, Title } from "@/components/shared";
+import { Button } from "@/components/shared/Button";
+import { Project, ServiceCard, Stats } from "@/components/home";
+import { Ballon, Bouquet, BoxArchive, Email, Globe, Location, Maternity, Person } from "@/lib/icons";
+import { Slideshow } from "@/components/home/Slideshow";
 import Image from "next/image";
 import { Suspense } from "react";
 
-import prisma from "@lib/prisma";
+import prisma from "@/lib/prisma";
 
 //Assets
-import heroImg from "@public/main-image.jpg";
-import photographer from "@public/yasmino-lg.jpg";
+import heroImg from "@/public/main-image.jpg";
+import photographer from "@/public/yasmino-lg.jpg";
 import styles from "./Home.module.css";
 
 //Types
-import type * as Props from "@components/home";
+import type * as Props from "@/components/home";
 import type { Metadata } from "next";
 
 const getProjects = async () => {

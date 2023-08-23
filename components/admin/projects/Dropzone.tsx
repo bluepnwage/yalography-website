@@ -1,6 +1,6 @@
 "use client";
 import { Dropzone as MantineDropzone, IMAGE_MIME_TYPE } from "@mantine/dropzone";
-import { Check, XClose } from "@lib/icons";
+import { Check, XClose } from "@/lib/icons";
 
 type PropTypes = {
   onDrop: (file: File[] | null) => void;

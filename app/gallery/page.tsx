@@ -1,9 +1,9 @@
-import { PageIntro } from "@components/PageIntro";
-import { Section } from "@components/shared";
-import prisma from "@lib/prisma";
+import { PageIntro } from "@/components/PageIntro";
+import { Section } from "@/components/shared";
+import prisma from "@/lib/prisma";
 import { Metadata } from "next";
-import { Gallery } from "@components/gallery/Gallery";
-import { transformImage } from "@lib/transform-image";
+import { Gallery } from "@/components/gallery/Gallery";
+import { transformImage } from "@/lib/transform-image";
 
 async function getImages() {
   await prisma.$connect();

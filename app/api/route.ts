@@ -1,4 +1,4 @@
-import { listImages } from "@lib/firebase/storage";
+import { listImages } from "@/lib/firebase/storage";
 
 export async function GET() {
   const img = await listImages();

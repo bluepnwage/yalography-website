@@ -1,17 +1,17 @@
 //Components
-import { PageIntro } from "@components/PageIntro";
-import { Grid, Section, Title } from "@components/shared";
-import { SkillDetail, Company, Skill } from "@components/about";
-import { Button } from "@components/shared/Button";
-import { MovieFilter, AutoFix, PhotoSelectLarge } from "@lib/icons";
+import { PageIntro } from "@/components/PageIntro";
+import { Grid, Section, Title } from "@/components/shared";
+import { SkillDetail, Company, Skill } from "@/components/about";
+import { Button } from "@/components/shared/Button";
+import { MovieFilter, AutoFix, PhotoSelectLarge } from "@/lib/icons";
 import Image from "next/image";
 
 //Assets
-import yasmino from "@public/yasmino-lg.jpg";
-import villa from "@public/about/villa-md.jpg";
-import tj from "@public/about/tj-project-md.jpg";
-import about from "@public/about/about-md.jpg";
-import sxmOffice from "@public/about/sxm-office-md.jpg";
+import yasmino from "@/public/yasmino-lg.jpg";
+import villa from "@/public/about/villa-md.jpg";
+import tj from "@/public/about/tj-project-md.jpg";
+import about from "@/public/about/about-md.jpg";
+import sxmOffice from "@/public/about/sxm-office-md.jpg";
 
 import type { Metadata } from "next";
 

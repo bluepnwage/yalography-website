@@ -1,7 +1,7 @@
 "use client";
 import * as RadixDialog from "@radix-ui/react-dialog";
 import styles from "./styles.module.css";
-import { XClose } from "@lib/icons";
+import { XClose } from "@/lib/icons";
 import { DialogProvider, useDialog } from "./DialogContext";
 import { motion, AnimatePresence } from "framer-motion";
 import { cx } from "cva";

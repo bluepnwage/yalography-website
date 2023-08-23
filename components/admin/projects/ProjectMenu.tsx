@@ -1,13 +1,13 @@
 "use client";
-import { ActionIcon } from "@components/shared/ActionIcon";
-import { Share, Trash, Pin, Unpin } from "@lib/icons";
-import { Tooltip } from "@components/shared/Tooltip";
+import { ActionIcon } from "@/components/shared/ActionIcon";
+import { Share, Trash, Pin, Unpin } from "@/lib/icons";
+import { Tooltip } from "@/components/shared/Tooltip";
 
-import { useRouteRefresh } from "@lib/hooks/useRouteRefresh";
-import { useToggle } from "@lib/hooks/useToggle";
+import { useRouteRefresh } from "@/lib/hooks/useRouteRefresh";
+import { useToggle } from "@/lib/hooks/useToggle";
 import { useRouter } from "next/navigation";
 
-import type { Env } from "@lib/firebase/storage";
+import type { Env } from "@/lib/firebase/storage";
 
 type PropTypes = {
   id: number;

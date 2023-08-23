@@ -1,4 +1,4 @@
-import { Title } from "@components/shared";
+import { Title } from "@/components/shared";
 import Image from "next/image";
 import type { StaticImageData } from "next/image";
 

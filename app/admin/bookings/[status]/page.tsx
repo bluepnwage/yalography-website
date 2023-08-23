@@ -1,6 +1,6 @@
-import BookingsTable from "@components/admin/bookings/BookingsTable";
-import { Title } from "@components/shared";
-import { verifyToken } from "@lib/firebase/admin/auth";
+import BookingsTable from "@/components/admin/bookings/BookingsTable";
+import { Title } from "@/components/shared";
+import { verifyToken } from "@/lib/firebase/admin/auth";
 import { notFound } from "next/navigation";
 
 export default async function BookingsPage({ params }: { params: { status: "approved" | "pending" } }) {
