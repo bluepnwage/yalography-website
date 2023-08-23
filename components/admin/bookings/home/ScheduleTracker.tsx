@@ -97,7 +97,7 @@ export function Calendar() {
           todaysBookings.length === 0 ? "justify-center" : ""
         )}
       >
-        <p className={cx("text-lg text-center", todaysBookings.length > 0 ? "basis-1/4" : "")}>
+        <p className={cx("text-lg text-center mb-6", todaysBookings.length > 0 ? "" : "")}>
           You have {todaysBookings.length} {todaysBookings.length === 1 ? "appointment" : "appointments"}{" "}
           scheduled on {formatDate(date!)}.
         </p>

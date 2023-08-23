@@ -21,24 +21,23 @@ export function CalendarTable({ todaysBookings, date }: PropTypes) {
   }, [date]);
 
   return (
-    <div className="space-y-2 basis-3/4 w-full">
-      <Table style={{ flexGrow: 1 }}>
+    <div className="space-y-2 basis-3/4 grow w-full">
+      <Table style={{ flexGrow: 1, height: "75%" }}>
         <Table.Header>
           <Table.Row>
             <Table.Head>Name</Table.Head>
             <Table.Head>Type</Table.Head>
+            <Table.Head>Status</Table.Head>
           </Table.Row>
         </Table.Header>
         <Table.Body>
           {paginatedList.map((booking, key) => {
             return (
               <Table.Row key={key}>
-                <Table.Cell className="border-r border-zinc-200 dark:border-zinc-700">
+                <Table.Cell>
                   {booking.firstName} {booking.lastName}
                 </Table.Cell>
-                <Table.Cell className="border-r capitalize border-zinc-200 dark:border-zinc-700">
-                  {booking.type}
-                </Table.Cell>
+                <Table.Cell className=" capitalize">{booking.type}</Table.Cell>
                 <Table.Cell className="capitalize">
                   {" "}
                   <Badge variant={"status"} color={booking.status === "approved" ? "success" : "warn"}>

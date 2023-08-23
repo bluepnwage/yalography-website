@@ -14,9 +14,10 @@ import type { DialogProps } from "@aomdev/ui";
 type PropTypes = {
   taskLists: (SerializedTaskList & { tasks: SerializedTask[] })[];
   dialogProps: DialogProps;
+  list?: boolean;
 };
 
-export function TaskDialog({ taskLists, dialogProps }: PropTypes) {
+export function TaskDialog({ taskLists, dialogProps, list }: PropTypes) {
   const [isPending, refresh] = useRouteRefresh();
   const [loading, toggle] = useToggle();
 
@@ -55,6 +56,34 @@ export function TaskDialog({ taskLists, dialogProps }: PropTypes) {
       toggle.off();
     }
   };
+
+  const onTaskList = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    toggle.on();
+    const name = new FormData(e.currentTarget).get("list_name");
+    const { toast } = await import("react-toastify");
+
+    try {
+      const res = await fetch("/api/task-list", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name })
+      });
+      const json = await res.json();
+      if (res.ok) {
+        refresh();
+        toast.success(json.message);
+        if (dialogProps.onOpenChange) dialogProps.onOpenChange(false);
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      }
+    } finally {
+      toggle.off();
+    }
+  };
+
   const isLoading = isPending || loading;
   const selectData = taskLists.map(list => ({ label: list.name, value: `${list.id}` }));
   return (
@@ -62,27 +91,34 @@ export function TaskDialog({ taskLists, dialogProps }: PropTypes) {
       <Dialog {...dialogProps}>
         <Dialog.Content className="w-1/4">
           <div className="flex justify-between items-center">
-            <Dialog.Title>Create new task</Dialog.Title>
+            <Dialog.Title>{list ? "Create New Task List" : "Create New Task"}</Dialog.Title>
             <Dialog.Close>
               <IconX />
             </Dialog.Close>
           </div>
-          <form onSubmit={handleSubmit} className="space-y-4 mt-6">
-            <TextInput autoFocus required name="task_name" label="Task Name" />
-            {/* <DatePicker id="deadline" minDate={new Date()} label="Deadline" name="deadline" /> */}
-            <div className="flex gap-2">
-              <Select name="task_list" disabled={selectData.length === 0} items={selectData} />
-              <Select
-                defaultValue="low"
-                name="priority"
-                items={[
-                  { label: "High", value: "high" },
-                  { label: "Medium", value: "medium" },
-                  { label: "Low", value: "low" }
-                ]}
-              />
-            </div>
-            <Textarea name="description" label="Description" />
+          <form onSubmit={list ? onTaskList : handleSubmit} className="space-y-4 mt-6">
+            {!list ? (
+              <>
+                <TextInput autoFocus required name="task_name" label="Task Name" />
+                <div className="flex gap-2">
+                  <Select name="task_list" disabled={selectData.length === 0} items={selectData} />
+                  <Select
+                    defaultValue="low"
+                    name="priority"
+                    items={[
+                      { label: "High", value: "high" },
+                      { label: "Medium", value: "medium" },
+                      { label: "Low", value: "low" }
+                    ]}
+                  />
+                </div>
+                <Textarea name="description" label="Description" />
+              </>
+            ) : (
+              <>
+                <TextInput autoFocus name="list_name" id="list_name" label="Name" />
+              </>
+            )}
             <Button disabled={isLoading} className="block ml-auto">
               Submit
             </Button>

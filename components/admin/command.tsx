@@ -1,5 +1,5 @@
 "use client";
-import { Command } from "@aomdev/ui";
+import { Command, ScrollArea } from "@aomdev/ui";
 import { useReducer } from "react";
 import { useHotkeys } from "@mantine/hooks";
 import {
@@ -32,8 +32,12 @@ export function AdminCommand() {
       />
       <ProjectDialog open={state.project} onOpenChange={payload => dispatch({ payload, type: "project" })} />
       <TaskDialog
+        list={state.list}
         taskLists={[]}
-        dialogProps={{ open: state.task, onOpenChange: payload => dispatch({ payload, type: "task" }) }}
+        dialogProps={{
+          open: state.task,
+          onOpenChange: payload => dispatch({ payload: { value: payload, list: false }, type: "task" })
+        }}
       />
       <Command
         open={state.command}
@@ -42,58 +46,67 @@ export function AdminCommand() {
       >
         <Command.Input></Command.Input>
         <Command.List>
-          <Command.Group heading="Bookings">
-            <Command.Item>
-              <IconClipboardData size={18} className="inline-block mr-2 text-gray-600 dark:text-gray-300" />{" "}
-              Search Bookings...
-            </Command.Item>
-            <Command.Item onSelect={() => dispatch({ type: "bookings", payload: true })}>
-              {" "}
-              <IconPlus size={18} className="inline-block mr-2 text-gray-600 dark:text-gray-300" /> Create
-              Booking...
-            </Command.Item>
-          </Command.Group>
-          <Command.Seperator />
-          <Command.Group heading="Tasks">
-            <Command.Item>
-              {" "}
-              <IconListCheck size={18} className="inline-block mr-2 text-gray-600 dark:text-gray-300" />
-              Search Tasks...
-            </Command.Item>
-            <Command.Item onSelect={() => dispatch({ payload: true, type: "task" })}>
-              {" "}
-              <IconPlus size={18} className="inline-block mr-2 text-gray-600 dark:text-gray-300" />
-              Create Task...
-            </Command.Item>
-          </Command.Group>
-          <Command.Seperator />
-          <Command.Group heading="Gallery">
-            <Command.Item>
-              <IconRefresh size={18} className="inline-block mr-2 text-gray-600 dark:text-gray-300" />
-              Refresh Gallery...
-            </Command.Item>
-            <Command.Item onSelect={() => dispatch({ payload: true, type: "photo" })}>
-              {" "}
-              <IconPlus size={18} className="inline-block mr-2 text-gray-600 dark:text-gray-300" />
-              Upload Image...
-            </Command.Item>
-          </Command.Group>
-          <Command.Seperator />
-          <Command.Group heading="Projects">
-            <Command.Item>
-              {" "}
-              <IconLayoutBottombar
-                size={18}
-                className="inline-block mr-2 text-gray-600 dark:text-gray-300"
-              />{" "}
-              Search Projects...
-            </Command.Item>
-            <Command.Item onSelect={() => dispatch({ payload: true, type: "project" })}>
-              {" "}
-              <IconPlus size={18} className="inline-block mr-2 text-gray-600 dark:text-gray-300" /> Create
-              Project...
-            </Command.Item>
-          </Command.Group>
+          <ScrollArea style={{ height: window.screen.height / 2 }}>
+            <Command.Group heading="Bookings">
+              <Command.Item>
+                <IconClipboardData size={18} className="inline-block mr-2 text-gray-600 dark:text-gray-300" />{" "}
+                Search Bookings...
+              </Command.Item>
+              <Command.Item onSelect={() => dispatch({ type: "bookings", payload: true })}>
+                {" "}
+                <IconPlus size={18} className="inline-block mr-2 text-gray-600 dark:text-gray-300" /> Create
+                Booking...
+              </Command.Item>
+            </Command.Group>
+            <Command.Seperator />
+            <Command.Group heading="Tasks">
+              <Command.Item>
+                {" "}
+                <IconListCheck size={18} className="inline-block mr-2 text-gray-600 dark:text-gray-300" />
+                Search Tasks...
+              </Command.Item>
+              <Command.Item
+                onSelect={() => dispatch({ payload: { value: true, list: false }, type: "task" })}
+              >
+                {" "}
+                <IconPlus size={18} className="inline-block mr-2 text-gray-600 dark:text-gray-300" />
+                Create Task...
+              </Command.Item>
+              <Command.Item onSelect={() => dispatch({ payload: { value: true, list: true }, type: "task" })}>
+                {" "}
+                <IconPlus size={18} className="inline-block mr-2 text-gray-600 dark:text-gray-300" />
+                Create Task List...
+              </Command.Item>
+            </Command.Group>
+            <Command.Seperator />
+            <Command.Group heading="Gallery">
+              <Command.Item>
+                <IconRefresh size={18} className="inline-block mr-2 text-gray-600 dark:text-gray-300" />
+                Refresh Gallery...
+              </Command.Item>
+              <Command.Item onSelect={() => dispatch({ payload: true, type: "photo" })}>
+                {" "}
+                <IconPlus size={18} className="inline-block mr-2 text-gray-600 dark:text-gray-300" />
+                Upload Image...
+              </Command.Item>
+            </Command.Group>
+            <Command.Seperator />
+            <Command.Group heading="Projects">
+              <Command.Item>
+                {" "}
+                <IconLayoutBottombar
+                  size={18}
+                  className="inline-block mr-2 text-gray-600 dark:text-gray-300"
+                />{" "}
+                Search Projects...
+              </Command.Item>
+              <Command.Item onSelect={() => dispatch({ payload: true, type: "project" })}>
+                {" "}
+                <IconPlus size={18} className="inline-block mr-2 text-gray-600 dark:text-gray-300" /> Create
+                Project...
+              </Command.Item>
+            </Command.Group>
+          </ScrollArea>
         </Command.List>
       </Command>
     </>
