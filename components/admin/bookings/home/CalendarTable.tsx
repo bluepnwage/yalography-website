@@ -46,7 +46,7 @@ export function CalendarTable({ todaysBookings, date }: PropTypes) {
                 </Table.Cell>
                 <Table.Cell>
                   <Link
-                    href={`/admin/bookings/${booking.status}/${booking.id}`}
+                    href={`/admin/bookings/${booking.id}`}
                     className="text-yellow-600 dark:text-yellow-500"
                   >
                     View

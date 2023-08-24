@@ -57,7 +57,7 @@ export function UpcomingBookings() {
                   </Badge>
                 </Table.Cell>
                 <Table.Cell>
-                  <Anchor href={`/admin/bookings/${booking.status}/${booking.id}`}>View</Anchor>
+                  <Anchor href={`/admin/bookings/${booking.id}`}>View</Anchor>
                 </Table.Cell>
               </Table.Row>
             );

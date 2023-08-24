@@ -6,10 +6,11 @@ import { useToggle } from "@/lib/hooks/useToggle";
 import { useRouter } from "next/navigation";
 import { IconDots, IconCircleCheck, IconCalendarEvent, IconTrash } from "@tabler/icons-react";
 import { ActionIcon, Dropdown } from "@aomdev/ui";
-// import { Dialog } from "@aomdev/ui";
-import { useState, useReducer, lazy, FormEvent } from "react";
+
+import { useReducer, FormEvent } from "react";
 import { initialState, reducer } from "./dialog-reducer";
 import dynamic from "next/dynamic";
+
 import { RescheduleDialog } from "./reschedule-dialog";
 import { CreateOrderDialog } from "./create-order-dialog";
 import { Input } from "@/components/shared/Input";
@@ -18,10 +19,9 @@ const DeleteDialog = dynamic(() => import("./delete-dialog").then(mod => mod.Del
 
 type PropTypes = {
   id: number;
-  status: string;
 };
 
-export function BookingButtons({ id, status }: PropTypes) {
+export function BookingButtons({ id }: PropTypes) {
   const [state, dispatch] = useReducer(reducer, initialState);
   const [isLoading, toggle] = useToggle();
   const [isRefreshing, refresh] = useRouteRefresh();

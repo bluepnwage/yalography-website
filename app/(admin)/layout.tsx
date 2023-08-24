@@ -3,7 +3,6 @@ import "../../styles/globals.css";
 import { ToastProvider } from "@/components/ToastProvider";
 import { Metadata } from "next";
 import { Inter, Familjen_Grotesk } from "next/font/google";
-import { ThemeProvider } from "next-themes";
 import { NextThemesProvider } from "@/components/next-themes-provider";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
@@ -14,7 +13,7 @@ export const metadata: Metadata = {
   icons: { icon: "/logo.png" }
 };
 
-export default function Layout({ children }: { children: React.ReactNode }) {
+export default async function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html
       suppressHydrationWarning
@@ -23,9 +22,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     >
       <body className="  dark:bg-neutral-900  text-gray-700 dark:text-gray-100 duration-200 ease-out">
         <ToastProvider />
-        <Nav />
         <NextThemesProvider attribute="class">
-          <main className="w-6/6 ml-auto p-5">{children}</main>
+          <Nav />
+          <main className="w-5/6 ml-auto p-5">{children}</main>
         </NextThemesProvider>
       </body>
     </html>

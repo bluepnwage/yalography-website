@@ -32,7 +32,7 @@ export default async function AdminPage() {
             const features = booking.features ? booking.features.split(",") : [];
             return (
               <Link
-                href={`/admin/bookings/${booking.status}/${booking.id}`}
+                href={`/admin/bookings/${booking.id}`}
                 className={cardStyles({ className: "group hover:opacity-90 duration-200 ease-out" })}
                 key={booking.id}
               >

@@ -43,8 +43,8 @@ const links = [
 
 export function Nav() {
   return (
-    <div className="bg-white dark:bg-neutral-900 space-y-4 border-r dark:border-gray-700 w-1/6 h-screen fixed top-0 left-0 pt-10 px-4">
-      <Link href={"/"}>
+    <div className=" space-y-4 border-r dark:border-gray-700 w-1/6 h-screen fixed top-0 left-0 pt-10 px-4">
+      <Link href={"/"} className="block mb-6">
         <figure className="flex gap-4 items-center">
           <Image
             src={logo}
