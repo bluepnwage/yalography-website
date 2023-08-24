@@ -1,8 +1,9 @@
 "use client";
 import { Pagination } from "@/components/shared/Pagination";
-import { Badge } from "@/components/shared/Badge";
 import dynamic from "next/dynamic";
 import { FilterBar } from "@/components/admin/tasks/home/Filter";
+import { Card, Badge, Checkbox, ActionIcon } from "@aomdev/ui";
+import { IconEdit, IconTrash } from "@tabler/icons-react";
 
 const EditTaskModal = dynamic(() =>
   import("@/components/admin/tasks/home/EditTaskModal").then(mod => mod.EditTaskModal)
@@ -14,13 +15,9 @@ import { useToggle } from "@/lib/hooks/useToggle";
 import { useState, useEffect } from "react";
 import { useFilter } from "@/lib/hooks/useFilter";
 
-import { ActionIcon } from "@/components/shared/ActionIcon";
-import { Edit, Trash } from "@/lib/icons";
-
 import type { Tasks } from "@prisma/client";
 import type { EditTaskData } from "@/components/admin/tasks/home/Tasks";
 import { filterTasks } from "@/util/filterTasks";
-import { Checkbox } from "@/components/shared/Checkbox";
 
 export type SerializedTask = Omit<Tasks, "deadline" | "createdAt" | "updatedAt"> & {
   updatedAt: string;
@@ -137,49 +134,42 @@ export function Task({ taskData }: TaskPropTypes) {
       {lazyLoad && (
         <EditTaskModal task={task} onEdit={onEdit} onOpenChange={dialogToggle.set} open={dialog} />
       )}
-      <div
-        className={`bg-white first-of-type:mt-4 dark:bg-zinc-800 rounded-md p-4 mb-5 last-of-type:mb-0 ${
-          isLoading ? "animate-pulse" : ""
-        }`}
-      >
+      <Card className={`first-of-type:mt-4  mb-5 last-of-type:mb-0 ${isLoading ? "opacity-50" : ""}`}>
         <div className="flex justify-between items-center mb-2 ">
           <div className="flex gap-2 items-center">
-            <p className="flex items-center gap-2">
-              <Checkbox
-                color="emerald"
-                onChange={onStatusToggle}
-                id={`${task.id}-${task.name}`}
-                type={"checkbox"}
-                checked={task.status}
-              />
-              <label htmlFor={`${task.id}-${task.name}`}>{task.name}</label>
-            </p>
+            <Checkbox
+              onCheckedChange={onStatusToggle}
+              id={`${task.id}-${task.name}`}
+              checked={task.status}
+              label={task.name}
+            />
+
             <Badge
-              color={task.priority === "high" ? "red" : task.priority === "medium" ? "yellow" : "emerald"}
-              className="capitalize px-2 py-1 w-fit text-sm"
+              color={
+                task.priority === "high" ? "error" : task.priority === "medium" ? "secondary" : "primary"
+              }
+              className="capitalize"
             >
               {task.priority} priority
             </Badge>
           </div>
           <div className="flex gap-4">
             <ActionIcon
-              color={"violet"}
               onMouseEnter={!lazyLoad ? lazyLoadToggle.on : undefined}
               onClick={dialogToggle.on}
               disabled={isLoading}
-              className="w-7 h-7"
               aria-label="Delete task"
             >
-              <Edit size={16} className="stroke-violet-600 dark:stroke-violet-200" />
+              <IconEdit size={16} />
             </ActionIcon>
-            <ActionIcon onClick={onDelete} disabled={isLoading} className="w-7 h-7" aria-label="Delete task">
-              <Trash size={16} className="stroke-red-600 dark:stroke-red-200" />
+            <ActionIcon color="error" onClick={onDelete} disabled={isLoading} aria-label="Delete task">
+              <IconTrash size={16} />
             </ActionIcon>
           </div>
         </div>
         <p>Due: {task.deadline}</p>
         <p className="text-gray-500 dark:text-gray-400">{task.description}</p>
-      </div>
+      </Card>
     </>
   );
 }

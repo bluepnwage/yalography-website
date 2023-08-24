@@ -1,11 +1,10 @@
 "use client";
 import { ScrollAreaDemo } from "@/components/shared/ScrollArea";
-import { Edit, Trash } from "@/lib/icons";
-import { ActionIcon } from "@/components/shared/ActionIcon";
 import { CreateList } from "./ListMenu";
 import { Input } from "@/components/shared/Input";
 import { Button } from "@/components/shared/Button";
 import Link from "next/link";
+import { Card, ActionIcon } from "@aomdev/ui";
 
 import { useTasks } from "./TasksProvider";
 import { useToggle } from "@/lib/hooks/useToggle";
@@ -14,6 +13,7 @@ import dynamic from "next/dynamic";
 
 import type { SerializedTask, SerializedTaskList } from "@/lib/prisma";
 import type { FormEvent } from "react";
+import { IconEdit, IconTrack, IconTrash } from "@tabler/icons-react";
 
 const Dialog = dynamic(() => import("@/components/shared/Dialog").then(mod => mod.Dialog));
 
@@ -21,17 +21,19 @@ export function TaskLists() {
   const { taskLists } = useTasks();
 
   return (
-    <div className="bg-white dark:bg-zinc-800 rounded-md col-span-4 overflow-hidden ">
-      <div className="flex justify-between px-5  py-2 border-b border-zinc-200 dark:border-zinc-700">
-        <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100">Task lists</h2>
-        <CreateList />
-      </div>
+    <Card className=" col-span-4 overflow-hidden ">
+      <Card.Section>
+        <div className="flex justify-between px-5  py-2 border-b border-zinc-200 dark:border-zinc-700">
+          <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100">Task lists</h2>
+          <CreateList />
+        </div>
+      </Card.Section>
       <ScrollAreaDemo height={300} orientation="vertical" className="">
         {taskLists.map(list => {
           return <List key={list.id} list={list} />;
         })}
       </ScrollAreaDemo>
-    </div>
+    </Card>
   );
 }
 
@@ -121,18 +123,12 @@ function List({ list }: PropTypes) {
               onMouseEnter={!lazyLoad ? lazyLoadToggle.on : undefined}
               onClick={dialogToggle.on}
               aria-label="Edit task list"
-              className="h-7 w-7"
-              color="indigo"
+              color="primary"
             >
-              <Edit size={16} className="stroke-indigo-200" />
+              <IconEdit size={16} />
             </ActionIcon>
-            <ActionIcon
-              disabled={isLoading}
-              onClick={onDelete}
-              aria-label="Delete task list"
-              className="h-7 w-7"
-            >
-              <Trash size={16} className="stroke-red-200" />
+            <ActionIcon color="error" disabled={isLoading} onClick={onDelete} aria-label="Delete task list">
+              <IconTrash size={16} />
             </ActionIcon>
           </div>
         </div>

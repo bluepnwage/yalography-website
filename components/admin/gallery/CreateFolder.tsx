@@ -1,11 +1,7 @@
 "use client";
-import { Input } from "@/components/shared/Input";
-import { Button } from "@/components/shared/Button";
 import { useToggle } from "@/lib/hooks/useToggle";
 import { useRouteRefresh } from "@/lib/hooks/useRouteRefresh";
-import dynamic from "next/dynamic";
-
-const Dialog = dynamic(() => import("@/components/shared/Dialog").then(mod => mod.Dialog));
+import { Button, Dialog, TextInput } from "@aomdev/ui";
 
 import type { FormEvent } from "react";
 
@@ -47,13 +43,16 @@ export function CreateFolder() {
   return (
     <>
       {lazyLoad && (
-        <Dialog title="Create a folder" open={dialog} onOpenChange={dialogToggle.set}>
-          <form onSubmit={onSubmit}>
-            <Input className="mb-2" label="Folder name" name="folder_name" id="folder_name" required />
-            <Button disabled={isLoading} intent={"accept"}>
-              Submit
-            </Button>
-          </form>
+        <Dialog open={dialog} onOpenChange={dialogToggle.set}>
+          <Dialog.Content blur>
+            <Dialog.Title>Create a folder</Dialog.Title>
+            <form onSubmit={onSubmit} className="space-y-4 mt-6">
+              <TextInput className="mb-2" label="Folder name" name="folder_name" id="folder_name" required />
+              <Button disabled={isLoading} className="block ml-auto">
+                Submit
+              </Button>
+            </form>
+          </Dialog.Content>
         </Dialog>
       )}
       <Button onClick={dialogToggle.on} onMouseEnter={!lazyLoad ? lazyLoadToggle.on : undefined}>

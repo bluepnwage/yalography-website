@@ -1,17 +1,12 @@
 "use client";
 //Components
-import { Button } from "@/components/shared/Button";
-import { Input } from "@/components/shared/Input";
-import { ActionIcon } from "@/components/shared/ActionIcon";
-
+import { ActionIcon, Button, TextInput, Dialog } from "@aomdev/ui";
 //Hooks
 import { useToggle } from "@/lib/hooks/useToggle";
 import { useRouteRefresh } from "@/lib/hooks/useRouteRefresh";
-import dynamic from "next/dynamic";
-
-const Dialog = dynamic(() => import("@/components/shared/Dialog").then(mod => mod.Dialog));
 
 import type { FormEvent } from "react";
+import { IconX } from "@tabler/icons-react";
 
 export function CreateList() {
   const [dialog, dialogToggle] = useToggle();
@@ -54,22 +49,27 @@ export function CreateList() {
         onClick={dialogToggle.on}
         onMouseEnter={!lazyLoad ? lazyLoadToggle.on : undefined}
         aria-label="Create task list"
-        radius={"full"}
-        className="h-7 w-7"
-        color="emerald"
+        color="success"
       >
         +
       </ActionIcon>
-      {lazyLoad && (
-        <Dialog title="Create task list" open={dialog} onOpenChange={dialogToggle.set}>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <Input label="Name" name="list_name" id="list_name" />
-            <Button intent={"accept"} disabled={isLoading}>
+
+      <Dialog open={dialog} onOpenChange={dialogToggle.set}>
+        <Dialog.Content className="w-1/4">
+          <div className="flex justify-between items-center">
+            <Dialog.Title>Create New Task List</Dialog.Title>
+            <Dialog.Close>
+              <IconX />
+            </Dialog.Close>
+          </div>
+          <form onSubmit={handleSubmit} className="space-y-4 mt-6">
+            <TextInput autoFocus label="Name" name="list_name" id="list_name" />
+            <Button className="block ml-auto" disabled={isLoading}>
               Submit
             </Button>
           </form>
-        </Dialog>
-      )}
+        </Dialog.Content>
+      </Dialog>
     </>
   );
 }

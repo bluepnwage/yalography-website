@@ -1,12 +1,10 @@
 "use client";
 //Components
-import { Table } from "@/components/shared/Table";
-import { Badge } from "@/components/shared/Badge";
-import { ActionIcon } from "@/components/shared/ActionIcon";
 import { Edit, Trash } from "@/lib/icons";
 import { FilterBar } from "./Filter";
 import { Pagination } from "@/components/shared/Pagination";
-import { Checkbox } from "@/components/shared/Checkbox";
+import { Badge, Table, ActionIcon, Checkbox } from "@aomdev/ui";
+import { IconTrash, IconEdit } from "@tabler/icons-react";
 
 //Hooks/util functions
 import { cx } from "cva";
@@ -45,16 +43,16 @@ export function Tasks() {
         onFilterChange={toggle.onFilter}
         onSortChange={toggle.onSort}
       />
-      <Table striped>
-        <thead className="border-b border-zinc-200 dark:border-zinc-700">
-          <tr>
-            <th className="py-2  border-r border-zinc-200 dark:border-zinc-700">Task name</th>
-            <th className="py-2 border-r border-zinc-200 dark:border-zinc-700">Due date</th>
-            <th className="py-2 border-r border-zinc-200 dark:border-zinc-700">Status</th>
-            <th className="py-2 border-r border-zinc-200 dark:border-zinc-700">Priority</th>
-            <th>Action</th>
-          </tr>
-        </thead>
+      <Table>
+        <Table.Header className="border-b border-zinc-200 dark:border-zinc-700">
+          <Table.Row>
+            <Table.Head>Task name</Table.Head>
+            <Table.Head>Due date</Table.Head>
+            <Table.Head>Status</Table.Head>
+            <Table.Head>Priority</Table.Head>
+            <Table.Head>Action</Table.Head>
+          </Table.Row>
+        </Table.Header>
         <tbody>
           {paginatedList.map(task => {
             return <TaskRow key={task.id} taskData={task} />;
@@ -148,52 +146,51 @@ function TaskRow({ taskData }: PropTypes) {
       {lazyLoad && (
         <EditTaskModal onEdit={onEdit} open={dialog} onOpenChange={dialogToggle.set} task={task} />
       )}
-      <tr className="border-b border-zinc-200 dark:border-zinc-700 last-of-type:border-0">
-        <td className="py-2 space-x-2 flex items-center text-start pl-2 ">
+      <Table.Row>
+        <Table.Cell>
           <Checkbox
-            color="emerald"
-            disabled={isLoading}
-            onChange={onStatusToggle}
             checked={task.status}
+            disabled={isLoading}
+            onCheckedChange={onStatusToggle}
             id={`${task.id}-${task.name}`}
+            label={task.name}
           />
-          <label htmlFor={`${task.id}-${task.name}`}>{task.name}</label>
-        </td>
-        <td className="py-2 ">{task.deadline || "N/A"}</td>
-        <td className="py-2 ">
-          <Badge color={task.status ? "emerald" : "orange"} className={cx("px-2 w-fit mx-auto py-1 text-sm")}>
+        </Table.Cell>
+        <Table.Cell>{task.deadline || "N/A"}</Table.Cell>
+        <Table.Cell>
+          <Badge
+            variant={"status"}
+            color={task.status ? "success" : "warn"}
+            className={cx("px-2 w-fit mx-auto py-1 text-sm")}
+          >
             {task.status ? "Complete" : "Incomplete"}
           </Badge>
-        </td>
-        <td>
+        </Table.Cell>
+        <Table.Cell>
           <Badge
-            color={task.priority === "high" ? "red" : task.priority === "medium" ? "yellow" : "emerald"}
+            color={task.priority === "high" ? "error" : task.priority === "medium" ? "secondary" : "success"}
             className="capitalize px-2 py-1 w-fit mx-auto text-sm"
           >
             {task.priority}
           </Badge>
-        </td>
-        <td className="flex gap-2 py-2 justify-center">
-          <ActionIcon
-            onMouseEnter={!lazyLoad ? lazyLoadToggle.on : undefined}
-            disabled={isLoading}
-            onClick={dialogToggle.on}
-            color="violet"
-            aria-label="Edit task list"
-            className="h-7 w-7  inline"
-          >
-            <Edit size={16} className="stroke-violet-200" />
-          </ActionIcon>
-          <ActionIcon
-            disabled={isLoading}
-            onClick={onDelete}
-            aria-label="Delete task list"
-            className="h-7 w-7 inline"
-          >
-            <Trash size={16} className="stroke-red-200" />
-          </ActionIcon>
-        </td>
-      </tr>
+        </Table.Cell>
+        <Table.Cell>
+          <span className="flex gap-2">
+            <ActionIcon
+              onMouseEnter={!lazyLoad ? lazyLoadToggle.on : undefined}
+              disabled={isLoading}
+              onClick={dialogToggle.on}
+              color="primary"
+              aria-label="Edit task list"
+            >
+              <IconEdit size={"75%"} />
+            </ActionIcon>
+            <ActionIcon disabled={isLoading} onClick={onDelete} aria-label="Delete task list" color="error">
+              <IconTrash size={"75%"} />
+            </ActionIcon>
+          </span>
+        </Table.Cell>
+      </Table.Row>
     </>
   );
 }

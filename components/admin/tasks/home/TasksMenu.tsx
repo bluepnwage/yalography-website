@@ -1,8 +1,7 @@
 "use client";
 //Components
-import { Dropdown } from "@/components/shared/Dropdown";
 import { DotsVertical } from "@/lib/icons";
-
+import { Dropdown } from "@aomdev/ui";
 export function TasksMenu() {
   return (
     <>

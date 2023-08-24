@@ -64,6 +64,7 @@ const handler: NextApiHandler = async (req, res) => {
         return res.status(200).json({ message: "Task list updated", data });
       }
       case "DELETE": {
+        console.log(json);
         const promise = deleteTaskList(json.id);
         const [status, data] = await handlePromise(promise);
         if (status === "error") {

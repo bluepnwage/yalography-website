@@ -1,6 +1,5 @@
-import { Todo } from "./Todo";
-import { Card, Skeleton, Title } from "@/components/shared";
-import { ScrollAreaDemo } from "@/components/shared/ScrollArea";
+import { Skeleton } from "@/components/shared";
+import { Table, Badge, Title, Card } from "@aomdev/ui";
 
 import prisma from "@/lib/prisma";
 
@@ -19,16 +18,38 @@ async function getIncompleteTasks() {
 export async function TaskList() {
   const data = await getIncompleteTasks();
   return (
-    <>
-      <Card className="col-span-8">
-        <Title order={"h3"} className="text-center">
-          Incomplete Tasks
-        </Title>
-        <ScrollAreaDemo height={540} orientation={"vertical"}>
-          <Todo tasks={data} />
-        </ScrollAreaDemo>
-      </Card>
-    </>
+    <div className="col-span-full mt-16">
+      <Title order={2} className="font-heading font-medium">
+        Incomplete Tasks
+      </Title>
+      <Table>
+        <Table.Header>
+          <Table.Row>
+            <Table.Head>Name</Table.Head>
+            <Table.Head>Created</Table.Head>
+            <Table.Head>Priority</Table.Head>
+          </Table.Row>
+        </Table.Header>
+        <Table.Body>
+          {data.map(task => {
+            return (
+              <Table.Row key={task.id}>
+                <Table.Cell>{task.name}</Table.Cell>
+                <Table.Cell>{task.createdAt}</Table.Cell>
+                <Table.Cell>
+                  <Badge
+                    className="capitalize"
+                    color={task.priority === "low" ? "primary" : task.priority === "high" ? "error" : "warn"}
+                  >
+                    {task.priority}
+                  </Badge>
+                </Table.Cell>
+              </Table.Row>
+            );
+          })}
+        </Table.Body>
+      </Table>
+    </div>
   );
 }
 

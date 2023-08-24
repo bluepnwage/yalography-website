@@ -1,5 +1,6 @@
-import { Card, Skeleton, Title } from "@/components/shared";
+import { Skeleton } from "@/components/shared";
 import { Chart } from "./Chart";
+import { Card, Title } from "@aomdev/ui";
 
 import prisma from "@/lib/prisma";
 async function getBookings() {
@@ -22,7 +23,7 @@ export async function ChartContainer() {
   const bookings = await getBookings();
   return (
     <Card className="col-span-4 text-center flex flex-col">
-      <Title order={"h3"} className="mb-5">
+      <Title order={3} className="mb-5 font-heading font-medium">
         Total Bookings
       </Title>
       <Chart data={bookings} />

@@ -1,4 +1,4 @@
-import "../styles/globals.css";
+import "./globals.css";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Navbar";
 import { ScrollToTop } from "@/components/ScrollToTop";

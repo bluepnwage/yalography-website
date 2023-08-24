@@ -1,45 +1,17 @@
 "use client";
-import { Dropdown } from "@/components/shared/Dropdown";
 import { Image } from "@/components/shared/Image";
-import { Button } from "@/components/shared/Button";
-import { Input } from "@/components/shared/Input";
-import dynamic from "next/dynamic";
-
-const Dialog = dynamic(() => import("@/components/shared/Dialog").then(mod => mod.Dialog));
+import { ActionIcon, Card, Dropdown, TextInput, Button } from "@aomdev/ui";
+import { IconTrash, IconEdit, IconCopy, IconDownload } from "@tabler/icons-react";
+import { Dialog } from "@aomdev/ui";
 
 import { useToggle } from "@/lib/hooks/useToggle";
 import { useRouteRefresh } from "@/lib/hooks/useRouteRefresh";
 import { useState } from "react";
 import { useReducer } from "react";
 
-const initialState = {
-  renameDialog: false,
-  captionDialog: false
-};
-
-type ActionType = keyof typeof initialState;
-
-type Actions = {
-  payload: boolean;
-  type: ActionType;
-};
-
-function reducer(state: typeof initialState, action: Actions): typeof initialState {
-  switch (action.type) {
-    case "renameDialog": {
-      return { ...state, renameDialog: action.payload };
-    }
-    case "captionDialog": {
-      return { ...state, captionDialog: action.payload };
-    }
-    default: {
-      return state;
-    }
-  }
-}
-
 import type { Images } from "@prisma/client";
 import type { FormEvent } from "react";
+import { initialState, reducer } from "./image-reducer";
 
 type PropTypes = {
   image: Images;
@@ -180,39 +152,42 @@ export function UploadedImage({ image: imageData }: PropTypes) {
 
   const isLoading = isPending || loading;
 
-  const longWidth = image.width > image.height;
-
   return (
     <>
       {lazyLoad && (
         <Dialog
           open={dialog.renameDialog}
           onOpenChange={payload => dispatch({ payload, type: "renameDialog" })}
-          title="Rename image"
         >
-          <form onSubmit={onRename} className="space-y-4">
-            <Input defaultValue={image.name} label="Name" id="image_name" name="image_name" required />
-            <Button disabled={isLoading} intent="accept">
-              Submit
-            </Button>
-          </form>
+          <Dialog.Content blur className="w-1/4">
+            <Dialog.Title>Rename image</Dialog.Title>
+
+            <form onSubmit={onRename} className="space-y-4 mt-6">
+              <TextInput defaultValue={image.name} label="Name" id="image_name" name="image_name" required />
+              <Button disabled={isLoading} className="block ml-auto">
+                Submit
+              </Button>
+            </form>
+          </Dialog.Content>
         </Dialog>
       )}
       {lazyLoad && (
         <Dialog
-          title="Edit caption"
           open={dialog.captionDialog}
           onOpenChange={payload => dispatch({ payload, type: "captionDialog" })}
         >
-          <form onSubmit={onEditCaption} className="space-y-4">
-            <Input label="Caption" id="caption" name="caption" />
-            <Button disabled={isLoading} intent="accept">
-              Submit
-            </Button>
-          </form>
+          <Dialog.Content blur className="w-1/4">
+            <Dialog.Title>Edit caption</Dialog.Title>
+            <form onSubmit={onEditCaption} className="space-y-4 mt-6">
+              <TextInput label="Caption" id="caption" name="caption" />
+              <Button disabled={isLoading} className="block ml-auto">
+                Submit
+              </Button>
+            </form>
+          </Dialog.Content>
         </Dialog>
       )}
-      <div className="col-span-4 h-72 flex flex-col gap-4 relative bg-white dark:bg-zinc-800 rounded-md p-4 overflow-hidden ">
+      <Card className="col-span-3 h-72 flex flex-col gap-4 relative overflow-hidden ">
         {isLoading && (
           <div
             aria-hidden
@@ -221,40 +196,38 @@ export function UploadedImage({ image: imageData }: PropTypes) {
         )}
         <div className="group relative -mx-4 -mt-4 basis-3/4 overflow-hidden ">
           <Dropdown>
-            <Dropdown.Trigger>
-              <button
-                className={`flex h-9 w-9 rounded-full items-center z-10 justify-center bg-zinc-700 absolute right-5 top-5`}
+            <Dropdown.Trigger asChild>
+              <ActionIcon
+                variant={"filled"}
+                color="gray"
                 aria-label="Edit image"
+                className="absolute right-5 top-5 z-[100]"
               >
                 <DotsVertical />
-              </button>
+              </ActionIcon>
             </Dropdown.Trigger>
             <Dropdown.Content>
-              <Dropdown.Label>Manage image</Dropdown.Label>
               <Dropdown.Item
+                icon={<IconEdit size={16} className=" " />}
                 onClick={() => dispatch({ payload: true, type: "renameDialog" })}
                 onMouseEnter={!lazyLoad ? lazyLoadToggle.on : undefined}
               >
-                <Edit />
                 Rename image
               </Dropdown.Item>
               <Dropdown.Item
+                icon={<IconEdit size={16} className=" " />}
                 onClick={() => dispatch({ payload: true, type: "captionDialog" })}
                 onMouseEnter={!lazyLoad ? lazyLoadToggle.on : undefined}
               >
-                <Edit />
                 Edit caption
               </Dropdown.Item>
-              <Dropdown.Item onClick={onCopy}>
-                <Upload />
+              <Dropdown.Item icon={<IconCopy size={16} className=" " />} onClick={onCopy}>
                 Copy url
               </Dropdown.Item>
-              <Dropdown.Item onClick={onDownload}>
-                <Download />
+              <Dropdown.Item icon={<IconDownload size={16} className=" " />} onClick={onDownload}>
                 Download image
               </Dropdown.Item>
-              <Dropdown.Item onClick={onDelete}>
-                <Trash />
+              <Dropdown.Item color="error" icon={<IconTrash size={16} className=" " />} onClick={onDelete}>
                 Delete image
               </Dropdown.Item>
             </Dropdown.Content>
@@ -285,7 +258,7 @@ export function UploadedImage({ image: imageData }: PropTypes) {
             <p>{(image.size / 1000).toFixed(2)}Kb</p>
           </div>
         </div>
-      </div>
+      </Card>
     </>
   );
 }

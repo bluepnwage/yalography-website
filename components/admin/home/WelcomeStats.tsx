@@ -1,10 +1,12 @@
-import { Card, Title, Skeleton } from "@/components/shared";
-import { Button } from "@/components/shared/Button";
+import { Skeleton } from "@/components/shared";
 import { ClipboardCheck, ClipboardMoney } from "@/lib/icons";
+import { Card, Title, Button } from "@aomdev/ui";
 
 import prisma from "@/lib/prisma";
 import { formatNum } from "@/util/formatNum";
 import { cache, Suspense } from "react";
+import Link from "next/link";
+import { buttonStyles } from "@aomdev/ui/src/button/styles";
 
 export function WelcomeStats() {
   return (
@@ -30,15 +32,15 @@ async function WelcomeCard() {
   const stat = await getPending();
   return (
     <Card className="space-y-2 basis-3/6">
-      <Title order={"h1"} size={"xl"}>
+      <Title order={1} className="text-3xl font-heading font-medium">
         Welcome back Yasmino
       </Title>
       <p>
         You currently have <strong>{stat}</strong> pending bookings.
       </p>
-      <Button component="a" href={"/admin/bookings"}>
+      <Link className={buttonStyles({ className: "w-fit" })} href={"/admin/bookings"}>
         View bookings
-      </Button>
+      </Link>
     </Card>
   );
 }

@@ -58,7 +58,7 @@ export function BookingButtons({ id, status }: PropTypes) {
     const { toast } = await import("react-toastify");
 
     try {
-      const res = await fetch("/api/bookings", {
+      const res = await fetch("/api/task-list", {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id: id })
@@ -66,7 +66,7 @@ export function BookingButtons({ id, status }: PropTypes) {
       const json = await res.json();
       if (res.ok) {
         refresh();
-        router.push(`/admin/bookings/${status}`);
+        router.push(`/admin/bookings`);
         toast.success(json.message);
       } else {
         throw new Error(json.message);
@@ -139,7 +139,9 @@ export function BookingButtons({ id, status }: PropTypes) {
             <Button onClick={() => dispatch({ type: "delete", payload: false })} variant={"neutral"}>
               Cancel
             </Button>
-            <Button variant={"error"}>Delete</Button>
+            <Button variant={"error"} disabled={isLoading || isRefreshing} onClick={onDelete}>
+              Delete
+            </Button>
           </div>
         </DeleteDialog>
       )}

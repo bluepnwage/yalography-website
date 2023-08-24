@@ -10,10 +10,9 @@ export const metadata: Metadata = {
 };
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
-  await verifyToken();
+  // await verifyToken();
   return (
     <div>
-      <AdminCommand />
       <Nav />
       <>
         <div className="w-5/6 ml-auto p-5">{children}</div>

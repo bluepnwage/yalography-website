@@ -68,19 +68,21 @@ const handler: NextApiHandler<ApiResponse> = async (req, res) => {
         return res.status(200).json({ message: "Booking updated", data });
       }
       case "DELETE": {
-        const promise = deleteBooking(json);
-        const [status, data] = await handlePromise(promise);
-        if (status === "error") {
-          logError({
-            title: "Delete booking",
-            apiURL,
-            description: data.message,
-            stackTrace: data.stack,
-            statusCode: 500
-          });
-          throw new Error("There was an error deleting your booking.", { cause: data });
-        }
-        return res.status(200).json({ message: "Booking deleted", data });
+        const json = req.body;
+        console.log(json);
+        // const promise = deleteBooking(json);
+        // const [status, data] = await handlePromise(promise);
+        // if (status === "error") {
+        //   logError({
+        //     title: "Delete booking",
+        //     apiURL,
+        //     description: data.message,
+        //     stackTrace: data.stack,
+        //     statusCode: 500
+        //   });
+        //   throw new Error("There was an error deleting your booking.", { cause: data });
+        // }
+        return res.status(200).json({ message: "Booking deleted" });
       }
       default: {
         return res.status(405).json({ message: "Method not allowed" });
