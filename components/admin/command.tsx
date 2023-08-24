@@ -15,27 +15,42 @@ import { BookingDialog } from "./bookings-dialog";
 import { GalleryDialog } from "./gallery-dialog";
 import { ProjectDialog } from "./project-dialog";
 import { TaskDialog } from "./task-dialog";
-import { cardStyles } from "@aomdev/ui/src/card/styles";
 import { inputStyles } from "@aomdev/ui/src/input-wrapper/styles";
+import { ActionIcon } from "@aomdev/ui";
+import { IconSun, IconMoonStars } from "@tabler/icons-react";
+import { useTheme } from "next-themes";
 
 export function AdminCommand() {
   const [state, dispatch] = useReducer(reducer, initialState);
   useHotkeys([["ctrl+k", () => dispatch({ payload: true, type: "command" })]]);
-
+  const { theme, setTheme } = useTheme();
   return (
     <>
-      <button
-        onClick={() => dispatch({ type: "command", payload: true })}
-        className={inputStyles({ className: "w-full flex justify-between items-center px-2" })}
-      >
-        <span>
-          <IconSearch size={16} className="inline-block mr-2" />
-          Search...
-        </span>
-        <kbd className="text-xs bg-neutral-200/30 dark:bg-neutral-600/30 ring-1 ring-neutral-100 dark:ring-neutral-700 inline-block ml-6 p-[1px] rounded-sm">
-          Ctrl K
-        </kbd>
-      </button>
+      <div className="flex items-center gap-2">
+        <button
+          onClick={() => dispatch({ type: "command", payload: true })}
+          className={inputStyles({
+            className: "basis-3/4 grow flex justify-between items-center px-2",
+            size: "sm"
+          })}
+        >
+          <span>
+            <IconSearch size={16} className="inline-block mr-2" />
+            Search...
+          </span>
+          <kbd className="text-xs bg-neutral-200/30 dark:bg-neutral-600/30 ring-1 ring-neutral-100 dark:ring-neutral-700 inline-block ml-6 p-[1px] rounded-sm">
+            Ctrl K
+          </kbd>
+        </button>
+        <ActionIcon
+          onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+          size={"lg"}
+          className="rounded"
+        >
+          <IconMoonStars size={"75%"} className="hidden dark:inline-block" />
+          <IconSun size={"75%"} className="dark:hidden inline-block" />
+        </ActionIcon>
+      </div>
       <BookingDialog
         open={state.bookings}
         onOpenChange={payload => dispatch({ payload, type: "bookings" })}
