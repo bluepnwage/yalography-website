@@ -2,7 +2,7 @@ import { WelcomeStats } from "@/components/admin/home/WelcomeStats";
 import { Stats } from "@/components/admin/home/Stats";
 import prisma from "@/lib/prisma";
 export const dynamic = "force-dynamic";
-import { Card, Badge, Title } from "@aomdev/ui";
+import { Badge, Title } from "@aomdev/ui";
 import { formatDate } from "@/util/formate-date";
 import { IconChevronRight } from "@tabler/icons-react";
 import Link from "next/link";
@@ -19,7 +19,6 @@ const getBookings = async () => {
 
 export default async function AdminPage() {
   const bookings = await getBookings();
-  console.log(bookings);
   return (
     <div>
       <WelcomeStats />

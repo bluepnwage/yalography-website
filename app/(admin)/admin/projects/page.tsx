@@ -1,11 +1,12 @@
-import { Card, Grid, Title } from "@/components/shared";
+import { Grid } from "@/components/shared";
 import { ProjectsTable } from "@/components/admin/projects/home/ProjectsTable";
 import { TotalProjects } from "@/components/admin/projects/home/TotalProjects";
+import { Card, Title } from "@aomdev/ui";
 
 export default function AdminProjectsPage() {
   return (
     <>
-      <Title order={"h1"} className="mb-5">
+      <Title order={1} className="font-heading font-medium text-4xl mb-6">
         Projects
       </Title>
 
@@ -18,7 +19,9 @@ export default function AdminProjectsPage() {
 
       <Grid fullWidth>
         <div className="col-span-full">
-          <Title order={"h2"}>All projects</Title>
+          <Title order={2} className="font-medium font-heading">
+            All projects
+          </Title>
         </div>
         <ProjectsTable />
       </Grid>
