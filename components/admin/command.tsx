@@ -76,7 +76,7 @@ export function AdminCommand() {
       >
         <Command.Input />
         <Command.List>
-          <ScrollArea style={{ height: window.screen.height / 2 }}>
+          <ScrollArea style={{ height: typeof window !== undefined ? window.screen.height / 2 : 500 }}>
             <Command.Group heading="Bookings">
               <Command.Item>
                 <IconClipboardData size={18} className="inline-block mr-2 text-gray-600 dark:text-gray-300" />{" "}
