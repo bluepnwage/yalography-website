@@ -1,21 +1,16 @@
 "use client";
-import { ScrollAreaDemo } from "@/components/shared/ScrollArea";
 import { CreateList } from "./ListMenu";
-import { Input } from "@/components/shared/Input";
-import { Button } from "@/components/shared/Button";
+
 import Link from "next/link";
-import { Card, ActionIcon } from "@aomdev/ui";
+import { Card, ActionIcon, ScrollArea, Button, TextInput, Dialog } from "@aomdev/ui";
 
 import { useTasks } from "./TasksProvider";
 import { useToggle } from "@/lib/hooks/useToggle";
 import { useRouteRefresh } from "@/lib/hooks/useRouteRefresh";
-import dynamic from "next/dynamic";
 
 import type { SerializedTask, SerializedTaskList } from "@/lib/prisma";
 import type { FormEvent } from "react";
-import { IconEdit, IconTrack, IconTrash } from "@tabler/icons-react";
-
-const Dialog = dynamic(() => import("@/components/shared/Dialog").then(mod => mod.Dialog));
+import { IconEdit, IconTrack, IconTrash, IconX } from "@tabler/icons-react";
 
 export function TaskLists() {
   const { taskLists } = useTasks();
@@ -28,11 +23,11 @@ export function TaskLists() {
           <CreateList />
         </div>
       </Card.Section>
-      <ScrollAreaDemo height={300} orientation="vertical" className="">
+      <ScrollArea style={{ height: 300 }} className="w-full">
         {taskLists.map(list => {
           return <List key={list.id} list={list} />;
         })}
-      </ScrollAreaDemo>
+      </ScrollArea>
     </Card>
   );
 }
@@ -105,16 +100,23 @@ function List({ list }: PropTypes) {
 
   return (
     <>
-      {lazyLoad && (
-        <Dialog title="Edit task list" open={dialog} onOpenChange={dialogToggle.set}>
-          <form onSubmit={onSubmit} className="space-y-2">
-            <Input label="Task list name" name="task_list" required defaultValue={list.name} />
-            <Button disabled={isLoading} intent="accept">
+      <Dialog open={dialog} onOpenChange={dialogToggle.set}>
+        <Dialog.Content className="w-1/4">
+          <div className="flex justify-between items-center">
+            <Dialog.Title>Edit task list</Dialog.Title>
+            <Dialog.Close>
+              <IconX />
+            </Dialog.Close>
+          </div>
+          <form onSubmit={onSubmit} className="space-y-4 mt-6">
+            <TextInput label="Task list name" name="task_list" required defaultValue={list.name} />
+            <Button className="block ml-auto" disabled={isLoading}>
               Submit
             </Button>
           </form>
-        </Dialog>
-      )}
+        </Dialog.Content>
+      </Dialog>
+
       <div className="border-b py-2 -mx-4 px-5  border-zinc-200 dark:border-zinc-700 last-of-type:border-b-0">
         <div className="flex justify-between mb-2">
           <p className="font-semibold text-lg mb-2">{list.name}</p>

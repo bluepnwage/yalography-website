@@ -1,7 +1,7 @@
 "use client";
 import { BarChart, ResponsiveContainer, CartesianGrid, XAxis, YAxis, Bar, Tooltip } from "recharts";
 import { useState } from "react";
-import type { ChartData } from "@/app/admin/bookings/ChartContainer";
+import type { ChartData } from "@/app/(admin)/admin/bookings/ChartContainer";
 
 type PropTypes = {
   data: ChartData;

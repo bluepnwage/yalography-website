@@ -1,20 +1,18 @@
 "use client";
 //Components
 import { MantineProvider } from "@mantine/core";
-import { Button } from "@/components/shared/Button";
-import { Input } from "@/components/shared/Input";
-import { Select } from "@/components/shared/Select";
-import { Textarea } from "@/components/shared/Textarea";
+
 import { Steps } from "./Steps";
 import { Addon } from "./Addons";
 import { Success } from "./Success";
 import dynamic from "next/dynamic";
+import { Select, Button, Textarea, TextInput } from "@aomdev/ui";
 import { useForm } from "./useBookingsForm";
 
 const DatePicker = dynamic(
   () => import("@/components/shared/DatePicker/DatePicker").then(mod => mod.DatePicker),
   {
-    loading: () => <Input label="Date" />
+    loading: () => <TextInput label="Date" />
   }
 );
 
@@ -164,40 +162,40 @@ function BookingsForm() {
                 <p className="text-gray-600 dark:text-gray-400 mb-14">
                   Please provide your name, email address, and phone number.
                 </p>
-                <Input
+                <TextInput
                   id="first_name"
                   value={contact.state.first_name.value}
-                  error={contact.state.first_name.error}
+                  // error={contact.state.first_name.error}
                   onChange={handleChange}
                   name={"first_name"}
                   label={"First Name"}
                   placeholder={"e.g. Stephen"}
                   required
                 />
-                <Input
+                <TextInput
                   id="last_name"
                   value={contact.state.last_name.value}
-                  error={contact.state.last_name.error}
+                  // error={contact.state.last_name.error}
                   onChange={handleChange}
                   name={"last_name"}
                   label={"Last Name"}
                   placeholder={"e.g. King"}
                   required
                 />
-                <Input
+                <TextInput
                   id="email"
                   value={contact.state.email.value}
                   onChange={handleChange}
-                  error={contact.state.email.error}
+                  // error={contact.state.email.error}
                   name={"email"}
                   label={"Email Address"}
                   placeholder={"e.g. stephen.king@lorem.com"}
                   required
                 />
-                <Input
+                <TextInput
                   id="phone"
                   value={contact.state.phone.value}
-                  error={contact.state.phone.error}
+                  // error={contact.state.phone.error}
                   onChange={handleChange}
                   name={"phone"}
                   label={"Phone Number"}
@@ -211,14 +209,14 @@ function BookingsForm() {
                 <h2 className="text-marine-blue font-bold text-2xl">Select your photoshoot</h2>
 
                 <Select
-                  error={details.state.shootType?.error}
-                  label="Photoshoot"
+                  // error={details.state.shootType?.error}
+                  // label="Photoshoot"
                   placeholder="Photoshoot type"
                   value={details.state.shootType?.value}
                   onValueChange={value =>
                     details.dispatch({ key: "shootType", type: "change", payload: { value, error: false } })
                   }
-                  data={selectData}
+                  items={selectData}
                   required
                 />
                 <fieldset>
@@ -273,12 +271,12 @@ function BookingsForm() {
                   error={details.state.date?.error}
                   required
                 />
-                <Input
+                <TextInput
                   className="accent-red-600 w-full"
                   label="Time"
                   type={"time"}
                   value={details.state.time?.value}
-                  error={details.state.time?.error}
+                  // error={details.state.time?.error}
                   onChange={handleChange}
                   name="time"
                   id="time"
@@ -373,7 +371,7 @@ function BookingsForm() {
             )}
             <div className={`flex  mt-5 ${currentStep !== 1 ? "justify-between" : "justify-end"}`}>
               {currentStep !== 1 && (
-                <Button type={"button"} disabled={prevDisabled} intent="secondary" onClick={prevStep}>
+                <Button type={"button"} disabled={prevDisabled} variant="neutral" onClick={prevStep}>
                   Previous Step
                 </Button>
               )}

@@ -233,7 +233,12 @@ export function ProjectForm({ galleryImages, project }: PropTypes) {
             name="project_title"
             id="project_title"
           />
-          <Textarea label="Description" name="description" defaultValue={project.description || ""} />
+          <Textarea
+            label="Description"
+            name="description"
+            rows={5}
+            defaultValue={project.description || ""}
+          />
           <div className="space-y-2">
             <span className="text-gray-100 text-sm">Shoot type</span>
             <Select value={shootType || undefined} onValueChange={setShootType} items={items} fullWidth />

@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import type { PinnedProject } from "@app/page";
+import type { PinnedProject } from "@/app/(marketing)/page";
 
 export interface PropTypes {
   project: PinnedProject;

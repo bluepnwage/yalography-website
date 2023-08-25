@@ -1,13 +1,8 @@
 "use client";
 import { Pagination } from "@/components/shared/Pagination";
-import dynamic from "next/dynamic";
 import { FilterBar } from "@/components/admin/tasks/home/Filter";
 import { Card, Badge, Checkbox, ActionIcon } from "@aomdev/ui";
 import { IconEdit, IconTrash } from "@tabler/icons-react";
-
-const EditTaskModal = dynamic(() =>
-  import("@/components/admin/tasks/home/EditTaskModal").then(mod => mod.EditTaskModal)
-);
 
 import { usePagination } from "@/lib/hooks/usePagination";
 import { useRouteRefresh } from "@/lib/hooks/useRouteRefresh";
@@ -131,9 +126,6 @@ export function Task({ taskData }: TaskPropTypes) {
   const isLoading = loading || isPending;
   return (
     <>
-      {lazyLoad && (
-        <EditTaskModal task={task} onEdit={onEdit} onOpenChange={dialogToggle.set} open={dialog} />
-      )}
       <Card className={`first-of-type:mt-4  mb-5 last-of-type:mb-0 ${isLoading ? "opacity-50" : ""}`}>
         <div className="flex justify-between items-center mb-2 ">
           <div className="flex gap-2 items-center">

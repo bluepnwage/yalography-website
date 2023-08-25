@@ -1,7 +1,7 @@
 import { formatNum } from "@/util/formatNum";
-import { ScrollAreaDemo } from "@/components/shared/ScrollArea";
 import { Skeleton } from "@/components/shared";
 import { cache } from "react";
+// import { ScrollArea } from "@aomdev/ui";
 
 import prisma from "@/lib/prisma";
 
@@ -39,7 +39,7 @@ export async function PopularMonths() {
   const data = await popularTypes();
 
   return (
-    <ScrollAreaDemo height={500} orientation={"vertical"} className="grow">
+    <div style={{ height: 500 }} className="grow">
       {data.map(booking => {
         return (
           <div
@@ -60,7 +60,7 @@ export async function PopularMonths() {
           </div>
         );
       })}
-    </ScrollAreaDemo>
+    </div>
   );
 }
 
