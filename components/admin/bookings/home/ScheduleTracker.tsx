@@ -76,17 +76,17 @@ export function Calendar() {
             fullWidth
           />
         </MantineProvider>
-        <div className="flex gap-2 justify-evenly flex-wrap mt-5">
-          <div className="flex items-center grow gap-2 flex-col text-center">
-            <span className="w-2 h-2 rounded-full inline-block bg-red-600"></span>
+        <div className="flex gap-2 flex-col  mt-5">
+          <div className="flex grow gap-2 items-center text-sm text-center">
+            <span className="w-2 h-2 rounded-full inline-block bg-orange-600"></span>
             <p>Pending bookings</p>
           </div>
-          <div className="flex items-center grow gap-2 flex-col text-center">
+          <div className="flex grow gap-2 items-center text-sm text-center">
             <span className="w-2 h-2 inline-block rounded-full bg-emerald-600"></span>
             <p>Approved bookings</p>
           </div>
-          <div className="flex items-center flex-col gap-2 grow text-center">
-            <span className="w-2 h-2 rounded-full inline-block bg-orange-600"></span>
+          <div className="flex grow gap-2 items-center text-sm text-center">
+            <span className="w-2 h-2 rounded-full inline-block bg-indigo-600"></span>
             <p>Pending and approved bookings</p>
           </div>
         </div>

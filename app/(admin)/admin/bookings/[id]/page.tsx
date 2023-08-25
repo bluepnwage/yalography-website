@@ -36,7 +36,7 @@ export default async function Booking({ params }: { params: { id: string } }) {
               <IconChevronRight size={14} className="dark:text-gray-200" />
               <span>{booking.id}</span>
             </div>
-            <BookingButtons id={booking.id} />
+            <BookingButtons status={booking.status || ""} id={booking.id} />
           </div>
           <section className=" mt-10">
             <header className="col-span-full ">

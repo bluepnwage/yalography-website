@@ -19,9 +19,10 @@ const DeleteDialog = dynamic(() => import("./delete-dialog").then(mod => mod.Del
 
 type PropTypes = {
   id: number;
+  status: string;
 };
 
-export function BookingButtons({ id }: PropTypes) {
+export function BookingButtons({ id, status }: PropTypes) {
   const [state, dispatch] = useReducer(reducer, initialState);
   const [isLoading, toggle] = useToggle();
   const [isRefreshing, refresh] = useRouteRefresh();
@@ -39,7 +40,7 @@ export function BookingButtons({ id }: PropTypes) {
       const json = await res.json();
       if (res.ok) {
         refresh();
-        router.push(`/admin/bookings/approved/${id}`);
+        router.push(`/admin/bookings/${id}`);
         toast.success("Booking approved.");
       } else {
         throw new Error(json.message);

@@ -23,7 +23,7 @@
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background-color: rgb(220, 38, 38);
+  background-color: rgb(234, 88, 12);
 }
 
 .sharedDay::before {
@@ -34,5 +34,5 @@
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background-color: rgb(234, 88, 12);
+  background-color: rgb(79, 70, 229);
 }
