@@ -40,7 +40,7 @@ export function ProjectDropdown({ published, id }: PropTypes) {
         toast.dismiss(toastId);
         toast.success(published ? "Project drafted" : "Project published");
         refresh();
-        router.push(`/admin/projects/${published ? "drafted" : "published"}/${id}`);
+        router.push(`/admin/projects/${id}`);
       } else {
         throw new Error();
       }

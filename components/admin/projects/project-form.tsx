@@ -8,7 +8,7 @@ import { NewImageDialog } from "./new-image-dialog";
 import { CustomDropzone } from "../custom-dropzone";
 import { ExistingImageDialog } from "./existing-image-dialog";
 import type { Images } from "@prisma/client";
-import type { ProjectData } from "@/app/(admin)/admin/projects/[status]/[id]/page";
+import type { ProjectData } from "@/app/(admin)/admin/projects/[id]/page";
 import { useRouteRefresh } from "@/lib/hooks/useRouteRefresh";
 import { useToggle } from "@/lib/hooks/useToggle";
 

@@ -30,7 +30,7 @@ export function ProjectsTable() {
                 <Table.Cell>
                   <Link
                     className={`text-yellow-600 dark:text-yellow-500`}
-                    href={`/admin/projects/${project.published ? "published" : "drafted"}/${project.id}`}
+                    href={`/admin/projects/${project.id}`}
                   >
                     View details
                   </Link>
