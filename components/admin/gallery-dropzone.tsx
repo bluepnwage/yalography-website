@@ -1,8 +1,8 @@
 "use client";
-import { Dropzone as MantineDropzone, IMAGE_MIME_TYPE } from "@mantine/dropzone";
-import { Check, XClose } from "@/lib/icons";
+import { XClose } from "@/lib/icons";
 import { Pagination } from "@/components/shared/Pagination";
 import { Button, Select } from "@aomdev/ui";
+import { CustomDropzone } from "./custom-dropzone";
 
 import { useState } from "react";
 import { usePagination } from "@/lib/hooks/usePagination";
@@ -24,8 +24,9 @@ export function Dropzone({ onDialogClose, folders, environment }: PropTypes) {
   const [isPending, refresh] = useRouteRefresh();
   const { paginatedList, ...paginationProps } = usePagination(5, files);
 
-  const onDrop = (data: File[]) => {
-    setFiles(data);
+  const onDrop = (data: FileList | null) => {
+    if (!data) return;
+    setFiles(Array.from(data));
   };
 
   const onUpload = async () => {
@@ -71,50 +72,16 @@ export function Dropzone({ onDialogClose, folders, environment }: PropTypes) {
     };
   });
 
-  const onFileReject = async () => {
-    const { toast } = await import("react-toastify");
-    toast.error("Some of the files you uploaded are too large");
-  };
-
   return (
     <>
-      {files.length === 0 && (
-        <MantineDropzone
-          classNames={{
-            root: "data-[loading=true]:bg-zinc-500 dark:data-[loading=true]:bg-zinc-900 hover:bg-zinc-200/30 dark:hover:bg-zinc-700/30 dark:bg-zinc-800 bg-white border-zinc-200 dark:border-zinc-700"
-          }}
-          onDrop={onDrop}
-          onReject={onFileReject}
-          accept={IMAGE_MIME_TYPE}
-          loading={isLoading}
-        >
-          <div className="flex justify-center gap-4" style={{ minHeight: 220, pointerEvents: "none" }}>
-            <MantineDropzone.Accept>
-              <Check size={64} className="stroke-emerald-600 dark:stroke-emerald-500" />
-            </MantineDropzone.Accept>
-            <MantineDropzone.Reject>
-              <XClose size={64} fill className="fill-red-600 dark:fill-red-500" />
-            </MantineDropzone.Reject>
-            <MantineDropzone.Idle>
-              <Photo />
-            </MantineDropzone.Idle>
-
-            <div>
-              <p className="text-xl font-semibold">Drag images here or click to select files</p>
-              <p className="text-gray-400">
-                Attach as many files as you like, each file should not exceed 5mb
-              </p>
-            </div>
-          </div>
-        </MantineDropzone>
-      )}
-      <ul className="space-y-2">
+      <CustomDropzone multiple onAccept={onDrop} className="h-64" />
+      <ul className="space-y-2 mb-10">
         {paginatedList.map((file, key) => (
           <UploadedFile file={file} key={key} onRemove={onRemoveFile} />
         ))}
       </ul>
       {files.length > 5 && <Pagination {...paginationProps} />}
-      <Select onValueChange={setSelectedFolder} items={selectData} />
+      {/* <Select onValueChange={setSelectedFolder} items={selectData} /> */}
 
       <Button onClick={onUpload} disabled={isLoading || files.length === 0} fullWidth>
         Submit
@@ -139,25 +106,5 @@ function UploadedFile({ file, onRemove }: FileProps) {
         <XClose fill />
       </button>
     </li>
-  );
-}
-
-function Photo() {
-  return (
-    <svg
-      height={64}
-      width={64}
-      className={"stroke-gray-900 dark:stroke-gray-100"}
-      viewBox="0 0 24 24"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <g fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2">
-        <path d="M0 0h24v24H0z" fill="none" stroke="none" />
-        <path d="M15 8h.01" />
-        <path d="M4 15l4-4a3 5 0 0 1 3 0l5 5" />
-        <path d="M14 14l1-1a3 5 0 0 1 3 0l2 2" />
-        <rect height="16" width="16" rx="3" x="4" y="4" />
-      </g>
-    </svg>
   );
 }
