@@ -10,7 +10,6 @@ import { Title } from "@aomdev/ui";
 import { OrdersTable } from "@/components/admin/bookings/home/orders-table";
 import { UpcomingBookings } from "@/components/admin/bookings/home/upcoming-bookings";
 import { BookingCard } from "@/components/admin/bookings/home/booking-card";
-import { StatCard } from "@/components/admin/bookings/home/stat-card";
 import { ChartContainer, ChartLoading } from "./ChartContainer";
 import { Suspense } from "react";
 import { PopularMonths, PopularMonthsLoading } from "./PopularMonths";
@@ -31,7 +30,6 @@ export default function BookingsPage() {
           </div>
         </div>
         <UpcomingBookings />
-        <StatCard />
       </Grid>
       <Grid fullWidth>
         <Card className="col-span-4 relative overflow-hidden  rounded-md flex flex-col">
