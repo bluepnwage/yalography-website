@@ -59,7 +59,7 @@ export function BookingButtons({ id, status }: PropTypes) {
     const { toast } = await import("react-toastify");
 
     try {
-      const res = await fetch("/api/task-list", {
+      const res = await fetch("/api/bookings", {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id: id })

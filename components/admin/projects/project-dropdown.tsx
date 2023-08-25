@@ -54,6 +54,39 @@ export function ProjectDropdown({ published, id }: PropTypes) {
     }
   };
 
+  const onDelete = async () => {
+    toggle.on();
+    const { toast } = await import("react-toastify");
+
+    const endpoint = new URL("/api/projects", location.origin);
+    endpoint.searchParams.set("revalidate", "0");
+    const toastID = toast.loading("Deleting project.");
+
+    try {
+      const res = await fetch(endpoint, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id })
+      });
+      const json = await res.json();
+      if (res.ok) {
+        toast.dismiss(toastID);
+        toast.success(json.message);
+        refresh();
+        router.push("/admin/projects");
+      } else {
+        throw new Error(json.message);
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        toast.dismiss(toastID);
+        toast.error(error.message);
+      }
+    } finally {
+      toggle.off();
+    }
+  };
+
   return (
     <Dropdown>
       <Dropdown.Trigger asChild>
@@ -72,7 +105,7 @@ export function ProjectDropdown({ published, id }: PropTypes) {
           {published ? "Unpublish" : "Publish"}
         </Dropdown.Item>
         <Dropdown.Item icon={<IconEdit size={16} />}>Rename</Dropdown.Item>
-        <Dropdown.Item icon={<IconTrash size={16} />} color="error">
+        <Dropdown.Item onClick={onDelete} icon={<IconTrash size={16} />} color="error">
           Delete
         </Dropdown.Item>
       </Dropdown.Content>
