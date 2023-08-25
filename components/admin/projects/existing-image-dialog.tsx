@@ -38,10 +38,7 @@ export function ExistingImageDialog({ images, onAddExistingImages, projectId, ..
   return (
     <Dialog {...props}>
       <Dialog.Content className="w-2/4">
-        <ScrollArea
-          style={{ height: typeof window !== undefined ? window.screen.height / 1.5 : 500 }}
-          className="-mx-4 px-4"
-        >
+        <ScrollArea style={{ height: 500 }} className="-mx-4 px-4">
           <div className="flex justify-between mb-6">
             <Dialog.Title>Add existing images</Dialog.Title>
             <Dialog.Close>
