@@ -1,10 +1,12 @@
 //Components
 import { PageIntro } from "@/components/PageIntro";
-import { Grid, Section, Title } from "@/components/shared";
+import { Grid, Section } from "@/components/shared";
 import { SkillDetail, Company, Skill } from "@/components/about";
 import { Button } from "@/components/shared/Button";
 import { MovieFilter, AutoFix, PhotoSelectLarge } from "@/lib/icons";
 import Image from "next/image";
+import myFont from "@/lib/menlo-font";
+import { Title } from "@aomdev/ui";
 
 //Assets
 import yasmino from "@/public/yasmino-lg.jpg";
@@ -14,6 +16,8 @@ import about from "@/public/about/about-md.jpg";
 import sxmOffice from "@/public/about/sxm-office-md.jpg";
 
 import type { Metadata } from "next";
+import Link from "next/link";
+import { buttonStyles } from "@aomdev/ui/src/button/styles";
 
 export const metadata: Metadata = {
   title: "About"
@@ -24,7 +28,7 @@ export default function AboutPage() {
     <>
       <PageIntro>
         Capturing the moments that <br />
-        <span className="text-transparent bg-gradient-to-tr from-rose-500 to-red-600 bg-clip-text">
+        <span className="text-transparent bg-gradient-to-tr from-tertiary-400 to-primary-500 bg-clip-text">
           captivate your heart
         </span>
       </PageIntro>
@@ -32,12 +36,17 @@ export default function AboutPage() {
         <Grid className="mx-2 lg:mx-0" lg={2}>
           <article className="lg:pr-10  col-span-full lg:col-span-1">
             <header className="space-y-2 mb-5">
-              <Title order="h2" size={"md"} color="red">
+              <Title
+                order={2}
+                className={`text-base ${myFont.className} text-primary-500 dark:text-primary-400`}
+              >
                 About us
               </Title>
-              <Title order="h3">Capturing the Beauty of the World</Title>
+              <Title order={3} className="font-heading font-medium text-4xl">
+                Capturing the Beauty of the World
+              </Title>
             </header>
-            <p className="text-lg">
+            <p className="text-lg leading-loose text-gray-200">
               I am a self-taught photographer who has been taking photos since I was a teenager. Growing up, I
               was always drawn to the beauty of nature and the way that a camera could capture it. I quickly
               became obsessed with taking photos and learning as much as I could about photography. I have
@@ -46,7 +55,7 @@ export default function AboutPage() {
               moments and telling stories through my images. I am constantly striving to create unique and
               captivating photos that will inspire and move others.
             </p>
-            <strong className="block my-4">Some of my skills include:</strong>
+            <strong className="block my-6">Some of my skills include:</strong>
             <Grid lg={2} fullWidth>
               <Skill Icon={PhotoSelectLarge} label="Adobe Photoshop" />
               <Skill Icon={AutoFix} label="Adobe Lightroom" />
@@ -64,25 +73,26 @@ export default function AboutPage() {
           </figure>
         </Grid>
       </Section>
-      <Section margin={false} className="bg-gray-50 dark:bg-zinc-800 px-5 py-16">
+      <Section margin={false} className="bg-gray-50 dark:bg-neutral-800 px-5 py-24">
         <div className="w-full gap-5 flex-col flex lg:flex-row ">
           <div className="basis-3/5 grow lg:pr-5 space-y-4">
-            <Title order={"h2"} className="text-center mb-4 lg:mb-0 lg:text-start">
+            <Title
+              order={2}
+              className="text-center font-heading font-medium text-5xl mb-4 lg:mb-5 lg:text-start"
+            >
               The most renowned companies in SXM have worked with Yalography
             </Title>
-            <p className="text-xl">
+            <p className="text-xl text-gray-200 ">
               My experience and passion for photography have allowed me to create stunning images and to help
               these companies tell their stories in an impactful way. I strive to provide the best services to
               my clients and I am committed to delivering results that exceed their expectations.
             </p>
-            <Button
-              fullWidth
-              component={"a"}
+            <Link
               href={"/bookings#contact"}
-              className="py-4 px-6 w-full lg:w-fit text-center"
+              className={buttonStyles({ className: "py-4 px-6 w-full lg:w-fit text-center", size: "lg" })}
             >
               Contact me
-            </Button>
+            </Link>
           </div>
           <Grid lg={2} gap={"none"} fullWidth className="basis-2/5 grow gap-1 w-full">
             {companies.map((company, key) => {
@@ -93,7 +103,7 @@ export default function AboutPage() {
       </Section>
       <Section
         margin={false}
-        className={`svg-background py-16 border-t border-zinc-200 dark:border-zinc-700`}
+        className={`svg-background py-24 border-t border-zinc-200 dark:border-zinc-700`}
       >
         <Grid lg={1} className={"gap-16 lg:gap-36"}>
           <SkillDetail img={villa} title="Capturing" subTitle="Capturing the best possible photographs">

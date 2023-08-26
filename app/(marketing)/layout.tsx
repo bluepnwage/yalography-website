@@ -1,4 +1,4 @@
-import "./globals.css";
+import "../../styles/globals.css";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Navbar";
 import { ScrollToTop } from "@/components/ScrollToTop";
@@ -6,6 +6,7 @@ import { Suspense } from "react";
 import { ToastProvider } from "@/components/ToastProvider";
 import { Metadata } from "next";
 import { Inter, Familjen_Grotesk } from "next/font/google";
+import { NextThemesProvider } from "@/components/next-themes-provider";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const heading = Familjen_Grotesk({ subsets: ["latin"], variable: "--font-heading" });
@@ -28,9 +29,11 @@ export default function RootLayout({ children }: PropTypes) {
           <ToastProvider />
           <ScrollToTop />
         </Suspense>
-        <Header />
-        {children}
-        <Footer />
+        <NextThemesProvider attribute="class">
+          <Header />
+          {children}
+          <Footer />
+        </NextThemesProvider>
       </body>
     </html>
   );

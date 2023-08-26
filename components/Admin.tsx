@@ -48,7 +48,8 @@ export function Admin() {
         <Link
           className={buttonStyles({
             variant: "neutral",
-            className: "hidden md:inline-flex items-center justify-center"
+            className: "hidden md:inline-flex items-center justify-center",
+            size: "sm"
           })}
           href={"/admin"}
         >

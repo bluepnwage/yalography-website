@@ -1,34 +1,24 @@
 //Components
-import { Grid, Section, ThemeIcon, Title } from "@/components/shared";
-import { Button } from "@/components/shared/Button";
-import { Project, ServiceCard, Stats } from "@/components/home";
-import { Ballon, Bouquet, BoxArchive, Email, Globe, Location, Maternity, Person } from "@/lib/icons";
+import { Grid, Section } from "@/components/shared";
+import { ServiceCard, Stats } from "@/components/home";
+import { Ballon, Bouquet, BoxArchive, Globe, Maternity, Person } from "@/lib/icons";
 import { Slideshow } from "@/components/home/Slideshow";
 import Image from "next/image";
+import Link from "next/link";
 import { Suspense } from "react";
-
-import prisma from "@/lib/prisma";
+import { Card, Title, ThemeIcon } from "@aomdev/ui";
+import { IconMail, IconLocation } from "@tabler/icons-react";
+import myFont from "@/lib/menlo-font";
 
 //Assets
 import heroImg from "@/public/main-image.jpg";
 import photographer from "@/public/yasmino-lg.jpg";
 import styles from "./Home.module.css";
+import { buttonStyles } from "@aomdev/ui/src/button/styles";
 
 //Types
 import type * as Props from "@/components/home";
 import type { Metadata } from "next";
-
-const getProjects = async () => {
-  await prisma.$connect();
-  const projects = await prisma.projects.findMany({
-    where: { pinned: true },
-    select: { id: true, thumbnail: true, title: true }
-  });
-  await prisma.$disconnect();
-  return projects;
-};
-
-export type PinnedProject = Awaited<ReturnType<typeof getProjects>>[0];
 
 export const metadata: Metadata = {
   description: `Preserve the beauty and memories of St. Martin with the expertise of a professional photographer.
@@ -39,32 +29,33 @@ export const metadata: Metadata = {
      our experienced team will help you create stunning photos that will last a lifetime.`
 };
 
-export default async function HomePage() {
-  const projects = await getProjects();
+export default function HomePage() {
   return (
     <main>
       {/* Hero section */}
       <Section
-        className={`${styles.hero} cal svg-background border-b border-zinc-200 bg-white dark:bg-zinc-900 duration-200 ease-out dark:border-zinc-700`}
+        className={`${styles.hero} cal svg-background border-b border-zinc-200  duration-200 ease-out dark:border-zinc-700`}
       >
         <div className="grid grid-cols-2 gap-5 h-full items-stretch">
-          <div className="flex flex-col justify-center p-5 text-center lg:pl-5 col-span-full lg:col-span-1 ">
+          <div className="flex flex-col justify-center p-5  lg:pl-5 col-span-full lg:col-span-1 ">
             <header className="mb-7">
-              <Title className="text-6xl">
+              <Title order={1} className="font-bold font-heading leading-none tracking-tight">
                 Capturing your <br />
-                <span className={`bg-gradient-to-tr from-rose-500 to-red-600 bg-clip-text text-transparent`}>
+                <span
+                  className={`bg-gradient-to-tr from-tertiary-400 to-primary-500 bg-clip-text text-transparent`}
+                >
                   special moments
                 </span>{" "}
               </Title>
             </header>
-            <p className="leading-loose mb-4 text-xl">
+            <p className="leading-loose mb-8 text-lg">
               Are you looking for a photographer to capture your special moments? Look no further! With my
               years of professional experience and an eye for detail, I can ensure that your photos will be of
               the highest quality and truly capture the beauty of the moment.
             </p>
-            <Button href="/bookings" component="a" className="block mx-auto">
+            <Link href="/bookings" className={buttonStyles({ className: "w-fit", size: "lg" })}>
               Request Session
-            </Button>
+            </Link>
           </div>
           <figure className="h-full w-full hidden lg:block overflow-hidden col-span-full lg:col-span-1">
             <Image priority src={heroImg} alt={"Official logo"} className="w-full h-full " />
@@ -78,15 +69,18 @@ export default async function HomePage() {
             <Image src={photographer} alt={""} className="w-full h-full object-cover" />
           </figure>
           <div className="col-span-full lg:col-span-7 p-5">
-            <header className="mb-7 space-y-2">
-              <Title order={"h2"} color="red" size={"md"}>
+            <header className="mb-10 space-y-2">
+              <Title
+                order={2}
+                className={`text-base ${myFont.className} text-primary-500 dark:text-primary-400`}
+              >
                 About
               </Title>
-              <Title order={"h3"} className="text-3xl">
+              <Title order={3} className="font-heading font-medium text-5xl text-gray-900 dark:text-gray-50">
                 Yalography
               </Title>
             </header>
-            <p className="leading-loose text-lg mb-10">
+            <p className="leading-loose text-lg mb-10 dark:text-gray-200">
               Over the past 12 years, my photography journey has been a rollercoaster of learning and growth.
               I&apos;ve had the opportunity to learn new techniques and hone my skills, and I&apos;ve met a
               diverse range of people, from photographers and models to art directors and creative directors.
@@ -97,9 +91,9 @@ export default async function HomePage() {
               I&apos;m excited to see what the next 12 years will bring.
             </p>
             <Stats />
-            <Button href="/about" component="a" className="mx-auto block">
+            <Link href="/about" className={buttonStyles({ className: "w-fit", size: "lg" })}>
               Learn more
-            </Button>
+            </Link>
           </div>
         </Grid>
         <Suspense fallback={null}>
@@ -109,10 +103,15 @@ export default async function HomePage() {
       {/* Services section */}
       <Section>
         <header className="space-y-2 mb-10 text-center">
-          <Title order={"h2"} color="red" size={"md"}>
+          <Title
+            order={2}
+            className={`text-base ${myFont.className} text-primary-500  dark:text-primary-400`}
+          >
             Services
           </Title>
-          <Title order={"h3"}>What we offer</Title>
+          <Title order={3} className="font-heading font-medium text-5xl text-gray-900 dark:text-gray-50">
+            What we offer
+          </Title>
         </header>
         <Grid>
           {serviceTypes.map((service, key) => {
@@ -124,58 +123,102 @@ export default async function HomePage() {
       <Section>
         <div className=" flex flex-col justify-center items-center gap-10   mb-16">
           <header className="text-center space-y-2">
-            <Title color={"red"} order={"h2"} size={"md"}>
+            <Title
+              order={2}
+              className={`text-base ${myFont.className} text-primary-500 dark:text-primary-400`}
+            >
               Projects
             </Title>
-            <Title order={"h3"}>Check out some of our works</Title>
+            <Title order={3} className="font-heading font-medium text-5xl text-gray-900 dark:text-gray-50">
+              Check out some of our works
+            </Title>
           </header>
-          <Button component="a" href={"/projects"}>
+          <Link href={"/projects"} className={buttonStyles({})}>
             View all projects
-          </Button>
+          </Link>
         </div>
-        <Grid>
-          {projects.map(proj => {
-            return <Project project={proj} key={proj.id} />;
-          })}
-        </Grid>
+        <div style={{ gridTemplateRows: "repeat(3, 400px)" }} className="grid grid-cols-12 gap-2 container ">
+          <Link href={`/projects`} className="col-span-8   relative group overflow-hidden">
+            <Image
+              src={"/projects/adm-thumbnail.jpg"}
+              alt=""
+              fill
+              className=" object-cover group-hover:scale-105 duration-700 ease-out"
+            />
+          </Link>
+          <Link href={"/projects"} className="col-span-4 row-span-2 relative group overflow-hidden">
+            <Image
+              src={"/projects/fashion-thumbnail.jpg"}
+              alt=""
+              fill
+              className="object-cover group-hover:scale-105 duration-700 ease-out"
+            />
+          </Link>
+          <Link href={"/projects"} className="col-span-4 row-span-2 relative group overflow-hidden">
+            <Image
+              src={"/projects/gastro-thumbnail.jpg"}
+              alt=""
+              fill
+              className="group-hover:scale-105 duration-700 ease-out"
+            />
+          </Link>
+          <Link href={"/projects"} className="col-span-4 relative  group overflow-hidden">
+            <Image
+              src={"/projects/beacon-hill-thumbnail.jpg"}
+              alt=""
+              fill
+              className="group-hover:scale-105 duration-700 ease-out"
+            />
+          </Link>
+          <Link href={"/projects"} className="col-span-8  relative group overflow-hidden">
+            <Image
+              src={"/projects/class-boutique-thumbnail.jpg"}
+              alt=""
+              fill
+              className="object-cover  [object-position:0%15%] group-hover:scale-105 duration-700 ease-out"
+            />
+          </Link>
+        </div>
       </Section>
       {/* Contact section */}
       <Section
         margin={false}
-        className={`svg-background bg-gray-50 dark:bg-transparent items-center py-16 border-t border-zinc-200 dark:border-zinc-700`}
+        className={`svg-background  items-center py-16 border-t border-zinc-200 dark:border-zinc-700`}
       >
         <header className="space-y-2 text-center mb-16">
-          <Title color="red" order={"h2"} size={"md"}>
+          <Title order={2} className={`text-base ${myFont.className} text-primary-500 dark:text-primary-400`}>
             Contact
           </Title>
-          <Title order="h3">Ready to get in touch?</Title>
+          <Title order={3} className="font-heading font-medium text-5xl text-gray-900 dark:text-gray-50">
+            Ready to get in touch?
+          </Title>
         </header>
         <Grid>
-          <div className="bg-white ring-1 duration-200 ease-out ring-black ring-opacity-5 dark:ring-0 dark:bg-zinc-800 flex flex-col items-center justify-center gap-4 col-span-full lg:col-span-3 h-64 w-full">
-            <ThemeIcon aria-hidden>
-              <Email className="fill-gray-100" />
+          <Card className="duration-200 ease-ou flex flex-col items-center justify-center gap-4 col-span-full lg:col-span-3 h-64 w-full">
+            <ThemeIcon aria-hidden size={"lg"}>
+              <IconMail size={"75%"} />
             </ThemeIcon>
             <p className="font-semibold text-xl">Email</p>
-            <address>
+            <address className="text-gray-200">
               <a href="mailto:yalography@gmail.com">yalography@gmail.com</a>
             </address>
-          </div>
-          <div className="bg-white ring-1 duration-200 ease-out ring-black ring-opacity-5 dark:ring-0 dark:bg-zinc-800 flex flex-col items-center gap-4 justify-center col-span-full lg:col-span-3 h-64 w-full">
-            <ThemeIcon aria-hidden>
-              <Location className="fill-gray-100" />
+          </Card>
+          <Card className="duration-200 ease-out flex flex-col items-center gap-4 justify-center col-span-full lg:col-span-3 h-64 w-full">
+            <ThemeIcon aria-hidden size={"lg"}>
+              <IconLocation size={"75%"} />
             </ThemeIcon>
             <p className="font-semibold text-xl">Address</p>
-            <address>Marigot, Saint-Martin</address>
-          </div>
+            <address className="text-gray-200">Marigot, Saint-Martin</address>
+          </Card>
           <figure className="bg-white ring-1 overflow-hidden relative  ring-black  ring-opacity-5 dark:ring-0 dark:bg-zinc-800 col-span-full row-start-1 lg:col-span-6  w-full lg:row-span-2">
             <Image src={heroImg} alt={""} fill className="object-cover" />
           </figure>
-          <div className="bg-white ring-1 duration-200 ease-out ring-black ring-opacity-5 dark:ring-0 dark:bg-zinc-800 col-span-6 h-64 w-full gap-4 flex flex-col justify-center items-center">
+          <Card className="duration-200 ease-out col-span-6 h-64 w-full gap-4 flex flex-col justify-center items-center">
             <p className="font-bold text-xl">Book a reservation</p>
-            <Button component="a" href="/bookings">
+            <Link className={buttonStyles()} href="/bookings">
               Request a session
-            </Button>
-          </div>
+            </Link>
+          </Card>
         </Grid>
       </Section>
     </main>
@@ -183,10 +226,10 @@ export default async function HomePage() {
 }
 
 const serviceTypes: Props.ServiceCardProps[] = [
-  { title: "Maternity Photography", Icon: <Maternity className={"stroke-gray-100"} /> },
-  { title: "Wedding Photography", Icon: <Bouquet className="fill-gray-100" /> },
-  { title: "Commercial Photography", Icon: <Globe className="fill-gray-100" /> },
-  { title: "Portrait Photography", Icon: <Person className={"fill-gray-100"} /> },
-  { title: "Event Photography", Icon: <Ballon className="stroke-gray-100" /> },
-  { title: "Decor Photography", Icon: <BoxArchive className="fill-gray-100" /> }
+  { title: "Maternity Photography", Icon: <Maternity className={"stroke-white"} /> },
+  { title: "Wedding Photography", Icon: <Bouquet className="fill-white" /> },
+  { title: "Commercial Photography", Icon: <Globe className="fill-white" /> },
+  { title: "Portrait Photography", Icon: <Person className={"fill-white"} /> },
+  { title: "Event Photography", Icon: <Ballon className="stroke-white" /> },
+  { title: "Decor Photography", Icon: <BoxArchive className="fill-white" /> }
 ];

@@ -1,4 +1,4 @@
-import { ThemeIcon, Card } from "@/components/shared";
+import { Card, ThemeIcon } from "@aomdev/ui";
 
 type PropTypes = {
   label: string;
@@ -7,13 +7,10 @@ type PropTypes = {
 
 export function Skill({ label, Icon }: PropTypes) {
   return (
-    <Card
-      glow
-      className="col-span-full lg:col-span-1 lg:last-of-type:col-span-full  flex items-center gap-2 h-full w-full rounded-md"
-    >
+    <Card className="col-span-full lg:col-span-1 lg:last-of-type:col-span-full  flex items-center gap-2 h-full w-full ">
       <div className="basis-16">
-        <ThemeIcon>
-          <Icon size={24} className="fill-white" fill />
+        <ThemeIcon size={"lg"}>
+          <Icon size={24} className="fill-white" />
         </ThemeIcon>
       </div>
       <p>{label}</p>
