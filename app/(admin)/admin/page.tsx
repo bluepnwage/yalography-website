@@ -4,9 +4,10 @@ import { formatDate } from "@/util/formate-date";
 import { IconChevronRight } from "@tabler/icons-react";
 import Link from "next/link";
 import { cardStyles } from "@aomdev/ui/src/card/styles";
-import { StatCardContainer } from "@/components/admin/home/stat-card-container";
+import { StatCardContainer, StatCardLoading } from "@/components/admin/home/stat-card-container";
 import { Suspense } from "react";
 import { getBookings } from "@/lib/admin-data";
+import { Skeleton } from "@/components/shared";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -30,21 +31,21 @@ export default async function AdminPage() {
         {greeting}
       </Title>
       <div className="mb-20">
-        <Suspense fallback={<p>Loading...</p>}>
+        <Suspense fallback={<StatCardLoading />}>
           <StatCardContainer />
         </Suspense>
       </div>
       <Title order={2} className="font-heading font-medium mb-8 ">
         Upcoming bookings
       </Title>
-      <Suspense fallback={<p>Loading...</p>}>
+      <Suspense fallback={<UpcomingBookingsLoading />}>
         <UpcomingBookings />
       </Suspense>
       <Title order={2} className="font-heading font-medium mb-8">
         Recent orders
       </Title>
       <div className="mb-20">
-        <Suspense fallback={<p>Loading...</p>}>
+        <Suspense fallback={<RecentOrdersLoading />}>
           <RecentOrders />
         </Suspense>
       </div>
@@ -97,6 +98,38 @@ async function UpcomingBookings() {
   );
 }
 
+function UpcomingBookingsLoading() {
+  const bookings = Array(3).fill(null);
+  return (
+    <div className="grid grid-cols-3 gap-20 mb-20">
+      {bookings.map((_, index) => {
+        return (
+          <div
+            className={cardStyles({
+              className: "group hover:opacity-90 duration-200 ease-out relative overflow-hidden"
+            })}
+            key={index}
+          >
+            <Skeleton.Shimmer />
+            <div className="flex justify-between items-center">
+              <Skeleton className="h-3 w-16 block mb-2 " />
+              <Skeleton className="w-16 h-3" radius={"full"} />
+            </div>
+            <Skeleton className="h-8 w-48 mt-6" />
+            <div className="flex justify-between items-center mt-4">
+              <Skeleton className="h-2 w-28" />
+              <IconChevronRight
+                size={16}
+                className="text-gray-700 group-hover:translate-x-1 duration-300 ease-out dark:text-gray-200"
+              />
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
 const getRecentOrders = async () => {
   await prisma.$connect();
   const orders = await prisma.orders.findMany({ take: 10, include: { booking: true } });
@@ -120,10 +153,49 @@ async function RecentOrders() {
         {orders.map(order => {
           return (
             <Table.Row key={order.id}>
-              <Table.Cell>{order.booking.id}</Table.Cell>
+              <Table.Cell>Order #{order.booking.id}</Table.Cell>
               <Table.Cell>{formatDate(order.createdAt)}</Table.Cell>
               <Table.Cell className="capitalize">{order.booking.type}</Table.Cell>
               <Table.Cell>{formatCurrency(order.quote)}</Table.Cell>
+            </Table.Row>
+          );
+        })}
+      </Table.Body>
+    </Table>
+  );
+}
+
+function RecentOrdersLoading() {
+  const orders = Array(10).fill(null);
+  return (
+    <Table>
+      <Table.Header>
+        <Table.Row>
+          <Table.Head>Order #</Table.Head>
+          <Table.Head>Completed date</Table.Head>
+          <Table.Head>Shoot type</Table.Head>
+          <Table.Head>Amount</Table.Head>
+        </Table.Row>
+      </Table.Header>
+      <Table.Body>
+        {orders.map((_, index) => {
+          return (
+            <Table.Row key={index}>
+              <Table.Cell>
+                <Skeleton className="h-2 w-full" />
+              </Table.Cell>
+              <Table.Cell>
+                {" "}
+                <Skeleton className="h-2 w-full" />
+              </Table.Cell>
+              <Table.Cell className="capitalize">
+                {" "}
+                <Skeleton className="h-2 w-full" />
+              </Table.Cell>
+              <Table.Cell>
+                {" "}
+                <Skeleton className="h-2 w-full" />
+              </Table.Cell>
             </Table.Row>
           );
         })}
