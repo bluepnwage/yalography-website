@@ -1,5 +1,5 @@
-import { Grid, Skeleton, Card, FlexContainer } from "@/components/shared";
-
+import { Grid, Skeleton, FlexContainer } from "@/components/shared";
+import { Card } from "@aomdev/ui";
 export default function GalleryLoading() {
   return (
     <>

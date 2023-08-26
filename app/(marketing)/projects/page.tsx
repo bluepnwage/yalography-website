@@ -1,6 +1,7 @@
 import { PageIntro } from "@/components/PageIntro";
 import { Project } from "@/components/projects";
-import { Grid, Section, Title } from "@/components/shared";
+import { Grid, Section } from "@/components/shared";
+import { Title } from "@aomdev/ui";
 
 import prisma from "@/lib/prisma";
 import { Metadata } from "next";
@@ -22,14 +23,14 @@ export default async function ProjectsPage() {
     <>
       <PageIntro>
         See how we deliver the <br />
-        <span className="bg-gradient-to-tr from-rose-500 to-red-600 bg-clip-text text-transparent">
+        <span className="bg-gradient-to-tr from-tertiary-400 to-primary-500 bg-clip-text text-transparent">
           best photoshoots
         </span>
         <br />
         SXM has to offer
       </PageIntro>
       <Section className="mt-16">
-        <Title order="h2" className="text-3xl mb-10">
+        <Title order={2} className="font-heading font-medium mb-10">
           Projects
         </Title>
         <Grid className="gap-5 w-11/12">

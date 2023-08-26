@@ -1,10 +1,11 @@
-import { Skeleton, Card, Grid, Title, FlexContainer } from "@/components/shared";
+import { Skeleton, Grid, FlexContainer } from "@/components/shared";
+import { Card, Title } from "@aomdev/ui";
 
 export default function ProjectsLoading() {
   const projects = Array(5).fill(null);
   return (
     <>
-      <Title order={"h1"} className="mb-5">
+      <Title order={1} className="mb-5 font-heading font-medium">
         Projects
       </Title>
       <Grid fullWidth className="mb-16">
@@ -20,7 +21,9 @@ export default function ProjectsLoading() {
 
       <Grid fullWidth>
         <div className="col-span-full">
-          <Title order={"h2"}>All projects</Title>
+          <Title order={2} className="font-heading font-medium">
+            All projects
+          </Title>
         </div>
         <Card className="col-span-full space-y-4 relative overflow-hidden">
           <Skeleton.Shimmer />

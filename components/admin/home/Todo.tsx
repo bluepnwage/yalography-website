@@ -1,8 +1,7 @@
 "use client";
-import { Button } from "@/components/shared/Button";
 import { useState } from "react";
 import { cx } from "cva";
-
+import { Button } from "@aomdev/ui";
 import type { Tasks } from "@prisma/client";
 
 type TaskList = Omit<Tasks, "updatedAt" | "createdAt" | "deadline"> & {
@@ -86,7 +85,7 @@ function Task({ task, onFilter }: PropTypes) {
         </p>
         <time className="text-gray-600 dark:text-gray-400">{task.createdAt}</time>
       </div>
-      <Button onClick={handleClick} intent="reject">
+      <Button onClick={handleClick} variant={"error"}>
         Delete
       </Button>
     </div>

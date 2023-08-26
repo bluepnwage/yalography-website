@@ -2,7 +2,6 @@
 import { PageIntro } from "@/components/PageIntro";
 import { Grid, Section } from "@/components/shared";
 import { SkillDetail, Company, Skill } from "@/components/about";
-import { Button } from "@/components/shared/Button";
 import { MovieFilter, AutoFix, PhotoSelectLarge } from "@/lib/icons";
 import Image from "next/image";
 import myFont from "@/lib/menlo-font";

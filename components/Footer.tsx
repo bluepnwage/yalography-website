@@ -1,6 +1,7 @@
-import { Grid, ThemeIcon } from "./shared";
+import { Grid } from "./shared";
 import Link from "next/link";
-import { Facebook, Instagram } from "@/lib/icons";
+import { ThemeIcon } from "@aomdev/ui";
+import { IconBrandFacebook, IconBrandInstagram } from "@tabler/icons-react";
 
 export function Footer() {
   return (
@@ -34,30 +35,31 @@ export function Footer() {
           <p className="font-semibold text-lg mb-4">Follow us</p>
           <ul className="flex gap-4">
             <li>
-              <ThemeIcon gradient={false} size={"sm"}>
-                <a
-                  aria-label="Facebook page"
-                  title={"Facebook page"}
-                  href={"https://www.facebook.com/yalographysxm"}
-                  target={"_blank"}
-                  rel={"noreferrer"}
-                >
-                  <Facebook className="stroke-gray-100" />
-                </a>
-              </ThemeIcon>
+              <a
+                aria-label="Facebook page"
+                title={"Facebook page"}
+                href={"https://www.facebook.com/yalographysxm"}
+                target={"_blank"}
+                rel={"noreferrer"}
+                className=""
+              >
+                <ThemeIcon size={"lg"}>
+                  <IconBrandFacebook size={"75%"} />
+                </ThemeIcon>
+              </a>
             </li>
             <li>
-              <ThemeIcon gradient={false} size={"sm"}>
-                <a
-                  title={"Instagram page"}
-                  aria-label={"Instagram page"}
-                  href={"https://instagram.com/yalography"}
-                  target={"_blank"}
-                  rel={"noreferrer"}
-                >
-                  <Instagram className="stroke-gray-100" />
-                </a>
-              </ThemeIcon>
+              <a
+                title={"Instagram page"}
+                aria-label={"Instagram page"}
+                href={"https://instagram.com/yalography"}
+                target={"_blank"}
+                rel={"noreferrer"}
+              >
+                <ThemeIcon size={"lg"}>
+                  <IconBrandInstagram size={"75%"} />
+                </ThemeIcon>
+              </a>
             </li>
           </ul>
         </div>

@@ -1,6 +1,5 @@
 "use client";
-import { Input } from "@/components/shared/Input";
-import { Button } from "@/components/shared/Button";
+import { Button, TextInput } from "@aomdev/ui";
 import { useRouter } from "next/navigation";
 import type { FormEvent } from "react";
 
@@ -27,8 +26,15 @@ export function SignInForm() {
         className="bg-white basis-2/6 px-5 border-r dark:border-zinc-700 border-zinc-200 rounded-md p-4 space-y-4 dark:bg-zinc-900"
       >
         <h1 className="font-bold text-3xl text-center mb-5">Welcome back!</h1>
-        <Input label="Email" type={"email"} placeholder="hello@gmail.com" name="email" id="email" required />
-        <Input
+        <TextInput
+          label="Email"
+          type={"email"}
+          placeholder="hello@gmail.com"
+          name="email"
+          id="email"
+          required
+        />
+        <TextInput
           autoComplete="current-password"
           label="Password"
           type={"password"}

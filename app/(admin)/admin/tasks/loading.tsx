@@ -1,4 +1,5 @@
-import { Card, FlexContainer, Grid, Skeleton, Title } from "@/components/shared";
+import { FlexContainer, Grid, Skeleton } from "@/components/shared";
+import { Card, Title } from "@aomdev/ui";
 
 export default function TasksPageLoading() {
   const taskLists = Array(5).fill(null);
@@ -6,7 +7,7 @@ export default function TasksPageLoading() {
 
   return (
     <>
-      <Title order={"h2"} className="mb-5">
+      <Title order={2} className="mb-5 font-heading font-medium">
         Pinned Lists
       </Title>
       <Grid fullWidth className="mb-20">

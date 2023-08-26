@@ -1,7 +1,7 @@
 "use client";
 import { PieChart, Pie, Legend, Cell, ResponsiveContainer, Tooltip } from "recharts";
 import { BookingsTotal } from "./BookingsTotal";
-import { Button } from "@/components/shared/Button";
+import { Button } from "@aomdev/ui";
 
 import { useToggle } from "@/lib/hooks/useToggle";
 

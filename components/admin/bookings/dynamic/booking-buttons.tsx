@@ -13,7 +13,7 @@ import dynamic from "next/dynamic";
 
 import { RescheduleDialog } from "./reschedule-dialog";
 import { CreateOrderDialog } from "./create-order-dialog";
-import { Input } from "@/components/shared/Input";
+import { TextInput } from "@aomdev/ui";
 
 const DeleteDialog = dynamic(() => import("./delete-dialog").then(mod => mod.DeleteDialog));
 
@@ -155,7 +155,7 @@ export function BookingButtons({ id, status }: PropTypes) {
       {state.load && (
         <CreateOrderDialog open={state.order} onOpenChange={payload => dispatch({ type: "order", payload })}>
           <form onSubmit={onComplete}>
-            <Input required step={"any"} label="Amount made" id="quote" name="quote" type="number" />
+            <TextInput required step={"any"} label="Amount made" id="quote" name="quote" type="number" />
             <Button disabled={isLoading} className="mt-4">
               Submit
             </Button>

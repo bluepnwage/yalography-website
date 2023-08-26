@@ -1,4 +1,5 @@
-import { Card, Skeleton, FlexContainer, Grid } from "@/components/shared";
+import { Skeleton, FlexContainer, Grid } from "@/components/shared";
+import { Card } from "@aomdev/ui";
 
 export default function Loading() {
   const bestShoots = Array(5).fill(null);

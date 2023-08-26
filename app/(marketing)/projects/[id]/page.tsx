@@ -1,7 +1,7 @@
 //Components
 import { Gallery } from "@/components/dynamic-project";
-import { Section, Title, Breadcrumbs, Anchor, Grid, Card } from "@/components/shared";
-
+import { Section, Breadcrumbs, Anchor, Grid } from "@/components/shared";
+import { Title, Card } from "@aomdev/ui";
 import prisma from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import { cx } from "cva";
@@ -46,9 +46,12 @@ export default async function DynamicProjectPage({ params }: { params: { id: str
             <Anchor href={"/projects"}>Projects</Anchor>
             <Anchor href={`/projects/${project.id}`}>{project.title}</Anchor>
           </Breadcrumbs>
-          <h1 className="mt-20 font-bold text-4xl lg:text-6xl text-center mb-20 text-transparent bg-clip-text bg-gradient-to-r from-rose-500 to-red-600">
+          <Title
+            order={1}
+            className="mt-20 font-bold text-center mb-20 font-heading text-transparent bg-clip-text bg-gradient-to-b from-gray-100 to-gray-300"
+          >
             {project.title}
-          </h1>
+          </Title>
           <Grid lg={project.testimonial ? 2 : 1} fullWidth className="mb-10 lg:mb-36">
             <div
               className={cx(
@@ -57,7 +60,9 @@ export default async function DynamicProjectPage({ params }: { params: { id: str
               )}
             >
               <header className="mb-5">
-                <Title order={"h2"}>Overview</Title>
+                <Title order={2} className="font-heading font-medium">
+                  Overview
+                </Title>
               </header>
               <p className="text-lg">{project.description}</p>
             </div>
