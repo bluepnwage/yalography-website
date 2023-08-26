@@ -25,7 +25,7 @@ export function UpcomingBookings() {
           { label: "All bookings", value: "all bookings" }
         ]}
       />
-      <Table style={{ marginTop: "2rem" }}>
+      <Table style={{ marginTop: "2rem" }} className="w-full">
         <Table.Header>
           <Table.Row>
             <Table.Head>Client</Table.Head>

@@ -1,6 +1,6 @@
 "use client";
 //Components
-import { Dialog, Button, TextInput, Select, Textarea, Popover, Calendar, Label } from "@aomdev/ui";
+import { Dialog, Button, TextInput, Select, Textarea, Popover, Calendar, Label, Checkbox } from "@aomdev/ui";
 import { inputStyles } from "@aomdev/ui/src/input-wrapper/styles";
 import { cardStyles } from "@aomdev/ui/src/card/styles";
 
@@ -46,8 +46,7 @@ export function BookingDialog(props: DialogProps) {
     setForm(prev => ({ ...prev, [name]: value }));
   };
 
-  const onFeatureChange = (e: FormEvent<HTMLInputElement>) => {
-    const { checked, value } = e.currentTarget;
+  const onFeatureChange = (value: string, checked: boolean) => {
     if (checked) {
       setFeatures(prev => [...prev, value]);
     } else {
@@ -109,122 +108,141 @@ export function BookingDialog(props: DialogProps) {
               <IconX />
             </Dialog.Close>
           </div>
-          <form className="space-y-4 mt-6" onSubmit={handleSubmit}>
-            <div className="flex gap-2">
-              <TextInput
-                autoFocus
-                label="First Name"
-                onChange={handleChange}
-                value={form?.first_name}
-                name={"first_name"}
-                id={"first_name"}
-                required
-              />
-              <TextInput
-                label="Last Name"
-                onChange={handleChange}
-                value={form?.last_name}
-                name={"last_name"}
-                id={"last_name"}
-                required
-              />
-            </div>
-            <div className="flex gap-2">
-              <TextInput
-                label="Email"
-                onChange={handleChange}
-                value={form?.email}
-                name={"email"}
-                id={"email"}
-                required
-              />
-              <TextInput
-                label="Phone number"
-                onChange={handleChange}
-                value={form?.phone}
-                name={"phone"}
-                id={"phone"}
-                required
-              />
-            </div>
-            <div className="flex gap-2 items-end">
-              <div className="basis-1/2 grow">
+          <>
+            <form className="space-y-4 mt-6 " onSubmit={handleSubmit}>
+              <div className="flex gap-2">
                 <TextInput
-                  type={"time"}
-                  label={"Time"}
-                  value={form?.time}
+                  autoFocus
+                  label="First Name"
                   onChange={handleChange}
-                  name={"time"}
-                  id={"time"}
+                  value={form?.first_name}
+                  name={"first_name"}
+                  id={"first_name"}
+                  required
+                />
+                <TextInput
+                  label="Last Name"
+                  onChange={handleChange}
+                  value={form?.last_name}
+                  name={"last_name"}
+                  id={"last_name"}
                   required
                 />
               </div>
-            </div>
-            <div className="flex gap-2 items-end">
-              <div className="basis-1/2 grow space-y-1">
-                <Label htmlFor="date">Date</Label>
-                <Popover>
-                  <Popover.Trigger asChild>
-                    <button className={inputStyles({ className: "w-full" })}>{date?.toDateString()}</button>
-                  </Popover.Trigger>
-                  <Popover.Content className={cardStyles({ className: "z-[9999]" })}>
-                    <Calendar
-                      disabled={[{ before: new Date() }]}
-                      selected={date}
-                      onSelect={setDate}
-                      mode="single"
-                    />
-                  </Popover.Content>
-                </Popover>
-                <input type="date" hidden id="date" value={date?.toISOString()} />
+              <div className="flex gap-2">
+                <TextInput
+                  label="Email"
+                  onChange={handleChange}
+                  value={form?.email}
+                  name={"email"}
+                  id={"email"}
+                  required
+                />
+                <TextInput
+                  label="Phone number"
+                  onChange={handleChange}
+                  value={form?.phone}
+                  name={"phone"}
+                  id={"phone"}
+                  required
+                />
               </div>
-            </div>
-            <div className="space-y-1 w-full">
-              <Label htmlFor="">Shoot type</Label>
-              <Select
-                fullWidth
-                items={selectData}
-                onValueChange={(value: typeof shootType) => setShootType(value)}
-                value={shootType}
-              />
-            </div>
-            <div className="flex gap-2 w-full">
-              <Textarea
-                style={{ width: "100%" }}
-                className="w-full"
-                label="Description"
-                onChange={handleChange}
-                value={form.description}
-                name={"description"}
-                id={"description"}
-                rows={3}
-              />
-            </div>
-            <div className="flex flex-wrap justify-evenly gap-5">
-              {shootDetails &&
-                shootDetails.features.map(feature => {
-                  const value = feature.label.toLowerCase();
-                  const checked = selectedFeatures.includes(value);
-                  return (
-                    <p key={feature.label}>
-                      <label htmlFor={feature.label}>{feature.label}</label>
-                      <input
-                        id={feature.label}
-                        type="checkbox"
-                        checked={checked}
-                        onChange={onFeatureChange}
-                        className="accent-red-600 h-5 w-5 "
-                        name="features"
-                        value={value}
+              <div className="flex gap-2 items-end">
+                <div className="basis-1/2 grow">
+                  <TextInput
+                    type={"time"}
+                    label={"Time"}
+                    value={form?.time}
+                    onChange={handleChange}
+                    name={"time"}
+                    id={"time"}
+                    required
+                  />
+                </div>
+              </div>
+              <div className="flex gap-2 items-end">
+                <div className="basis-1/2 grow space-y-1">
+                  <Label htmlFor="date">Date</Label>
+                  <Popover>
+                    <Popover.Trigger asChild>
+                      <button className={inputStyles({ className: "w-full" })}>{date?.toDateString()}</button>
+                    </Popover.Trigger>
+                    <Popover.Content className={cardStyles({ className: "z-[9999]" })}>
+                      <Calendar
+                        labelContentProps={{ className: "z-[9999]" }}
+                        disabled={[{ before: new Date() }]}
+                        selected={date}
+                        onSelect={setDate}
+                        mode="single"
                       />
-                    </p>
-                  );
-                })}
-            </div>
-            <Button disabled={isLoading} fullWidth>
-              Submit
-            </Button>
-          </form>
+                    </Popover.Content>
+                  </Popover>
+                  <input type="date" hidden id="date" value={date?.toISOString()} />
+                </div>
+              </div>
+              <div className="space-y-1 w-full">
+                <Label htmlFor="">Shoot type</Label>
+                <Select
+                  contentProps={{ className: "z-[9999]" }}
+                  fullWidth
+                  items={selectData}
+                  onValueChange={(value: typeof shootType) => {
+                    setShootType(value);
+                    setFeatures([]);
+                  }}
+                  value={shootType}
+                />
+              </div>
+              <div className=" w-full">
+                <Textarea
+                  style={{ width: "100%" }}
+                  className="w-full"
+                  label="Description"
+                  onChange={handleChange}
+                  value={form.description}
+                  name={"description"}
+                  id={"description"}
+                  rows={3}
+                />
+              </div>
+              <div className="flex flex-col  gap-3">
+                {shootDetails &&
+                  shootDetails.features.map(feature => {
+                    const value = feature.label.toLowerCase();
+                    const checked = selectedFeatures.includes(value);
+                    return (
+                      <>
+                        <Checkbox
+                          label={feature.label}
+                          key={`${shootType}-${feature.label}`}
+                          name="features"
+                          value={value}
+                          checked={checked}
+                          onCheckedChange={val => {
+                            onFeatureChange(value, val.valueOf() as boolean);
+                          }}
+                        />
+                        {/* <p key={feature.label}> */}
+                        {/* <label htmlFor={feature.label}>{feature.label}</label>
+                        <input
+                          id={feature.label}
+                          type="checkbox"
+                          checked={checked}
+                          onChange={onFeatureChange}
+                          className="accent-red-600 h-5 w-5 "
+                          name="features"
+                          value={value}
+                        />
+                      </p> */}
+                      </>
+                    );
+                  })}
+              </div>
+              <Button disabled={isLoading} fullWidth className="block mt-6">
+                Submit
+              </Button>
+            </form>
+          </>
         </Dialog.Content>
       </Dialog>
     </>

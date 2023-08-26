@@ -140,7 +140,7 @@ const getRecentOrders = async () => {
 async function RecentOrders() {
   const orders = await getRecentOrders();
   return (
-    <Table>
+    <Table className="w-full">
       <Table.Header>
         <Table.Row>
           <Table.Head>Order #</Table.Head>
@@ -168,7 +168,7 @@ async function RecentOrders() {
 function RecentOrdersLoading() {
   const orders = Array(10).fill(null);
   return (
-    <Table>
+    <Table className="w-full">
       <Table.Header>
         <Table.Row>
           <Table.Head>Order #</Table.Head>

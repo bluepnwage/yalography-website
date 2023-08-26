@@ -277,14 +277,16 @@ function CommandTasks({ tasks }: { tasks: PropTypes["tasks"] }) {
   return (
     <>
       {tasks.map(task => {
-        <Command.Item value={`tasks`} onSelect={onSelect} key={task.id}>
-          <div className="flex items-center justify-between">
-            {task.name}
-            <Badge variant={"status"} color={task.status ? "success" : "warn"}>
-              {task.status ? "Completed" : "Incomplete"}
-            </Badge>
-          </div>
-        </Command.Item>;
+        return (
+          <Command.Item onSelect={() => onSelect("tasks")} key={task.id}>
+            <div className="flex items-center justify-between">
+              {task.name}
+              <Badge variant={"status"} color={task.status ? "success" : "warn"}>
+                {task.status ? "Completed" : "Incomplete"}
+              </Badge>
+            </div>
+          </Command.Item>
+        );
       })}
     </>
   );

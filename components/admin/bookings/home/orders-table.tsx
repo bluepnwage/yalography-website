@@ -11,7 +11,7 @@ export function OrdersTable() {
   const { paginatedList, ...props } = usePagination(10, completed);
   return (
     <>
-      <Table style={{ flexGrow: 1 }} className="grow ">
+      <Table style={{ flexGrow: 1 }} className="grow w-full">
         <Table.Header>
           <Table.Row>
             <Table.Head>Name</Table.Head>

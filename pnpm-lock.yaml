@@ -6,8 +6,8 @@ settings:
 
 dependencies:
   '@aomdev/ui':
-    specifier: ^0.3.0
-    version: 0.3.0(@types/react-dom@18.2.6)(@types/react@18.2.14)(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.6)
+    specifier: ^0.4.0
+    version: 0.4.0(@types/react-dom@18.2.6)(@types/react@18.2.14)(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.6)
   '@cloudinary/url-gen':
     specifier: ^1.9.0
     version: 1.9.0
@@ -118,8 +118,8 @@ packages:
     resolution: {integrity: sha512-UrcABB+4bUrFABwbluTIBErXwvbsU/V7TZWfmbgJfbkwiBuziS9gxdODUyuiecfdGQ85jglMW6juS3+z5TsKLw==}
     engines: {node: '>=10'}
 
-  /@aomdev/ui@0.3.0(@types/react-dom@18.2.6)(@types/react@18.2.14)(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.6):
-    resolution: {integrity: sha512-7xFT++eS5cSM2cH4xgP9mHZtPpoqltLdV7J+8IYEvdY5JmtF3vR7KMFOjzjou6TxJd6rIuyqrsWVkBs5UclT9A==}
+  /@aomdev/ui@0.4.0(@types/react-dom@18.2.6)(@types/react@18.2.14)(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.6):
+    resolution: {integrity: sha512-pE4QzqHOquSW/4F0MRv0vIPJO9tM7tHppMCtLQ6O5Tiwj59LQQKJd/26iVdTXpe/XnBZ8SmKtNVpFM4+BulZyQ==}
     peerDependencies:
       react: ^18.2.0
     dependencies:

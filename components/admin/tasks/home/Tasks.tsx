@@ -40,7 +40,7 @@ export function Tasks() {
         onFilterChange={toggle.onFilter}
         onSortChange={toggle.onSort}
       />
-      <Table>
+      <Table className="w-full">
         <Table.Header className="border-b border-zinc-200 dark:border-zinc-700">
           <Table.Row>
             <Table.Head>Task name</Table.Head>
