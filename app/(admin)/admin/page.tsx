@@ -1,5 +1,4 @@
 import prisma from "@/lib/prisma";
-export const dynamic = "force-dynamic";
 import { Badge, Table, Title } from "@aomdev/ui";
 import { formatDate } from "@/util/formate-date";
 import { IconChevronRight } from "@tabler/icons-react";
@@ -7,15 +6,10 @@ import Link from "next/link";
 import { cardStyles } from "@aomdev/ui/src/card/styles";
 import { StatCardContainer } from "@/components/admin/home/stat-card-container";
 import { Suspense } from "react";
+import { getBookings } from "@/lib/admin-data";
 
-const getBookings = async () => {
-  const t = await prisma.bookings.findMany({
-    where: { OR: [{ status: "approved" }, { status: "pending" }] },
-    take: 3
-  });
-  console.log(t);
-  return t;
-};
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 function greetingMessage(hour: number) {
   if (hour >= 2 && hour <= 11) {
@@ -64,7 +58,7 @@ async function UpcomingBookings() {
   return (
     <div className="grid grid-cols-3 gap-20 mb-20">
       {bookings.length === 0 && <p>You don&apos;t have any bookings.</p>}
-      {bookings.map(booking => {
+      {bookings.slice(0, 3).map(booking => {
         const features = booking.features ? booking.features.split(",") : [];
         return (
           <Link

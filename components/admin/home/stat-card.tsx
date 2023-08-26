@@ -4,7 +4,7 @@ import { useState } from "react";
 import { SerializedBooking, SerializedOrder } from "@/lib/prisma";
 import { Badge } from "@aomdev/ui";
 
-type CompletedOrders = SerializedBooking & { orders: Partial<SerializedOrder> };
+type CompletedOrders = SerializedOrder & { booking: Partial<SerializedBooking> };
 
 type PropTypes = {
   orders: CompletedOrders[];
@@ -15,8 +15,8 @@ export function StatCard({ orders }: PropTypes) {
 
   const bookings = periodBookings(period, orders);
   const lastPeriod = getLastPeriod(period, bookings);
-  const revenue = bookings.reduce((a, c) => a + (c.orders.quote || 0), 0) / 100;
-  const lastRevenue = lastPeriod.reduce((a, c) => a + (c.orders.quote || 0), 0) / 100;
+  const revenue = bookings.reduce((a, c) => a + (c.quote || 0), 0) / 100;
+  const lastRevenue = lastPeriod.reduce((a, c) => a + (c.quote || 0), 0) / 100;
   const outside = [];
   const inside = [];
   const lastInside = [];
@@ -24,7 +24,7 @@ export function StatCard({ orders }: PropTypes) {
 
   console.log(lastPeriod);
   for (const booking of bookings) {
-    if (booking.environment) {
+    if (booking.booking.environment) {
       inside.push(booking);
     } else {
       outside.push(booking);
@@ -32,7 +32,7 @@ export function StatCard({ orders }: PropTypes) {
   }
 
   for (const booking of lastPeriod) {
-    if (booking.environment) {
+    if (booking.booking.environment) {
       lastInside.push(booking);
     } else {
       lastOutside.push(booking);
@@ -150,7 +150,7 @@ function periodBookings(filter: string, bookings: PropTypes["orders"]) {
   const thisYear = today.getFullYear();
   return filter === "monthly"
     ? bookings.filter(booking => {
-        const bookingDate = new Date(booking.date);
+        const bookingDate = new Date(booking.createdAt);
         return bookingDate.getMonth() === thisMonth && bookingDate.getFullYear() === thisYear;
       })
     : filter === "yearly"
@@ -166,7 +166,7 @@ function getLastPeriod(filter: string, bookings: PropTypes["orders"]) {
   if (filter === "monthly") {
     period.setMonth(period.getMonth() - 1);
     return bookings.filter(booking => {
-      const bookingDate = new Date(booking.date);
+      const bookingDate = new Date(booking.createdAt);
       return (
         bookingDate.getMonth() === period.getMonth() && bookingDate.getFullYear() === period.getFullYear()
       );
@@ -175,7 +175,7 @@ function getLastPeriod(filter: string, bookings: PropTypes["orders"]) {
   if (filter === "yearly") {
     period.setFullYear(period.getFullYear() - 1);
     return bookings.filter(booking => {
-      const bookingDate = new Date(booking.date);
+      const bookingDate = new Date(booking.createdAt);
       return bookingDate.getFullYear() === period.getFullYear();
     });
   }

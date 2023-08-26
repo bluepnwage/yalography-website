@@ -8,10 +8,12 @@ import {
 } from "@tabler/icons-react";
 
 import { SignOut } from "./SignOut";
-import { AdminCommand } from "./command";
 import Image from "next/image";
 import logo from "@/public/logo.png";
 import Link from "next/link";
+import { AdminCommandContainer } from "./admin-command-container";
+import { Suspense } from "react";
+import { Skeleton } from "../shared";
 
 const links = [
   {
@@ -56,7 +58,9 @@ export function Nav() {
           </figcaption>
         </figure>
       </Link>
-      <AdminCommand />
+      <Suspense fallback={<CommandLoading />}>
+        <AdminCommandContainer />
+      </Suspense>
       <div role="separator" className="h-[1px] bg-gray-200 w-full  dark:bg-gray-700" />
       <ul className="w-full flex gap-4 flex-col">
         {links.map((link, key) => {
@@ -64,6 +68,21 @@ export function Nav() {
         })}
       </ul>
       <SignOut />
+    </div>
+  );
+}
+
+function CommandLoading() {
+  return (
+    <div className="flex items-center gap-2">
+      <div className={"relative basis-3/4 grow overflow-hidden rounded h-8 "}>
+        <Skeleton radius={"sm"} className="w-full h-full" />
+        <Skeleton.Shimmer />
+      </div>
+      <div className={"h-8 w-8 rounded relative overflow-hidden"}>
+        <Skeleton radius={"sm"} className="h-full w-full" />
+        <Skeleton.Shimmer />
+      </div>
     </div>
   );
 }
