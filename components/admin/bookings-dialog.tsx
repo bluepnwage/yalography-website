@@ -1,6 +1,5 @@
 "use client";
 //Components
-import { DatePicker } from "@/components/bookings/DatePicker/DatePicker";
 import { Dialog, Button, TextInput, Select, Textarea, Popover, Calendar, Label } from "@aomdev/ui";
 import { inputStyles } from "@aomdev/ui/src/input-wrapper/styles";
 import { cardStyles } from "@aomdev/ui/src/card/styles";

@@ -1,5 +1,3 @@
-import { WelcomeStats } from "@/components/admin/home/WelcomeStats";
-import { Stats } from "@/components/admin/home/Stats";
 import prisma from "@/lib/prisma";
 export const dynamic = "force-dynamic";
 import { Badge, Table, Title } from "@aomdev/ui";

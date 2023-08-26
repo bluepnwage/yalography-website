@@ -1,6 +1,4 @@
-import { Anchor, FlexContainer } from "@/components/shared";
 import { BookingsProvider } from "@/components/admin/bookings/BookingsProvider";
-import { BookingDialog } from "@/components/admin/bookings-dialog";
 
 import { cache } from "react";
 import prisma from "@/lib/prisma";
@@ -58,23 +56,6 @@ export default async function Layout({ children }: PropTypes) {
   const [bookings, completedBookings] = await Promise.all([bookingsPromise, completedBookingsPromise]);
   return (
     <>
-      {/* <div className="border-b mb-5 z-10 -mt-5 bg-white border-zinc-200 dark:bg-zinc-900 p-5 dark:border-zinc-600 -mx-5 sticky top-[64px] ">
-        <FlexContainer className="justify-evenly">
-          <div className="text-center">
-            <p>Pending bookings: {bookings.pending.length}</p>
-            <Anchor href={"/admin/bookings/pending"}>View pending bookings</Anchor>
-          </div>
-          <div className="text-center">
-            <p>Approved bookings: {bookings.approved.length}</p>
-            <Anchor href={"/admin/bookings/approved"}>View approved bookings</Anchor>
-          </div>
-          <div className="text-center">
-            <p>Completed bookings: {completedBookings.length}</p>
-            <Anchor href={"/admin/bookings/completed"}>View completed bookings</Anchor>
-          </div>
-          <BookingDialog />
-        </FlexContainer>
-      </div> */}
       <BookingsProvider completed={completedBookings} {...bookings}>
         {children}
       </BookingsProvider>
