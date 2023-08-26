@@ -47,13 +47,13 @@ export function Nav() {
   return (
     <div className=" space-y-4 border-r dark:border-gray-700 w-1/6 h-screen fixed top-0 left-0 pt-10 px-4">
       <Link href={"/"} className="block mb-6">
-        <figure className="flex gap-4 items-center">
+        <figure className="flex gap-1 xl:gap-4 items-center">
           <Image
             src={logo}
             alt={"Official Yalography logo"}
-            className="h-12 w-12 bg-zinc-900 dark:bg-transparent rounded-md p-1"
+            className="h-8 w-8 xl:h-12 xl:w-12 bg-zinc-900 dark:bg-transparent rounded-md p-1"
           />
-          <figcaption className="font-bold hidden lg:block text-gray-900 dark:text-white text-lg">
+          <figcaption className="font-bold hidden lg:block text-gray-900 dark:text-white lg:text-lg">
             Yalography
           </figcaption>
         </figure>

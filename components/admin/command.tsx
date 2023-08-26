@@ -51,7 +51,7 @@ export function AdminCommand({ bookings, projects, tasks }: PropTypes) {
   const { theme, setTheme } = useTheme();
   return (
     <>
-      <div className="flex items-center gap-2">
+      <div className="flex max-xl:flex-col items-center gap-2">
         <button
           onClick={() => dispatch({ type: "command", payload: true })}
           className={inputStyles({
@@ -63,7 +63,7 @@ export function AdminCommand({ bookings, projects, tasks }: PropTypes) {
             <IconSearch size={16} className="inline-block mr-2" />
             Search...
           </span>
-          <kbd className="text-xs bg-neutral-200/30 dark:bg-neutral-600/30 ring-1 ring-neutral-100 dark:ring-neutral-700 inline-block ml-6 p-[1px] rounded-sm">
+          <kbd className="text-xs hidden bg-neutral-200/30 dark:bg-neutral-600/30 ring-1 ring-neutral-100 dark:ring-neutral-700 xl:inline-block ml-6 p-[1px] rounded-sm">
             Ctrl K
           </kbd>
         </button>
@@ -114,7 +114,7 @@ export function AdminCommand({ bookings, projects, tasks }: PropTypes) {
           </div>
         </div>
         <Command.List>
-          <ScrollArea style={{ height: 500 }}>
+          <ScrollArea style={{ height: "50vh" }}>
             {state.page === "home" && <CommandHome />}
             {state.page === "projects" && <CommandProjects projects={projects} />}
             {state.page === "bookings" && <CommandBookings bookings={bookings} />}
