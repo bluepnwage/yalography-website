@@ -1,26 +1,14 @@
 "use client";
-import { cx } from "cva";
 import { ActionIcon } from "@aomdev/ui";
 import { IconSun, IconMoonStars, IconDeviceDesktop } from "@tabler/icons-react";
 import { useTheme } from "next-themes";
 import { Dropdown } from "@aomdev/ui";
-import { useState, useRef } from "react";
 
 export function ThemeSwitcher() {
   const { setTheme } = useTheme();
-  const top = useRef(0);
-  const [open, setOpen] = useState(false);
-  const onSelect = (value: Event) => {};
-
-  const onChange = (val: boolean) => {
-    if (val) {
-      top.current = window.scrollY;
-    }
-    setOpen(val);
-  };
 
   return (
-    <Dropdown modal={false} open={open} onOpenChange={onChange}>
+    <Dropdown modal={false}>
       <Dropdown.Trigger asChild>
         <ActionIcon size={"lg"}>
           <IconMoonStars size={"75%"} className="hidden dark:inline-block" />{" "}
@@ -28,7 +16,7 @@ export function ThemeSwitcher() {
         </ActionIcon>
       </Dropdown.Trigger>
       <Dropdown.Content className="z-[500]">
-        <Dropdown.Item textValue="light" onSelect={onSelect} icon={<IconSun size={16} />}>
+        <Dropdown.Item textValue="light" onSelect={() => setTheme("light")} icon={<IconSun size={16} />}>
           Light
         </Dropdown.Item>
         <Dropdown.Item onClick={() => setTheme("dark")} icon={<IconMoonStars size={16} />}>
