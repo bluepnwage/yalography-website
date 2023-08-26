@@ -50,7 +50,7 @@ export function Calendar() {
                 allDates.approved[t] && allDates.pending[t]
                   ? "bg-indigo-600"
                   : allDates.approved[t]
-                  ? "bg-emrald-600"
+                  ? "bg-emerald-600"
                   : allDates.pending[t]
                   ? "bg-orange-600"
                   : "";
