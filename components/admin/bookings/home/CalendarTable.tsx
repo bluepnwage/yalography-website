@@ -22,7 +22,7 @@ export function CalendarTable({ todaysBookings, date }: PropTypes) {
 
   return (
     <div className="space-y-2 basis-3/4 grow w-full">
-      <Table style={{ flexGrow: 1, height: "75%" }}>
+      <Table style={{ flexGrow: 1, height: "75%" }} className="w-full">
         <Table.Header>
           <Table.Row>
             <Table.Head>Name</Table.Head>
