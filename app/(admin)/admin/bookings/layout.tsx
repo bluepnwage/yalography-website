@@ -3,6 +3,7 @@ import { BookingsProvider } from "@/components/admin/bookings/BookingsProvider";
 import { cache } from "react";
 import prisma from "@/lib/prisma";
 import { verifyToken } from "@/lib/firebase/admin/auth";
+import { formatDate } from "@/util/formate-date";
 
 export const dynamic = "force-dynamic";
 
@@ -41,8 +42,13 @@ const getCompletedBookings = cache(async () => {
   return completed.map(booking => {
     return {
       ...booking,
-      date: booking.date.toDateString(),
-      orders: { ...booking?.orders, createdAt: booking.orders?.createdAt.toDateString() }
+      date: formatDate(booking.date, { dateStyle: "full" }),
+      orders: {
+        ...booking?.orders,
+        createdAt: booking.orders?.createdAt
+          ? formatDate(booking.orders.createdAt, { dateStyle: "full" })
+          : ""
+      }
     };
   });
 });

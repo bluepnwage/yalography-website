@@ -19,6 +19,7 @@ import { useState } from "react";
 import { useRouteRefresh } from "@/lib/hooks/useRouteRefresh";
 import { useToggle } from "@/lib/hooks/useToggle";
 import { toast } from "react-toastify";
+import { formatDate } from "@/util/formate-date";
 
 const selectData = Array.from(photoshootTypes).map(([key, value]) => ({ label: value.label, value: key }));
 
@@ -165,7 +166,9 @@ export function BookingDialog(props: DialogProps) {
                   <Label htmlFor="date">Date</Label>
                   <Popover>
                     <Popover.Trigger asChild>
-                      <button className={inputStyles({ className: "w-full" })}>{date?.toDateString()}</button>
+                      <button className={inputStyles({ className: "w-full text-start px-2" })}>
+                        {date ? formatDate(date) : "Date"}
+                      </button>
                     </Popover.Trigger>
                     <Popover.Content className={cardStyles({ className: "z-[9999]" })}>
                       <Calendar
@@ -238,7 +241,7 @@ export function BookingDialog(props: DialogProps) {
                     );
                   })}
               </div>
-              <Button disabled={isLoading} fullWidth className="block mt-6">
+              <Button disabled={isLoading} className="block mt-6 ml-auto ">
                 Submit
               </Button>
             </form>

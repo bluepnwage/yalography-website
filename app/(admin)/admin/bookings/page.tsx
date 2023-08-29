@@ -10,15 +10,19 @@ import { Title } from "@aomdev/ui";
 import { OrdersTable } from "@/components/admin/bookings/home/orders-table";
 import { UpcomingBookings } from "@/components/admin/bookings/home/upcoming-bookings";
 import { BookingCard } from "@/components/admin/bookings/home/booking-card";
-import { ChartContainer, ChartLoading } from "./ChartContainer";
-import { Suspense } from "react";
-import { PopularMonths, PopularMonthsLoading } from "./PopularMonths";
+import { CreateBooking } from "@/components/admin/bookings/home/create-bookings";
 
 export const dynamic = "force-dynamic";
 
 export default function BookingsPage() {
   return (
     <>
+      <header className="flex items-center justify-between mb-16 gap-4">
+        <Title order={1} className="font-heading font-medium text-4xl leading-none">
+          Bookings
+        </Title>
+        <CreateBooking />
+      </header>
       <Grid fullWidth className="mb-36">
         <div className="w-full col-span-full flex gap-4">
           <Card className="w-full basis-2/3 flex">
@@ -31,22 +35,9 @@ export default function BookingsPage() {
         </div>
         <UpcomingBookings />
       </Grid>
-      <Grid fullWidth>
-        <Card className="col-span-4 relative overflow-hidden  rounded-md flex flex-col">
-          <div className="px-4 py-2 border-b border-zinc-200 dark:border-zinc-700">
-            <Title order={2} className="font-heading font-medium">
-              Best selling photoshoots
-            </Title>
-          </div>
-          <Suspense fallback={<PopularMonthsLoading />}>
-            <PopularMonths />
-          </Suspense>
-        </Card>
-        <Suspense fallback={<ChartLoading />}>
-          <ChartContainer />
-        </Suspense>
+      <Grid fullWidth className="mb-20">
         <div className="col-span-full pt-6 ">
-          <Title order={2} className="font-heading font-medium">
+          <Title order={2} className="font-heading font-medium mb-6">
             Completed bookings
           </Title>
           <OrdersTable />
