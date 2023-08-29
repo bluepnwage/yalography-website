@@ -4,16 +4,14 @@ import { Dialog } from "@aomdev/ui";
 import { Dropzone } from "./gallery-dropzone";
 
 import type { SerializedImageFolder } from "@/lib/prisma";
-import type { Env } from "@/lib/firebase/storage";
 import type { DialogProps } from "@aomdev/ui";
 import { IconX } from "@tabler/icons-react";
 
 type PropTypes = {
-  folders: SerializedImageFolder[];
   dialogProps: DialogProps;
-} & Env;
+};
 
-export function GalleryDialog({ folders, environment, dialogProps }: PropTypes) {
+export function GalleryDialog({ dialogProps }: PropTypes) {
   return (
     <>
       <Dialog {...dialogProps}>
@@ -26,8 +24,6 @@ export function GalleryDialog({ folders, environment, dialogProps }: PropTypes) 
           </div>
           <div className="space-y-6">
             <Dropzone
-              environment={environment}
-              folders={folders}
               onDialogClose={() => (dialogProps.onOpenChange ? dialogProps.onOpenChange(false) : () => {})}
             />
           </div>

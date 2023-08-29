@@ -4,7 +4,6 @@ import { Title, Badge } from "@aomdev/ui";
 import prisma from "@/lib/prisma";
 import { cache } from "react";
 import { notFound } from "next/navigation";
-import { getEnv } from "@/util/get-env";
 import Link from "next/link";
 import { IconChevronRight, IconHome } from "@tabler/icons-react";
 import { ProjectForm } from "@/components/admin/projects/project-form";
@@ -23,8 +22,6 @@ const getGalleryImages = cache(async () => {
   await prisma.$disconnect();
   return images;
 });
-
-const environment = getEnv();
 
 export type ProjectData = Awaited<ReturnType<typeof getProject>>;
 

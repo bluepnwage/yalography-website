@@ -1,7 +1,7 @@
 "use client";
 import { XClose } from "@/lib/icons";
 import { Pagination } from "@/components/shared/Pagination";
-import { Button, Select } from "@aomdev/ui";
+import { Button } from "@aomdev/ui";
 import { CustomDropzone } from "./custom-dropzone";
 
 import { useState } from "react";
@@ -9,18 +9,13 @@ import { usePagination } from "@/lib/hooks/usePagination";
 import { useToggle } from "@/lib/hooks/useToggle";
 import { useRouteRefresh } from "@/lib/hooks/useRouteRefresh";
 
-import type { SerializedImageFolder } from "@/lib/prisma";
-import type { Env } from "@/lib/firebase/storage";
-
 type PropTypes = {
   onDialogClose: () => void;
-  folders: SerializedImageFolder[];
-} & Env;
+};
 
-export function Dropzone({ onDialogClose, folders, environment }: PropTypes) {
+export function Dropzone({ onDialogClose }: PropTypes) {
   const [files, setFiles] = useState<File[]>([]);
   const [loading, toggle] = useToggle();
-  const [selectedFolder, setSelectedFolder] = useState("");
   const [isPending, refresh] = useRouteRefresh();
   const { paginatedList, ...paginationProps } = usePagination(5, files);
 
@@ -41,9 +36,7 @@ export function Dropzone({ onDialogClose, folders, environment }: PropTypes) {
       autoClose: false
     });
     try {
-      const promises = files.map(file =>
-        uploadToCloudinary(file, { folderId: selectedFolder ? parseInt(selectedFolder) : undefined })
-      );
+      const promises = files.map(file => uploadToCloudinary(file, { folderId: undefined }));
       await Promise.all(promises);
       refresh();
       toggle.off();
@@ -65,12 +58,6 @@ export function Dropzone({ onDialogClose, folders, environment }: PropTypes) {
   };
 
   const isLoading = isPending || loading;
-  const selectData = folders.map(folder => {
-    return {
-      label: folder.name,
-      value: `${folder.id}`
-    };
-  });
 
   return (
     <>
@@ -81,9 +68,8 @@ export function Dropzone({ onDialogClose, folders, environment }: PropTypes) {
         ))}
       </ul>
       {files.length > 5 && <Pagination {...paginationProps} />}
-      {/* <Select onValueChange={setSelectedFolder} items={selectData} /> */}
 
-      <Button onClick={onUpload} disabled={isLoading || files.length === 0} fullWidth>
+      <Button onClick={onUpload} disabled={isLoading || files.length === 0} className="block ml-auto">
         Submit
       </Button>
     </>

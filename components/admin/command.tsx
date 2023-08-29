@@ -1,6 +1,6 @@
 "use client";
 import { Command, ScrollArea } from "@aomdev/ui";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useHotkeys } from "@mantine/hooks";
 import {
   IconListCheck,
@@ -81,8 +81,6 @@ export function AdminCommand({ bookings, projects, tasks }: PropTypes) {
         onOpenChange={payload => dispatch({ payload, type: "bookings" })}
       />
       <GalleryDialog
-        environment="dev"
-        folders={[]}
         dialogProps={{ open: state.photo, onOpenChange: payload => dispatch({ payload, type: "photo" }) }}
       />
       <ProjectDialog open={state.project} onOpenChange={payload => dispatch({ payload, type: "project" })} />

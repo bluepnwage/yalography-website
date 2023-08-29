@@ -225,18 +225,6 @@ export function BookingDialog(props: DialogProps) {
                             onFeatureChange(value, val.valueOf() as boolean);
                           }}
                         />
-                        {/* <p key={feature.label}> */}
-                        {/* <label htmlFor={feature.label}>{feature.label}</label>
-                        <input
-                          id={feature.label}
-                          type="checkbox"
-                          checked={checked}
-                          onChange={onFeatureChange}
-                          className="accent-red-600 h-5 w-5 "
-                          name="features"
-                          value={value}
-                        />
-                      </p> */}
                       </>
                     );
                   })}
