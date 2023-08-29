@@ -9,18 +9,10 @@ import dynamic from "next/dynamic";
 import { Select, Button, Textarea, TextInput, Radio, Calendar, Popover } from "@aomdev/ui";
 import { useForm } from "./useBookingsForm";
 
-const DatePicker = dynamic(
-  () => import("@/components/shared/DatePicker/DatePicker").then(mod => mod.DatePicker),
-  {
-    loading: () => <TextInput label="Date" />
-  }
-);
-
 //Data/hooks
 import { useState, useRef } from "react";
 import { photoshootTypes } from "@/lib/photoshoot";
 import { useToggle } from "@/lib/hooks/useToggle";
-import dayjs from "dayjs";
 
 //Types
 import type { FormEvent } from "react";
@@ -51,7 +43,6 @@ type Form = {
 function BookingsForm() {
   const { contact, details, validate } = useForm();
   const [currentStep, setCurrentStep] = useState(1);
-  const [date, setDate] = useState<Date>();
   const [selectedFeatures, setFeatures] = useState<string[]>([]);
   const [loading, toggle] = useToggle();
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -125,7 +116,6 @@ function BookingsForm() {
         contact.dispatch({ type: "reset" });
         details.dispatch({ type: "reset" });
         setFeatures([]);
-        setDate(undefined);
       } else {
         const json = await res.json();
         throw new Error(json.message);

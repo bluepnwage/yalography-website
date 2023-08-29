@@ -1,7 +1,7 @@
 "use client";
 import { Button, Calendar, Dialog, DialogProps, Label, Popover } from "@aomdev/ui";
 import { cardStyles } from "@aomdev/ui/src/card/styles";
-// import { IconDatabaseOff } from "@tabler/icons-react";
+
 export function RescheduleDialog(props: DialogProps) {
   return (
     <Dialog {...props}>

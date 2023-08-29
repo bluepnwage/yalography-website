@@ -1,8 +1,8 @@
 "use client";
-import { DotsVertical, Trash, Pin } from "@/lib/icons";
+import { DotsVertical } from "@/lib/icons";
 import Link from "next/link";
 import { Card, Dropdown } from "@aomdev/ui";
-import { IconTrash, IconDotsVertical, IconPin } from "@tabler/icons-react";
+import { IconTrash, IconPin } from "@tabler/icons-react";
 
 import { useRouteRefresh } from "@/lib/hooks/useRouteRefresh";
 import { useToggle } from "@/lib/hooks/useToggle";

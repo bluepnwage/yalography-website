@@ -1,7 +1,6 @@
 "use client";
 import { usePagination } from "@/lib/hooks/usePagination";
 import { Pagination } from "@/components/shared/Pagination";
-import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useEffect } from "react";
 import { Badge } from "@aomdev/ui";

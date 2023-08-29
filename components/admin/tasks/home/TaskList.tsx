@@ -10,7 +10,7 @@ import { useRouteRefresh } from "@/lib/hooks/useRouteRefresh";
 
 import type { SerializedTask, SerializedTaskList } from "@/lib/prisma";
 import type { FormEvent } from "react";
-import { IconEdit, IconTrack, IconTrash, IconX } from "@tabler/icons-react";
+import { IconEdit, IconTrash, IconX } from "@tabler/icons-react";
 
 export function TaskLists() {
   const { taskLists } = useTasks();
