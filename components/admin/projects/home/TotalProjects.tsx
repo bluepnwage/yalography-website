@@ -1,4 +1,5 @@
 "use client";
+import { Card } from "@aomdev/ui";
 import { useProjects } from "../ProjectsProvider";
 
 export function TotalProjects() {
@@ -6,8 +7,8 @@ export function TotalProjects() {
   const total = drafted.length + published.length;
 
   return (
-    <div className="rounded-md p-4 col-span-6 bg-white dark:bg-zinc-800">
+    <Card className="col-span-6 ">
       <p>Total projects: {total}</p>
-    </div>
+    </Card>
   );
 }

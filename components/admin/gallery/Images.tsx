@@ -2,8 +2,8 @@
 
 import { useGallery } from "./GalleryProvider";
 import { UploadedImage } from "./UploadedImage";
-import { usePagination } from "@lib/hooks/usePagination";
-import { Pagination } from "@components/shared/Pagination";
+import { usePagination } from "@/lib/hooks/usePagination";
+import { Pagination } from "@/components/shared/Pagination";
 
 export function Images() {
   const { images } = useGallery();

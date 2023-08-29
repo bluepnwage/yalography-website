@@ -1,21 +1,14 @@
 "use client";
-import { Dropdown } from "@components/shared/Dropdown";
-import { DotsVertical, Edit } from "@lib/icons";
-import { Button } from "@components/shared/Button";
-import { Input } from "@components/shared/Input";
-import { Trash, Pin, Plus } from "@lib/icons";
-import dynamic from "next/dynamic";
+import { Dropdown, Dialog, Select, Textarea, TextInput, Calendar, Popover, Button, Label } from "@aomdev/ui";
+import { IconPlus, IconEdit, IconPin, IconTrash, IconDotsVertical } from "@tabler/icons-react";
 
-import { useRouteRefresh } from "@lib/hooks/useRouteRefresh";
-import { useToggle } from "@lib/hooks/useToggle";
+import { useRouteRefresh } from "@/lib/hooks/useRouteRefresh";
+import { useToggle } from "@/lib/hooks/useToggle";
 import { useRouter } from "next/navigation";
+import { inputStyles } from "@aomdev/ui/src/input-wrapper/styles";
 
 import type { FormEvent } from "react";
-import { Select } from "@components/shared/Select";
-import { Textarea } from "@components/shared/Textarea";
-
-const Dialog = dynamic(() => import("@components/shared/Dialog").then((mod) => mod.Dialog));
-const DatePicker = dynamic(() => import("@components/shared/DatePicker/DatePicker").then((mod) => mod.DatePicker));
+import { cardStyles } from "@aomdev/ui/src/card/styles";
 
 type PropTypes = {
   groupId: number;
@@ -147,60 +140,73 @@ export function Menu({ groupId, pinned, title }: PropTypes) {
   return (
     <>
       {lazyLoad && (
-        <Dialog title="Create task" open={dialog} onOpenChange={dialogToggle.set}>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <Input required name="task_name" label="Task Name" />
-            <DatePicker id="deadline" minDate={new Date()} label="Deadline" name="deadline" />
-            <Select
-              defaultValue="low"
-              className="grow basis-1/2"
-              label="Priority"
-              name="priority"
-              data={[
-                { label: "High", value: "high" },
-                { label: "Medium", value: "medium" },
-                { label: "Low", value: "low" }
-              ]}
-            />
-            <Textarea name="description" label="Description" />
-            <Button disabled={isLoading} intent={"accept"}>
-              Submit
-            </Button>
-          </form>
+        <Dialog open={dialog} onOpenChange={dialogToggle.set}>
+          <Dialog.Content className="w-1/4">
+            <Dialog.Title>Create task</Dialog.Title>
+
+            <form onSubmit={handleSubmit} className="space-y-4 mt-6">
+              <TextInput required name="task_name" label="Task Name" />
+              <div className="space-y-1">
+                <Label htmlFor="date">Due Date</Label>
+                <Popover>
+                  <Popover.Trigger asChild>
+                    <button className={inputStyles({ className: "w-full" })}></button>
+                  </Popover.Trigger>
+                  <Popover.Content className={cardStyles({ className: "z-[9999]" })}>
+                    <Calendar mode="single" />
+                    <input hidden type="date" name="date" id="date" />
+                  </Popover.Content>
+                </Popover>
+              </div>
+              <Select
+                fullWidth
+                defaultValue="low"
+                name="priority"
+                items={[
+                  { label: "High", value: "high" },
+                  { label: "Medium", value: "medium" },
+                  { label: "Low", value: "low" }
+                ]}
+              />
+              <Textarea name="description" label="Description" />
+              <Button disabled={isLoading} className="block ml-auto">
+                Submit
+              </Button>
+            </form>
+          </Dialog.Content>
         </Dialog>
       )}
       {lazyLoad && (
-        <Dialog open={renameDialog} onOpenChange={renameToggle.set} title="Rename task list">
-          <form onSubmit={onRename} className="space-y-4">
-            <Input id="task_name" label="Name" required name="task_name" defaultValue={title} />
-            <Button disabled={isLoading} intent={"accept"}>
-              Submit
-            </Button>
-          </form>
+        <Dialog open={renameDialog} onOpenChange={renameToggle.set}>
+          <Dialog.Content>
+            <Dialog.Title>Remane Task list</Dialog.Title>
+            <form onSubmit={onRename} className="space-y-4 mt-6">
+              <TextInput id="task_name" label="Name" required name="task_name" defaultValue={title} />
+              <Button disabled={isLoading} className="block ml-auto">
+                Submit
+              </Button>
+            </form>
+          </Dialog.Content>
         </Dialog>
       )}
       <Dropdown>
-        <Dropdown.Trigger>
+        <Dropdown.Trigger asChild onMouseEnter={!lazyLoad ? lazyLoadToggle.on : undefined}>
           <button>
-            <DotsVertical />
+            <IconDotsVertical size={16} />
           </button>
         </Dropdown.Trigger>
-        <Dropdown.Content side="left">
-          <Dropdown.Item onMouseEnter={!lazyLoad ? lazyLoadToggle.on : undefined} onClick={dialogToggle.on}>
+        <Dropdown.Content>
+          <Dropdown.Item icon={<IconPlus size={16} />} onClick={dialogToggle.on}>
             {" "}
-            <Plus size={16} className="stroke-yellow-500 ring-1 ring-yellow-500 rounded-full inline-block mr-2" />
             Create task
           </Dropdown.Item>
-          <Dropdown.Item onMouseEnter={!lazyLoad ? lazyLoadToggle.on : undefined} onClick={renameToggle.on}>
-            <Edit size={16} className="stroke-yellow-600 dark:stroke-yellow-500 inline-block mr-2" />
+          <Dropdown.Item icon={<IconEdit size={16} />} onClick={renameToggle.on}>
             Rename task list
           </Dropdown.Item>
-          <Dropdown.Item onClick={onPin}>
-            <Pin size={16} className="stroke-yellow-500  inline-block mr-2" />
+          <Dropdown.Item icon={<IconPin size={16} />} onClick={onPin}>
             {pinned ? "Unpin task list" : "Pin task list"}
           </Dropdown.Item>
-          <Dropdown.Item onClick={onDelete}>
-            <Trash size={16} className="stroke-yellow-500 inline-block mr-2" />
+          <Dropdown.Item color="error" icon={<IconTrash size={16} />} onClick={onDelete}>
             Delete list
           </Dropdown.Item>
         </Dropdown.Content>

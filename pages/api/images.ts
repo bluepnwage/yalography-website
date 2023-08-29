@@ -1,8 +1,8 @@
-import prisma from "@lib/prisma";
-import { serverError } from "@util/serverError";
-import { logError } from "@lib/notion";
-import { handlePromise } from "@util/handle-promise";
-import { deleteResource } from "@lib/cloudinary";
+import prisma from "@/lib/prisma";
+import { serverError } from "@/util/serverError";
+import { logError } from "@/lib/notion";
+import { handlePromise } from "@/util/handle-promise";
+import { deleteResource } from "@/lib/cloudinary";
 
 import type { Images } from "@prisma/client";
 import type { NextApiHandler } from "next";

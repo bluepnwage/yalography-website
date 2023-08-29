@@ -1,10 +1,8 @@
 "use client";
-import { Button } from "@components/shared/Button";
-import { Input } from "@components/shared/Input";
-import { Textarea } from "@components/shared/Textarea";
-import { useToggle } from "@lib/hooks/useToggle";
-import { FormProps } from "@lib/notion";
+import { useToggle } from "@/lib/hooks/useToggle";
+import { FormProps } from "@/lib/notion";
 import { FormEvent, useState } from "react";
+import { Button, TextInput, Textarea } from "@aomdev/ui";
 
 export function Form() {
   const [form, setForm] = useState<Partial<FormProps>>({});
@@ -12,7 +10,7 @@ export function Form() {
 
   const handleChange = (e: FormEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.currentTarget;
-    setForm((prev) => ({ ...prev, [name]: value }));
+    setForm(prev => ({ ...prev, [name]: value }));
   };
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -42,59 +40,75 @@ export function Form() {
   return (
     <form onSubmit={onSubmit} className="flex flex-col items-center justify-evenly gap-4">
       <div className="flex flex-col lg:flex-row w-full gap-4 grow basis-full">
-        <Input
-          required
-          onChange={handleChange}
-          value={form.first_name || ""}
-          wrapperClassName="basis-2/4 grow"
-          label="First name"
-          name="first_name"
-          id="first_name"
-        />
-        <Input
-          required
-          onChange={handleChange}
-          value={form.last_name || ""}
-          wrapperClassName="basis-2/4 grow"
-          label="Last name"
-          name="last_name"
-          id={"last_name"}
-          autoComplete={"family-name"}
-        />
+        <div className="grow">
+          <TextInput
+            required
+            className="grow"
+            onChange={handleChange}
+            value={form.first_name || ""}
+            label="First name"
+            name="first_name"
+            id="first_name"
+          />
+        </div>
+        <div className="grow">
+          <TextInput
+            required
+            onChange={handleChange}
+            value={form.last_name || ""}
+            label="Last name"
+            name="last_name"
+            id={"last_name"}
+            autoComplete={"family-name"}
+          />
+        </div>
       </div>
       <div className="flex flex-col lg:flex-row w-full gap-4 grow basis-full">
-        <Input
+        <div className="grow">
+          <TextInput
+            required
+            onChange={handleChange}
+            value={form.email || ""}
+            type={"email"}
+            label={"Email"}
+            name={"email"}
+            id={"email"}
+          />
+        </div>
+        <div className="grow">
+          <TextInput
+            required
+            onChange={handleChange}
+            value={form.number || ""}
+            type={"number"}
+            label={"Phone"}
+            name={"number"}
+            id={"number"}
+          />
+        </div>
+      </div>
+      <div className="flex w-full gap-4 grow ">
+        <div className="grow">
+          <TextInput
+            onChange={handleChange}
+            value={form.subject || ""}
+            label="Subject"
+            name={"subject"}
+            id={"subject"}
+          />
+        </div>
+      </div>
+      <div className="w-full">
+        <Textarea
+          className="w-full"
           required
+          value={form.message || ""}
+          name="message"
           onChange={handleChange}
-          value={form.email || ""}
-          wrapperClassName="basis-2/4 grow"
-          type={"email"}
-          label={"Email"}
-          name={"email"}
-          id={"email"}
-        />
-        <Input
-          required
-          onChange={handleChange}
-          value={form.number || ""}
-          wrapperClassName="basis-2/4 grow"
-          type={"number"}
-          label={"Phone"}
-          name={"number"}
-          id={"number"}
+          rows={5}
+          label="Message"
         />
       </div>
-      <div className="flex w-full gap-4 grow basis-full">
-        <Input
-          onChange={handleChange}
-          value={form.subject || ""}
-          wrapperClassName="basis-2/4 grow"
-          label="Subject"
-          name={"subject"}
-          id={"subject"}
-        />
-      </div>
-      <Textarea required value={form.message || ""} name="message" onChange={handleChange} rows={5} label="Message" />
       <Button disabled={loading} className="self-end">
         Submit message
       </Button>

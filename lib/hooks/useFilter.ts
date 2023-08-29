@@ -1,5 +1,5 @@
 import { useReducer } from "react";
-import type { FilterOptions, SortOptions } from "@util/filterTasks";
+import type { FilterOptions, SortOptions } from "@/util/filterTasks";
 
 type ReducerState = {
   filter: FilterOptions | null;

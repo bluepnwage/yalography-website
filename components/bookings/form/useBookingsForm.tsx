@@ -44,7 +44,7 @@ function reducer(state: typeof initialContact, action: Actions<string>): typeof 
 
 type DetailsState = {
   environment: Partial<Payload<"inside" | "outside" | "">>;
-  date: Partial<Payload<Date | null>>;
+  date: Partial<Payload<Date | undefined>>;
   shootType: Partial<Payload<string>>;
   time: Partial<Payload<string>>;
   description: Partial<Payload<string>>;

@@ -1,8 +1,7 @@
 "use client";
 import { useGallery } from "./GalleryProvider";
 import { CreateFolder } from "./CreateFolder";
-import { FolderDropdown } from "./FolderDropdown";
-import { SerializedImageFolder } from "@lib/prisma";
+import { SerializedImageFolder } from "@/lib/prisma";
 import { useState } from "react";
 import Link from "next/link";
 
@@ -21,7 +20,7 @@ export function Folders() {
       </div>
 
       {folders.length > 0 &&
-        folders.map((folder) => {
+        folders.map(folder => {
           return <Folder folder={folder} key={folder.id} />;
         })}
     </>
@@ -36,7 +35,7 @@ function Folder({ folder }: PropTypes) {
   const [imageFolder, setImageFolder] = useState(folder);
 
   const renameFolder = (name: string) => {
-    setImageFolder((prev) => ({ ...prev, name }));
+    setImageFolder(prev => ({ ...prev, name }));
   };
   return (
     <div className="col-span-4 items-start flex justify-between bg-white p-4 dark:bg-zinc-800 rounded-md">
@@ -49,8 +48,6 @@ function Folder({ folder }: PropTypes) {
           View folder
         </Link>
       </div>
-
-      <FolderDropdown renameFolder={renameFolder} id={folder.id} />
     </div>
   );
 }

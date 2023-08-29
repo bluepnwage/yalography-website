@@ -1,6 +1,6 @@
 "use client";
 import React, { createContext, useContext } from "react";
-import type { SerializedBooking, SerializedOrder } from "@lib/prisma";
+import type { SerializedBooking, SerializedOrder } from "@/lib/prisma";
 
 type CompletedOrders = SerializedBooking & { orders: Partial<SerializedOrder> };
 

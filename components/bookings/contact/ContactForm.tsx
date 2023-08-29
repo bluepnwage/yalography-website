@@ -1,17 +1,21 @@
-import { Grid, Section, Title } from "@components/shared";
-import { Email, Facebook, Instagram, Location, Phone } from "@lib/icons";
+import { Grid, Section } from "@/components/shared";
+import { Email, Facebook, Instagram, Location, Phone } from "@/lib/icons";
 import { Form } from "./Form";
 import { Suspense } from "react";
+import { Title } from "@aomdev/ui";
 
 export function ContactForm() {
   return (
     <Section id="contact">
-      <Title className="mb-4" order={"h2"}>
+      <Title className="mb-4 font-heading font-medium" order={2}>
         Contact
       </Title>
-      <Grid gap={"none"} className="bg-white shadow-xl rounded-md overflow-hidden dark:shadow-none dark:bg-zinc-800">
-        <div className="bg-gradient-to-tr from-rose-500 to-red-600 text-gray-100 space-y-7 col-span-full lg:col-span-4 p-6 ">
-          <Title order={"h3"} size={"lg"} className="text-gray-100">
+      <Grid
+        gap={"none"}
+        className="bg-white shadow-xl rounded-md overflow-hidden dark:shadow-none dark:bg-neutral-800"
+      >
+        <div className="bg-gradient-to-tr from-tertiary-500 to-primary-600 text-gray-100 space-y-7 col-span-full lg:col-span-4 p-6 ">
+          <Title order={2} className="text-gray-100 font-medium font-heading">
             Contact information
           </Title>
           <div className="flex gap-2">
@@ -48,7 +52,7 @@ export function ContactForm() {
           </div>
         </div>
         <div className="col-span-full lg:col-span-8 rounded-md p-6">
-          <Title order={"h3"} className="mb-2">
+          <Title order={3} className="mb-2 font-heading font-medium">
             Send us a message
           </Title>
           <Suspense fallback={null}>
