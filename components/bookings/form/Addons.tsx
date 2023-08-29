@@ -1,8 +1,8 @@
 "use client";
-import type { FeatureSpec } from "@lib/features";
+import type { FeatureSpec } from "@/lib/features";
 import type { FormEvent } from "react";
 import { useId } from "react";
-import { Checkbox } from "@components/shared/Checkbox";
+import { Checkbox } from "@/components/shared/Checkbox";
 type PropTypes = {
   checked: boolean;
   value: string;
@@ -16,7 +16,7 @@ export function Addon({ checked, onChange, value, feature }: PropTypes) {
     <label
       htmlFor={`${value}-checkbox`}
       className={`flex border duration-200 ease-out cursor-pointer p-4 items-center gap-4 rounded-md ${
-        checked ? "border-red-600 dark:border-red-500" : "border-zinc-400 dark:border-zinc-700"
+        checked ? "border-primary-600 dark:border-primary-500" : "border-zinc-400 dark:border-zinc-700"
       }`}
     >
       <p className="flex items-center justify-center basis-1/12">

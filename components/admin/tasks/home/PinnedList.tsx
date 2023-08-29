@@ -1,20 +1,20 @@
 "use client";
-import { Dropdown } from "@components/shared/Dropdown";
-import { DotsVertical, Trash, Pin } from "@lib/icons";
+import { DotsVertical } from "@/lib/icons";
 import Link from "next/link";
+import { Card, Dropdown } from "@aomdev/ui";
+import { IconTrash, IconPin } from "@tabler/icons-react";
 
-import { useRouteRefresh } from "@lib/hooks/useRouteRefresh";
-import { useToggle } from "@lib/hooks/useToggle";
+import { useRouteRefresh } from "@/lib/hooks/useRouteRefresh";
+import { useToggle } from "@/lib/hooks/useToggle";
 import { useTasks } from "./TasksProvider";
-
-import type { SerializedTask, SerializedTaskList } from "@lib/prisma";
+import type { SerializedTask, SerializedTaskList } from "@/lib/prisma";
 
 export function PinnedLists() {
   const { taskLists } = useTasks();
-  const pinnedLists = taskLists.filter((list) => list.pinned);
+  const pinnedLists = taskLists.filter(list => list.pinned);
   return (
     <>
-      {pinnedLists.map((list) => {
+      {pinnedLists.map(list => {
         return <PinnedTaskList key={list.id} list={list} />;
       })}
     </>
@@ -29,7 +29,7 @@ function PinnedTaskList({ list }: PropTypes) {
   const [loading, toggle] = useToggle();
   const [isPending, refresh] = useRouteRefresh();
 
-  const pending = list.tasks.filter((task) => !task.status);
+  const pending = list.tasks.filter(task => !task.status);
 
   const onPin = async () => {
     toggle.on();
@@ -58,6 +58,7 @@ function PinnedTaskList({ list }: PropTypes) {
   const onDelete = async () => {
     toggle.on();
     const { toast } = await import("react-toastify");
+    console.log(list);
     try {
       const res = await fetch("/api/task-list", {
         method: "DELETE",
@@ -83,32 +84,31 @@ function PinnedTaskList({ list }: PropTypes) {
   const isLoading = isPending || loading;
 
   return (
-    <div className={`col-span-4 rounded-md bg-white p-4 dark:bg-zinc-800 ${isLoading ? "animate-pulse" : ""} `}>
+    <Card className={`col-span-4 ${isLoading ? "opacity-50" : ""} `}>
       <div className="flex justify-between mb-5">
-        <p className="font-semibold text-lg">{list.name}</p>
+        <p className="font-medium text-lg">{list.name}</p>
         <Dropdown>
-          <Dropdown.Trigger>
+          <Dropdown.Trigger asChild>
             <button>
               <DotsVertical size={16} />
             </button>
           </Dropdown.Trigger>
           <Dropdown.Content>
-            <Dropdown.Item onClick={onPin}>
+            <Dropdown.Item icon={<IconPin size={16} />} onClick={onPin}>
               {" "}
-              <Pin size={16} className="stroke-yellow-500 inline-block mr-2" />
               Unpin list
             </Dropdown.Item>
-            <Dropdown.Item onClick={onDelete}>
-              <Trash size={16} className="stroke-yellow-500 mr-2" /> Delete
+            <Dropdown.Item color="error" icon={<IconTrash size={16} />} onClick={onDelete}>
+              Delete list
             </Dropdown.Item>
           </Dropdown.Content>
         </Dropdown>
       </div>
-      <p className="text-gray-400">Pending tasks: {pending.length}</p>
-      <p className="text-gray-400">Total tasks: {list.tasks.length}</p>
+      <p className="text-gray-300 mb-1">Pending tasks: {pending.length}</p>
+      <p className="text-gray-300 mb-4">Total tasks: {list.tasks.length}</p>
       <Link className="text-yellow-600 dark:text-yellow-500" href={`/admin/tasks/${list.id}`}>
         View list
       </Link>
-    </div>
+    </Card>
   );
 }

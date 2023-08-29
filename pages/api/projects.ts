@@ -1,7 +1,7 @@
-import prisma from "@lib/prisma";
-import { logError } from "@lib/notion";
-import { serverError } from "@util/serverError";
-import { handlePromise } from "@util/handle-promise";
+import prisma from "@/lib/prisma";
+// import { logError } from "@/lib/notion";
+import { serverError } from "@/util/serverError";
+import { handlePromise } from "@/util/handle-promise";
 
 import type { Projects } from "@prisma/client";
 import type { NextApiHandler } from "next";
@@ -46,13 +46,13 @@ const handler: NextApiHandler = async (req, res) => {
         const promise = createProject(json);
         const [status, data] = await handlePromise(promise);
         if (status === "error") {
-          logError({
-            title: "Create project",
-            apiURL,
-            description: data.message,
-            stackTrace: data.stack,
-            statusCode: 500
-          });
+          // logError({
+          //   title: "Create project",
+          //   apiURL,
+          //   description: data.message,
+          //   stackTrace: data.stack,
+          //   statusCode: 500
+          // });
           throw new Error("There was an error creating a project.");
         }
         return res.status(201).json({ message: "Project createad", data });
@@ -73,14 +73,14 @@ const handler: NextApiHandler = async (req, res) => {
         const promise = editProject(json);
         const [status, data] = await handlePromise(promise);
         if (status === "error") {
-          logError({
-            title: "Edit project",
-            apiURL,
-            description: data.message,
-            stackTrace: data.stack,
-            statusCode: 500
-          });
-          throw new Error("There was an error editing a project.");
+          // logError({
+          //   title: "Edit project",
+          //   apiURL,
+          //   description: data.message,
+          //   stackTrace: data.stack,
+          //   statusCode: 500
+          // });
+          throw new Error("There was an error editing a project.", { cause: data });
         }
         if (revalidateHome && !development) {
           await res.revalidate("/");
@@ -95,14 +95,14 @@ const handler: NextApiHandler = async (req, res) => {
         const promise = deleteProject(json.id);
         const [status, data] = await handlePromise(promise);
         if (status === "error") {
-          logError({
-            title: "Delete project",
-            apiURL,
-            description: data.message,
-            stackTrace: data.stack,
-            statusCode: 500
-          });
-          throw new Error("There was an error deleting a project.");
+          // logError({
+          //   title: "Delete project",
+          //   apiURL,
+          //   description: data.message,
+          //   stackTrace: data.stack,
+          //   statusCode: 500
+          // });
+          throw new Error("There was an error deleting a project.", { cause: data });
         }
         if (!development && revalidate) {
           await Promise.all([res.revalidate(`/projects/${json.id}`), res.revalidate("/projects")]);
@@ -118,16 +118,17 @@ const handler: NextApiHandler = async (req, res) => {
     }
   } catch (error) {
     if (error instanceof Error) {
+      console.log(error.cause);
       res.status(500).json({ message: error.message });
     } else {
       const e = error as any;
-      await logError({
-        title: "Server error",
-        apiURL,
-        description: e.message,
-        stackTrace: e.stack,
-        statusCode: 500
-      });
+      // await logError({
+      //   title: "Server error",
+      //   apiURL,
+      //   description: e.message,
+      //   stackTrace: e.stack,
+      //   statusCode: 500
+      // });
       res.status(500).json({ message: serverError });
     }
   }

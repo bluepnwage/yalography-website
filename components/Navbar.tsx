@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { ThemeSwitcher } from "./ThemeSwitcher";
-import logo from "@public/logo.png";
+import logo from "@/public/logo.png";
 import Image from "next/image";
 import { MobileMenu } from "./MobileMenu";
 import { Suspense } from "react";
@@ -20,7 +20,7 @@ const navLinks: NavLinkProps[] = [
 
 export function Header() {
   return (
-    <header className="flex justify-center z-20 items-center border-b bg-white border-gray-200 dark:border-gray-600 dark:bg-zinc-900 bg-opacity-80 dark:bg-opacity-80  h-16  backdrop-blur-md sticky top-0 left-0 duration-200 ease-out">
+    <header className="flex justify-center z-20 items-center border-b bg-white border-gray-200 dark:border-gray-700 dark:bg-neutral-900 bg-opacity-80 dark:bg-opacity-80  h-16  backdrop-blur-md sticky top-0 left-0 duration-200 ease-out">
       <div className="w-11/12 flex justify-between items-center">
         <figure className="flex gap-4 items-center">
           <Image

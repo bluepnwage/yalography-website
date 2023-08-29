@@ -1,7 +1,7 @@
 "use client";
 import { BarChart, ResponsiveContainer, CartesianGrid, XAxis, YAxis, Bar, Tooltip } from "recharts";
 import { useState } from "react";
-import type { ChartData } from "@app/admin/bookings/ChartContainer";
+import type { ChartData } from "@/app/(admin)/admin/bookings/ChartContainer";
 
 type PropTypes = {
   data: ChartData;
@@ -36,24 +36,24 @@ export function MonthChart({ data }: PropTypes) {
         </h2>
         <div className="space-x-2">
           <button
-            className={`py-2 px-2 font-semibold rounded-md bg-red-500/20 text-red-500 ring-red-500 ${
-              metric === "avg" ? "ring-1" : ""
+            className={`py-2 px-2 font-semibold rounded-md  text-primary-200 ring-primary-600/20 ${
+              metric === "avg" ? "ring-1 bg-primary-600/60" : ""
             }`}
             onClick={() => setMetric("avg")}
           >
             Average
           </button>
           <button
-            className={`py-2 px-2 font-semibold rounded-md bg-red-500/20 text-red-500 ring-red-500 ${
-              metric === "max" ? "ring-1" : ""
+            className={`py-2 px-2 font-semibold rounded-md  text-primary-200 ring-primary-600/20 ${
+              metric === "max" ? "ring-1 bg-primary-600/60" : ""
             }`}
             onClick={() => setMetric("max")}
           >
             Max
           </button>
           <button
-            className={`py-2 px-2 font-semibold rounded-md bg-red-500/20 text-red-500 ring-red-500 ${
-              metric === "sum" ? "ring-1" : ""
+            className={`py-2 px-2 font-semibold rounded-md  text-primary-200 ring-primary-600/20 ${
+              metric === "sum" ? "ring-1 bg-primary-600/60" : ""
             }`}
             onClick={() => setMetric("sum")}
           >

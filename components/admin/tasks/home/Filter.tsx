@@ -1,7 +1,8 @@
 "use client";
-import { Select } from "@components/shared/Select";
-import { Input } from "@components/shared/Input";
-import { FilterOptions, SortOptions } from "@util/filterTasks";
+import { FilterOptions, SortOptions } from "@/util/filterTasks";
+import { Select, TextInput } from "@aomdev/ui";
+import { IconSearch } from "@tabler/icons-react";
+import { Button } from "@aomdev/ui";
 
 type PropTypes = {
   onSortChange: (value: SortOptions | null) => void;
@@ -24,40 +25,11 @@ export function FilterBar({
 }: PropTypes) {
   return (
     <>
-      <div className="bg-white ring-1 ring-black ring-opacity-10 dark:bg-zinc-800 rounded-md p-4 flex gap-4 items-end">
-        <div className="basis-1/4 grow">
-          <Select
-            label=""
-            triggerHeight="h-8"
-            value={sortValue || ""}
-            onValueChange={(value: SortOptions) => onSortChange(value)}
-            data={[
-              { label: "Ascending", value: "asc" },
-              { label: "Descending", value: "desc" },
-              { label: "Recently created", value: "recent" },
-              { label: "Oldest", value: "old" }
-            ]}
-          />
-        </div>
-        <div className="basis-1/4 grow">
-          <Select
-            label=""
-            triggerHeight="h-8"
-            value={filterValue || ""}
-            onValueChange={(value: FilterOptions) => onFilterChange(value)}
-            data={[
-              { label: "Completed", value: "completed" },
-              { label: "In progress", value: "in-progress" },
-              { label: "High priority", value: "high" },
-              { label: "Medium priority", value: "medium" },
-              { label: "Low priority", value: "low" }
-            ]}
-            className="h-fit"
-          />
-        </div>
-        <div className="basis-1/4 grow">
-          <Input
-            onChange={(e) => onSearchChange(e.currentTarget.value)}
+      <div className="flex gap-4 items-end">
+        <div className="">
+          <TextInput
+            icon={<IconSearch size={16} />}
+            onChange={e => onSearchChange(e.currentTarget.value)}
             value={searchValue}
             placeholder="Search"
             label=""
@@ -65,7 +37,39 @@ export function FilterBar({
             className="h-8"
           />
         </div>
-        <button onClick={onClear}>Clear</button>
+        <div className="">
+          <Select
+            placeholder="Sort by..."
+            fullWidth
+            value={sortValue || ""}
+            onValueChange={(value: SortOptions) => onSortChange(value)}
+            items={[
+              { label: "Ascending", value: "asc" },
+              { label: "Descending", value: "desc" },
+              { label: "Recently created", value: "recent" },
+              { label: "Oldest", value: "old" }
+            ]}
+          />
+        </div>
+        <div className="">
+          <Select
+            placeholder="Filter by..."
+            fullWidth
+            value={filterValue || ""}
+            onValueChange={(value: FilterOptions) => onFilterChange(value)}
+            items={[
+              { label: "Completed", value: "completed" },
+              { label: "In progress", value: "in-progress" },
+              { label: "High priority", value: "high" },
+              { label: "Medium priority", value: "medium" },
+              { label: "Low priority", value: "low" }
+            ]}
+          />
+        </div>
+
+        <Button variant={"outline"} onClick={onClear}>
+          Clear
+        </Button>
       </div>
     </>
   );

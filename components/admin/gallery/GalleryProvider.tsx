@@ -2,7 +2,7 @@
 import { createContext, useContext } from "react";
 
 import type { Images } from "@prisma/client";
-import type { SerializedImageFolder } from "@lib/prisma";
+import type { SerializedImageFolder } from "@/lib/prisma";
 
 export type ImageFoldersJoin = SerializedImageFolder & { Images: Images[] };
 

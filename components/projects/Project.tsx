@@ -1,6 +1,6 @@
-import Image from "next/image";
-import { Badge, Anchor, Card, Title } from "@components/shared";
+import { Anchor } from "@/components/shared";
 import type { Projects } from "@prisma/client";
+import { Card, Title, Badge } from "@aomdev/ui";
 
 type PropTypes = {
   project: Projects;
@@ -8,7 +8,7 @@ type PropTypes = {
 
 export function Project({ project }: PropTypes) {
   return (
-    <Card className="flex flex-col col-span-full h-96 shadow-md dark:shadow-none lg:col-span-3 gap-4 overflow-hidden ">
+    <Card className="flex flex-col col-span-full h-96 lg:col-span-3 gap-4 overflow-hidden ">
       <Anchor href={`/projects/${project.id}`} className="basis-2/3 -m-4 ">
         <figure className="w-full h-full relative overflow-hidden">
           <img
@@ -29,12 +29,8 @@ export function Project({ project }: PropTypes) {
       </Anchor>
       <div className="p-2 space-y-4 basis-1/3">
         <div className="flex  grow justify-between  items-center">
-          <Title order={"h3"} size={"lg"}>
-            {project.title}
-          </Title>
-          <Badge size={"sm"} className="w-fit h-fit truncate" color={"violet"}>
-            {project.type}
-          </Badge>
+          <Title order={3}>{project.title}</Title>
+          <Badge className="w-fit h-fit truncate">{project.type}</Badge>
         </div>
         <p className={"line-clamp-3"}>{project.description}</p>
         <Anchor href={`projects/${project.id}`} className="block w-fit">

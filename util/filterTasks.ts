@@ -1,4 +1,4 @@
-import { SerializedTask } from "@lib/prisma";
+import { SerializedTask } from "@/lib/prisma";
 
 export type SortOptions = "asc" | "desc" | "recent" | "old";
 export type FilterOptions = "completed" | "in-progress" | "high" | "medium" | "low";

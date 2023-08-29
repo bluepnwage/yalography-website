@@ -1,5 +1,5 @@
 import type { Images } from "@prisma/client";
-import { Image } from "@components/shared/Image";
+import { Image } from "@/components/shared/Image";
 
 type PropTypes = {
   images: Images[];

@@ -1,9 +1,10 @@
 "use client";
 import { useState, useEffect, useTransition } from "react";
 import { onIdTokenChanged, User } from "firebase/auth";
-import { auth } from "@lib/firebase/auth";
-import { Button } from "./shared/Button";
+import { auth } from "@/lib/firebase/auth";
+import { buttonStyles } from "@aomdev/ui/src/button/styles";
 import { useInterval } from "@mantine/hooks";
+import Link from "next/link";
 
 export function Admin() {
   const [user, setUser] = useState<User | null>(null);
@@ -21,11 +22,11 @@ export function Admin() {
   }, []);
 
   useEffect(() => {
-    const unsubscribe = onIdTokenChanged(auth, async (user) => {
+    const unsubscribe = onIdTokenChanged(auth, async user => {
       startTransition(() => {
         setUser(user);
         if (user) {
-          user?.getIdToken().then((token) => {
+          user?.getIdToken().then(token => {
             fetch("/api/admin", {
               method: "POST",
               headers: { Authorization: `Bearer ${token}` }
@@ -44,9 +45,16 @@ export function Admin() {
   return (
     <>
       {user && (
-        <Button className="hidden md:inline-block" component="a" href={"/admin"} intent="secondary">
+        <Link
+          className={buttonStyles({
+            variant: "neutral",
+            className: "hidden md:inline-flex items-center justify-center",
+            size: "sm"
+          })}
+          href={"/admin"}
+        >
           Dashboard
-        </Button>
+        </Link>
       )}
     </>
   );

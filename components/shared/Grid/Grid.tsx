@@ -1,7 +1,7 @@
 import type { ComponentPropsWithoutRef } from "react";
 import { cva } from "cva";
 import type { VariantProps } from "cva";
-import { GAP_STYLES } from "@util/gap";
+import { GAP_STYLES } from "@/util/gap";
 
 const styles = cva("grid grid-cols-6 ", {
   variants: {

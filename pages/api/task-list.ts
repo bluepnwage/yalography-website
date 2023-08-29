@@ -1,7 +1,7 @@
-import prisma from "@lib/prisma";
-import { logError } from "@lib/notion";
-import { serverError } from "@util/serverError";
-import { handlePromise } from "@util/handle-promise";
+import prisma from "@/lib/prisma";
+import { logError } from "@/lib/notion";
+import { serverError } from "@/util/serverError";
+import { handlePromise } from "@/util/handle-promise";
 
 import type { TaskLists } from "@prisma/client";
 import type { NextApiHandler } from "next";
@@ -64,6 +64,7 @@ const handler: NextApiHandler = async (req, res) => {
         return res.status(200).json({ message: "Task list updated", data });
       }
       case "DELETE": {
+        console.log(json);
         const promise = deleteTaskList(json.id);
         const [status, data] = await handlePromise(promise);
         if (status === "error") {
@@ -87,7 +88,13 @@ const handler: NextApiHandler = async (req, res) => {
       res.status(500).json({ message: error.message });
     } else {
       const e = error as any;
-      await logError({ title: "Server error", apiURL, description: e.message, stackTrace: e.stack, statusCode: 500 });
+      await logError({
+        title: "Server error",
+        apiURL,
+        description: e.message,
+        stackTrace: e.stack,
+        statusCode: 500
+      });
       res.status(500).json({ message: serverError });
     }
   }

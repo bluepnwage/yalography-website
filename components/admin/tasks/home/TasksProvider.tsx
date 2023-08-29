@@ -1,6 +1,6 @@
 "use client";
 import { createContext, useContext } from "react";
-import type { SerializedTaskList, SerializedTask } from "@lib/prisma";
+import type { SerializedTaskList, SerializedTask } from "@/lib/prisma";
 
 type ListJoin = SerializedTaskList & { tasks: SerializedTask[] };
 

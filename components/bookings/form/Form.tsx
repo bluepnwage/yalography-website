@@ -1,42 +1,24 @@
 "use client";
 //Components
-import { MantineProvider } from "@mantine/core";
-import { Button } from "@components/shared/Button";
-import { Input } from "@components/shared/Input";
-import { Select } from "@components/shared/Select";
-import { Textarea } from "@components/shared/Textarea";
+
 import { Steps } from "./Steps";
 import { Addon } from "./Addons";
 import { Success } from "./Success";
-import dynamic from "next/dynamic";
+import { Select, Button, Textarea, TextInput, Radio, Calendar, Popover } from "@aomdev/ui";
 import { useForm } from "./useBookingsForm";
-
-const DatePicker = dynamic(
-  () => import("@components/shared/DatePicker/DatePicker").then(mod => mod.DatePicker),
-  {
-    loading: () => <Input label="Date" />
-  }
-);
 
 //Data/hooks
 import { useState, useRef } from "react";
-import { photoshootTypes } from "@lib/photoshoot";
-import { useToggle } from "@lib/hooks/useToggle";
-import dayjs from "dayjs";
+import { photoshootTypes } from "@/lib/photoshoot";
+import { useToggle } from "@/lib/hooks/useToggle";
 
 //Types
 import type { FormEvent } from "react";
-import type { ShootTypes } from "@lib/photoshoot";
+import type { ShootTypes } from "@/lib/photoshoot";
+import { cardStyles } from "@aomdev/ui/src/card/styles";
+import { inputStyles } from "@aomdev/ui/src/input-wrapper/styles";
 
 const selectData = Array.from(photoshootTypes).map(([key, value]) => ({ label: value.label, value: key }));
-
-export function BookingsFormContainer() {
-  return (
-    <MantineProvider theme={{ colorScheme: "dark", primaryColor: "red" }}>
-      <BookingsForm />
-    </MantineProvider>
-  );
-}
 
 type Form = {
   first_name: string;
@@ -48,10 +30,9 @@ type Form = {
   environment: "inside" | "outside";
 };
 
-function BookingsForm() {
+export function BookingsForm() {
   const { contact, details, validate } = useForm();
   const [currentStep, setCurrentStep] = useState(1);
-  const [date, setDate] = useState<Date | null>(null);
   const [selectedFeatures, setFeatures] = useState<string[]>([]);
   const [loading, toggle] = useToggle();
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -80,7 +61,7 @@ function BookingsForm() {
     setCurrentStep(prev => prev + 1);
   };
 
-  const handleChange = (e: FormEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (e: FormEvent<HTMLInputElement | HTMLTextAreaElement | HTMLButtonElement>) => {
     const { name, value } = e.currentTarget;
     if (currentStep === 1) {
       contact.dispatch({ type: "change", payload: { value, error: false }, key: name as any });
@@ -125,7 +106,6 @@ function BookingsForm() {
         contact.dispatch({ type: "reset" });
         details.dispatch({ type: "reset" });
         setFeatures([]);
-        setDate(null);
       } else {
         const json = await res.json();
         throw new Error(json.message);
@@ -148,7 +128,9 @@ function BookingsForm() {
       <div
         ref={containerRef}
         style={{ minHeight: 600 }}
-        className="rounded-md ring-1 ring-black ring-opacity-5 dark:ring-0 bg-white dark:bg-zinc-800 w-11/12 lg:w-9/12 p-3 flex flex-col lg:flex-row overflow-hidden"
+        className={cardStyles({
+          className: "w-11/12 lg:w-9/12  flex flex-col lg:flex-row overflow-hidden"
+        })}
       >
         <div className="basis-1/3 grow  rounded-md relative">
           <Steps currentStep={currentStep} />
@@ -164,40 +146,40 @@ function BookingsForm() {
                 <p className="text-gray-600 dark:text-gray-400 mb-14">
                   Please provide your name, email address, and phone number.
                 </p>
-                <Input
+                <TextInput
                   id="first_name"
                   value={contact.state.first_name.value}
-                  error={contact.state.first_name.error}
+                  // error={contact.state.first_name.error}
                   onChange={handleChange}
                   name={"first_name"}
                   label={"First Name"}
                   placeholder={"e.g. Stephen"}
                   required
                 />
-                <Input
+                <TextInput
                   id="last_name"
                   value={contact.state.last_name.value}
-                  error={contact.state.last_name.error}
+                  // error={contact.state.last_name.error}
                   onChange={handleChange}
                   name={"last_name"}
                   label={"Last Name"}
                   placeholder={"e.g. King"}
                   required
                 />
-                <Input
+                <TextInput
                   id="email"
                   value={contact.state.email.value}
                   onChange={handleChange}
-                  error={contact.state.email.error}
+                  // error={contact.state.email.error}
                   name={"email"}
                   label={"Email Address"}
                   placeholder={"e.g. stephen.king@lorem.com"}
                   required
                 />
-                <Input
+                <TextInput
                   id="phone"
                   value={contact.state.phone.value}
-                  error={contact.state.phone.error}
+                  // error={contact.state.phone.error}
                   onChange={handleChange}
                   name={"phone"}
                   label={"Phone Number"}
@@ -211,16 +193,21 @@ function BookingsForm() {
                 <h2 className="text-marine-blue font-bold text-2xl">Select your photoshoot</h2>
 
                 <Select
-                  error={details.state.shootType?.error}
-                  label="Photoshoot"
+                  fullWidth
                   placeholder="Photoshoot type"
-                  value={details.state.shootType?.value}
+                  value={details.state.shootType?.value || undefined}
                   onValueChange={value =>
                     details.dispatch({ key: "shootType", type: "change", payload: { value, error: false } })
                   }
-                  data={selectData}
+                  items={selectData}
                   required
                 />
+                {details.state.environment?.error && (
+                  <span className="text-sm block mt-2 text-error-600 dark:text-error-400">
+                    Please select a photoshoot type.
+                  </span>
+                )}
+
                 <fieldset>
                   <legend className="mb-2">
                     Environment:{" "}
@@ -228,57 +215,53 @@ function BookingsForm() {
                       *
                     </span>
                   </legend>
-                  <div className="flex gap-4">
-                    <p>
-                      <label htmlFor="inside">Inside</label>
-                      <input
-                        required
-                        onChange={handleChange}
-                        checked={details.state.environment?.value === "inside"}
-                        className="accent-red-500 h-5 w-5"
-                        id="inside"
-                        name="environment"
-                        value={"inside"}
-                        type={"radio"}
-                      />
-                    </p>
-                    <p>
-                      <label htmlFor="outside">Outside</label>
-                      <input
-                        required
-                        onChange={handleChange}
-                        className="accent-red-500 h-5 w-5"
-                        checked={details.state.environment?.value === "outside"}
-                        id="outside"
-                        name="environment"
-                        value={"outside"}
-                        type={"radio"}
-                      />
-                    </p>
-                  </div>
+                  <Radio
+                    value={details.state.environment?.value}
+                    onValueChange={value =>
+                      details.dispatch({
+                        type: "change",
+                        payload: { value, error: false },
+                        key: "environment"
+                      })
+                    }
+                    name="environment"
+                    required
+                  >
+                    <Radio.Item label="Inside" id="inside" value={"inside"} />
+                    <Radio.Item label="Outside" value="outside" />
+                  </Radio>
+
                   {details.state.environment?.error && (
-                    <span className="text-sm text-red-600 dark:text-red-500">
+                    <span className="text-sm block mt-2 text-error-600 dark:text-error-400">
                       Please select one of the options.
                     </span>
                   )}
                 </fieldset>
-                <DatePicker
-                  value={details.state.date?.value}
-                  minDate={dayjs(new Date()).add(8, "days").toDate()}
-                  label="Date"
-                  name="date"
-                  onChange={value =>
-                    details.dispatch({ type: "change", key: "date", payload: { value, error: false } })
-                  }
-                  error={details.state.date?.error}
-                  required
-                />
-                <Input
+                <Popover>
+                  <Popover.Trigger className={inputStyles({ className: "w-full text-start px-2" })}>
+                    {details.state.date?.value ? details.state.date.value.toLocaleDateString() : "Date"}
+                  </Popover.Trigger>
+                  <Popover.Content className={cardStyles()}>
+                    <Calendar
+                      onSelect={value =>
+                        details.dispatch({
+                          type: "change",
+                          key: "date",
+                          payload: { value: value || null, error: false }
+                        })
+                      }
+                      selected={details.state.date?.value}
+                      disabled={[{ before: new Date() }]}
+                      mode="single"
+                    />
+                  </Popover.Content>
+                </Popover>
+                <TextInput
                   className="accent-red-600 w-full"
                   label="Time"
                   type={"time"}
                   value={details.state.time?.value}
-                  error={details.state.time?.error}
+                  // error={details.state.time?.error}
                   onChange={handleChange}
                   name="time"
                   id="time"
@@ -373,7 +356,7 @@ function BookingsForm() {
             )}
             <div className={`flex  mt-5 ${currentStep !== 1 ? "justify-between" : "justify-end"}`}>
               {currentStep !== 1 && (
-                <Button type={"button"} disabled={prevDisabled} intent="secondary" onClick={prevStep}>
+                <Button type={"button"} disabled={prevDisabled} variant="neutral" onClick={prevStep}>
                   Previous Step
                 </Button>
               )}

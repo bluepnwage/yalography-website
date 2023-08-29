@@ -1,37 +1,34 @@
 "use client";
-import { ScrollAreaDemo } from "@components/shared/ScrollArea";
-import { Edit, Trash } from "@lib/icons";
-import { ActionIcon } from "@components/shared/ActionIcon";
 import { CreateList } from "./ListMenu";
-import { Input } from "@components/shared/Input";
-import { Button } from "@components/shared/Button";
+
 import Link from "next/link";
+import { Card, ActionIcon, ScrollArea, Button, TextInput, Dialog } from "@aomdev/ui";
 
 import { useTasks } from "./TasksProvider";
-import { useToggle } from "@lib/hooks/useToggle";
-import { useRouteRefresh } from "@lib/hooks/useRouteRefresh";
-import dynamic from "next/dynamic";
+import { useToggle } from "@/lib/hooks/useToggle";
+import { useRouteRefresh } from "@/lib/hooks/useRouteRefresh";
 
-import type { SerializedTask, SerializedTaskList } from "@lib/prisma";
+import type { SerializedTask, SerializedTaskList } from "@/lib/prisma";
 import type { FormEvent } from "react";
-
-const Dialog = dynamic(() => import("@components/shared/Dialog").then((mod) => mod.Dialog));
+import { IconEdit, IconTrash, IconX } from "@tabler/icons-react";
 
 export function TaskLists() {
   const { taskLists } = useTasks();
 
   return (
-    <div className="bg-white dark:bg-zinc-800 rounded-md col-span-4 overflow-hidden ">
-      <div className="flex justify-between px-5  py-2 border-b border-zinc-200 dark:border-zinc-700">
-        <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100">Task lists</h2>
-        <CreateList />
-      </div>
-      <ScrollAreaDemo height={300} orientation="vertical" className="">
-        {taskLists.map((list) => {
+    <Card className=" col-span-4 overflow-hidden ">
+      <Card.Section>
+        <div className="flex justify-between px-5  py-2 border-b border-zinc-200 dark:border-zinc-700">
+          <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100">Task lists</h2>
+          <CreateList />
+        </div>
+      </Card.Section>
+      <ScrollArea style={{ height: 300 }} className="w-full">
+        {taskLists.map(list => {
           return <List key={list.id} list={list} />;
         })}
-      </ScrollAreaDemo>
-    </div>
+      </ScrollArea>
+    </Card>
   );
 }
 
@@ -45,7 +42,7 @@ function List({ list }: PropTypes) {
   const [lazyLoad, lazyLoadToggle] = useToggle();
   const [dialog, dialogToggle] = useToggle();
 
-  const pending = list.tasks.filter((task) => !task.status);
+  const pending = list.tasks.filter(task => !task.status);
 
   const onDelete = async () => {
     toggle.on();
@@ -103,16 +100,23 @@ function List({ list }: PropTypes) {
 
   return (
     <>
-      {lazyLoad && (
-        <Dialog title="Edit task list" open={dialog} onOpenChange={dialogToggle.set}>
-          <form onSubmit={onSubmit} className="space-y-2">
-            <Input label="Task list name" name="task_list" required defaultValue={list.name} />
-            <Button disabled={isLoading} intent="accept">
+      <Dialog open={dialog} onOpenChange={dialogToggle.set}>
+        <Dialog.Content className="w-1/4">
+          <div className="flex justify-between items-center">
+            <Dialog.Title>Edit task list</Dialog.Title>
+            <Dialog.Close>
+              <IconX />
+            </Dialog.Close>
+          </div>
+          <form onSubmit={onSubmit} className="space-y-4 mt-6">
+            <TextInput label="Task list name" name="task_list" required defaultValue={list.name} />
+            <Button className="block ml-auto" disabled={isLoading}>
               Submit
             </Button>
           </form>
-        </Dialog>
-      )}
+        </Dialog.Content>
+      </Dialog>
+
       <div className="border-b py-2 -mx-4 px-5  border-zinc-200 dark:border-zinc-700 last-of-type:border-b-0">
         <div className="flex justify-between mb-2">
           <p className="font-semibold text-lg mb-2">{list.name}</p>
@@ -121,13 +125,12 @@ function List({ list }: PropTypes) {
               onMouseEnter={!lazyLoad ? lazyLoadToggle.on : undefined}
               onClick={dialogToggle.on}
               aria-label="Edit task list"
-              className="h-7 w-7"
-              color="indigo"
+              color="primary"
             >
-              <Edit size={16} className="stroke-indigo-200" />
+              <IconEdit size={16} />
             </ActionIcon>
-            <ActionIcon disabled={isLoading} onClick={onDelete} aria-label="Delete task list" className="h-7 w-7">
-              <Trash size={16} className="stroke-red-200" />
+            <ActionIcon color="error" disabled={isLoading} onClick={onDelete} aria-label="Delete task list">
+              <IconTrash size={16} />
             </ActionIcon>
           </div>
         </div>
