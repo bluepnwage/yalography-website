@@ -1,5 +1,5 @@
 import { ContactForm } from "@/components/bookings";
-import { BookingsFormContainer } from "@/components/bookings/form/Form";
+import { BookingsForm } from "@/components/bookings/form/Form";
 import { Section } from "@/components/shared";
 import { PageIntro } from "@/components/PageIntro";
 import { Suspense } from "react";
@@ -24,7 +24,7 @@ export default function BookingsPage() {
           Book a session
         </Title>
         <Suspense fallback={null}>
-          <BookingsFormContainer />
+          <BookingsForm />
         </Suspense>
       </Section>
       <ContactForm />

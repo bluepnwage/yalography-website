@@ -1,11 +1,9 @@
 "use client";
 //Components
-import { MantineProvider } from "@mantine/core";
 
 import { Steps } from "./Steps";
 import { Addon } from "./Addons";
 import { Success } from "./Success";
-import dynamic from "next/dynamic";
 import { Select, Button, Textarea, TextInput, Radio, Calendar, Popover } from "@aomdev/ui";
 import { useForm } from "./useBookingsForm";
 
@@ -22,14 +20,6 @@ import { inputStyles } from "@aomdev/ui/src/input-wrapper/styles";
 
 const selectData = Array.from(photoshootTypes).map(([key, value]) => ({ label: value.label, value: key }));
 
-export function BookingsFormContainer() {
-  return (
-    <MantineProvider theme={{ colorScheme: "dark", primaryColor: "red" }}>
-      <BookingsForm />
-    </MantineProvider>
-  );
-}
-
 type Form = {
   first_name: string;
   last_name: string;
@@ -40,7 +30,7 @@ type Form = {
   environment: "inside" | "outside";
 };
 
-function BookingsForm() {
+export function BookingsForm() {
   const { contact, details, validate } = useForm();
   const [currentStep, setCurrentStep] = useState(1);
   const [selectedFeatures, setFeatures] = useState<string[]>([]);
