@@ -1,6 +1,17 @@
 "use client";
-import { Dropdown, Dialog, Select, Textarea, TextInput, Calendar, Popover, Button, Label } from "@aomdev/ui";
-import { IconPlus, IconEdit, IconPin, IconTrash, IconDotsVertical } from "@tabler/icons-react";
+import {
+  Dropdown,
+  Dialog,
+  Select,
+  Textarea,
+  TextInput,
+  Calendar,
+  Popover,
+  Button,
+  Label,
+  ActionIcon
+} from "@aomdev/ui";
+import { IconPin, IconEdit, IconTrash, IconDotsVertical, IconStar, IconX } from "@tabler/icons-react";
 
 import { useRouteRefresh } from "@/lib/hooks/useRouteRefresh";
 import { useToggle } from "@/lib/hooks/useToggle";
@@ -11,12 +22,11 @@ import type { FormEvent } from "react";
 import { cardStyles } from "@aomdev/ui/src/card/styles";
 
 type PropTypes = {
-  groupId: number;
-  pinned: boolean;
-  title: string;
+  id: number;
+  name: string;
 };
 
-export function Menu({ groupId, pinned, title }: PropTypes) {
+export function TaskMenu({ id, name }: PropTypes) {
   const [dialog, dialogToggle] = useToggle();
   const [renameDialog, renameToggle] = useToggle();
   const [loading, toggle] = useToggle();
@@ -24,50 +34,14 @@ export function Menu({ groupId, pinned, title }: PropTypes) {
   const [lazyLoad, lazyLoadToggle] = useToggle();
   const router = useRouter();
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const formData = Object.fromEntries(new FormData(e.currentTarget));
-    const { toast } = await import("react-toastify");
-
-    const data = {
-      name: formData.task_name,
-      description: formData.description,
-      groupId,
-      deadline: formData.deadline ? new Date(formData.deadline as string) : null,
-      priority: formData.priority
-    };
-    toggle.on();
-    try {
-      const res = await fetch("/api/tasks", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data)
-      });
-      const json = await res.json();
-      if (res.ok) {
-        refresh();
-        toast.success(json.message);
-        dialogToggle.off();
-      } else {
-        throw new Error(json.message, { cause: json.error });
-      }
-    } catch (error) {
-      if (error instanceof Error) {
-        toast.error(error.message);
-      }
-    } finally {
-      toggle.off();
-    }
-  };
-
   const onDelete = async () => {
     toggle.on();
     const { toast } = await import("react-toastify");
     try {
-      const res = await fetch("/api/task-list", {
+      const res = await fetch("/api/tasks", {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id: groupId })
+        body: JSON.stringify({ id })
       });
       const json = await res.json();
       if (res.ok) {
@@ -86,38 +60,16 @@ export function Menu({ groupId, pinned, title }: PropTypes) {
     }
   };
 
-  const onPin = async () => {
-    const { toast } = await import("react-toastify");
-    try {
-      const res = await fetch("/api/task-list", {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id: groupId, pinned: !pinned })
-      });
-      const json = await res.json();
-      if (res.ok) {
-        refresh();
-        toast.success(pinned ? "Task list unpinned." : "Task list pinned.");
-      } else {
-        throw new Error(json.message, { cause: json.error });
-      }
-    } catch (error) {
-      if (error instanceof Error) {
-        toast.error(error.message);
-      }
-    }
-  };
-
   const onRename = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const name = new FormData(e.currentTarget).get("task_name");
     toggle.on();
 
     try {
-      const res = await fetch("/api/task-list", {
+      const res = await fetch("/api/tasks", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id: groupId, name })
+        body: JSON.stringify({ id, name })
       });
       if (res.ok) {
         refresh();
@@ -138,13 +90,16 @@ export function Menu({ groupId, pinned, title }: PropTypes) {
 
   const isLoading = loading || isPending;
   return (
-    <>
+    <div className="flex items-center gap-2 ">
+      <ActionIcon variant={"subtle"} color="secondary">
+        <IconStar size={16} />
+      </ActionIcon>
       {lazyLoad && (
         <Dialog open={dialog} onOpenChange={dialogToggle.set}>
           <Dialog.Content className="w-1/4">
             <Dialog.Title>Create task</Dialog.Title>
 
-            <form onSubmit={handleSubmit} className="space-y-4 mt-6">
+            <form className="space-y-4 mt-6">
               <TextInput required name="task_name" label="Task Name" />
               <div className="space-y-1">
                 <Label htmlFor="date">Due Date</Label>
@@ -178,10 +133,15 @@ export function Menu({ groupId, pinned, title }: PropTypes) {
       )}
       {lazyLoad && (
         <Dialog open={renameDialog} onOpenChange={renameToggle.set}>
-          <Dialog.Content>
-            <Dialog.Title>Remane Task list</Dialog.Title>
+          <Dialog.Content className="w-1/4">
+            <div className="flex items-center justify-between">
+              <Dialog.Title>Rename Task list</Dialog.Title>
+              <Dialog.Close>
+                <IconX size={"75%"} />
+              </Dialog.Close>
+            </div>
             <form onSubmit={onRename} className="space-y-4 mt-6">
-              <TextInput id="task_name" label="Name" required name="task_name" defaultValue={title} />
+              <TextInput id="task_name" label="Name" required name="task_name" defaultValue={name} />
               <Button disabled={isLoading} className="block ml-auto">
                 Submit
               </Button>
@@ -196,21 +156,22 @@ export function Menu({ groupId, pinned, title }: PropTypes) {
           </button>
         </Dropdown.Trigger>
         <Dropdown.Content>
-          <Dropdown.Item icon={<IconPlus size={16} />} onClick={dialogToggle.on}>
+          {/* <Dropdown.Item icon={<IconPlus size={16} />} onClick={dialogToggle.on}>
             {" "}
             Create task
-          </Dropdown.Item>
+          </Dropdown.Item> */}
           <Dropdown.Item icon={<IconEdit size={16} />} onClick={renameToggle.on}>
-            Rename task list
+            Rename task
           </Dropdown.Item>
-          <Dropdown.Item icon={<IconPin size={16} />} onClick={onPin}>
+          {/* <Dropdown.Item icon={<IconPin size={16} />} onClick={onPin}>
             {pinned ? "Unpin task list" : "Pin task list"}
-          </Dropdown.Item>
+          </Dropdown.Item> */}
+          <Dropdown.Item icon={<IconPin size={16} />}>Pin task</Dropdown.Item>
           <Dropdown.Item color="error" icon={<IconTrash size={16} />} onClick={onDelete}>
-            Delete list
+            Delete Task
           </Dropdown.Item>
         </Dropdown.Content>
       </Dropdown>
-    </>
+    </div>
   );
 }

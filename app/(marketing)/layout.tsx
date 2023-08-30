@@ -22,7 +22,11 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: PropTypes) {
   return (
-    <html lang="en" className={`dark dark-mode ${inter.variable} ${heading.variable}`}>
+    <html
+      suppressHydrationWarning
+      lang="en"
+      className={`dark dark-mode ${inter.variable} ${heading.variable}`}
+    >
       <head />
       <body className="dark:bg-neutral-900  text-gray-700 dark:text-gray-100 duration-200 ease-out">
         <Suspense fallback={null}>

@@ -44,10 +44,10 @@ const getTasks = cache(async () => {
 export default async function Layout({ children }: PropTypes) {
   await verifyToken();
 
-  const { taskLists, tasks } = await getTasks();
+  // const { taskLists, tasks } = await getTasks();
   return (
     <>
-      <TaskProvider taskLists={taskLists} tasks={tasks}>
+      <TaskProvider taskLists={[]} tasks={[]}>
         {children}
       </TaskProvider>
     </>

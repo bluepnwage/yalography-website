@@ -4,13 +4,13 @@ export const initialState = {
   bookings: false,
   project: false,
   command: false,
-  list: false,
-  page: "projects"
+  page: "projects",
+  search: ""
 };
 export type Actions =
-  | { type: keyof Omit<typeof initialState, "task" | "list">; payload: boolean }
-  | { type: "task"; payload: { value: boolean; list: boolean } }
-  | { type: "page"; payload: "home" | "projects" | "bookings" | "tasks" };
+  | { type: keyof Omit<typeof initialState, "search" | "page">; payload: boolean }
+  | { type: "page"; payload: "home" | "projects" | "bookings" | "tasks" }
+  | { type: "search"; payload: string };
 
 export function reducer(state: typeof initialState, action: Actions): typeof initialState {
   switch (action.type) {
@@ -30,8 +30,8 @@ export function reducer(state: typeof initialState, action: Actions): typeof ini
           photo: false,
           project: false,
           task: false,
-          list: false,
-          page: "home"
+          page: "home",
+          search: ""
         };
       }
       return {
@@ -56,15 +56,21 @@ export function reducer(state: typeof initialState, action: Actions): typeof ini
     case "task": {
       return {
         ...state,
-        task: action.payload.value,
-        command: false,
-        list: action.payload.list
+        task: action.payload,
+        command: false
       };
     }
     case "page": {
       return {
         ...state,
-        page: action.payload as string
+        page: action.payload,
+        search: ""
+      };
+    }
+    case "search": {
+      return {
+        ...state,
+        search: action.payload
       };
     }
 

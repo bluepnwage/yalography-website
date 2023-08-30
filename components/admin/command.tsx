@@ -1,6 +1,6 @@
 "use client";
 import { Command, ScrollArea } from "@aomdev/ui";
-import { useEffect } from "react";
+import { FormEvent, useEffect } from "react";
 import { useHotkeys } from "@mantine/hooks";
 import {
   IconListCheck,
@@ -48,6 +48,11 @@ export function AdminCommand({ bookings, projects, tasks }: PropTypes) {
     };
   }, []);
 
+  // const onChange = (e: FormEvent<HTMLInputElement>) => {
+  //   const { value } = e.currentTarget;
+  //   dispatch({ type: "search", payload: value });
+  // };
+
   const { theme, setTheme } = useTheme();
   return (
     <>
@@ -85,11 +90,10 @@ export function AdminCommand({ bookings, projects, tasks }: PropTypes) {
       />
       <ProjectDialog open={state.project} onOpenChange={payload => dispatch({ payload, type: "project" })} />
       <TaskDialog
-        list={state.list}
         taskLists={[]}
         dialogProps={{
           open: state.task,
-          onOpenChange: payload => dispatch({ payload: { value: payload, list: false }, type: "task" })
+          onOpenChange: payload => dispatch({ payload, type: "task" })
         }}
       />
       <Command
@@ -187,15 +191,10 @@ function CommandHome() {
           <IconListCheck size={18} className="inline-block mr-2 text-gray-600 dark:text-gray-300" />
           Search Tasks...
         </Command.Item>
-        <Command.Item onSelect={() => dispatch({ payload: { value: true, list: false }, type: "task" })}>
+        <Command.Item onSelect={() => dispatch({ payload: true, type: "task" })}>
           {" "}
           <IconPlus size={18} className="inline-block mr-2 text-gray-600 dark:text-gray-300" />
           Create Task...
-        </Command.Item>
-        <Command.Item onSelect={() => dispatch({ payload: { value: true, list: true }, type: "task" })}>
-          {" "}
-          <IconPlus size={18} className="inline-block mr-2 text-gray-600 dark:text-gray-300" />
-          Create Task List...
         </Command.Item>
       </Command.Group>
       <Command.Seperator />
@@ -276,7 +275,7 @@ function CommandTasks({ tasks }: { tasks: PropTypes["tasks"] }) {
     <>
       {tasks.map(task => {
         return (
-          <Command.Item onSelect={() => onSelect("tasks")} key={task.id}>
+          <Command.Item onSelect={() => onSelect(`/tasks/${task.id}`)} key={task.id}>
             <div className="flex items-center justify-between">
               {task.name}
               <Badge variant={"status"} color={task.status ? "success" : "warn"}>
