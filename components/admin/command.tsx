@@ -90,7 +90,6 @@ export function AdminCommand({ bookings, projects, tasks }: PropTypes) {
       />
       <ProjectDialog open={state.project} onOpenChange={payload => dispatch({ payload, type: "project" })} />
       <TaskDialog
-        taskLists={[]}
         dialogProps={{
           open: state.task,
           onOpenChange: payload => dispatch({ payload, type: "task" })
