@@ -1,10 +1,11 @@
 "use client";
 import { ActionIcon, Badge, Button, Card, Dialog, Select, TextInput, Textarea } from "@aomdev/ui";
-import { IconPlus, IconX } from "@tabler/icons-react";
+import { IconLoader, IconPlus, IconX } from "@tabler/icons-react";
 import { FormEvent, useState } from "react";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import type { SerializedSubTask } from "@/lib/prisma";
 import type { DropResult } from "@hello-pangea/dnd";
+import { useToggle } from "@/lib/hooks/useToggle";
 type PropTypes = {
   subTasks: SerializedSubTask[];
   taskId: number;
@@ -14,6 +15,7 @@ export default function KanbanBoard({ subTasks, taskId }: PropTypes) {
   const [items, setItems] = useState(subTasks);
   const [dropDestination, setDropDestination] = useState("");
   const [dialog, setDialog] = useState("");
+  const [loading, toggle] = useToggle();
 
   const todo = items.filter(item => item.status === "todo");
   const inProgress = items.filter(item => item.status === "inprogress");
@@ -46,6 +48,7 @@ export default function KanbanBoard({ subTasks, taskId }: PropTypes) {
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     const formData = Object.fromEntries(new FormData(e.currentTarget));
     e.preventDefault();
+    toggle.on();
     const data = {
       name: formData.subtask_name.toString(),
       status: formData.subtask_status.toString(),
@@ -62,6 +65,7 @@ export default function KanbanBoard({ subTasks, taskId }: PropTypes) {
       const json = await res.json();
       setItems(prev => [...prev, json.data]);
       setDialog("");
+      toggle.off();
     }
   };
 
@@ -100,14 +104,20 @@ export default function KanbanBoard({ subTasks, taskId }: PropTypes) {
                   fullWidth
                   items={[
                     { label: "Low", value: "low" },
-                    { label: "Medium", value: "Medium" },
+                    { label: "Medium", value: "medium" },
                     { label: "High", value: "high" }
                   ]}
                 />
               </div>
             </div>
             <Textarea label="Description" name="subtask_description" />
-            <Button className="block ml-auto ">Submit</Button>
+            <Button loading={loading} className="ml-auto relative flex items-center justify-center">
+              <IconLoader
+                size={16}
+                className={`absolute animate-spin ${loading ? "opacity-100" : "opacity-0"}`}
+              />
+              <span className={loading ? "opacity-0" : ""}>Submit</span>
+            </Button>
           </form>
         </Dialog.Content>
       </Dialog>
