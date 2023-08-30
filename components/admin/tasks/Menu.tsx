@@ -11,27 +11,29 @@ import {
   Label,
   ActionIcon
 } from "@aomdev/ui";
-import { IconPin, IconEdit, IconTrash, IconDotsVertical, IconStar, IconX } from "@tabler/icons-react";
+import { IconEdit, IconTrash, IconDotsVertical, IconStar, IconX, IconStarFilled } from "@tabler/icons-react";
 
 import { useRouteRefresh } from "@/lib/hooks/useRouteRefresh";
 import { useToggle } from "@/lib/hooks/useToggle";
 import { useRouter } from "next/navigation";
 import { inputStyles } from "@aomdev/ui/src/input-wrapper/styles";
 
-import type { FormEvent } from "react";
+import { useState, type FormEvent } from "react";
 import { cardStyles } from "@aomdev/ui/src/card/styles";
 
 type PropTypes = {
   id: number;
   name: string;
+  defaultPinned: boolean;
 };
 
-export function TaskMenu({ id, name }: PropTypes) {
+export function TaskMenu({ id, name, defaultPinned }: PropTypes) {
   const [dialog, dialogToggle] = useToggle();
   const [renameDialog, renameToggle] = useToggle();
   const [loading, toggle] = useToggle();
   const [isPending, refresh] = useRouteRefresh();
   const [lazyLoad, lazyLoadToggle] = useToggle();
+  const [pinned, setPinned] = useState(defaultPinned);
   const router = useRouter();
 
   const onDelete = async () => {
@@ -88,11 +90,23 @@ export function TaskMenu({ id, name }: PropTypes) {
     }
   };
 
+  const onPin = async () => {
+    setPinned(prev => !prev);
+    const res = await fetch("/api/tasks", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id, pinned: !pinned })
+    });
+    if (!res.ok) {
+      setPinned(pinned);
+    }
+  };
+
   const isLoading = loading || isPending;
   return (
     <div className="flex items-center gap-2 ">
-      <ActionIcon variant={"subtle"} color="secondary">
-        <IconStar size={16} />
+      <ActionIcon onClick={onPin} variant={"subtle"} color="secondary">
+        {pinned ? <IconStarFilled size={16} /> : <IconStar size={16} />}
       </ActionIcon>
       {lazyLoad && (
         <Dialog open={dialog} onOpenChange={dialogToggle.set}>
@@ -156,17 +170,10 @@ export function TaskMenu({ id, name }: PropTypes) {
           </button>
         </Dropdown.Trigger>
         <Dropdown.Content>
-          {/* <Dropdown.Item icon={<IconPlus size={16} />} onClick={dialogToggle.on}>
-            {" "}
-            Create task
-          </Dropdown.Item> */}
           <Dropdown.Item icon={<IconEdit size={16} />} onClick={renameToggle.on}>
             Rename task
           </Dropdown.Item>
-          {/* <Dropdown.Item icon={<IconPin size={16} />} onClick={onPin}>
-            {pinned ? "Unpin task list" : "Pin task list"}
-          </Dropdown.Item> */}
-          <Dropdown.Item icon={<IconPin size={16} />}>Pin task</Dropdown.Item>
+
           <Dropdown.Item color="error" icon={<IconTrash size={16} />} onClick={onDelete}>
             Delete Task
           </Dropdown.Item>

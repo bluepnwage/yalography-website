@@ -1,7 +1,3 @@
-import { Grid } from "@/components/shared";
-import { PinnedLists } from "@/components/admin/tasks/home/PinnedList";
-import { TaskLists } from "@/components/admin/tasks/home/TaskList";
-import { Tasks } from "@/components/admin/tasks/home/Tasks";
 import { Table, Title, Badge, Button } from "@aomdev/ui";
 import { cache } from "react";
 import prisma from "@/lib/prisma";
@@ -12,13 +8,11 @@ import { buttonStyles } from "@aomdev/ui/src/button/styles";
 export const revalidate = 0;
 const getTasks = cache(async () => {
   await prisma.$connect();
-  const tasksPromise = prisma.tasks.findMany();
-  const taskListsPromise = prisma.taskLists.findMany({ include: { tasks: true } });
+  const tasks = await prisma.tasks.findMany();
 
-  const [tasks, taskLists] = await Promise.all([tasksPromise, taskListsPromise]);
   await prisma.$disconnect();
 
-  const serializedTasks = tasks.map(task => {
+  return tasks.map(task => {
     return {
       ...task,
       createdAt: formatDate(task.createdAt),
@@ -26,26 +20,10 @@ const getTasks = cache(async () => {
       deadline: task.deadline ? formatDate(task.deadline) : ""
     };
   });
-
-  const serializedTaskList = taskLists.map(list => {
-    return {
-      ...list,
-      createdAt: list.createdAt,
-      updatedAt: list.updatedAt,
-      tasks: list.tasks.map(task => ({
-        ...task,
-        createdAt: task.createdAt,
-        deadline: task.deadline || "",
-        updatedAt: task.updatedAt
-      }))
-    };
-  });
-
-  return { tasks: serializedTasks, taskLists: serializedTaskList };
 });
 
 export default async function TasksPage() {
-  const { tasks } = await getTasks();
+  const tasks = await getTasks();
 
   const pendingTasks = [];
   const completedTasks = [];

@@ -1,5 +1,5 @@
-import { ImageFolders, PrismaClient, Projects, TaskLists } from "@prisma/client";
-import type { Bookings, Tasks, Orders } from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
+import type { Bookings, Tasks, Orders, SubTasks, ImageFolders, Projects } from "@prisma/client";
 
 declare global {
   var prisma: PrismaClient | undefined;
@@ -19,8 +19,5 @@ export type SerializedTask = Omit<Tasks, "deadline" | "createdAt" | "updatedAt">
 };
 export type SerializedOrder = Omit<Orders, "createdAt"> & { createdAt: string };
 export type SerializedImageFolder = Omit<ImageFolders, "createdAt"> & { createdAt: string };
-export type SerializedTaskList = Omit<TaskLists, "createdAt" | "updatedAt"> & {
-  createdAt: string;
-  updatedAt: string;
-};
 export type SerializedProject = Omit<Projects, "createdAt"> & { createdAt: string };
+export type SerializedSubTask = Omit<SubTasks, "createdAt"> & { createdAt: string };

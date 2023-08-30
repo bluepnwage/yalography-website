@@ -18,9 +18,9 @@ model Bookings {
   phone       String          @db.VarChar(40)
   type        String
   environment Boolean
-  description String?         @default("") @db.Text
+  description String?         @db.Text
   status      BookingsStatus? @default(pending)
-  features    String?         @default("") @db.Text
+  features    String?         @db.Text
   tasks       Tasks[]
   orders      Orders?
 
@@ -30,18 +30,18 @@ model Bookings {
 
 model Projects {
   id           Int      @id @default(autoincrement())
-  name         String   @unique //Name for project to help admin easily identify it
   title        String?
   description  String?  @db.Text
   thumbnail    String?
   createdAt    DateTime @default(now())
-  testimonial  String?  @default("") @db.Text
-  companyName  String?  @default("")
+  testimonial  String?  @db.Text
+  companyName  String?
   customerName String?
-  images       Images[]
   published    Boolean  @default(false)
+  name         String   @unique
   type         String?
   pinned       Boolean  @default(false)
+  images       Images[]
 
   @@map("projects")
 }
@@ -51,16 +51,16 @@ model Images {
   width     Int
   height    Int
   url       String
-  alt       String?       @default("") @db.Text
+  alt       String?       @db.Text
   published Boolean       @default(false)
-  name      String
   projectId Int?
-  type      String
+  folderId  Int?
+  name      String
   size      Int
+  type      String
   publicId  String
   project   Projects?     @relation(fields: [projectId], references: [id])
   folder    ImageFolders? @relation(fields: [folderId], references: [id], onDelete: Cascade)
-  folderId  Int?
 
   @@index([projectId])
   @@index([folderId])
@@ -74,34 +74,46 @@ model ImageFolders {
   Images    Images[]
 }
 
-model TaskLists {
-  id        Int      @id @default(autoincrement())
-  name      String   @db.VarChar(255)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
-  pinned    Boolean  @default(false)
-  tasks     Tasks[]
-
-  @@map("task_lists")
-}
-
 model Tasks {
   id          Int          @id @default(autoincrement())
   name        String
   deadline    DateTime?
-  description String?      @default("") @db.Text
+  description String?      @db.Text
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @default(now()) @updatedAt
   status      Boolean      @default(false)
   priority    TaskPriority @default(medium)
-  groupId     Int?
   bookingId   Int?
-  group       TaskLists?   @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  pinned      Boolean      @default(false)
+  subTasks SubTasks[]
   booking     Bookings?    @relation(fields: [bookingId], references: [id])
 
-  @@index([groupId])
   @@index([bookingId])
   @@map("tasks")
+}
+
+model Orders {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  quote     Int
+  bookingId Int      @unique
+  month     String
+  year      Int
+  booking   Bookings @relation(fields: [bookingId], references: [id])
+}
+
+model SubTasks {
+  id          Int                @id @default(autoincrement())
+  name        String
+  createdAt   DateTime           @default(now())
+  taskId      Int
+  priority    sub_tasks_priority @default(low)
+  status      sub_tasks_status   @default(todo)
+  description String?            @db.Text
+  task Tasks  @relation(fields: [taskId],references: [id], onDelete: Cascade)
+
+  @@index([taskId])
+  @@map("sub_tasks")
 }
 
 enum BookingsStatus {
@@ -116,12 +128,14 @@ enum TaskPriority {
   high
 }
 
-model Orders {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  quote     Int //Amount of money made saved in cents
-  booking   Bookings @relation(fields: [bookingId], references: [id])
-  bookingId Int      @unique
-  year      Int
-  month     String
+enum sub_tasks_priority {
+  low
+  medium
+  high
+}
+
+enum sub_tasks_status {
+  todo
+  inprogress
+  completed
 }

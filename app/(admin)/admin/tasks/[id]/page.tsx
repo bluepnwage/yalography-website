@@ -6,50 +6,24 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { IconChevronRight, IconHome2 } from "@tabler/icons-react";
 import { Badge } from "@aomdev/ui";
-import type { SerializedTask } from "@/lib/prisma";
+import type { SerializedSubTask, SerializedTask } from "@/lib/prisma";
 import { formatDate } from "@/util/formate-date";
 
-const KanbanBoard = dynamic(() => import("@/components/admin/tasks/kanbad-board"), { ssr: false });
+const KanbanBoard = dynamic(() => import("@/components/admin/tasks/kanban-board"), { ssr: false });
 
-const findTask = async (id: number): Promise<SerializedTask> => {
+const findTask = async (id: number): Promise<SerializedTask & { subTasks: SerializedSubTask[] }> => {
   await prisma.$connect();
-  const task = await prisma.tasks.findUnique({ where: { id } });
+  const task = await prisma.tasks.findUnique({ where: { id }, include: { subTasks: true } });
   await prisma.$disconnect();
   if (!task) notFound();
   return {
     ...task,
     createdAt: formatDate(task.createdAt),
     deadline: task.deadline ? formatDate(task.deadline) : "N/A",
-    updatedAt: formatDate(task.updatedAt)
+    updatedAt: formatDate(task.updatedAt),
+    subTasks: task.subTasks.map(subTask => ({ ...subTask, createdAt: formatDate(subTask.createdAt) }))
   };
 };
-
-let id = 0;
-
-function createTask(name: string) {
-  id++;
-  const randomNumber = Math.random();
-  return {
-    id: crypto.randomUUID(),
-    name,
-    status: randomNumber <= 0.3 ? "inprogress" : randomNumber <= 0.6 ? "todo" : "completed",
-    taskId: `${id}`,
-    priority:
-      randomNumber <= 0.3
-        ? { color: "error", label: "High" }
-        : randomNumber <= 0.6
-        ? { color: "warn", label: "Medium" }
-        : { color: "primary", label: "Low" }
-  };
-}
-
-const dishes = createTask("Wash the dishes");
-const dogs = createTask("Feed the dogs");
-const windows = createTask("Open the windows");
-const yalo = createTask("Finish dashboard for the weekend");
-const headphones = createTask("Buy new headphones");
-
-const alltasks = [dishes, dogs, windows, yalo, headphones];
 
 export default async function TaskListPage({ params }: { params: { id: string } }) {
   const id = parseInt(params.id);
@@ -73,7 +47,7 @@ export default async function TaskListPage({ params }: { params: { id: string } 
               <IconChevronRight size={14} className="text-gray-200" />
               <span>{task.id}</span>
             </div>
-            <TaskMenu name={task.name} id={task.id} />
+            <TaskMenu defaultPinned={task.pinned} name={task.name} id={task.id} />
           </div>
           <div className="flex gap-4 items-center mb-6 mt-6">
             <header>
@@ -84,7 +58,7 @@ export default async function TaskListPage({ params }: { params: { id: string } 
             </header>
             {overdue && <Badge color="error">Overdue</Badge>}
           </div>
-          <KanbanBoard tasks={alltasks} />
+          <KanbanBoard subTasks={task.subTasks} taskId={task.id} />
         </div>
         <Sidebar task={task} />
       </div>
