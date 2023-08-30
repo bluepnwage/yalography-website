@@ -8,18 +8,16 @@ import { useRouteRefresh } from "@/lib/hooks/useRouteRefresh";
 import { useToggle } from "@/lib/hooks/useToggle";
 
 import { useState, type FormEvent } from "react";
-import type { SerializedTaskList, SerializedTask } from "@/lib/prisma";
 import type { DialogProps } from "@aomdev/ui";
 import { inputStyles } from "@aomdev/ui/src/input-wrapper/styles";
 import { cardStyles } from "@aomdev/ui/src/card/styles";
 import { formatDate } from "@/util/formate-date";
 
 type PropTypes = {
-  taskLists: (SerializedTaskList & { tasks: SerializedTask[] })[];
   dialogProps: DialogProps;
 };
 
-export function TaskDialog({ taskLists, dialogProps }: PropTypes) {
+export function TaskDialog({ dialogProps }: PropTypes) {
   const [isPending, refresh] = useRouteRefresh();
   const [loading, toggle] = useToggle();
   const [date, setDate] = useState<Date>();

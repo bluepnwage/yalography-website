@@ -6,7 +6,6 @@ export async function AdminCommandContainer() {
   const bookingsPromise = getBookings();
   const tasksPromise = getTasks();
   const [projects, bookings, tasks] = await Promise.all([projectPromise, bookingsPromise, tasksPromise]);
-  console.log(tasks);
   return (
     <>
       <AdminCommand bookings={bookings} projects={projects} tasks={tasks} />
