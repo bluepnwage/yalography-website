@@ -1,11 +1,14 @@
-import { Table, Title, Badge, Button } from "@aomdev/ui";
+import { Table, Title, Badge } from "@aomdev/ui";
 import { cache } from "react";
 import prisma from "@/lib/prisma";
 import { formatDate } from "@/util/formate-date";
 import Link from "next/link";
 import { buttonStyles } from "@aomdev/ui/src/button/styles";
+import { CreateResource } from "@/components/admin/create-resource";
 
 export const revalidate = 0;
+export const dynamic = "force-dynamic";
+
 const getTasks = cache(async () => {
   await prisma.$connect();
   const tasks = await prisma.tasks.findMany();
@@ -38,9 +41,12 @@ export default async function TasksPage() {
 
   return (
     <>
-      <Title order={1} className="font-heading font-medium text-4xl leading-none mb-6">
-        Tasks
-      </Title>
+      <header className="flex justify-between items-center mb-6">
+        <Title order={1} className="font-heading font-medium text-4xl leading-none">
+          Tasks
+        </Title>
+        <CreateResource type="task">Create task</CreateResource>
+      </header>
       <Table className="w-full">
         <Table.Header>
           <Table.Row>

@@ -1,5 +1,6 @@
 import { cache } from "react";
 import prisma from "./prisma";
+import { formatDate } from "@/util/formate-date";
 
 export const getBookings = cache(async () => {
   await prisma.$connect();
@@ -7,7 +8,7 @@ export const getBookings = cache(async () => {
     where: { OR: [{ status: "approved" }, { status: "pending" }] }
   });
   await prisma.$disconnect();
-  return bookings.map(booking => ({ ...booking, date: booking.date.toString() }));
+  return bookings.map(booking => ({ ...booking, date: formatDate(booking.date) }));
 });
 
 export const getTasks = cache(async () => {
@@ -16,9 +17,9 @@ export const getTasks = cache(async () => {
   await prisma.$disconnect();
   return tasks.map(task => ({
     ...task,
-    createdAt: task.createdAt.toString(),
-    updatedAt: task.updatedAt.toString(),
-    deadline: task.deadline?.toString() || ""
+    createdAt: formatDate(task.createdAt),
+    updatedAt: formatDate(task.updatedAt),
+    deadline: task.deadline ? formatDate(task.deadline) : ""
   }));
 });
 
@@ -26,7 +27,7 @@ export const getProjects = cache(async () => {
   await prisma.$connect();
   const projects = await prisma.projects.findMany();
   await prisma.$disconnect();
-  return projects.map(project => ({ ...project, createdAt: project.createdAt.toString() }));
+  return projects.map(project => ({ ...project, createdAt: formatDate(project.createdAt) }));
 });
 
 export const getOrders = cache(async () => {
@@ -35,7 +36,7 @@ export const getOrders = cache(async () => {
   await prisma.$disconnect();
   return orders.map(order => ({
     ...order,
-    createdAt: order.createdAt.toString(),
-    booking: { ...order.booking, date: order.booking.date.toString() }
+    createdAt: formatDate(order.createdAt),
+    booking: { ...order.booking, date: formatDate(order.booking.date) }
   }));
 });

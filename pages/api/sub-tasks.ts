@@ -24,7 +24,6 @@ const handler: NextApiHandler = async (req, res) => {
       const promise = createSubTask(json);
       const [status, data] = await handlePromise(promise);
       if (status === "error") {
-        console.log(data);
         return res.status(500).json({ message: "Failed to create subtask" });
       } else {
         return res.status(201).json({ message: "Subtask created", data });
@@ -34,8 +33,6 @@ const handler: NextApiHandler = async (req, res) => {
       const promise = updateSubTask(json);
       const [status, data] = await handlePromise(promise);
       if (status === "error") {
-        console.log(data);
-
         return res.status(500).json({ message: "Failed to update subtask" });
       } else {
         return res.status(200).json({ message: "Subtask updated", data });

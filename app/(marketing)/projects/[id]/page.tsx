@@ -36,7 +36,6 @@ export default async function DynamicProjectPage({ params }: { params: { id: str
   if (!id) notFound();
   const project = await findProject(id);
   if (!project) notFound();
-  console.log(project);
   return (
     <>
       <Section className="mt-16">

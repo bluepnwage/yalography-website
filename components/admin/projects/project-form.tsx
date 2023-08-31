@@ -136,12 +136,10 @@ export function ProjectForm({ galleryImages, project }: PropTypes) {
       //then upload a new thumbnail
       if ((!url && thumbnail) || (url !== thumbnailURL && thumbnail)) {
         const { uploadThumbnail } = await import("@/lib/upload-image");
-        console.log("ran");
         url = await uploadThumbnail(thumbnail);
       }
 
       if (images.length > 0) {
-        console.log("image upload ran");
         const { uploadToCloudinary } = await import("@/lib/upload-image");
         const promise = images.map(image => uploadToCloudinary(image, { projectId: project.id }));
         await Promise.all(promise);
@@ -207,7 +205,6 @@ export function ProjectForm({ galleryImages, project }: PropTypes) {
     }
   };
 
-  console.log(project.thumbnail);
   return (
     <>
       <ExistingImageDialog

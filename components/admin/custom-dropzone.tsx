@@ -31,7 +31,6 @@ export function CustomDropzone({ className, multiple, onAccept }: PropTypes) {
 
   const _onDragOver = (e: DragEvent<HTMLDivElement>) => {
     e.preventDefault();
-    console.log("wtfx2");
   };
 
   const _onChange = (e: FormEvent<HTMLInputElement>) => {

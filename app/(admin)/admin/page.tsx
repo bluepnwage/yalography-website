@@ -1,5 +1,5 @@
 import prisma from "@/lib/prisma";
-import { Badge, Table, Title } from "@aomdev/ui";
+import { Badge, Table, Title, Skeleton } from "@aomdev/ui";
 import { formatDate } from "@/util/formate-date";
 import { IconChevronRight } from "@tabler/icons-react";
 import Link from "next/link";
@@ -7,7 +7,10 @@ import { cardStyles } from "@aomdev/ui/src/card/styles";
 import { StatCardContainer, StatCardLoading } from "@/components/admin/home/stat-card-container";
 import { Suspense } from "react";
 import { getBookings } from "@/lib/admin-data";
-import { Skeleton } from "@/components/shared";
+import { BarChartLoading, PopularMonthsContainer } from "@/components/admin/home/popular-months-container";
+import { PoplularShoots, PopularShootsLoading } from "@/components/admin/home/popular-shoots";
+import { PendingProjects, PendingProjectsLoading } from "@/components/admin/home/pending-projects";
+import { PendingTasks, PendingTasksLoading } from "@/components/admin/home/pending-tasks";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -30,23 +33,41 @@ export default async function AdminPage() {
       <Title order={1} className="font-heading font-medium mb-4 text-4xl">
         {greeting}
       </Title>
-      <div className="mb-20">
+      <div className="mb-36">
         <Suspense fallback={<StatCardLoading />}>
           <StatCardContainer />
         </Suspense>
       </div>
-      <Title order={2} className="font-heading font-medium mb-8 ">
-        Upcoming bookings
-      </Title>
-      <Suspense fallback={<UpcomingBookingsLoading />}>
-        <UpcomingBookings />
-      </Suspense>
-      <Title order={2} className="font-heading font-medium mb-8">
-        Recent orders
-      </Title>
-      <div className="mb-20">
+      <div className="mb-36">
+        <Title order={2} className="font-heading font-medium mb-8 text-3xl">
+          Upcoming bookings
+        </Title>
+        <Suspense fallback={<UpcomingBookingsLoading />}>
+          <UpcomingBookings />
+        </Suspense>
+      </div>
+      <div className="mb-36">
+        <Title order={2} className="font-heading font-medium mb-8 text-3xl">
+          Recent orders
+        </Title>
         <Suspense fallback={<RecentOrdersLoading />}>
           <RecentOrders />
+        </Suspense>
+      </div>
+      <div className="[height:50vh] mb-36">
+        <Suspense fallback={<BarChartLoading />}>
+          <PopularMonthsContainer />
+        </Suspense>
+      </div>
+      <div className="grid grid-cols-3 gap-4 mb-20">
+        <Suspense fallback={<PopularShootsLoading />}>
+          <PoplularShoots />
+        </Suspense>
+        <Suspense fallback={<PendingProjectsLoading />}>
+          <PendingProjects />
+        </Suspense>
+        <Suspense fallback={<PendingTasksLoading />}>
+          <PendingTasks />
         </Suspense>
       </div>
     </div>
@@ -110,14 +131,13 @@ function UpcomingBookingsLoading() {
             })}
             key={index}
           >
-            <Skeleton.Shimmer />
             <div className="flex justify-between items-center">
-              <Skeleton className="h-3 w-16 block mb-2 " />
-              <Skeleton className="w-16 h-3" radius={"full"} />
+              <Skeleton className="h-3 w-16 block mb-2 " rounded animate />
+              <Skeleton className="w-16 h-3" rounded animate />
             </div>
-            <Skeleton className="h-8 w-48 mt-6" />
+            <Skeleton className="h-8 w-48 mt-6" rounded animate />
             <div className="flex justify-between items-center mt-4">
-              <Skeleton className="h-2 w-28" />
+              <Skeleton className="h-2 w-28" rounded animate />
               <IconChevronRight
                 size={16}
                 className="text-gray-700 group-hover:translate-x-1 duration-300 ease-out dark:text-gray-200"
@@ -182,19 +202,19 @@ function RecentOrdersLoading() {
           return (
             <Table.Row key={index}>
               <Table.Cell>
-                <Skeleton className="h-2 w-full" />
+                <Skeleton className="h-2 w-full" rounded animate />
               </Table.Cell>
               <Table.Cell>
                 {" "}
-                <Skeleton className="h-2 w-full" />
+                <Skeleton className="h-2 w-full" rounded animate />
               </Table.Cell>
               <Table.Cell className="capitalize">
                 {" "}
-                <Skeleton className="h-2 w-full" />
+                <Skeleton className="h-2 w-full" rounded animate />
               </Table.Cell>
               <Table.Cell>
                 {" "}
-                <Skeleton className="h-2 w-full" />
+                <Skeleton className="h-2 w-full" rounded animate />
               </Table.Cell>
             </Table.Row>
           );

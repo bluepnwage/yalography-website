@@ -70,7 +70,6 @@ const handler: NextApiHandler<ApiResponse> = async (req, res) => {
       case "DELETE": {
         const promise = deleteBooking(json);
         const [status, data] = await handlePromise(promise);
-        console.log(json);
         if (status === "error") {
           // logError({
           //   title: "Delete booking",

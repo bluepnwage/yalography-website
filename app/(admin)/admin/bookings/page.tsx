@@ -10,9 +10,10 @@ import { Title } from "@aomdev/ui";
 import { OrdersTable } from "@/components/admin/bookings/home/orders-table";
 import { UpcomingBookings } from "@/components/admin/bookings/home/upcoming-bookings";
 import { BookingCard } from "@/components/admin/bookings/home/booking-card";
-import { CreateBooking } from "@/components/admin/bookings/home/create-bookings";
+import { CreateResource } from "@/components/admin/create-resource";
 
 export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 export default function BookingsPage() {
   return (
@@ -21,7 +22,7 @@ export default function BookingsPage() {
         <Title order={1} className="font-heading font-medium text-4xl leading-none">
           Bookings
         </Title>
-        <CreateBooking />
+        <CreateResource type="bookings">Create booking</CreateResource>
       </header>
       <Grid fullWidth className="mb-36">
         <div className="w-full col-span-full flex gap-4">

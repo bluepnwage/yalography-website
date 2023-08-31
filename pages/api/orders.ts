@@ -22,7 +22,7 @@ const months = [
 async function createOrder(data: Orders) {
   await prisma.$connect();
   const order = await prisma.orders.create({
-    data: { ...data, month: months[Math.floor(Math.random() * months.length)] }
+    data
   });
   await prisma.$disconnect();
   return order;

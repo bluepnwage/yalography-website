@@ -20,9 +20,10 @@ const DeleteDialog = dynamic(() => import("./delete-dialog").then(mod => mod.Del
 type PropTypes = {
   id: number;
   status: string;
+  date: string;
 };
 
-export function BookingButtons({ id, status }: PropTypes) {
+export function BookingButtons({ id, status, date }: PropTypes) {
   const [state, dispatch] = useReducer(reducer, initialState);
   const [isLoading, toggle] = useToggle();
   const [isRefreshing, refresh] = useRouteRefresh();
@@ -117,7 +118,7 @@ export function BookingButtons({ id, status }: PropTypes) {
     const { default: dayjs } = await import("dayjs");
     //Get and format the month and year for db
     const year = dayjs().year();
-    const month = dayjs().format("MMMM");
+    const month = dayjs(date).format("MMMM");
 
     const res = await fetch("/api/orders", {
       method: "POST",
@@ -125,7 +126,6 @@ export function BookingButtons({ id, status }: PropTypes) {
       body: JSON.stringify({ year, month, bookingId, quote: amount })
     });
     if (res.ok) {
-      console.log("Nice");
       dispatch({ type: "order", payload: false });
     } else {
       throw new Error("Something happened");
@@ -156,7 +156,7 @@ export function BookingButtons({ id, status }: PropTypes) {
         <CreateOrderDialog open={state.order} onOpenChange={payload => dispatch({ type: "order", payload })}>
           <form onSubmit={onComplete}>
             <TextInput required step={"any"} label="Amount made" id="quote" name="quote" type="number" />
-            <Button disabled={isLoading} className="mt-4">
+            <Button disabled={isLoading} className="mt-4 block ml-auto">
               Submit
             </Button>
           </form>

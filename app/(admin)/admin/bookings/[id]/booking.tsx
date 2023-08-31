@@ -35,7 +35,7 @@ export async function Booking({ id }: PropTypes) {
             <IconChevronRight size={14} className="dark:text-gray-200" />
             <span>{booking.id}</span>
           </div>
-          <BookingButtons status={booking.status || ""} id={booking.id} />
+          <BookingButtons date={booking.date} status={booking.status || ""} id={booking.id} />
         </div>
         <section className=" mt-10">
           <header className="col-span-full ">

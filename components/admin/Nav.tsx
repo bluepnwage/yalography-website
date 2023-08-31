@@ -13,7 +13,7 @@ import logo from "@/public/logo.png";
 import Link from "next/link";
 import { AdminCommandContainer } from "./admin-command-container";
 import { Suspense } from "react";
-import { Skeleton } from "../shared";
+import { Skeleton } from "@aomdev/ui";
 
 const links = [
   {
@@ -76,12 +76,10 @@ function CommandLoading() {
   return (
     <div className="flex items-center gap-2">
       <div className={"relative basis-3/4 grow overflow-hidden rounded h-8 "}>
-        <Skeleton radius={"sm"} className="w-full h-full" />
-        <Skeleton.Shimmer />
+        <Skeleton className="w-full h-full rounded-md" animate />
       </div>
       <div className={"h-8 w-8 rounded relative overflow-hidden"}>
-        <Skeleton radius={"sm"} className="h-full w-full" />
-        <Skeleton.Shimmer />
+        <Skeleton className="h-full w-full rounded-md" animate />
       </div>
     </div>
   );

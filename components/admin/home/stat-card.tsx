@@ -22,7 +22,6 @@ export function StatCard({ orders }: PropTypes) {
   const lastInside = [];
   const lastOutside = [];
 
-  console.log(lastPeriod);
   for (const booking of bookings) {
     if (booking.booking.environment) {
       inside.push(booking);
@@ -65,7 +64,7 @@ export function StatCard({ orders }: PropTypes) {
           <p className="font-medium font-heading text-4xl dark:text-gray-50 text-gray-900 mb-4">
             {bookings.length}
           </p>
-          <p className="text-xl mb-4">Total bookings</p>
+          <p className="text-xl mb-4">Completed bookings</p>
 
           <div className={`flex items-center gap-1 ${period === "all time" ? "opacity-0" : "opacity-100"}`}>
             <Badge color={bookingsPercentage.type}>
@@ -186,7 +185,6 @@ function getDifferencePercentage(oldValue: number, newValue: number, filter: str
   if (oldValue === 0) return { value: 100, type: "success" } as const;
   const difference = newValue - oldValue;
   const value = (difference / oldValue) * 100;
-  console.log(value);
   if (value > 0) {
     return {
       type: "success",

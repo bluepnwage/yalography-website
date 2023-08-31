@@ -5,6 +5,7 @@ import { transformImage } from "@/lib/transform-image";
 import { AddImages } from "./add-image";
 import { UploadedImage } from "@/components/admin/gallery/UploadedImage";
 import { Title } from "@aomdev/ui";
+import { CreateResource } from "@/components/admin/create-resource";
 
 const getImages = cache(async () => {
   await prisma.$connect();
@@ -34,7 +35,7 @@ export default async function GalleryPage() {
             ) : (
               <p>You haven&apos;t uploaded any images</p>
             )}
-            <AddImages />
+            <CreateResource type="photo">Add images</CreateResource>
           </header>
         </div>
         {images.map(image => {
