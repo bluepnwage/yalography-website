@@ -1,14 +1,15 @@
 //Components
 import { Grid, Section } from "@/components/shared";
-import { ServiceCard, Stats } from "@/components/home";
+import { Stats, Services } from "@/components/home";
 import { Ballon, Bouquet, BoxArchive, Globe, Maternity, Person } from "@/lib/icons";
-import { Slideshow } from "@/components/home/Slideshow";
 import Image from "next/image";
 import Link from "next/link";
 import { Suspense } from "react";
-import { Card, Title, ThemeIcon } from "@aomdev/ui";
+import { Card, Title, ThemeIcon, Button } from "@aomdev/ui";
 import { IconMail, IconLocation } from "@tabler/icons-react";
 import myFont from "@/lib/menlo-font";
+import villa from "@/public/slideshow/villa-lg.webp";
+import { BackgroundImage } from "@/components/home/hero-image";
 
 //Assets
 import heroImg from "@/public/main-image.jpg";
@@ -33,35 +34,38 @@ export default function HomePage() {
   return (
     <main>
       {/* Hero section */}
-      <Section
-        className={`${styles.hero} cal svg-background border-b border-zinc-200  duration-200 ease-out dark:border-zinc-700`}
+      <BackgroundImage>
+        <header className="mb-10 relative z-[10]">
+          <Title
+            order={1}
+            className="font-bold text-8xl text-center font-heading leading-none tracking-tight"
+          >
+            Capturing your <br />
+            <span
+              className={`bg-gradient-to-tr from-tertiary-400 to-primary-500 bg-clip-text text-transparent`}
+            >
+              special moments
+            </span>{" "}
+          </Title>
+        </header>
+        <p className="leading-loose z-[10] mb-10 text-xl text-gray-200 text-center mx-auto [width:clamp(36ch,90%,70ch)] relative">
+          Are you looking for a photographer to capture your special moments? Look no further! With my years
+          of professional experience and an eye for detail, I can ensure that your photos will be of the
+          highest quality and truly capture the beauty of the moment.
+        </p>
+        <Link
+          href="/bookings"
+          className={buttonStyles({ className: "w-fit mx-auto relative z-[10]", size: "lg" })}
+        >
+          Book a session
+        </Link>
+      </BackgroundImage>
+      {/* <div
+        className={`bg-black overflow-hidden mb-48  relative flex flex-col justify-center [height:calc(100vh-64px)]  border-b border-zinc-200  duration-200 ease-out dark:border-zinc-700`}
       >
-        <div className="grid grid-cols-2 gap-5 h-full items-stretch">
-          <div className="flex flex-col justify-center p-5  lg:pl-5 col-span-full lg:col-span-1 ">
-            <header className="mb-7">
-              <Title order={1} className="font-bold font-heading leading-none tracking-tight">
-                Capturing your <br />
-                <span
-                  className={`bg-gradient-to-tr from-tertiary-400 to-primary-500 bg-clip-text text-transparent`}
-                >
-                  special moments
-                </span>{" "}
-              </Title>
-            </header>
-            <p className="leading-loose mb-8 text-lg">
-              Are you looking for a photographer to capture your special moments? Look no further! With my
-              years of professional experience and an eye for detail, I can ensure that your photos will be of
-              the highest quality and truly capture the beauty of the moment.
-            </p>
-            <Link href="/bookings" className={buttonStyles({ className: "w-fit", size: "lg" })}>
-              Request Session
-            </Link>
-          </div>
-          <figure className="h-full w-full hidden lg:block overflow-hidden col-span-full lg:col-span-1">
-            <Image priority src={heroImg} alt={"Official logo"} className="w-full h-full " />
-          </figure>
-        </div>
-      </Section>
+        <Image src={villa} placeholder="blur" alt="" fill className="opacity-30 object-cover" />
+        */}
+      {/* </div> */}
       {/* About section */}
       <Section>
         <Grid className="mb-16">
@@ -96,29 +100,21 @@ export default function HomePage() {
             </Link>
           </div>
         </Grid>
-        <Suspense fallback={null}>
+        {/* <Suspense fallback={null}>
           <Slideshow />
-        </Suspense>
+        </Suspense> */}
       </Section>
       {/* Services section */}
-      <Section>
-        <header className="space-y-2 mb-10 text-center">
+      <div className="w-11/12 h-[726px]  flex gap-20 mb-64 mx-auto">
+        <Services>
           <Title
             order={2}
             className={`text-base ${myFont.className} text-primary-500  dark:text-primary-400`}
           >
             Services
           </Title>
-          <Title order={3} className="font-heading font-medium text-5xl text-gray-900 dark:text-gray-50">
-            What we offer
-          </Title>
-        </header>
-        <Grid>
-          {serviceTypes.map((service, key) => {
-            return <ServiceCard {...service} key={key} />;
-          })}
-        </Grid>
-      </Section>
+        </Services>
+      </div>
       {/* Projects section */}
       <Section>
         <div className=" flex flex-col justify-center items-center gap-10   mb-16">
@@ -137,8 +133,8 @@ export default function HomePage() {
             View all projects
           </Link>
         </div>
-        <div style={{ gridTemplateRows: "repeat(3, 400px)" }} className="grid grid-cols-12 gap-2 container ">
-          <Link href={`/projects`} className="col-span-8   relative group overflow-hidden">
+        <div style={{ gridTemplateRows: "repeat(3, 400px)" }} className="grid grid-cols-12 gap-4 container ">
+          <Link href={`/projects`} className="col-span-8 rounded-md   relative group overflow-hidden">
             <Image
               src={"/projects/adm-thumbnail.jpg"}
               alt=""
@@ -146,7 +142,10 @@ export default function HomePage() {
               className=" object-cover group-hover:scale-105 duration-700 ease-out"
             />
           </Link>
-          <Link href={"/projects"} className="col-span-4 row-span-2 relative group overflow-hidden">
+          <Link
+            href={"/projects"}
+            className="col-span-4 row-span-2 rounded-md relative group overflow-hidden"
+          >
             <Image
               src={"/projects/fashion-thumbnail.jpg"}
               alt=""
@@ -154,7 +153,10 @@ export default function HomePage() {
               className="object-cover group-hover:scale-105 duration-700 ease-out"
             />
           </Link>
-          <Link href={"/projects"} className="col-span-4 row-span-2 relative group overflow-hidden">
+          <Link
+            href={"/projects"}
+            className="col-span-4 row-span-2 rounded-md relative group overflow-hidden"
+          >
             <Image
               src={"/projects/gastro-thumbnail.jpg"}
               alt=""
@@ -162,7 +164,7 @@ export default function HomePage() {
               className="group-hover:scale-105 duration-700 ease-out"
             />
           </Link>
-          <Link href={"/projects"} className="col-span-4 relative  group overflow-hidden">
+          <Link href={"/projects"} className="col-span-4 rounded-md relative  group overflow-hidden">
             <Image
               src={"/projects/beacon-hill-thumbnail.jpg"}
               alt=""
@@ -170,7 +172,7 @@ export default function HomePage() {
               className="group-hover:scale-105 duration-700 ease-out"
             />
           </Link>
-          <Link href={"/projects"} className="col-span-8  relative group overflow-hidden">
+          <Link href={"/projects"} className="col-span-8 rounded-md  relative group overflow-hidden">
             <Image
               src={"/projects/class-boutique-thumbnail.jpg"}
               alt=""
@@ -181,55 +183,16 @@ export default function HomePage() {
         </div>
       </Section>
       {/* Contact section */}
-      <Section
-        margin={false}
-        className={`svg-background  items-center py-16 border-t border-zinc-200 dark:border-zinc-700`}
-      >
-        <header className="space-y-2 text-center mb-16">
-          <Title order={2} className={`text-base ${myFont.className} text-primary-500 dark:text-primary-400`}>
-            Contact
-          </Title>
-          <Title order={3} className="font-heading font-medium text-5xl text-gray-900 dark:text-gray-50">
-            Ready to get in touch?
-          </Title>
-        </header>
-        <Grid>
-          <Card className="duration-200 ease-ou flex flex-col items-center justify-center gap-4 col-span-full lg:col-span-3 h-64 w-full">
-            <ThemeIcon aria-hidden size={"lg"}>
-              <IconMail size={"75%"} />
-            </ThemeIcon>
-            <p className="font-semibold text-xl">Email</p>
-            <address className="text-gray-200">
-              <a href="mailto:yalography@gmail.com">yalography@gmail.com</a>
-            </address>
-          </Card>
-          <Card className="duration-200 ease-out flex flex-col items-center gap-4 justify-center col-span-full lg:col-span-3 h-64 w-full">
-            <ThemeIcon aria-hidden size={"lg"}>
-              <IconLocation size={"75%"} />
-            </ThemeIcon>
-            <p className="font-semibold text-xl">Address</p>
-            <address className="text-gray-200">Marigot, Saint-Martin</address>
-          </Card>
-          <figure className="bg-white ring-1 overflow-hidden relative  ring-black  ring-opacity-5 dark:ring-0 dark:bg-zinc-800 col-span-full row-start-1 lg:col-span-6  w-full lg:row-span-2">
-            <Image src={heroImg} alt={""} fill className="object-cover" />
-          </figure>
-          <Card className="duration-200 ease-out col-span-6 h-64 w-full gap-4 flex flex-col justify-center items-center">
-            <p className="font-bold text-xl">Book a reservation</p>
-            <Link className={buttonStyles()} href="/bookings">
-              Request a session
-            </Link>
-          </Card>
-        </Grid>
-      </Section>
+      <section className="   flex flex-col items-center mt-52  mb-36">
+        <Title order={2} className="font-heading font-medium text-5xl text-gray-900 dark:text-gray-50 mb-7">
+          Start your journey
+        </Title>
+        <p className="mb-8 text-xl [width:clamp(36ch,90%,65ch)] text-center text-gray-200">
+          Reprehenderit pariatur aliqua Lorem adipisicing excepteur sint officia nulla. Et sint sit id sit
+          officia irure aliquip sit aliquip ad.
+        </p>
+        <Button>Book session</Button>
+      </section>
     </main>
   );
 }
-
-const serviceTypes: Props.ServiceCardProps[] = [
-  { title: "Maternity Photography", Icon: <Maternity className={"stroke-white"} /> },
-  { title: "Wedding Photography", Icon: <Bouquet className="fill-white" /> },
-  { title: "Commercial Photography", Icon: <Globe className="fill-white" /> },
-  { title: "Portrait Photography", Icon: <Person className={"fill-white"} /> },
-  { title: "Event Photography", Icon: <Ballon className="stroke-white" /> },
-  { title: "Decor Photography", Icon: <BoxArchive className="fill-white" /> }
-];
