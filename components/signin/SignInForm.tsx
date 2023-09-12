@@ -21,11 +21,8 @@ export function SignInForm() {
   };
   return (
     <>
-      <form
-        onSubmit={onSignIn}
-        className="bg-white basis-2/6 px-5 border-r dark:border-zinc-700 border-zinc-200 rounded-md p-4 space-y-4 dark:bg-zinc-900"
-      >
-        <h1 className="font-bold text-3xl text-center mb-5">Welcome back!</h1>
+      <h1 className="font-bold text-4xl text-center mb-10 font-heading">Sign in to your account</h1>
+      <form onSubmit={onSignIn} className="w-1/4 px-5 space-y-8">
         <TextInput
           label="Email"
           type={"email"}

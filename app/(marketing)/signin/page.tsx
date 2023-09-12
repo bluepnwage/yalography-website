@@ -29,11 +29,11 @@ export default async function SignInPage() {
   if (shouldRedirect) redirect("/");
 
   return (
-    <div style={{ height: "calc(100vh - 64px)" }} className="w-full flex">
+    <div
+      style={{ height: "calc(100vh - 64px)" }}
+      className="w-full flex flex-col justify-center items-center"
+    >
       <SignInForm />
-      <div className="grow basis-5/6 bg-red-500">
-        <Image src={pixel} alt={"pixel art"} className="h-full object-cover" />
-      </div>
     </div>
   );
 }
