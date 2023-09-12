@@ -17,7 +17,7 @@ export function ProjectDialog(props: DialogProps) {
     e.preventDefault();
     const projectName = new FormData(e.currentTarget).get("project_name");
     toggle.on();
-    const { toast } = await import("react-toastify");
+    const { toast } = await import("react-hot-toast");
 
     try {
       const res = await fetch("/api/projects", {

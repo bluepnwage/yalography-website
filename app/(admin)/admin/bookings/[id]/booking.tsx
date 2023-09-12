@@ -66,6 +66,7 @@ export async function Booking({ id }: PropTypes) {
         </section>
       </div>
       <Sidebar
+        time={booking.time}
         date={booking.date}
         environment={booking.environment}
         features={booking.features?.split(",") || []}
@@ -80,9 +81,10 @@ type SidebarProps = {
   date: string;
   environment: boolean;
   features: string[];
+  time: string;
 };
 
-function Sidebar({ date, environment, features, status }: SidebarProps) {
+function Sidebar({ date, environment, features, status, time }: SidebarProps) {
   return (
     <div className="basis-1/5 border-l border-l-gray-200 dark:border-l-gray-700  pt-14 px-4">
       <p className="font-medium text-lg mb-8 text-gray-900 dark:text-gray-50">Details</p>
@@ -95,6 +97,9 @@ function Sidebar({ date, environment, features, status }: SidebarProps) {
         </li>
         <li className="flex justify-between">
           <span className="font-medium dark:text-gray-100">Date</span> {date}
+        </li>
+        <li className="flex justify-between">
+          <span className="font-medium dark:text-gray-100">Time</span> {time}
         </li>
         <li className="flex justify-between">
           <span className="font-medium dark:text-gray-100">Environment</span>{" "}

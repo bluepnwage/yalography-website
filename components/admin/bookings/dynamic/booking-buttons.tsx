@@ -31,7 +31,7 @@ export function BookingButtons({ id, status, date }: PropTypes) {
 
   const onApprove = async () => {
     toggle.on();
-    const { toast } = await import("react-toastify");
+    const { toast } = await import("react-hot-toast");
     try {
       const res = await fetch("/api/bookings", {
         method: "PUT",
@@ -57,7 +57,7 @@ export function BookingButtons({ id, status, date }: PropTypes) {
 
   const onDelete = async () => {
     toggle.on();
-    const { toast } = await import("react-toastify");
+    const { toast } = await import("react-hot-toast");
 
     try {
       const res = await fetch("/api/bookings", {
@@ -148,9 +148,11 @@ export function BookingButtons({ id, status, date }: PropTypes) {
       )}
       {state.load && (
         <RescheduleDialog
+          defaultDate={date}
+          id={id}
           open={state.reschedule}
           onOpenChange={payload => dispatch({ type: "reschedule", payload })}
-        ></RescheduleDialog>
+        />
       )}
       {state.load && (
         <CreateOrderDialog open={state.order} onOpenChange={payload => dispatch({ type: "order", payload })}>

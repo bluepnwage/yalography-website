@@ -34,6 +34,7 @@ type PropTypes = {
 
 export function AdminCommand({ bookings, projects, tasks }: PropTypes) {
   const { dispatch, state } = useCommand();
+  const { theme, setTheme } = useTheme();
   useHotkeys([["ctrl+k", () => dispatch({ payload: true, type: "command" })]]);
   useEffect(() => {
     const onBackspace = (e: KeyboardEvent) => {
@@ -47,13 +48,8 @@ export function AdminCommand({ bookings, projects, tasks }: PropTypes) {
       window.removeEventListener("keydown", onBackspace);
     };
   }, []);
+  console.log(projects);
 
-  // const onChange = (e: FormEvent<HTMLInputElement>) => {
-  //   const { value } = e.currentTarget;
-  //   dispatch({ type: "search", payload: value });
-  // };
-
-  const { theme, setTheme } = useTheme();
   return (
     <>
       <div className="flex max-xl:flex-col items-center gap-2">
@@ -96,6 +92,7 @@ export function AdminCommand({ bookings, projects, tasks }: PropTypes) {
         }}
       />
       <Command
+        key={state.page}
         open={state.command}
         onOpenChange={payload => dispatch({ payload, type: "command" })}
         contentProps={{ className: "w-2/4 relative pb-6", blur: true }}
@@ -114,8 +111,8 @@ export function AdminCommand({ bookings, projects, tasks }: PropTypes) {
             )}
           </div>
         </div>
-        <Command.List>
-          <ScrollArea style={{ height: "50vh" }}>
+        <Command.List key={state.page}>
+          <ScrollArea style={{ height: "50vh" }} key={state.page}>
             {state.page === "home" && <CommandHome />}
             {state.page === "projects" && <CommandProjects projects={projects} />}
             {state.page === "bookings" && <CommandBookings bookings={bookings} />}
@@ -231,10 +228,10 @@ function CommandHome() {
 function CommandProjects({ projects }: { projects: PropTypes["projects"] }) {
   const { onSelect } = useCommand();
   return (
-    <>
+    <Command.Group>
       {projects.map(project => {
         return (
-          <Command.Item value={`projects/${project.id}`} onSelect={onSelect} key={project.id}>
+          <Command.Item onSelect={() => onSelect(`projects/${project.id}`)} key={project.id}>
             <div className="flex items-center justify-between">
               {project.name}
               <Badge variant={"status"} color={project.published ? "success" : "warn"}>
@@ -244,17 +241,17 @@ function CommandProjects({ projects }: { projects: PropTypes["projects"] }) {
           </Command.Item>
         );
       })}
-    </>
+    </Command.Group>
   );
 }
 
 function CommandBookings({ bookings }: { bookings: PropTypes["bookings"] }) {
   const { onSelect } = useCommand();
   return (
-    <>
+    <Command.Group>
       {bookings.map(booking => {
         return (
-          <Command.Item value={`bookings/${booking.id}`} onSelect={onSelect} key={booking.id}>
+          <Command.Item onSelect={() => onSelect(`bookings/${booking.id}`)} key={booking.id}>
             <div className="flex items-center justify-between">
               {booking.type}
               <Badge variant={"status"} color={booking.status === "approved" ? "success" : "warn"}>
@@ -264,14 +261,14 @@ function CommandBookings({ bookings }: { bookings: PropTypes["bookings"] }) {
           </Command.Item>
         );
       })}
-    </>
+    </Command.Group>
   );
 }
 
 function CommandTasks({ tasks }: { tasks: PropTypes["tasks"] }) {
   const { onSelect } = useCommand();
   return (
-    <>
+    <Command.Group>
       {tasks.map(task => {
         return (
           <Command.Item onSelect={() => onSelect(`/tasks/${task.id}`)} key={task.id}>
@@ -284,6 +281,6 @@ function CommandTasks({ tasks }: { tasks: PropTypes["tasks"] }) {
           </Command.Item>
         );
       })}
-    </>
+    </Command.Group>
   );
 }

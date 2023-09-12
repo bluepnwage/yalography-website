@@ -3,7 +3,6 @@
 import { Dialog } from "@aomdev/ui";
 import { Dropzone } from "./gallery-dropzone";
 
-import type { SerializedImageFolder } from "@/lib/prisma";
 import type { DialogProps } from "@aomdev/ui";
 import { IconX } from "@tabler/icons-react";
 

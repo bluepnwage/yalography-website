@@ -18,7 +18,8 @@ import type { DialogProps } from "@aomdev/ui";
 import { useState } from "react";
 import { useRouteRefresh } from "@/lib/hooks/useRouteRefresh";
 import { useToggle } from "@/lib/hooks/useToggle";
-import { toast } from "react-toastify";
+// import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 import { formatDate } from "@/util/formate-date";
 
 const selectData = Array.from(photoshootTypes).map(([key, value]) => ({ label: value.label, value: key }));
@@ -58,6 +59,7 @@ export function BookingDialog(props: DialogProps) {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     toggle.on();
+    const id = toast.loading("Creating booking");
     try {
       const data = {
         firstName: form.first_name!,
@@ -83,14 +85,14 @@ export function BookingDialog(props: DialogProps) {
         setDate(undefined);
         refresh();
         setShootType("");
-        toast.success(json.message);
+        toast.success(json.message, { id });
       } else {
         const json = await res.json();
         throw new Error(json.message);
       }
     } catch (error) {
       if (error instanceof Error) {
-        toast.error(error.message);
+        toast.error(error.message, { id });
       }
     } finally {
       toggle.off();

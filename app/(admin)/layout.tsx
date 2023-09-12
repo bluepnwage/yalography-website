@@ -1,10 +1,11 @@
 import { Nav } from "@/components/admin/Nav";
 import "../../styles/globals.css";
-import { ToastProvider } from "@/components/ToastProvider";
+// import { ToastProvider } from "@/components/ToastProvider";
 import { Metadata } from "next";
 import { Inter, Familjen_Grotesk } from "next/font/google";
 import { NextThemesProvider } from "@/components/next-themes-provider";
 import { AdminProvider } from "@/components/admin/command-provider";
+import { ToastProvider } from "./toast-provider";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const heading = Familjen_Grotesk({ subsets: ["latin"], variable: "--font-heading" });
@@ -22,8 +23,16 @@ export default async function Layout({ children }: { children: React.ReactNode }
       className={`dark dark-mode ${inter.variable} ${heading.variable}`}
     >
       <body className="  dark:bg-neutral-900  text-gray-700 dark:text-gray-100 duration-200 ease-out">
-        <ToastProvider />
+        {/* <Toaster
+          position="top-right"
+          // containerClassName={styles.toast_container}
+          
+          toastOptions={{ style: { backgroundColor: "#1f1d2f", col } }}
+          // containerClassName="bg-neutral-800"
+        /> */}
+        {/* <ToastProvider /> */}
         <NextThemesProvider attribute="class">
+          <ToastProvider />
           <AdminProvider>
             <Nav />
             <main className="w-5/6 ml-auto p-5">{children}</main>

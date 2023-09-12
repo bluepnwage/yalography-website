@@ -30,23 +30,19 @@ export function Dropzone({ onDialogClose }: PropTypes) {
 
     const [{ uploadToCloudinary }, { toast }] = await Promise.all([
       import("@/lib/upload-image"),
-      import("react-toastify")
+      import("react-hot-toast")
     ]);
-    const id = toast.loading("Compressing and uploading images. This may take a while...", {
-      autoClose: false
-    });
+    const id = toast.loading("Compressing and uploading images. This may take a while...", {});
     try {
       const promises = files.map(file => uploadToCloudinary(file, { folderId: undefined }));
       await Promise.all(promises);
       refresh();
       toggle.off();
       onDialogClose();
-      toast.dismiss(id);
-      toast.success("Images successfully uploaded.");
+      toast.success("Images successfully uploaded.", { id });
     } catch (error) {
       if (error instanceof Error) {
-        toast.dismiss(id);
-        toast.error(error.message);
+        toast.error(error.message, { id });
       }
     } finally {
       toggle.off();
