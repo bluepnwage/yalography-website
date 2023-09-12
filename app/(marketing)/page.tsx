@@ -100,9 +100,6 @@ export default function HomePage() {
             </Link>
           </div>
         </Grid>
-        {/* <Suspense fallback={null}>
-          <Slideshow />
-        </Suspense> */}
       </Section>
       {/* Services section */}
       <div className="w-11/12 h-[726px]  flex gap-20 mb-64 mx-auto">

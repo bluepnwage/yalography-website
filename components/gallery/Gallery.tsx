@@ -7,7 +7,7 @@ type PropTypes = {
 export function Gallery({ images }: PropTypes) {
   return (
     <>
-      <div style={{ gridAutoFlow: "dense" }} className="grid grid-cols-2 gap-2 w-[90%]">
+      <div style={{ gridAutoFlow: "dense" }} className="grid grid-cols-2 gap-2 w-[75%]">
         {images.map(image => {
           return (
             <Image

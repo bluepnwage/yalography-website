@@ -129,7 +129,7 @@ export function BookingsForm() {
         ref={containerRef}
         style={{ minHeight: 600 }}
         className={cardStyles({
-          className: "w-11/12 lg:w-9/12  flex flex-col lg:flex-row overflow-hidden"
+          className: "w-11/12 lg:w-7/12  flex flex-col lg:flex-row overflow-hidden"
         })}
       >
         <div className="basis-1/3 grow  rounded-md relative">

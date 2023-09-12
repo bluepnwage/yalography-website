@@ -19,7 +19,7 @@ export default function BookingsPage() {
           photoshoot today
         </span>
       </PageIntro>
-      <Section className="mt-10">
+      <Section className="mt-20">
         <Title className="mb-5 font-heading font-medium text-gray-50" order={2}>
           Book a session
         </Title>
@@ -27,7 +27,6 @@ export default function BookingsPage() {
           <BookingsForm />
         </Suspense>
       </Section>
-      <ContactForm />
     </>
   );
 }

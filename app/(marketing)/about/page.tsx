@@ -8,7 +8,7 @@ import myFont from "@/lib/menlo-font";
 import { Title } from "@aomdev/ui";
 
 //Assets
-import yasmino from "@/public/yasmino-lg.jpg";
+import yasmino from "@/public/yalo-2.jpg";
 import villa from "@/public/about/villa-md.jpg";
 import tj from "@/public/about/tj-project-md.jpg";
 import about from "@/public/about/about-md.jpg";
@@ -17,6 +17,8 @@ import sxmOffice from "@/public/about/sxm-office-md.jpg";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { buttonStyles } from "@aomdev/ui/src/button/styles";
+import { BlurImage } from "@/components/blur-image";
+import { ContactForm } from "@/components/bookings";
 
 export const metadata: Metadata = {
   title: "About"
@@ -25,84 +27,45 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   return (
     <>
-      <PageIntro>
-        Capturing the moments that <br />
-        <span className="text-transparent bg-gradient-to-tr from-tertiary-400 to-primary-500 bg-clip-text">
-          captivate your heart
-        </span>
-      </PageIntro>
-      <Section className="mt-16">
-        <Grid className="mx-2 lg:mx-0" lg={2}>
-          <article className="lg:pr-10  col-span-full lg:col-span-1">
-            <header className="space-y-2 mb-5">
-              <Title
-                order={2}
-                className={`text-base ${myFont.className} text-primary-500 dark:text-primary-400`}
-              >
-                About us
-              </Title>
-              <Title order={3} className="font-heading font-medium text-4xl">
-                Capturing the Beauty of the World
-              </Title>
-            </header>
-            <p className="text-lg leading-loose text-gray-200">
-              I am a self-taught photographer who has been taking photos since I was a teenager. Growing up, I
-              was always drawn to the beauty of nature and the way that a camera could capture it. I quickly
-              became obsessed with taking photos and learning as much as I could about photography. I have
-              been honing my craft ever since, learning through both trial and error and taking courses to
-              further my knowledge. I have a passion for portrait photography, as well as capturing candid
-              moments and telling stories through my images. I am constantly striving to create unique and
-              captivating photos that will inspire and move others.
-            </p>
-            <strong className="block my-6">Some of my skills include:</strong>
-            <Grid lg={2} fullWidth>
-              <Skill Icon={PhotoSelectLarge} label="Adobe Photoshop" />
-              <Skill Icon={AutoFix} label="Adobe Lightroom" />
-              <Skill Icon={MovieFilter} label="Adobe Premier Pro" />
-            </Grid>
-          </article>
-          <figure className="bg-red-600 w-full relative col-span-full lg:col-span-1">
-            <Image
-              src={yasmino}
-              fill
-              alt={""}
-              style={{ objectPosition: "center top" }}
-              className="object-cover"
-            />
-          </figure>
-        </Grid>
-      </Section>
-      <Section margin={false} className="bg-gray-50 dark:bg-neutral-800 px-5 py-24">
-        <div className="w-full gap-5 flex-col flex lg:flex-row ">
-          <div className="basis-3/5 grow lg:pr-5 space-y-4">
+      <section className="flex container justify-between  mx-auto mt-20 mb-48">
+        <div className="basis-1/2">
+          <header className="space-y-2 mb-5">
             <Title
-              order={2}
-              className="text-center font-heading font-medium text-5xl mb-4 lg:mb-5 lg:text-start"
+              order={1}
+              className={`text-base ${myFont.className} text-primary-500 dark:text-primary-400`}
             >
-              The most renowned companies in SXM have worked with Yalography
+              About us
             </Title>
-            <p className="text-xl text-gray-200 ">
-              My experience and passion for photography have allowed me to create stunning images and to help
-              these companies tell their stories in an impactful way. I strive to provide the best services to
-              my clients and I am committed to delivering results that exceed their expectations.
-            </p>
-            <Link
-              href={"/bookings#contact"}
-              className={buttonStyles({ className: "py-4 px-6 w-full lg:w-fit text-center", size: "lg" })}
-            >
-              Contact me
-            </Link>
-          </div>
-          <Grid lg={2} gap={"none"} fullWidth className="basis-2/5 grow gap-1 w-full">
-            {companies.map((company, key) => {
-              return <Company companyName={company} key={key} />;
-            })}
-          </Grid>
+            <Title order={2} className="font-heading font-medium text-4xl">
+              Capturing the Beauty of the World
+            </Title>
+          </header>
+          <p className="[width:clamp(36ch,90%,65ch)] text-lg leading-loose text-gray-200">
+            I am a self-taught photographer who has been taking photos since I was a teenager. Growing up, I
+            was always drawn to the beauty of nature and the way that a camera could capture it. I quickly
+            became obsessed with taking photos and learning as much as I could about photography. I have been
+            honing my craft ever since, learning through both trial and error and taking courses to further my
+            knowledge. I have a passion for portrait photography, as well as capturing candid moments and
+            telling stories through my images. I am constantly striving to create unique and captivating
+            photos that will inspire and move others.
+          </p>
+          <span className="font-medium text-lg block mt-6">Some of my skills include:</span>
+          <ul className="mt-4 list-disc list-inside space-y-2">
+            <li>Adobe Photoshop</li>
+            <li>Adobe Lightroom</li>
+            <li>Photoshop</li>
+          </ul>
         </div>
-      </Section>
+        <div className="basis-2/5 ">
+          <figure className="  overflow-hidden rounded-md  w-3/4">
+            <BlurImage src={yasmino} alt="" placeholder="blur" />
+          </figure>
+        </div>
+      </section>
+
       <Section
         margin={false}
-        className={`svg-background py-24 border-t border-zinc-200 dark:border-zinc-700`}
+        className={`svg-background py-24 border-t border-b border-zinc-200 dark:border-zinc-700`}
       >
         <Grid lg={1} className={"gap-16 lg:gap-36"}>
           <SkillDetail img={villa} title="Capturing" subTitle="Capturing the best possible photographs">
@@ -143,6 +106,7 @@ export default function AboutPage() {
           </SkillDetail>
         </Grid>
       </Section>
+      <ContactForm />
     </>
   );
 }

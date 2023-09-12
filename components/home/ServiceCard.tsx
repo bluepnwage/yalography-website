@@ -24,7 +24,9 @@ import commercial5 from "@/public/services/commercial/DSC00804-lg.webp";
 import commercial6 from "@/public/services/commercial/wc9zt3ivqr0c1pengjfl-lg.webp";
 
 import { ServicesGallery } from "./services-gallery";
-import { Button, Card, Title } from "@aomdev/ui";
+import { Card, Title } from "@aomdev/ui";
+import Link from "next/link";
+import { buttonStyles } from "@aomdev/ui/src/button/styles";
 
 const maternity = [maternity1, maternity2, maternity3, maternity4, maternity5, maternity6];
 const portrait = [portrait1, portrait2, portrait3, portrait4, portrait5, portrait6];
@@ -114,7 +116,9 @@ export function Services({ children }: { children: React.ReactNode }) {
           capture the essence of every occasion. From intimate maternity sessions to dynamic commercial
           projects and everything in between, I'm here to bring your vision to life through the lens.
         </p>
-        <Button>Book a session</Button>
+        <Link href={"/bookings"} className={buttonStyles({ className: "w-fit" })}>
+          Book a session
+        </Link>
       </div>
       <div className="relative    gap-6 mt-10  container mx-auto grow ">
         <ServicesGallery photos={allImages[active]}>

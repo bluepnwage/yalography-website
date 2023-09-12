@@ -1,7 +1,7 @@
-import Image from "next/image";
 import type { StaticImageData } from "next/image";
 import { Title } from "@aomdev/ui";
 import myFont from "@/lib/menlo-font";
+import { BlurImage } from "../blur-image";
 
 type PropTypes = {
   title: string;
@@ -22,10 +22,10 @@ export function SkillDetail({ children, subTitle, title, img }: PropTypes) {
             {subTitle}
           </Title>
         </header>
-        <p className="text-lg text-gray-200 leading-relaxed">{children}</p>
+        <p className="text-lg text-gray-200 leading-loose [width:clamp(36ch,90%,65ch)]">{children}</p>
       </div>
       <figure className="basis-1/2 grow">
-        <Image src={img} className="w-full h-full object-cover" alt={""} />
+        <BlurImage src={img} className="w-full h-full object-cover" alt={""} />
       </figure>
     </article>
   );
