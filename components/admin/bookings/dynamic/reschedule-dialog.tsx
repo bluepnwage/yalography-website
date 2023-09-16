@@ -60,26 +60,30 @@ export function RescheduleDialog({ id, defaultDate, ...props }: PropTypes) {
           </Dialog.Close>
         </div>
         <form onSubmit={onSubmit} className="space-y-4">
-          <Label htmlFor="reschedule_date"></Label>
-          <Popover>
-            <Popover.Trigger asChild>
-              <button className={inputStyles({ className: "w-full mt-6 mb-4 text-start px-2" })}>
-                <IconCalendar size={16} className="inline-block mr-2" />
-                {date ? formatDate(date) : null}
-              </button>
-            </Popover.Trigger>
-            <Popover.Content className={cardStyles({ className: "z-[9999]" })}>
-              <Calendar onSelect={setDate} selected={date} mode="single" disabled={disabledDays} />
-              <input
-                hidden
-                id="reschedule_date"
-                name="reschedule_date"
-                type="date"
-                className=""
-                value={date?.toISOString()}
-              />
-            </Popover.Content>
-          </Popover>
+          <div>
+            <Label htmlFor="reschedule_date" className="mb-1 block">
+              Date
+            </Label>
+            <Popover>
+              <Popover.Trigger asChild>
+                <button className={inputStyles({ className: "w-full  mb-4 text-start px-2" })}>
+                  <IconCalendar size={16} className="inline-block mr-2" />
+                  {date ? formatDate(date) : null}
+                </button>
+              </Popover.Trigger>
+              <Popover.Content className={cardStyles({ className: "z-[9999]" })}>
+                <Calendar onSelect={setDate} selected={date} mode="single" disabled={disabledDays} />
+                <input
+                  hidden
+                  id="reschedule_date"
+                  name="reschedule_date"
+                  type="date"
+                  className=""
+                  value={date?.toISOString()}
+                />
+              </Popover.Content>
+            </Popover>
+          </div>
           <TextInput type="time" className="mb-6" label="Time" name="time" />
 
           <Button disabled={loading || isPending} className="block ml-auto group">

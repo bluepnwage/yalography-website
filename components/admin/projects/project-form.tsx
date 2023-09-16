@@ -3,7 +3,7 @@ import { Button, TextInput, Textarea, Title, Dropdown, Select, Card, Badge, Acti
 import { IconPlus, IconX } from "@tabler/icons-react";
 import { photoshootTypes } from "@/lib/photoshoot";
 import type { SelectProps } from "@aomdev/ui";
-import { FormEvent, useEffect, useRef, useState, useTransition } from "react";
+import { FormEvent, useRef, useState, useTransition } from "react";
 import { NewImageDialog } from "./new-image-dialog";
 import { CustomDropzone } from "../custom-dropzone";
 import { ExistingImageDialog } from "./existing-image-dialog";
@@ -125,9 +125,11 @@ export function ProjectForm({ galleryImages, project }: PropTypes) {
     refreshRoot?: boolean
   ) => {
     let url = project.thumbnail;
+    let json: any;
     toggle.on();
-    const { toast } = await import("react-toastify");
-    const id = toast.loading("Saving project...", { autoClose: false });
+    const { toast } = await import("react-hot-toast");
+    const id = toast.loading("Saving project...");
+    let hasThumbnail = true;
 
     try {
       //if theres no previous thumbnail  uploaded already
@@ -136,7 +138,8 @@ export function ProjectForm({ galleryImages, project }: PropTypes) {
       //then upload a new thumbnail
       if ((!url && thumbnail) || (url !== thumbnailURL && thumbnail)) {
         const { uploadThumbnail } = await import("@/lib/upload-image");
-        url = await uploadThumbnail(thumbnail);
+        json = await uploadThumbnail(thumbnail);
+        hasThumbnail = false;
       }
 
       if (images.length > 0) {
@@ -150,6 +153,13 @@ export function ProjectForm({ galleryImages, project }: PropTypes) {
         id: project.id,
         type: shootType,
         thumbnail: url
+      };
+
+      const jsonData2 = {
+        ...jsonData,
+        thumbnail: json.url,
+        thumbnailPublicId: json.public_id,
+        thumbnailType: json.format
       };
 
       //Update the ids of the selected images to match the id of the project
@@ -178,7 +188,7 @@ export function ProjectForm({ galleryImages, project }: PropTypes) {
       const res = await fetch(endpoint, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(jsonData)
+        body: JSON.stringify(!hasThumbnail ? jsonData2 : jsonData)
       });
       if (res.ok) {
         if (refreshRoot) {
@@ -187,8 +197,8 @@ export function ProjectForm({ galleryImages, project }: PropTypes) {
             setImages([]);
           });
         }
-        toast.dismiss(id);
-        toast.success("Project saved");
+
+        toast.success("Project saved", { id });
       } else {
         throw new Error("Failed to save project");
       }

@@ -90,7 +90,7 @@ export function ProjectDropdown({ published, id }: PropTypes) {
   return (
     <Dropdown>
       <Dropdown.Trigger asChild>
-        <ActionIcon>
+        <ActionIcon variant={"subtle"}>
           <IconDots size={"75%"} />
         </ActionIcon>
       </Dropdown.Trigger>

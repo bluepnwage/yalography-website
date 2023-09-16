@@ -112,9 +112,9 @@ export function Services({ children }: { children: React.ReactNode }) {
           Capturing the moments that matter most. As a versatile photographer, I specialize in maternity
           sessions that celebrate the beauty of pregnancy, create stunning and timeless portrait photography
           that tells your unique story, and deliver impactful commercial shots that elevate your brand. With a
-          passion for creativity and an eye for detail, I'm dedicated to delivering memorable images that
+          passion for creativity and an eye for detail, I&apos;m dedicated to delivering memorable images that
           capture the essence of every occasion. From intimate maternity sessions to dynamic commercial
-          projects and everything in between, I'm here to bring your vision to life through the lens.
+          projects and everything in between, I&apos;m here to bring your vision to life through the lens.
         </p>
         <Link href={"/bookings"} className={buttonStyles({ className: "w-fit" })}>
           Book a session

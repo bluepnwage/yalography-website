@@ -42,6 +42,8 @@ model Projects {
   type         String?
   pinned       Boolean  @default(false)
   images       Images[]
+  thumbnailPublicId String?
+  thumbnailType String?
 
   @@map("projects")
 }

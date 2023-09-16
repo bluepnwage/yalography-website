@@ -5,12 +5,19 @@ import { Title } from "@aomdev/ui";
 
 import prisma from "@/lib/prisma";
 import { Metadata } from "next";
+import { transformImage } from "@/lib/transform-image";
 
 async function getProjects() {
   await prisma.$connect();
   const projects = await prisma.projects.findMany({ where: { published: true } });
   await prisma.$disconnect();
-  return projects;
+  return projects.map(project => ({
+    ...project,
+    thumbnail:
+      project.thumbnailPublicId && project.thumbnailType
+        ? transformImage("w_1500", project.thumbnailPublicId, project.thumbnailType)
+        : project.thumbnail
+  }));
 }
 
 export const metadata: Metadata = {
@@ -19,6 +26,7 @@ export const metadata: Metadata = {
 
 export default async function ProjectsPage() {
   const projects = await getProjects();
+  console.log(projects);
   return (
     <>
       <PageIntro>

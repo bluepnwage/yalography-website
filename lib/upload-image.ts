@@ -63,7 +63,7 @@ export async function uploadThumbnail(image: File) {
   if (res.ok) {
     const json = (await res.json()) as CloudinaryResponse;
 
-    return transformImage("w_900", json.public_id, json.format);
+    return json;
   } else {
     throw new Error("Failed to transform image");
   }

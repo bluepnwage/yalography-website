@@ -7,20 +7,28 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { IconChevronRight, IconHome } from "@tabler/icons-react";
 import { ProjectForm } from "@/components/admin/projects/project-form";
+import { transformImage } from "@/lib/transform-image";
 
 const getProject = cache(async (id: number) => {
   await prisma.$connect();
   const project = await prisma.projects.findUnique({ where: { id }, include: { images: true } });
   await prisma.$disconnect();
   if (!project) notFound();
-  return { ...project, createdAt: project.createdAt.toDateString() };
+  return {
+    ...project,
+    createdAt: project.createdAt.toDateString(),
+    thumbnail:
+      project.thumbnailPublicId && project.thumbnailType
+        ? transformImage("w_900", project.thumbnailPublicId, project.thumbnailType)
+        : project.thumbnail
+  };
 });
 
 const getGalleryImages = cache(async () => {
   await prisma.$connect();
   const images = await prisma.images.findMany();
   await prisma.$disconnect();
-  return images;
+  return images.map(image => ({ ...image, url: transformImage("w_1000", image.publicId, image.type) }));
 });
 
 export type ProjectData = Awaited<ReturnType<typeof getProject>>;
