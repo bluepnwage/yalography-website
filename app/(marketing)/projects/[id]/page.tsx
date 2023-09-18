@@ -84,7 +84,7 @@ export default async function DynamicProjectPage({ params }: { params: { id: str
             <div className="mt-8">
               <p className="text-lg text-gray-100 leading-relaxed  ">{project.description}</p>
               <blockquote className=" border-l-2 border-l-primary-500 pl-2 my-10">
-                <p className="italic mb-2">" {project.testimonial} "</p>
+                <p className="italic mb-2">&quot; {project.testimonial} &quot;</p>
                 <footer className="text-gray-300">
                   {project.customerName}, {project.companyName}
                 </footer>
@@ -97,6 +97,7 @@ export default async function DynamicProjectPage({ params }: { params: { id: str
                   ? project.images.map(image => {
                       return (
                         <img
+                          key={image.id}
                           src={image.url}
                           width={"100%"}
                           className="rounded-md"
