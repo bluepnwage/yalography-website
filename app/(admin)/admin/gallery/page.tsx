@@ -35,7 +35,7 @@ export default async function GalleryPage() {
             ) : (
               <p>You haven&apos;t uploaded any images</p>
             )}
-            <CreateResource type="photo">Add images</CreateResource>
+            <CreateResource payload="photo">Add images</CreateResource>
           </header>
         </div>
         {images.map(image => {

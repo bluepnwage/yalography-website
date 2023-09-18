@@ -45,7 +45,7 @@ export default async function TasksPage() {
         <Title order={1} className="font-heading font-medium text-4xl leading-none">
           Tasks
         </Title>
-        <CreateResource type="task">Create task</CreateResource>
+        <CreateResource payload="task">Create task</CreateResource>
       </header>
       <Table className="w-full">
         <Table.Header>

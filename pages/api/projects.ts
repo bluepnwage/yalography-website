@@ -47,7 +47,6 @@ const handler: NextApiHandler = async (req, res) => {
           //   stackTrace: data.stack,
           //   statusCode: 500
           // });
-          console.log(data);
           throw new Error("There was an error creating a project.");
         }
         return res.status(201).json({ message: "Project createad", data });
@@ -58,7 +57,6 @@ const handler: NextApiHandler = async (req, res) => {
 
         const promise = editProject(json);
         const [status, data] = await handlePromise(promise);
-        console.log(json);
         if (status === "error") {
           // logError({
           //   title: "Edit project",

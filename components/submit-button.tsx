@@ -9,8 +9,8 @@ export function SubmitButton(props: ButtonProps) {
   const { pending } = useFormStatus();
   return (
     <Button
-      {...props}
       disabled={pending}
+      {...props}
       className={cx("group relative flex items-center justify-center", props.className)}
     >
       <span className="group-disabled:opacity-0">{props.children}</span>

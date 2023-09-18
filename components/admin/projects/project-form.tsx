@@ -155,13 +155,6 @@ export function ProjectForm({ galleryImages, project }: PropTypes) {
         thumbnail: url
       };
 
-      const jsonData2 = {
-        ...jsonData,
-        thumbnail: json.url,
-        thumbnailPublicId: json.public_id,
-        thumbnailType: json.format
-      };
-
       //Update the ids of the selected images to match the id of the project
       if (uploadedImages.length > 0) {
         const ids = uploadedImages.map(image => image.id);
@@ -180,7 +173,7 @@ export function ProjectForm({ galleryImages, project }: PropTypes) {
       const endpoint = new URL("/api/projects", location.origin);
 
       if (refreshRoot) {
-        endpoint.searchParams.set("revalidate", project.published ? "1" : "0");
+        endpoint.searchParams.set("revalidate", "1");
       } else {
         endpoint.searchParams.set("revalidate", "0");
       }
@@ -188,7 +181,16 @@ export function ProjectForm({ galleryImages, project }: PropTypes) {
       const res = await fetch(endpoint, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(!hasThumbnail ? jsonData2 : jsonData)
+        body: JSON.stringify(
+          !hasThumbnail
+            ? {
+                ...jsonData,
+                thumbnail: json.url,
+                thumbnailPublicId: json.public_id,
+                thumbnailType: json.format
+              }
+            : jsonData
+        )
       });
       if (res.ok) {
         if (refreshRoot) {
@@ -205,7 +207,7 @@ export function ProjectForm({ galleryImages, project }: PropTypes) {
     } catch (error) {
       toast.dismiss(id);
       if (error instanceof Error) {
-        toast.error(error.message);
+        toast.error(`${error.message} bruh`);
       } else {
         toast.error("An error ocurred while saving the project.");
       }

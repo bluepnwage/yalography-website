@@ -22,7 +22,7 @@ export default function BookingsPage() {
         <Title order={1} className="font-heading font-medium text-4xl leading-none">
           Bookings
         </Title>
-        <CreateResource type="bookings">Create booking</CreateResource>
+        <CreateResource payload="bookings">Create booking</CreateResource>
       </header>
       <Grid fullWidth className="mb-36">
         <div className="w-full col-span-full flex gap-4">

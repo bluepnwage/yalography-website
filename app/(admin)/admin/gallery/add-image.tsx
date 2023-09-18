@@ -6,7 +6,7 @@ import { IconPlus } from "@tabler/icons-react";
 export function AddImages() {
   const { dispatch } = useCommand();
   return (
-    <Button size={"sm"} onClick={() => dispatch({ type: "photo", payload: true })}>
+    <Button size={"sm"} onClick={() => dispatch({ type: "dialog", payload: "photo" })}>
       <IconPlus size={16} className="mr-1 inline-block" />
       Add images
     </Button>

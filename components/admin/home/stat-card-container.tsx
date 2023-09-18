@@ -23,7 +23,7 @@ export function StatCardLoading() {
         </div>
         <div className="  border-t border-gray-200 dark:border-neutral-700 pt-6">
           <Skeleton rounded animate className="h-12 w-12 mb-4" />
-          <Skeleton className="mb-4 h-3 w-32" />
+          <Skeleton className="mb-4 h-3 w-32" rounded />
         </div>
         <div className="  border-t border-gray-200 dark:border-neutral-700 pt-6">
           <Skeleton rounded animate className="h-12 w-12 mb-4" />
