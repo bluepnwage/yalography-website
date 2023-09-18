@@ -1,7 +1,7 @@
 "use client";
 import { useRouteRefresh } from "@/lib/hooks/useRouteRefresh";
 import { useToggle } from "@/lib/hooks/useToggle";
-import { ActionIcon, Dropdown } from "@aomdev/ui";
+import { ActionIcon, Dropdown, Dialog, Button } from "@aomdev/ui";
 import {
   IconDots,
   IconCopy,
@@ -9,7 +9,9 @@ import {
   IconLayout,
   IconGlobe,
   IconEdit,
-  IconUpload
+  IconUpload,
+  IconX,
+  IconLoader
 } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
 
@@ -22,6 +24,7 @@ export function ProjectDropdown({ published, id }: PropTypes) {
   const [isPending, refresh] = useRouteRefresh();
   const router = useRouter();
   const [loading, toggle] = useToggle();
+  const [dialog, handler] = useToggle();
 
   const onStatus = async () => {
     const endpoint = new URL("/api/projects", location.origin);
@@ -56,7 +59,7 @@ export function ProjectDropdown({ published, id }: PropTypes) {
 
   const onDelete = async () => {
     toggle.on();
-    const { toast } = await import("react-toastify");
+    const { toast } = await import("react-hot-toast");
 
     const endpoint = new URL("/api/projects", location.origin);
     endpoint.searchParams.set("revalidate", "0");
@@ -70,8 +73,8 @@ export function ProjectDropdown({ published, id }: PropTypes) {
       });
       const json = await res.json();
       if (res.ok) {
-        toast.dismiss(toastID);
-        toast.success(json.message);
+        toast.success(json.message, { id: toastID });
+        handler.off();
         refresh();
         router.push("/admin/projects");
       } else {
@@ -79,36 +82,66 @@ export function ProjectDropdown({ published, id }: PropTypes) {
       }
     } catch (error) {
       if (error instanceof Error) {
-        toast.dismiss(toastID);
-        toast.error(error.message);
+        toast.error(error.message, { id: toastID });
       }
     } finally {
       toggle.off();
     }
   };
 
+  const isLoading = loading || isPending;
+
   return (
-    <Dropdown>
-      <Dropdown.Trigger asChild>
-        <ActionIcon variant={"subtle"}>
-          <IconDots size={"75%"} />
-        </ActionIcon>
-      </Dropdown.Trigger>
-      <Dropdown.Content className="z-[50]">
-        <Dropdown.Label>Preview</Dropdown.Label>
-        <Dropdown.Item icon={<IconGlobe size={16} />}>Preview</Dropdown.Item>
-        <Dropdown.Item icon={<IconLayout size={16} />}>Card Preview</Dropdown.Item>
-        <Dropdown.Item icon={<IconCopy size={16} />}>Copy URL</Dropdown.Item>
-        <Dropdown.Separator />
-        <Dropdown.Label>Edit</Dropdown.Label>
-        <Dropdown.Item onClick={onStatus} icon={<IconUpload size={16} />}>
-          {published ? "Unpublish" : "Publish"}
-        </Dropdown.Item>
-        <Dropdown.Item icon={<IconEdit size={16} />}>Rename</Dropdown.Item>
-        <Dropdown.Item onClick={onDelete} icon={<IconTrash size={16} />} color="error">
-          Delete
-        </Dropdown.Item>
-      </Dropdown.Content>
-    </Dropdown>
+    <>
+      <Dialog open={dialog} onOpenChange={handler.set}>
+        <Dialog.Content className="w-1/4 space-y-4">
+          <div className="flex items-center justify-between">
+            <Dialog.Title>Confirm delete</Dialog.Title>
+            <Dialog.Close>
+              <IconX size={16} />
+            </Dialog.Close>
+          </div>
+          <p>This action is irreversible. Are you sure you want to proceed?</p>
+          <div className="flex gap-4  justify-end">
+            <Button disabled={isLoading} onClick={handler.off} variant={"neutral"}>
+              Cancel
+            </Button>
+            <Button
+              disabled={isLoading}
+              onClick={onDelete}
+              variant={"error"}
+              className="relative group flex items-center justify-center1"
+            >
+              <span className="group-disabled:opacity-100 opacity-0 absolute">
+                <IconLoader className="animate-spin" size={16} />
+              </span>
+              <span className="group-disabled:opacity-0">Delete</span>
+            </Button>
+          </div>
+        </Dialog.Content>
+      </Dialog>
+      <Dropdown>
+        <Dropdown.Trigger asChild>
+          <ActionIcon variant={"subtle"}>
+            <IconDots size={"75%"} />
+          </ActionIcon>
+        </Dropdown.Trigger>
+        <Dropdown.Content className="z-[50]">
+          <Dropdown.Label>Preview</Dropdown.Label>
+          <Dropdown.Item icon={<IconGlobe size={16} />}>Preview</Dropdown.Item>
+          <Dropdown.Item icon={<IconLayout size={16} />}>Card Preview</Dropdown.Item>
+          <Dropdown.Item icon={<IconCopy size={16} />}>Copy URL</Dropdown.Item>
+          <Dropdown.Separator />
+          <Dropdown.Label>Edit</Dropdown.Label>
+          <Dropdown.Item onClick={onStatus} icon={<IconUpload size={16} />}>
+            {published ? "Unpublish" : "Publish"}
+          </Dropdown.Item>
+          <Dropdown.Item icon={<IconEdit size={16} />}>Rename</Dropdown.Item>
+          <Dropdown.Item onClick={handler.on} icon={<IconTrash size={16} />} color="error">
+            Delete
+          </Dropdown.Item>
+        </Dropdown.Content>
+      </Dropdown>
+    </>
   );
 }

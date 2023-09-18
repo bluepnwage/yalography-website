@@ -1,75 +1,45 @@
 "use client";
 //Components
-import { Dialog, Button, Select, Textarea, TextInput, Popover, Calendar } from "@aomdev/ui";
+import { Dialog, Select, Textarea, TextInput, Popover, Calendar } from "@aomdev/ui";
 import { IconX } from "@tabler/icons-react";
 
 //Hooks
-import { useRouteRefresh } from "@/lib/hooks/useRouteRefresh";
-import { useToggle } from "@/lib/hooks/useToggle";
-
-import { useState, type FormEvent } from "react";
+import { useState } from "react";
 import type { DialogProps } from "@aomdev/ui";
 import { inputStyles } from "@aomdev/ui/src/input-wrapper/styles";
 import { cardStyles } from "@aomdev/ui/src/card/styles";
 import { formatDate } from "@/util/formate-date";
+import { createTask } from "./action";
+import { SubmitButton } from "../submit-button";
+import { useCommand } from "./command-provider";
 
 type PropTypes = {
   dialogProps: DialogProps;
 };
 
 export function TaskDialog({ dialogProps }: PropTypes) {
-  const [isPending, refresh] = useRouteRefresh();
-  const [loading, toggle] = useToggle();
   const [date, setDate] = useState<Date>();
+  const { dispatch } = useCommand();
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const formData = Object.fromEntries(new FormData(e.currentTarget));
-    const data = {
-      name: formData.task_name,
-      description: formData.description,
-      deadline: date || null,
-      priority: formData.priority
-    };
-    toggle.on();
-    const { toast } = await import("react-toastify");
-
-    try {
-      const res = await fetch("/api/tasks", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data)
-      });
-      const json = await res.json();
-      if (res.ok) {
-        refresh();
-        toast.success(json.message);
-        setDate(undefined);
-        if (dialogProps.onOpenChange) dialogProps.onOpenChange(false);
-      } else {
-        throw new Error(json.message, { cause: json.error });
-      }
-    } catch (error) {
-      if (error instanceof Error) {
-        toast.error(error.message);
-      }
-    } finally {
-      toggle.off();
-    }
+  const handleSubmit = async (form: FormData) => {
+    const { toast } = await import("react-hot-toast");
+    const data = await createTask(form, date || null);
+    if (data.error) toast.error(data.message);
+    toast.success("Task created");
+    dispatch({ type: "dialog", payload: "" });
   };
 
-  const isLoading = isPending || loading;
   return (
     <>
       <Dialog {...dialogProps}>
-        <Dialog.Content className="w-1/4">
+        <Dialog.Content className="w-1/4" blur={true}>
           <div className="flex justify-between items-center">
             <Dialog.Title>Create New Task</Dialog.Title>
             <Dialog.Close>
               <IconX />
             </Dialog.Close>
           </div>
-          <form onSubmit={handleSubmit} className="space-y-4 mt-6">
+          <form action={handleSubmit} className="space-y-4 mt-6">
             <TextInput autoFocus required name="task_name" label="Task Name" />
             <div className="space-y-1 ">
               <span className="font-medium block text-gray-100">Deadline</span>
@@ -82,7 +52,7 @@ export function TaskDialog({ dialogProps }: PropTypes) {
                 <Popover.Content className={cardStyles({ className: "z-[9999]" })}>
                   <Calendar
                     labelContentProps={{ className: "z-[9999]" }}
-                    // disabled={{ before: new Date() }}
+                    disabled={{ before: new Date() }}
                     mode="single"
                     onSelect={setDate}
                     selected={date}
@@ -109,9 +79,7 @@ export function TaskDialog({ dialogProps }: PropTypes) {
             </div>
             <Textarea name="description" label="Description" />
 
-            <Button disabled={isLoading} className="block ml-auto">
-              Submit
-            </Button>
+            <SubmitButton className="ml-auto">Create task</SubmitButton>
           </form>
         </Dialog.Content>
       </Dialog>

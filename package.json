@@ -39,7 +39,8 @@
     "react-dom": "18.2.0",
     "react-hot-toast": "^2.4.1",
     "react-toastify": "^9.1.1",
-    "recharts": "^2.8.0"
+    "recharts": "^2.8.0",
+    "resend": "^1.0.0"
   },
   "devDependencies": {
     "@types/node": "20.3.3",

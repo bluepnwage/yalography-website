@@ -30,20 +30,20 @@ model Bookings {
 
 model Projects {
   id           Int      @id @default(autoincrement())
-  title        String?
+  title        String? @default("")
   description  String?  @db.Text
-  thumbnail    String?
+  thumbnail    String? @default("")
   createdAt    DateTime @default(now())
-  testimonial  String?  @db.Text
-  companyName  String?
-  customerName String?
+  testimonial  String?  @db.Text 
+  companyName  String? @default("")
+  customerName String? @default("")
   published    Boolean  @default(false)
   name         String   @unique
-  type         String?
+  type         String? @default("")
   pinned       Boolean  @default(false)
   images       Images[]
-  thumbnailPublicId String?
-  thumbnailType String?
+  thumbnailPublicId String? @default("")
+  thumbnailType String? @default("")
 
   @@map("projects")
 }

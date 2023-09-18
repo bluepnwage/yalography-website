@@ -20,16 +20,6 @@ import { inputStyles } from "@aomdev/ui/src/input-wrapper/styles";
 
 const selectData = Array.from(photoshootTypes).map(([key, value]) => ({ label: value.label, value: key }));
 
-type Form = {
-  first_name: string;
-  last_name: string;
-  email: string;
-  phone: string;
-  time: string;
-  description: string;
-  environment: "inside" | "outside";
-};
-
 export function BookingsForm() {
   const { contact, details, validate } = useForm();
   const [currentStep, setCurrentStep] = useState(1);
@@ -83,6 +73,8 @@ export function BookingsForm() {
     e.preventDefault();
     toggle.on();
     const { toast } = await import("react-toastify");
+    const endpoint = new URL("/api/bookings", location.origin);
+    endpoint.searchParams.set("email", "1");
     try {
       const data = {
         firstName: contact.state.first_name.value!,
@@ -96,7 +88,7 @@ export function BookingsForm() {
         environment: details.state.environment?.value === "inside" || false,
         features: selectedFeatures.join(",")
       };
-      const res = await fetch("/api/bookings", {
+      const res = await fetch(endpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data)

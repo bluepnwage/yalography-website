@@ -14,7 +14,7 @@ export function GalleryDialog({ dialogProps }: PropTypes) {
   return (
     <>
       <Dialog {...dialogProps}>
-        <Dialog.Content className="w-1/4">
+        <Dialog.Content className="w-1/4" blur={true}>
           <div className="flex justify-between mb-6 items-center">
             <Dialog.Title>Add gallery images</Dialog.Title>
             <Dialog.Close>

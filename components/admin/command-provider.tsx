@@ -18,7 +18,7 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
 
   const onSelect = (value: string) => {
     router.push(`/admin/${value}`);
-    dispatch({ type: "command", payload: false });
+    dispatch({ type: "dialog", payload: "" });
   };
 
   return <AdminContext.Provider value={{ state, dispatch, onSelect }}>{children}</AdminContext.Provider>;

@@ -1,6 +1,6 @@
 "use client";
 import { Command, ScrollArea } from "@aomdev/ui";
-import { FormEvent, useEffect } from "react";
+import { useEffect } from "react";
 import { useHotkeys } from "@mantine/hooks";
 import {
   IconListCheck,
@@ -35,7 +35,7 @@ type PropTypes = {
 export function AdminCommand({ bookings, projects, tasks }: PropTypes) {
   const { dispatch, state } = useCommand();
   const { theme, setTheme } = useTheme();
-  useHotkeys([["ctrl+k", () => dispatch({ payload: true, type: "command" })]]);
+  useHotkeys([["ctrl+k", () => dispatch({ payload: "command", type: "dialog" })]]);
   useEffect(() => {
     const onBackspace = (e: KeyboardEvent) => {
       if (e.ctrlKey && e.key === "/") {
@@ -48,13 +48,12 @@ export function AdminCommand({ bookings, projects, tasks }: PropTypes) {
       window.removeEventListener("keydown", onBackspace);
     };
   }, []);
-  console.log(projects);
 
   return (
     <>
       <div className="flex max-xl:flex-col items-center gap-2">
         <button
-          onClick={() => dispatch({ type: "command", payload: true })}
+          onClick={() => dispatch({ type: "dialog", payload: "command" })}
           className={inputStyles({
             className: "basis-3/4 grow flex justify-between items-center px-2",
             size: "sm"
@@ -78,23 +77,29 @@ export function AdminCommand({ bookings, projects, tasks }: PropTypes) {
         </ActionIcon>
       </div>
       <BookingDialog
-        open={state.bookings}
-        onOpenChange={payload => dispatch({ payload, type: "bookings" })}
+        open={state.dialog === "bookings"}
+        onOpenChange={payload => dispatch({ payload: payload ? "bookings" : "", type: "dialog" })}
       />
       <GalleryDialog
-        dialogProps={{ open: state.photo, onOpenChange: payload => dispatch({ payload, type: "photo" }) }}
+        dialogProps={{
+          open: state.dialog === "photo",
+          onOpenChange: payload => dispatch({ payload: payload ? "photo" : "", type: "dialog" })
+        }}
       />
-      <ProjectDialog open={state.project} onOpenChange={payload => dispatch({ payload, type: "project" })} />
+      <ProjectDialog
+        open={state.dialog === "project"}
+        onOpenChange={payload => dispatch({ payload: payload ? "project" : "", type: "dialog" })}
+      />
       <TaskDialog
         dialogProps={{
-          open: state.task,
-          onOpenChange: payload => dispatch({ payload, type: "task" })
+          open: state.dialog === "task",
+          onOpenChange: payload => dispatch({ payload: payload ? "task" : "", type: "dialog" })
         }}
       />
       <Command
         key={state.page}
-        open={state.command}
-        onOpenChange={payload => dispatch({ payload, type: "command" })}
+        open={state.dialog === "command"}
+        onOpenChange={payload => dispatch({ payload: payload ? "command" : "", type: "dialog" })}
         contentProps={{ className: "w-2/4 relative pb-6", blur: true }}
       >
         <Command.Input />
@@ -158,7 +163,7 @@ function CommandHome() {
   const { dispatch } = useCommand();
 
   const onRefresh = async () => {
-    const { toast } = await import("react-toastify");
+    const { toast } = await import("react-hot-toast");
     const endpoint = new URL("/api/revalidate-gallery", window.location.origin);
     endpoint.searchParams.set("secret", process.env.NEXT_PUBLIC_REVALIDATE_SECRET);
     const res = await fetch(endpoint);
@@ -174,7 +179,7 @@ function CommandHome() {
           <IconClipboardData size={18} className="inline-block mr-2 text-gray-600 dark:text-gray-300" />{" "}
           Search Bookings...
         </Command.Item>
-        <Command.Item onSelect={() => dispatch({ type: "bookings", payload: true })}>
+        <Command.Item onSelect={() => dispatch({ type: "dialog", payload: "bookings" })}>
           {" "}
           <IconPlus size={18} className="inline-block mr-2 text-gray-600 dark:text-gray-300" /> Create
           Booking...
@@ -187,7 +192,7 @@ function CommandHome() {
           <IconListCheck size={18} className="inline-block mr-2 text-gray-600 dark:text-gray-300" />
           Search Tasks...
         </Command.Item>
-        <Command.Item onSelect={() => dispatch({ payload: true, type: "task" })}>
+        <Command.Item onSelect={() => dispatch({ payload: "task", type: "dialog" })}>
           {" "}
           <IconPlus size={18} className="inline-block mr-2 text-gray-600 dark:text-gray-300" />
           Create Task...
@@ -199,7 +204,7 @@ function CommandHome() {
           <IconRefresh size={18} className="inline-block mr-2 text-gray-600 dark:text-gray-300" />
           Refresh Gallery...
         </Command.Item>
-        <Command.Item onSelect={() => dispatch({ payload: true, type: "photo" })}>
+        <Command.Item onSelect={() => dispatch({ payload: "photo", type: "dialog" })}>
           {" "}
           <IconPlus size={18} className="inline-block mr-2 text-gray-600 dark:text-gray-300" />
           Upload Image...
@@ -215,7 +220,7 @@ function CommandHome() {
           />{" "}
           Search Projects...
         </Command.Item>
-        <Command.Item onSelect={() => dispatch({ payload: true, type: "project" })}>
+        <Command.Item onSelect={() => dispatch({ payload: "project", type: "dialog" })}>
           {" "}
           <IconPlus size={18} className="inline-block mr-2 text-gray-600 dark:text-gray-300" /> Create
           Project...

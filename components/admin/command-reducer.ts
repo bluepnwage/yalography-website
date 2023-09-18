@@ -1,65 +1,32 @@
-export const initialState = {
-  photo: false,
-  task: false,
-  bookings: false,
-  project: false,
-  command: false,
-  page: "projects",
-  search: ""
+type DialogState = "photo" | "task" | "bookings" | "project" | "command" | "";
+type PageState = "projects" | "home" | "bookings" | "tasks";
+
+type State = {
+  page: PageState;
+  search: string;
+  dialog: DialogState;
+};
+
+export const initialState: State = {
+  page: "home",
+  search: "",
+  dialog: ""
 };
 export type Actions =
-  | { type: keyof Omit<typeof initialState, "search" | "page">; payload: boolean }
+  | { type: "dialog"; payload: DialogState }
   | { type: "page"; payload: "home" | "projects" | "bookings" | "tasks" }
   | { type: "search"; payload: string };
 
 export function reducer(state: typeof initialState, action: Actions): typeof initialState {
   switch (action.type) {
-    case "bookings": {
+    case "dialog": {
       return {
         ...state,
-        bookings: action.payload,
-        command: false
+        dialog: action.payload,
+        search: ""
       };
     }
 
-    case "command": {
-      if (action.payload) {
-        return {
-          bookings: false,
-          command: action.payload,
-          photo: false,
-          project: false,
-          task: false,
-          page: "home",
-          search: ""
-        };
-      }
-      return {
-        ...state,
-        command: action.payload
-      };
-    }
-    case "photo": {
-      return {
-        ...state,
-        photo: action.payload,
-        command: false
-      };
-    }
-    case "project": {
-      return {
-        ...state,
-        project: action.payload,
-        command: false
-      };
-    }
-    case "task": {
-      return {
-        ...state,
-        task: action.payload,
-        command: false
-      };
-    }
     case "page": {
       return {
         ...state,

@@ -10,7 +10,7 @@ export default function AdminProjectsPage() {
         <Title order={1} className="font-heading font-medium text-4xl ">
           Projects
         </Title>
-        <CreateResource type="project">Create project</CreateResource>
+        <CreateResource payload="project">Create project</CreateResource>
       </header>
 
       <Grid fullWidth>

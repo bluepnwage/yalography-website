@@ -1,61 +1,34 @@
 "use client";
+import { SubmitButton } from "@/components/submit-button";
 import { useToggle } from "@/lib/hooks/useToggle";
-import { FormProps } from "@/lib/notion";
-import { FormEvent, useState } from "react";
-import { Button, TextInput, Textarea } from "@aomdev/ui";
+import { TextInput, Textarea } from "@aomdev/ui";
+import { useToast } from "react-toastify";
 
-export function Form() {
-  const [form, setForm] = useState<Partial<FormProps>>({});
-  const [loading, toggle] = useToggle();
+type PropTypes = {
+  onAction: (formData: FormData) => Promise<void>;
+};
 
-  const handleChange = (e: FormEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.currentTarget;
-    setForm(prev => ({ ...prev, [name]: value }));
+export function Form({ onAction }: PropTypes) {
+  const [toggle, handler] = useToggle();
+  const onSubmit = async (formData: FormData) => {
+    const { toast } = await import("react-hot-toast");
+    await onAction(formData);
+    toast.success("Email sent! We will get in touch with you shortly.", {
+      duration: 5000,
+      position: "top-center"
+    });
+    handler.toggle();
   };
 
-  const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const { toast } = await import("react-toastify");
-    toggle.on();
-    try {
-      const res = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form)
-      });
-      if (res.ok) {
-        toast.success("Message sent. We will be getting in touch with you as soon as possible.");
-        setForm({});
-      } else {
-        throw new Error();
-      }
-    } catch (error) {
-      if (error instanceof Error) {
-        toast.error("There was an error sending your message. Please try again later");
-      }
-    } finally {
-      toggle.off();
-    }
-  };
   return (
-    <form onSubmit={onSubmit} className="flex flex-col items-center justify-evenly gap-4">
+    <form action={onSubmit} className="space-y-8" key={`${toggle}`}>
       <div className="flex flex-col lg:flex-row w-full gap-4 grow basis-full">
         <div className="grow">
-          <TextInput
-            required
-            className="grow"
-            onChange={handleChange}
-            value={form.first_name || ""}
-            label="First name"
-            name="first_name"
-            id="first_name"
-          />
+          <TextInput required className="grow" label="First name" name="first_name" id="first_name" />
         </div>
         <div className="grow">
           <TextInput
             required
-            onChange={handleChange}
-            value={form.last_name || ""}
             label="Last name"
             name="last_name"
             id={"last_name"}
@@ -65,53 +38,21 @@ export function Form() {
       </div>
       <div className="flex flex-col lg:flex-row w-full gap-4 grow basis-full">
         <div className="grow">
-          <TextInput
-            required
-            onChange={handleChange}
-            value={form.email || ""}
-            type={"email"}
-            label={"Email"}
-            name={"email"}
-            id={"email"}
-          />
+          <TextInput required type={"email"} label={"Email"} name={"email"} id={"email"} />
         </div>
         <div className="grow">
-          <TextInput
-            required
-            onChange={handleChange}
-            value={form.number || ""}
-            type={"number"}
-            label={"Phone"}
-            name={"number"}
-            id={"number"}
-          />
+          <TextInput required type={"tel"} label={"Phone"} name={"number"} id={"number"} />
         </div>
       </div>
       <div className="flex w-full gap-4 grow ">
         <div className="grow">
-          <TextInput
-            onChange={handleChange}
-            value={form.subject || ""}
-            label="Subject"
-            name={"subject"}
-            id={"subject"}
-          />
+          <TextInput label="Subject" name={"subject"} id={"subject"} />
         </div>
       </div>
       <div className="w-full">
-        <Textarea
-          className="w-full"
-          required
-          value={form.message || ""}
-          name="message"
-          onChange={handleChange}
-          rows={5}
-          label="Message"
-        />
+        <Textarea className="w-full" required name="message" rows={5} label="Message" />
       </div>
-      <Button disabled={loading} className="self-end">
-        Submit message
-      </Button>
+      <SubmitButton fullWidth>Let&apos;s talk</SubmitButton>
     </form>
   );
 }

@@ -4,6 +4,11 @@ import prisma from "@/lib/prisma";
 import { logError } from "@/lib/notion";
 import { handlePromise } from "@/util/handle-promise";
 import { serverError } from "@/util/serverError";
+import { Resend } from "resend";
+import { EmailTemplate } from "@/components/email-template";
+import { formatDate } from "@/util/formate-date";
+
+const resend = new Resend(process.env.RESEND_API_KEY!);
 
 async function createBooking(data: Bookings) {
   await prisma.$connect();
@@ -38,6 +43,7 @@ const handler: NextApiHandler<ApiResponse> = async (req, res) => {
     const json = req.body;
     switch (req.method) {
       case "POST": {
+        const params = req.query;
         const promise = createBooking(json);
         const [status, data] = await handlePromise(promise);
         if (status === "error") {
@@ -49,6 +55,18 @@ const handler: NextApiHandler<ApiResponse> = async (req, res) => {
             statusCode: 500
           });
           throw new Error("Error creating booking.", { cause: data });
+        }
+        if (params?.email === "1") {
+          await resend.emails.send({
+            from: "Yalography <onboarding@resend.dev>",
+            subject: `${data.type} Booking request`,
+            to: "activeoutremer@gmail.com",
+            react: EmailTemplate({
+              ...data,
+              date: formatDate(data.date, { dateStyle: "long" }),
+              location: data.environment ? "Inside" : "Outside"
+            })
+          });
         }
         return res.status(201).json({ message: "Booking created", data });
       }
@@ -80,6 +98,7 @@ const handler: NextApiHandler<ApiResponse> = async (req, res) => {
           // });
           throw new Error("There was an error deleting your booking.", { cause: data });
         }
+
         return res.status(200).json({ message: "Booking deleted" });
       }
       default: {

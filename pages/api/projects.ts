@@ -38,6 +38,7 @@ const handler: NextApiHandler = async (req, res) => {
       case "POST": {
         const promise = createProject(json);
         const [status, data] = await handlePromise(promise);
+        console.log(json);
         if (status === "error") {
           // logError({
           //   title: "Create project",
@@ -46,6 +47,7 @@ const handler: NextApiHandler = async (req, res) => {
           //   stackTrace: data.stack,
           //   statusCode: 500
           // });
+          console.log(data);
           throw new Error("There was an error creating a project.");
         }
         return res.status(201).json({ message: "Project createad", data });

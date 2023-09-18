@@ -122,8 +122,10 @@ function Sidebar({ date, environment, features, status, time }: SidebarProps) {
 
 function relativeTime(date: string) {
   const formatter = new Intl.RelativeTimeFormat("en-US", { style: "long" });
-  const days = Date.parse(date) - Date.now();
-  return formatter.format(Math.round(days / 1000 / 60 / 60 / 24), "days");
+  const days = Math.round((Date.parse(date) - Date.now()) / 1000 / 60 / 60 / 24);
+  if (days === 0) return "today";
+
+  return formatter.format(days, "days");
 }
 
 function getStatusColor(status: string) {
