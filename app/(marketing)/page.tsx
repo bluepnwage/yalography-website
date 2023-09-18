@@ -20,6 +20,7 @@ import { buttonStyles } from "@aomdev/ui/src/button/styles";
 //Types
 import type * as Props from "@/components/home";
 import type { Metadata } from "next";
+import { BlurImage } from "@/components/blur-image";
 
 export const metadata: Metadata = {
   description: `Preserve the beauty and memories of St. Martin with the expertise of a professional photographer.
@@ -69,8 +70,8 @@ export default function HomePage() {
       {/* About section */}
       <Section>
         <Grid className="mb-16">
-          <figure className="col-span-full lg:col-span-4 bg-red-600">
-            <Image src={photographer} alt={""} className="w-full h-full object-cover" />
+          <figure className="col-span-full lg:col-span-4">
+            <BlurImage src={photographer} alt={""} className="w-full h-full object-cover" />
           </figure>
           <div className="col-span-full lg:col-span-7 p-5">
             <header className="mb-10 space-y-2">
@@ -132,7 +133,7 @@ export default function HomePage() {
         </div>
         <div style={{ gridTemplateRows: "repeat(3, 400px)" }} className="grid grid-cols-12 gap-4 container ">
           <Link href={`/projects`} className="col-span-8 rounded-md   relative group overflow-hidden">
-            <Image
+            <BlurImage
               src={"/projects/adm-thumbnail.jpg"}
               alt=""
               fill
@@ -143,7 +144,7 @@ export default function HomePage() {
             href={"/projects"}
             className="col-span-4 row-span-2 rounded-md relative group overflow-hidden"
           >
-            <Image
+            <BlurImage
               src={"/projects/fashion-thumbnail.jpg"}
               alt=""
               fill
@@ -154,7 +155,7 @@ export default function HomePage() {
             href={"/projects"}
             className="col-span-4 row-span-2 rounded-md relative group overflow-hidden"
           >
-            <Image
+            <BlurImage
               src={"/projects/gastro-thumbnail.jpg"}
               alt=""
               fill
@@ -162,7 +163,7 @@ export default function HomePage() {
             />
           </Link>
           <Link href={"/projects"} className="col-span-4 rounded-md relative  group overflow-hidden">
-            <Image
+            <BlurImage
               src={"/projects/beacon-hill-thumbnail.jpg"}
               alt=""
               fill
@@ -170,7 +171,7 @@ export default function HomePage() {
             />
           </Link>
           <Link href={"/projects"} className="col-span-8 rounded-md  relative group overflow-hidden">
-            <Image
+            <BlurImage
               src={"/projects/class-boutique-thumbnail.jpg"}
               alt=""
               fill
