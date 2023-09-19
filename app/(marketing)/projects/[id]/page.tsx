@@ -118,14 +118,20 @@ export default async function DynamicProjectPage({ params }: { params: { id: str
             <div className="space-y-6">
               {otherProjects.map(project => {
                 return (
-                  <div className="flex gap-4 " key={project.id}>
+                  <Link href={`/projects/${project.id}`} className="flex gap-4 group " key={project.id}>
                     {project.thumbnail && (
                       <figure className="aspect-video basis-1/2 overflow-hidden rounded-md">
-                        <img src={project.thumbnail} className="" />
+                        <img
+                          src={project.thumbnail}
+                          className="group-hover:scale-105 duration-500 ease-out"
+                        />
                       </figure>
                     )}
                     <div className="basis-1/2 flex flex-col justify-between gap-2">
-                      <Title order={3} className="font-heading font-medium text-3xl">
+                      <Title
+                        order={3}
+                        className="font-heading font-medium text-3xl group-hover:text-primary-500 group-hover:dark:text-primary-300"
+                      >
                         {project.title}
                       </Title>{" "}
                       <p className="text-gray-200 line-clamp-2">{project.description}</p>
@@ -134,7 +140,7 @@ export default async function DynamicProjectPage({ params }: { params: { id: str
                         <span className="text-gray-300">{formatDate(project.createdAt)}</span>
                       </div>
                     </div>
-                  </div>
+                  </Link>
                 );
               })}
             </div>
