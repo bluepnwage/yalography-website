@@ -60,7 +60,7 @@ export default async function Page({ params }: { params: { status: "drafted" | "
             <ProjectDropdown name={project.name} id={project.id} published={project.published} />
           </div>
           <header className="mx-auto w-2/4 mb-16">
-            <Title order={1} className="font-heading font-bold text-5xl text-gray-50">
+            <Title order={1} className="font-heading font-bold text-5xl text-gray-900 dark:text-gray-50">
               {project.name}
             </Title>
           </header>

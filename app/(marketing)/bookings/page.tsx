@@ -20,7 +20,7 @@ export default function BookingsPage() {
         </span>
       </PageIntro>
       <Section className="mt-20">
-        <Title className="mb-5 font-heading font-medium text-gray-50" order={2}>
+        <Title className="mb-5 font-heading font-medium text-gray-900 dark:text-gray-50" order={2}>
           Book a session
         </Title>
         <Suspense fallback={null}>

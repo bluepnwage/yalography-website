@@ -22,7 +22,9 @@ export function SkillDetail({ children, subTitle, title, img }: PropTypes) {
             {subTitle}
           </Title>
         </header>
-        <p className="text-lg text-gray-200 leading-loose [width:clamp(36ch,90%,65ch)]">{children}</p>
+        <p className="text-lg text-gray-700 dark:text-gray-200 leading-loose [width:clamp(36ch,90%,65ch)]">
+          {children}
+        </p>
       </div>
       <figure className="basis-1/2 grow">
         <BlurImage src={img} className="w-full h-full object-cover" alt={""} />

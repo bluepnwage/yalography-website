@@ -156,7 +156,9 @@ export default function KanbanBoard({ subTasks, taskId }: PropTypes) {
                           data-dragging={snapshot.isDragging}
                           className={`data-[dragging=true]:opacity-70`}
                         >
-                          <span className="text-gray-200 text-sm block mb-1">Task #{task.id}</span>
+                          <span className="text-gray-600 dark:text-gray-200 text-sm block mb-1">
+                            Task #{task.id}
+                          </span>
                           {task.name}
                           <Badge color={getPriorityColor(task.priority)} className="block mt-2 capitalize">
                             {task.priority}
@@ -200,7 +202,9 @@ export default function KanbanBoard({ subTasks, taskId }: PropTypes) {
                           data-dragging={snapshot.isDragging}
                           className={`data-[dragging=true]:opacity-70`}
                         >
-                          <span className="text-gray-200 text-sm block mb-1">Task #{task.id}</span>
+                          <span className="text-gray-600 dark:text-gray-200 text-sm block mb-1">
+                            Task #{task.id}
+                          </span>
                           {task.name}
                           <Badge color={getPriorityColor(task.priority)} className="block mt-2 capitalize">
                             {task.priority}
@@ -243,7 +247,9 @@ export default function KanbanBoard({ subTasks, taskId }: PropTypes) {
                           data-dragging={snapshot.isDragging}
                           className={`data-[dragging=true]:opacity-70`}
                         >
-                          <span className="text-gray-200 text-sm block mb-1">Task #{task.id}</span>
+                          <span className="text-gray-600 dark:text-gray-200 text-sm block mb-1">
+                            Task #{task.id}
+                          </span>
                           {task.name}
                           <Badge color={getPriorityColor(task.priority)} className="block mt-2 capitalize">
                             {task.priority}

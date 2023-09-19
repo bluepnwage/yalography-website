@@ -42,7 +42,7 @@ export async function Booking({ id }: PropTypes) {
             <h1 className="font-semibold text-gray-900 dark:text-gray-50 text-4xl capitalize">
               {booking.type}
             </h1>
-            <p className="mt-4 text-gray-300">
+            <p className="mt-4 text-gray-600 dark:text-gray-300">
               Booking is{" "}
               <span className="font-semibold">{relativeTime(new Date(booking.date).toString())}</span>
             </p>

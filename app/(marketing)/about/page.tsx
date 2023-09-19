@@ -36,11 +36,11 @@ export default function AboutPage() {
             >
               About us
             </Title>
-            <Title order={2} className="font-heading font-medium text-4xl">
+            <Title order={2} className="font-heading font-medium text-4xl text-gray-900 dark:text-gray-50">
               Capturing the Beauty of the World
             </Title>
           </header>
-          <p className="[width:clamp(36ch,90%,65ch)] text-lg leading-loose text-gray-200">
+          <p className="[width:clamp(36ch,90%,65ch)] text-lg leading-loose text-gray-700 dark:text-gray-200">
             I am a self-taught photographer who has been taking photos since I was a teenager. Growing up, I
             was always drawn to the beauty of nature and the way that a camera could capture it. I quickly
             became obsessed with taking photos and learning as much as I could about photography. I have been
@@ -110,12 +110,3 @@ export default function AboutPage() {
     </>
   );
 }
-
-const companies = [
-  "Tourism Office SXM",
-  "Real Estate",
-  "Paco Rabanne",
-  "SXM Wedding Expo",
-  "Valentino Miami",
-  "Collectivite"
-];

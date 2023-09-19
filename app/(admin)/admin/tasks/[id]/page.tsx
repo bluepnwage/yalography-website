@@ -35,16 +35,16 @@ export default async function TaskListPage({ params }: { params: { id: string } 
     <>
       <div className="gap-5 flex">
         <div className="basis-4/5 ">
-          <div className="border-b border-gray-700 pb-4  flex justify-between items-center">
-            <div className="flex text-sm gap-4 items-center text-gray-200">
+          <div className="border-b border-gray-200 dark:border-gray-700 flex justify-between pb-4">
+            <div className="flex text-sm gap-4 items-center text-gray-500 dark:text-gray-200">
               <Link href={"/admin/"}>
                 <IconHome2 size={14} className="dark:text-gray-200 hover:stroke-primary-300" />
               </Link>
-              <IconChevronRight size={14} className="text-gray-200" />
-              <Link href={"/admin/tasks"} className="text-gray-200 hover:text-primary-300">
+              <IconChevronRight size={14} className="text-gray-500 dark:text-gray-200" />
+              <Link href={"/admin/tasks"} className="text-gray-500 dark:text-gray-200 hover:text-primary-300">
                 Tasks
               </Link>
-              <IconChevronRight size={14} className="text-gray-200" />
+              <IconChevronRight size={14} className="text-gray-500 dark:text-gray-200" />
               <span>{task.id}</span>
             </div>
             <TaskMenu defaultPinned={task.pinned} name={task.name} id={task.id} />
@@ -73,7 +73,7 @@ type PropTypes = {
 function Sidebar({ task }: PropTypes) {
   return (
     <div className="basis-1/5 border-l border-l-gray-600 pt-14 px-4">
-      <p className="font-medium text-lg mb-8 text-gray-50">Details</p>
+      <p className="font-medium text-lg mb-8 text-gray-900 dark:text-gray-50">Details</p>
       <ul className="space-y-4 dark:text-gray-300 mb-8 capitalize">
         <li className="flex justify-between">
           <span className="font-medium dark:text-gray-100">Status</span>{" "}

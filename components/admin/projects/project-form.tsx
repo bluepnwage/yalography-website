@@ -249,11 +249,11 @@ export function ProjectForm({ galleryImages, project }: PropTypes) {
             defaultValue={project.description || ""}
           />
           <div className="space-y-2">
-            <span className="text-gray-100 text-sm">Shoot type</span>
+            <span className="text-gray-800 font-medium dark:text-gray-100 text-sm">Shoot type</span>
             <Select value={shootType || undefined} onValueChange={setShootType} items={items} fullWidth />
           </div>
           <div className="space-y-2">
-            <span className="text-gray-100 text-sm">Thumbnail</span>
+            <span className="text-gray-800 font-medium dark:text-gray-100 text-sm">Thumbnail</span>
             <CustomDropzone onAccept={onChange} className="h-64 w-full " />
 
             <div className=" grid grid-cols-3">
