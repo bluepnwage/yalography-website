@@ -1,11 +1,11 @@
-import { PageIntro } from "@/components/PageIntro";
 import { Project } from "@/components/projects";
-import { Grid, Section } from "@/components/shared";
+import { Section } from "@/components/shared";
 import { Title } from "@aomdev/ui";
 
 import prisma from "@/lib/prisma";
-import { Metadata } from "next";
+import type { Metadata } from "next";
 import { transformImage } from "@/lib/transform-image";
+import { formatDate } from "@/util/formate-date";
 
 async function getProjects() {
   await prisma.$connect();
@@ -16,7 +16,8 @@ async function getProjects() {
     thumbnail:
       project.thumbnailPublicId && project.thumbnailType
         ? transformImage("w_1500", project.thumbnailPublicId, project.thumbnailType)
-        : project.thumbnail
+        : project.thumbnail,
+    createdAt: formatDate(project.createdAt)
   }));
 }
 
@@ -26,26 +27,20 @@ export const metadata: Metadata = {
 
 export default async function ProjectsPage() {
   const projects = await getProjects();
-  console.log(projects);
   return (
     <>
-      <PageIntro>
-        See how we deliver the <br />
-        <span className="bg-gradient-to-tr from-tertiary-400 to-primary-500 bg-clip-text text-transparent">
-          best photoshoots
-        </span>
-        <br />
-        SXM has to offer
-      </PageIntro>
-      <Section className="mt-16">
-        <Title order={2} className="font-heading font-medium mb-10">
-          Projects
-        </Title>
-        <Grid className="gap-5 w-11/12">
+      <Section className="mt-20">
+        <header className="text-center mb-20">
+          <Title order={1} className="font-heading font-medium mb-4 text-5xl text-gray-50">
+            Projects
+          </Title>
+          <p className=" text-lg ">See how we deliver the best photoshoots sxm has to offer</p>
+        </header>
+        <div className="gap-16 grid grid-cols-6 lg:grid-cols-12 w-11/12">
           {projects.map(project => {
             return <Project project={project} key={project.id} />;
           })}
-        </Grid>
+        </div>
       </Section>
     </>
   );

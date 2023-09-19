@@ -92,7 +92,7 @@ export default async function DynamicProjectPage({ params }: { params: { id: str
               <Title order={2} className="font-heading font-medium mb-10">
                 Images that brought this project to life
               </Title>
-              <div className="">
+              <div className="space-y-4">
                 {project.images
                   ? project.images.map(image => {
                       return (

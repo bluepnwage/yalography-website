@@ -1,19 +1,19 @@
-import { Anchor } from "@/components/shared";
 import type { Projects } from "@prisma/client";
-import { Card, Title, Badge } from "@aomdev/ui";
+import { Title, Badge } from "@aomdev/ui";
 import Link from "next/link";
+import { SerializedProject } from "@/lib/prisma";
 
 type PropTypes = {
-  project: Projects;
+  project: SerializedProject;
 };
 
 export function Project({ project }: PropTypes) {
   return (
     <Link
       href={`/projects/${project.id}`}
-      className="flex flex-col col-span-full min-h-[300px]  lg:col-span-3 gap-4 overflow-hidden group "
+      className="flex flex-col col-span-full lg:col-span-4 gap-8 overflow-hidden group "
     >
-      <figure className="w-full h-full relative overflow-hidden rounded-md">
+      <figure className="relative overflow-hidden rounded-md aspect-video">
         <img
           src={project.thumbnail!}
           loading="lazy"
@@ -22,11 +22,15 @@ export function Project({ project }: PropTypes) {
           className="h-full w-full object-cover  group-hover:scale-105 duration-500 ease-out"
         />
       </figure>
-      <div className=" space-y-4 basis-1/3">
-        <div className="space-y-2">
-          <Badge className="w-fit h-fit truncate capitalize">{project.type}</Badge>
+      <div className=" space-y-4 ">
+        <div className="space-y-4">
+          <div className="flex items-center gap-4">
+            <span className="dark:text-gray-300 text-gray-600 text-sm ">{project.createdAt}</span>
+
+            <Badge className="w-fit h-fit truncate capitalize">{project.type}</Badge>
+          </div>
           <Title
-            order={3}
+            order={2}
             className="group-hover:dark:text-primary-300 group-hover:text-primary-500 duration-200 ease-out"
           >
             {project.title}
