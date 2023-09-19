@@ -1,4 +1,4 @@
-import { Table, Title, Badge } from "@aomdev/ui";
+import { Table, Title, Badge, Skeleton } from "@aomdev/ui";
 import { cache } from "react";
 import prisma from "@/lib/prisma";
 import { formatDate } from "@/util/formate-date";

@@ -23,14 +23,6 @@ export default async function Layout({ children }: { children: React.ReactNode }
       className={`dark dark-mode ${inter.variable} ${heading.variable}`}
     >
       <body className="  dark:bg-neutral-900  text-gray-700 dark:text-gray-100 duration-200 ease-out">
-        {/* <Toaster
-          position="top-right"
-          // containerClassName={styles.toast_container}
-          
-          toastOptions={{ style: { backgroundColor: "#1f1d2f", col } }}
-          // containerClassName="bg-neutral-800"
-        /> */}
-        {/* <ToastProvider /> */}
         <NextThemesProvider attribute="class">
           <ToastProvider />
           <AdminProvider>

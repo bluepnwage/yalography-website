@@ -7,7 +7,7 @@ export function ProjectsTable() {
   const { drafted, published } = useProjects();
   const projects = [...drafted, ...published];
   return (
-    <div className="col-span-full">
+    <>
       <Table className="w-full mb-5 col-span-full">
         <Table.Header>
           <Table.Row>
@@ -40,6 +40,6 @@ export function ProjectsTable() {
           })}
         </Table.Body>
       </Table>
-    </div>
+    </>
   );
 }

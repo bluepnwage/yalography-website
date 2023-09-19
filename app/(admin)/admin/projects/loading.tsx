@@ -1,42 +1,48 @@
-import { Skeleton, Grid, FlexContainer } from "@/components/shared";
-import { Card, Title } from "@aomdev/ui";
+import { Grid } from "@/components/shared";
+
+import { Title, Skeleton, Table } from "@aomdev/ui";
 
 export default function ProjectsLoading() {
-  const projects = Array(5).fill(null);
+  const projects = Array(10).fill(null);
   return (
     <>
-      <Title order={1} className="mb-5 font-heading font-medium">
-        Projects
-      </Title>
-      <Grid fullWidth className="mb-16">
-        <Card className="col-span-6   relative overflow-hidden">
-          <Skeleton.Shimmer />
-          <Skeleton className="h-4 w-3/4 my-1" />
-        </Card>
-        <Card className="col-span-6  relative overflow-hidden">
-          <Skeleton.Shimmer />
-          <Skeleton className="h-4 w-2/4 my-1" />
-        </Card>
-      </Grid>
+      <header className="flex justify-between items-center mb-6">
+        <Title order={1} className="font-heading font-medium text-4xl ">
+          Projects
+        </Title>
+        <Skeleton animate className="h-8 w-28 rounded-md" />
+      </header>
 
       <Grid fullWidth>
-        <div className="col-span-full">
-          <Title order={2} className="font-heading font-medium">
-            All projects
-          </Title>
-        </div>
-        <Card className="col-span-full space-y-4 relative overflow-hidden">
-          <Skeleton.Shimmer />
-          {projects.map((_, key) => {
-            return (
-              <FlexContainer key={key}>
-                <Skeleton className="basis-1/3 h-3 grow" />
-                <Skeleton className="basis-1/3 h-3 grow" />
-                <Skeleton className="basis-1/3 h-3 grow" />
-              </FlexContainer>
-            );
-          })}
-        </Card>
+        <Table className="w-full mb-5 col-span-full">
+          <Table.Header>
+            <Table.Row>
+              <Table.Head>Name</Table.Head>
+              <Table.Head>Created</Table.Head>
+              <Table.Head>Status</Table.Head>
+            </Table.Row>
+          </Table.Header>
+          <Table.Body>
+            {projects.map((_, key) => {
+              return (
+                <Table.Row key={key}>
+                  <Table.Cell>
+                    <Skeleton rounded animate className="h-3 w-full" />
+                  </Table.Cell>
+                  <Table.Cell>
+                    <Skeleton rounded animate className="h-3 w-full" />
+                  </Table.Cell>
+                  <Table.Cell>
+                    <Skeleton rounded animate className="h-3 w-full" />
+                  </Table.Cell>
+                  <Table.Cell>
+                    <Skeleton rounded animate className="h-3 w-full" />
+                  </Table.Cell>
+                </Table.Row>
+              );
+            })}
+          </Table.Body>
+        </Table>
       </Grid>
     </>
   );

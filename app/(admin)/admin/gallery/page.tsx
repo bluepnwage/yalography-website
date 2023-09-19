@@ -2,7 +2,6 @@ import { Grid } from "@/components/shared";
 import { cache } from "react";
 import prisma from "@/lib/prisma";
 import { transformImage } from "@/lib/transform-image";
-import { AddImages } from "./add-image";
 import { UploadedImage } from "@/components/admin/gallery/UploadedImage";
 import { Title } from "@aomdev/ui";
 import { CreateResource } from "@/components/admin/create-resource";

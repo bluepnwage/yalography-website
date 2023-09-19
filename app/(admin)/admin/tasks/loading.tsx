@@ -1,81 +1,47 @@
-import { FlexContainer, Grid, Skeleton } from "@/components/shared";
-import { Card, Title } from "@aomdev/ui";
+import { Skeleton, Title, Table } from "@aomdev/ui";
 
 export default function TasksPageLoading() {
-  const taskLists = Array(5).fill(null);
   const tasks = Array(10).fill(null);
 
   return (
     <>
-      <Title order={2} className="mb-5 font-heading font-medium">
-        Pinned Lists
-      </Title>
-      <Grid fullWidth className="mb-20">
-        <Card className="relative overflow-hidden col-span-4">
-          <Skeleton.Shimmer />
-          <FlexContainer className="justify-between">
-            <Skeleton className="h-4 w-2/4 mb-4" />
-            <Skeleton className="h-5 w-2 " />
-          </FlexContainer>
-          <Skeleton className="h-3 w-2/5 mb-4" />
-          <Skeleton className="h-3 w-1/4" />
-        </Card>
-        <Card className="relative overflow-hidden col-span-4">
-          <Skeleton.Shimmer />
-          <FlexContainer className="justify-between">
-            <Skeleton className="h-4 w-2/4 mb-4" />
-            <Skeleton className="h-5 w-2 " />
-          </FlexContainer>
-          <Skeleton className="h-3 w-2/5 mb-4" />
-          <Skeleton className="h-3 w-2/5 mb-4" />
-          <Skeleton className="h-3 w-1/4" />
-        </Card>
-        <Card className="relative overflow-hidden col-span-4">
-          <Skeleton.Shimmer />
-          <FlexContainer className="justify-between">
-            <Skeleton className="h-4 w-2/4 mb-4" />
-            <Skeleton className="h-5 w-2 " />
-          </FlexContainer>
-          <Skeleton className="h-3 w-2/5 mb-4" />
-          <Skeleton className="h-3 w-1/4" />
-        </Card>
-      </Grid>
-      <Grid fullWidth>
-        <Card className="relative overflow-hidden space-y-4 col-span-4">
-          <Skeleton.Shimmer />
-          {taskLists.map((_, key) => {
-            return (
-              <div key={key}>
-                <FlexContainer className="justify-between mb-4">
-                  <Skeleton className="h-4 w-2/4" />
-                  <FlexContainer className="gap-2">
-                    <Skeleton radius={"md"} className="w-4 h-4" />
-                    <Skeleton radius={"md"} className="w-4 h-4" />
-                  </FlexContainer>
-                </FlexContainer>
-                <Skeleton className="h-3 w-1/4" />
-              </div>
-            );
-          })}
-        </Card>
-        <Card className="col-span-8 space-y-4 relative overflow-hidden">
-          <Skeleton.Shimmer />
-
+      {" "}
+      <header className="flex justify-between items-center mb-6">
+        <Title order={1} className="font-heading font-medium text-4xl leading-none">
+          Tasks
+        </Title>
+        <Skeleton animate className="h-8 w-28 rounded-md" />
+      </header>
+      <Table className="w-full">
+        <Table.Header>
+          <Table.Row>
+            <Table.Head>Name</Table.Head>
+            <Table.Head>Status</Table.Head>
+            <Table.Head>Priority</Table.Head>
+            <Table.Head>Due Date</Table.Head>
+          </Table.Row>
+        </Table.Header>
+        <Table.Body>
           {tasks.map((_, key) => {
             return (
-              <div key={key}>
-                <FlexContainer className="justify-evenly gap-4">
-                  <Skeleton className="basis-1/5 grow h-3" />
-                  <Skeleton className="basis-1/5 grow h-3" />
-                  <Skeleton className="basis-1/5 grow h-3" />
-                  <Skeleton className="basis-1/5 grow h-3" />
-                  <Skeleton className="basis-1/5 grow h-3" />
-                </FlexContainer>
-              </div>
+              <Table.Row key={key} className="group">
+                <Table.Cell>
+                  <Skeleton className="h-3 w-full " rounded animate />
+                </Table.Cell>
+                <Table.Cell>
+                  <Skeleton className="h-3 w-full " rounded animate />
+                </Table.Cell>
+                <Table.Cell>
+                  <Skeleton className="h-3 w-full " rounded animate />
+                </Table.Cell>
+                <Table.Cell>
+                  <Skeleton className="h-3 w-full " rounded animate />
+                </Table.Cell>
+              </Table.Row>
             );
           })}
-        </Card>
-      </Grid>
+        </Table.Body>
+      </Table>
     </>
   );
 }
