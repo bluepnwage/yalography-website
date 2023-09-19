@@ -1,24 +1,16 @@
 //Components
 import { Grid, Section } from "@/components/shared";
 import { Stats, Services } from "@/components/home";
-import { Ballon, Bouquet, BoxArchive, Globe, Maternity, Person } from "@/lib/icons";
-import Image from "next/image";
 import Link from "next/link";
-import { Suspense } from "react";
-import { Card, Title, ThemeIcon, Button } from "@aomdev/ui";
-import { IconMail, IconLocation } from "@tabler/icons-react";
+import { Title, Button } from "@aomdev/ui";
 import myFont from "@/lib/menlo-font";
-import villa from "@/public/slideshow/villa-lg.webp";
 import { BackgroundImage } from "@/components/home/hero-image";
 
 //Assets
-import heroImg from "@/public/main-image.jpg";
 import photographer from "@/public/yasmino-lg.jpg";
-import styles from "./Home.module.css";
 import { buttonStyles } from "@aomdev/ui/src/button/styles";
 
 //Types
-import type * as Props from "@/components/home";
 import type { Metadata } from "next";
 import { BlurImage } from "@/components/blur-image";
 
@@ -39,7 +31,7 @@ export default function HomePage() {
         <header className="mb-10 relative z-[10]">
           <Title
             order={1}
-            className="font-bold text-8xl text-center font-heading leading-none tracking-tight"
+            className="font-bold text-8xl text-center font-heading leading-none text-white tracking-tight"
           >
             Capturing your <br />
             <span
@@ -61,12 +53,6 @@ export default function HomePage() {
           Book a session
         </Link>
       </BackgroundImage>
-      {/* <div
-        className={`bg-black overflow-hidden mb-48  relative flex flex-col justify-center [height:calc(100vh-64px)]  border-b border-zinc-200  duration-200 ease-out dark:border-zinc-700`}
-      >
-        <Image src={villa} placeholder="blur" alt="" fill className="opacity-30 object-cover" />
-        */}
-      {/* </div> */}
       {/* About section */}
       <Section>
         <Grid className="mb-16">
@@ -132,7 +118,11 @@ export default function HomePage() {
           </Link>
         </div>
         <div style={{ gridTemplateRows: "repeat(3, 400px)" }} className="grid grid-cols-12 gap-4 container ">
-          <Link href={`/projects`} className="col-span-8 rounded-md   relative group overflow-hidden">
+          <Link
+            aria-label="View projects"
+            href={`/projects`}
+            className="col-span-8 rounded-md   relative group overflow-hidden"
+          >
             <BlurImage
               src={"/projects/adm-thumbnail.jpg"}
               alt=""
@@ -141,6 +131,7 @@ export default function HomePage() {
             />
           </Link>
           <Link
+            aria-label="View projects"
             href={"/projects"}
             className="col-span-4 row-span-2 rounded-md relative group overflow-hidden"
           >
@@ -152,6 +143,7 @@ export default function HomePage() {
             />
           </Link>
           <Link
+            aria-label="View projects"
             href={"/projects"}
             className="col-span-4 row-span-2 rounded-md relative group overflow-hidden"
           >
@@ -162,7 +154,11 @@ export default function HomePage() {
               className="group-hover:scale-105 duration-700 ease-out"
             />
           </Link>
-          <Link href={"/projects"} className="col-span-4 rounded-md relative  group overflow-hidden">
+          <Link
+            aria-label="View projects"
+            href={"/projects"}
+            className="col-span-4 rounded-md relative  group overflow-hidden"
+          >
             <BlurImage
               src={"/projects/beacon-hill-thumbnail.jpg"}
               alt=""
@@ -170,7 +166,11 @@ export default function HomePage() {
               className="group-hover:scale-105 duration-700 ease-out"
             />
           </Link>
-          <Link href={"/projects"} className="col-span-8 rounded-md  relative group overflow-hidden">
+          <Link
+            aria-label="View projects"
+            href={"/projects"}
+            className="col-span-8 rounded-md  relative group overflow-hidden"
+          >
             <BlurImage
               src={"/projects/class-boutique-thumbnail.jpg"}
               alt=""
@@ -185,7 +185,7 @@ export default function HomePage() {
         <Title order={2} className="font-heading font-medium text-5xl text-gray-900 dark:text-gray-50 mb-7">
           Start your journey
         </Title>
-        <p className="mb-8 text-xl [width:clamp(36ch,90%,65ch)] text-center text-gray-200">
+        <p className="mb-8 text-xl [width:clamp(36ch,90%,65ch)] text-center text-gray-600 dark:text-gray-200">
           Reprehenderit pariatur aliqua Lorem adipisicing excepteur sint officia nulla. Et sint sit id sit
           officia irure aliquip sit aliquip ad.
         </p>

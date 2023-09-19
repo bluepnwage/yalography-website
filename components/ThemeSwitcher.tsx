@@ -10,7 +10,7 @@ export function ThemeSwitcher() {
   return (
     <Dropdown modal={false}>
       <Dropdown.Trigger asChild>
-        <ActionIcon size={"lg"}>
+        <ActionIcon size={"lg"} aria-label="Change theme">
           <IconMoonStars size={"75%"} className="hidden dark:inline-block" />{" "}
           <IconSun className="dark:hidden inline-block" size={"75%"} />
         </ActionIcon>

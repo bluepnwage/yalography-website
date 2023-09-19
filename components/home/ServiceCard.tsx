@@ -98,7 +98,7 @@ export function Services({ children }: { children: React.ReactNode }) {
                   variants={variants}
                   initial="enter"
                   animate="visible"
-                  className="capitalize text-primary-300"
+                  className="capitalize text-primary-500 dark:text-primary-300"
                 >
                   {active}
                 </motion.span>{" "}
