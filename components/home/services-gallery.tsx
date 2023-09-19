@@ -109,6 +109,8 @@ function BlurImage(props: { image: StaticImageData; y: number }) {
         variants={animate}
         key={props.image.src}
         src={props.image.src}
+        loading="lazy"
+        decoding="async"
         alt=""
         className="absolute rounded-md  "
       />

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Title, Button } from "@aomdev/ui";
 import myFont from "@/lib/menlo-font";
 import { BackgroundImage } from "@/components/home/hero-image";
+import { Suspense } from "react";
 
 //Assets
 import photographer from "@/public/yasmino-lg.jpg";
@@ -90,95 +91,102 @@ export default function HomePage() {
       </Section>
       {/* Services section */}
       <div className="w-11/12 h-[726px]  flex gap-20 mb-64 mx-auto">
-        <Services>
-          <Title
-            order={2}
-            className={`text-base ${myFont.className} text-primary-500  dark:text-primary-400`}
-          >
-            Services
-          </Title>
-        </Services>
+        <Suspense fallback={null}>
+          <Services>
+            <Title
+              order={2}
+              className={`text-base ${myFont.className} text-primary-500  dark:text-primary-400`}
+            >
+              Services
+            </Title>
+          </Services>
+        </Suspense>
       </div>
       {/* Projects section */}
       <Section>
-        <div className=" flex flex-col justify-center items-center gap-10   mb-16">
-          <header className="text-center space-y-2">
-            <Title
-              order={2}
-              className={`text-base ${myFont.className} text-primary-500 dark:text-primary-400`}
+        <Suspense fallback={null}>
+          <div className=" flex flex-col justify-center items-center gap-10   mb-16">
+            <header className="text-center space-y-2">
+              <Title
+                order={2}
+                className={`text-base ${myFont.className} text-primary-500 dark:text-primary-400`}
+              >
+                Projects
+              </Title>
+              <Title order={3} className="font-heading font-medium text-5xl text-gray-900 dark:text-gray-50">
+                Check out some of our works
+              </Title>
+            </header>
+            <Link href={"/projects"} className={buttonStyles({})}>
+              View all projects
+            </Link>
+          </div>
+          <div
+            style={{ gridTemplateRows: "repeat(3, 400px)" }}
+            className="grid grid-cols-12 gap-4 container "
+          >
+            <Link
+              aria-label="View projects"
+              href={`/projects`}
+              className="col-span-8 rounded-md   relative group overflow-hidden"
             >
-              Projects
-            </Title>
-            <Title order={3} className="font-heading font-medium text-5xl text-gray-900 dark:text-gray-50">
-              Check out some of our works
-            </Title>
-          </header>
-          <Link href={"/projects"} className={buttonStyles({})}>
-            View all projects
-          </Link>
-        </div>
-        <div style={{ gridTemplateRows: "repeat(3, 400px)" }} className="grid grid-cols-12 gap-4 container ">
-          <Link
-            aria-label="View projects"
-            href={`/projects`}
-            className="col-span-8 rounded-md   relative group overflow-hidden"
-          >
-            <BlurImage
-              src={"/projects/adm-thumbnail.jpg"}
-              alt=""
-              fill
-              className=" object-cover group-hover:scale-105 duration-700 ease-out"
-            />
-          </Link>
-          <Link
-            aria-label="View projects"
-            href={"/projects"}
-            className="col-span-4 row-span-2 rounded-md relative group overflow-hidden"
-          >
-            <BlurImage
-              src={"/projects/fashion-thumbnail.jpg"}
-              alt=""
-              fill
-              className="object-cover group-hover:scale-105 duration-700 ease-out"
-            />
-          </Link>
-          <Link
-            aria-label="View projects"
-            href={"/projects"}
-            className="col-span-4 row-span-2 rounded-md relative group overflow-hidden"
-          >
-            <BlurImage
-              src={"/projects/gastro-thumbnail.jpg"}
-              alt=""
-              fill
-              className="group-hover:scale-105 duration-700 ease-out"
-            />
-          </Link>
-          <Link
-            aria-label="View projects"
-            href={"/projects"}
-            className="col-span-4 rounded-md relative  group overflow-hidden"
-          >
-            <BlurImage
-              src={"/projects/beacon-hill-thumbnail.jpg"}
-              alt=""
-              fill
-              className="group-hover:scale-105 duration-700 ease-out"
-            />
-          </Link>
-          <Link
-            aria-label="View projects"
-            href={"/projects"}
-            className="col-span-8 rounded-md  relative group overflow-hidden"
-          >
-            <BlurImage
-              src={"/projects/class-boutique-thumbnail.jpg"}
-              alt=""
-              fill
-              className="object-cover  [object-position:0%15%] group-hover:scale-105 duration-700 ease-out"
-            />
-          </Link>
-        </div>
+              <BlurImage
+                src={"/projects/adm-thumbnail.jpg"}
+                alt=""
+                fill
+                className=" object-cover group-hover:scale-105 duration-700 ease-out"
+              />
+            </Link>
+            <Link
+              aria-label="View projects"
+              href={"/projects"}
+              className="col-span-4 row-span-2 rounded-md relative group overflow-hidden"
+            >
+              <BlurImage
+                src={"/projects/fashion-thumbnail.jpg"}
+                alt=""
+                fill
+                className="object-cover group-hover:scale-105 duration-700 ease-out"
+              />
+            </Link>
+            <Link
+              aria-label="View projects"
+              href={"/projects"}
+              className="col-span-4 row-span-2 rounded-md relative group overflow-hidden"
+            >
+              <BlurImage
+                src={"/projects/gastro-thumbnail.jpg"}
+                alt=""
+                fill
+                className="group-hover:scale-105 duration-700 ease-out"
+              />
+            </Link>
+            <Link
+              aria-label="View projects"
+              href={"/projects"}
+              className="col-span-4 rounded-md relative  group overflow-hidden"
+            >
+              <BlurImage
+                src={"/projects/beacon-hill-thumbnail.jpg"}
+                alt=""
+                fill
+                className="group-hover:scale-105 duration-700 ease-out"
+              />
+            </Link>
+            <Link
+              aria-label="View projects"
+              href={"/projects"}
+              className="col-span-8 rounded-md  relative group overflow-hidden"
+            >
+              <BlurImage
+                src={"/projects/class-boutique-thumbnail.jpg"}
+                alt=""
+                fill
+                className="object-cover  [object-position:0%15%] group-hover:scale-105 duration-700 ease-out"
+              />
+            </Link>
+          </div>
+        </Suspense>
       </Section>
       {/* Contact section */}
       <section className="   flex flex-col items-center mt-52  mb-36">
