@@ -48,9 +48,9 @@ const groupMonths = async () => {
     const currentMonth = data.month.toLowerCase() as keyof typeof month;
     month[currentMonth] = {
       month: data.month,
-      max: data._max.quote ? data._max.quote / 100 : 0,
-      sum: data._sum.quote ? data._sum.quote / 100 : 0,
-      avg: data._avg.quote ? data._avg.quote / 100 : 0,
+      max: Math.round(data._max.quote ? data._max.quote / 100 : 0),
+      sum: Math.round(data._sum.quote ? data._sum.quote / 100 : 0),
+      avg: Math.round(data._avg.quote ? data._avg.quote / 100 : 0),
       count: data._count
     };
   }
@@ -70,9 +70,9 @@ const groupYears = async () => {
 
   return data.map(stat => ({
     year: stat.year,
-    avg: stat._avg.quote ? stat._avg.quote / 100 : 0,
-    max: stat._max.quote ? stat._max.quote / 100 : 0,
-    sum: stat._sum.quote ? stat._sum.quote / 100 : 0,
+    avg: Math.round(stat._avg.quote ? stat._avg.quote / 100 : 0),
+    max: Math.round(stat._max.quote ? stat._max.quote / 100 : 0),
+    sum: Math.round(stat._sum.quote ? stat._sum.quote / 100 : 0),
     count: stat._count
   }));
 };

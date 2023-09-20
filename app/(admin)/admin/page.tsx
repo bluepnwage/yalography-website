@@ -1,4 +1,3 @@
-import prisma from "@/lib/prisma";
 import { Badge, Table, Title, Skeleton } from "@aomdev/ui";
 import { formatDate } from "@/util/formate-date";
 import { IconChevronRight } from "@tabler/icons-react";
@@ -6,7 +5,7 @@ import Link from "next/link";
 import { cardStyles } from "@aomdev/ui/src/card/styles";
 import { StatCardContainer, StatCardLoading } from "@/components/admin/home/stat-card-container";
 import { Suspense } from "react";
-import { getBookings } from "@/lib/admin-data";
+import { getBookings, getOrders } from "@/lib/admin-data";
 import { BarChartLoading, PopularMonthsContainer } from "@/components/admin/home/popular-months-container";
 import { PoplularShoots, PopularShootsLoading } from "@/components/admin/home/popular-shoots";
 import { PendingProjects, PendingProjectsLoading } from "@/components/admin/home/pending-projects";
@@ -76,11 +75,15 @@ export default function AdminPage() {
 
 async function UpcomingBookings() {
   const bookings = await getBookings();
-
+  const orderedBookings = bookings
+    .sort((a, b) => {
+      return Date.parse(a.date) - Date.parse(b.date);
+    })
+    .slice(0, 3);
   return (
     <div className="grid grid-cols-3 gap-20 mb-20">
       {bookings.length === 0 && <p>You don&apos;t have any bookings.</p>}
-      {bookings.slice(0, 3).map(booking => {
+      {orderedBookings.map(booking => {
         const features = booking.features ? booking.features.split(",") : [];
         return (
           <Link
@@ -150,14 +153,8 @@ function UpcomingBookingsLoading() {
   );
 }
 
-const getRecentOrders = async () => {
-  const orders = await prisma.orders.findMany({ take: 10, include: { booking: true } });
-
-  return orders;
-};
-
 async function RecentOrders() {
-  const orders = await getRecentOrders();
+  const orders = await getOrders();
   return (
     <Table className="w-full">
       <Table.Header>
@@ -169,11 +166,11 @@ async function RecentOrders() {
         </Table.Row>
       </Table.Header>
       <Table.Body>
-        {orders.map(order => {
+        {orders.slice(0, 9).map(order => {
           return (
             <Table.Row key={order.id}>
               <Table.Cell>Order #{order.booking.id}</Table.Cell>
-              <Table.Cell>{formatDate(order.createdAt)}</Table.Cell>
+              <Table.Cell>{order.createdAt}</Table.Cell>
               <Table.Cell className="capitalize">{order.booking.type}</Table.Cell>
               <Table.Cell>{formatCurrency(order.quote)}</Table.Cell>
             </Table.Row>
