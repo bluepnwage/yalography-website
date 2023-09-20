@@ -1,6 +1,17 @@
 "use client";
 //Components
-import { Dialog, TextInput, Select, Textarea, Popover, Calendar, Label, Checkbox } from "@aomdev/ui";
+import {
+  Dialog,
+  TextInput,
+  Select,
+  Textarea,
+  Popover,
+  Calendar,
+  Label,
+  Checkbox,
+  Radio,
+  ScrollArea
+} from "@aomdev/ui";
 import { SubmitButton } from "../submit-button";
 
 import { inputStyles } from "@aomdev/ui/src/input-wrapper/styles";
@@ -50,7 +61,6 @@ export function BookingDialog(props: DialogProps) {
     setShootType("");
     setDate(undefined);
   };
-
   return (
     <>
       <Dialog {...props}>
@@ -62,7 +72,7 @@ export function BookingDialog(props: DialogProps) {
             </Dialog.Close>
           </div>
           <>
-            <form className="space-y-4 mt-6 " action={onSubmit}>
+            <form className="space-y-4 mt-6 p-4 overflow-y-scroll [height:60vh]" action={onSubmit}>
               <div className="flex gap-2">
                 <TextInput autoFocus label="First Name" name={"first_name"} id={"first_name"} required />
                 <TextInput label="Last Name" name={"last_name"} id={"last_name"} required />
@@ -88,7 +98,7 @@ export function BookingDialog(props: DialogProps) {
                     <Popover.Content className={cardStyles({ className: "z-[9999]" })}>
                       <Calendar
                         labelContentProps={{ className: "z-[9999]" }}
-                        disabled={[{ before: new Date() }]}
+                        // disabled={[{ before: new Date() }]}
                         selected={date}
                         onSelect={setDate}
                         mode="single"
@@ -105,8 +115,16 @@ export function BookingDialog(props: DialogProps) {
                   contentProps={{ className: "z-[9999]" }}
                   fullWidth
                   items={selectData}
+                  onValueChange={(value: Lowercase<ShootTypes>) => setShootType(value)}
                 />
               </div>
+              <fieldset className="space-y-1 w-full">
+                <legend>Environment</legend>
+                <Radio name="environment" required>
+                  <Radio.Item value="inside" label="Inside" />
+                  <Radio.Item value="outside" label="Outside" />
+                </Radio>
+              </fieldset>
               <div className=" w-full">
                 <Textarea
                   style={{ width: "100%" }}
@@ -117,7 +135,8 @@ export function BookingDialog(props: DialogProps) {
                   rows={3}
                 />
               </div>
-              <div className="flex flex-col  gap-3">
+              <fieldset className="flex flex-col  gap-3">
+                <legend className="mb-1">Features</legend>
                 {shootDetails &&
                   shootDetails.features.map(feature => {
                     const value = feature.label.toLowerCase();
@@ -137,7 +156,7 @@ export function BookingDialog(props: DialogProps) {
                       </>
                     );
                   })}
-              </div>
+              </fieldset>
               <SubmitButton className=" mt-6 ml-auto">Submit</SubmitButton>
             </form>
           </>

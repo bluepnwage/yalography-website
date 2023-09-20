@@ -4,19 +4,31 @@ import { useState } from "react";
 import { SerializedBooking, SerializedOrder } from "@/lib/prisma";
 import { Badge } from "@aomdev/ui";
 
-type CompletedOrders = SerializedOrder & { booking: Partial<SerializedBooking> };
+type CompletedOrders = SerializedOrder & { booking: SerializedBooking };
 
 type PropTypes = {
   orders: CompletedOrders[];
+  lastYearOrders: CompletedOrders[];
+  lastMonthOrders: CompletedOrders[];
+  thisYearOrders: CompletedOrders[];
+  thisMonthOrders: CompletedOrders[];
 };
 
-export function StatCard({ orders }: PropTypes) {
+export function StatCard({
+  orders,
+  lastMonthOrders,
+  lastYearOrders,
+  thisMonthOrders,
+  thisYearOrders
+}: PropTypes) {
   const [period, setPeriod] = useState("all time");
 
-  const bookings = periodBookings(period, orders);
-  const lastPeriod = getLastPeriod(period, bookings);
+  const bookings = period === "monthly" ? thisMonthOrders : period === "yearly" ? thisYearOrders : orders;
+  const lastPeriod = period === "monthly" ? lastMonthOrders : period === "yearly" ? lastYearOrders : [];
+
   const revenue = bookings.reduce((a, c) => a + (c.quote || 0), 0) / 100;
   const lastRevenue = lastPeriod.reduce((a, c) => a + (c.quote || 0), 0) / 100;
+
   const outside = [];
   const inside = [];
   const lastInside = [];
@@ -38,10 +50,10 @@ export function StatCard({ orders }: PropTypes) {
     }
   }
 
-  const bookingsPercentage = getDifferencePercentage(lastPeriod.length, bookings.length, period);
-  const revenuePercentage = getDifferencePercentage(lastRevenue, revenue, period);
-  const outsidePercentage = getDifferencePercentage(lastOutside.length, outside.length, period);
-  const insidePercentage = getDifferencePercentage(lastInside.length, inside.length, period);
+  const bookingsPercentage = getDifferencePercentage(lastPeriod.length, bookings.length);
+  const revenuePercentage = getDifferencePercentage(lastRevenue, revenue);
+  const outsidePercentage = getDifferencePercentage(lastOutside.length, outside.length);
+  const insidePercentage = getDifferencePercentage(lastInside.length, inside.length);
 
   return (
     <div className=" mt-16">
@@ -71,7 +83,7 @@ export function StatCard({ orders }: PropTypes) {
               {" "}
               {bookingsPercentage.type === "success"
                 ? `+${bookingsPercentage.value}`
-                : `-${bookingsPercentage.value}`}
+                : `${bookingsPercentage.value}`}
               %
             </Badge>{" "}
             <span className="text-gray-600 dark:text-gray-300">
@@ -89,7 +101,7 @@ export function StatCard({ orders }: PropTypes) {
               {" "}
               {revenuePercentage.type === "success"
                 ? `+${revenuePercentage.value}`
-                : `-${revenuePercentage.value}`}
+                : `${revenuePercentage.value}`}
               %
             </Badge>{" "}
             <span className="text-gray-600 dark:text-gray-300">
@@ -107,7 +119,7 @@ export function StatCard({ orders }: PropTypes) {
               {" "}
               {insidePercentage.type === "success"
                 ? `+${insidePercentage.value}`
-                : `-${insidePercentage.value}`}
+                : `${insidePercentage.value}`}
               %
             </Badge>{" "}
             <span className="text-gray-600 dark:text-gray-300">
@@ -125,7 +137,7 @@ export function StatCard({ orders }: PropTypes) {
               {" "}
               {outsidePercentage.type === "success"
                 ? `+${outsidePercentage.value}`
-                : `-${outsidePercentage.value}`}
+                : `${outsidePercentage.value}`}
               %
             </Badge>{" "}
             <span className="text-gray-600 dark:text-gray-300">
@@ -143,48 +155,10 @@ function currencyFormat(number: number) {
   return formatter.format(number);
 }
 
-function periodBookings(filter: string, bookings: PropTypes["orders"]) {
-  const today = new Date();
-  const thisMonth = today.getMonth();
-  const thisYear = today.getFullYear();
-  return filter === "monthly"
-    ? bookings.filter(booking => {
-        const bookingDate = new Date(booking.createdAt);
-        return bookingDate.getMonth() === thisMonth && bookingDate.getFullYear() === thisYear;
-      })
-    : filter === "yearly"
-    ? bookings.filter(booking => {
-        const boookingDate = new Date();
-        return boookingDate.getFullYear() === thisYear;
-      })
-    : bookings;
-}
-
-function getLastPeriod(filter: string, bookings: PropTypes["orders"]) {
-  const period = new Date();
-  if (filter === "monthly") {
-    period.setMonth(period.getMonth() - 1);
-    return bookings.filter(booking => {
-      const bookingDate = new Date(booking.createdAt);
-      return (
-        bookingDate.getMonth() === period.getMonth() && bookingDate.getFullYear() === period.getFullYear()
-      );
-    });
-  }
-  if (filter === "yearly") {
-    period.setFullYear(period.getFullYear() - 1);
-    return bookings.filter(booking => {
-      const bookingDate = new Date(booking.createdAt);
-      return bookingDate.getFullYear() === period.getFullYear();
-    });
-  }
-  return bookings;
-}
-
-function getDifferencePercentage(oldValue: number, newValue: number, filter: string) {
+function getDifferencePercentage(oldValue: number, newValue: number) {
   if (oldValue === 0) return { value: 100, type: "success" } as const;
   const difference = newValue - oldValue;
-  const value = (difference / oldValue) * 100;
+  const value = Math.round((difference / oldValue) * 100);
   if (value > 0) {
     return {
       type: "success",

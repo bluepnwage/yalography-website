@@ -25,7 +25,7 @@ function greetingMessage(hour: number) {
   }
 }
 
-export default async function AdminPage() {
+export default function AdminPage() {
   const time = new Date().getHours();
   const greeting = greetingMessage(time);
   return (

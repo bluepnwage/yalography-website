@@ -3,11 +3,9 @@ import type { Orders } from "@prisma/client";
 import { handlePromise } from "@/util/handle-promise";
 
 async function createOrder(data: Orders) {
-  await prisma.$connect();
   const order = await prisma.orders.create({
     data
   });
-  await prisma.$disconnect();
   return order;
 }
 

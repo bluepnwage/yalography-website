@@ -1,10 +1,62 @@
 import { StatCard } from "./stat-card";
 import { getOrders } from "@/lib/admin-data";
 import { Title, Skeleton } from "@aomdev/ui";
+import dayjs from "dayjs";
+
+function getDifferencePercentage(oldValue: number, newValue: number, filter: string) {
+  if (oldValue === 0) return { value: 100, type: "success" } as const;
+  const difference = newValue - oldValue;
+  const value = Math.round((difference / oldValue) * 100);
+  if (value > 0) {
+    return {
+      type: "success",
+      value
+    } as const;
+  } else {
+    return {
+      type: "error",
+      value
+    } as const;
+  }
+}
 
 export async function StatCardContainer() {
   const orders = await getOrders();
-  return <StatCard orders={orders} />;
+
+  const thisYearOrders = orders.filter(order => {
+    const today = new Date();
+    const orderDate = new Date(order.booking.date);
+    return orderDate.getFullYear() === today.getFullYear();
+  });
+
+  const thisMonthOrders = orders.filter(order => {
+    const today = new Date();
+    const orderDate = new Date(order.booking.date);
+    return orderDate.getMonth() === today.getMonth() && orderDate.getFullYear() === today.getFullYear();
+  });
+
+  const lastMonth = orders.filter(booking => {
+    const date = new Date();
+    date.setMonth(date.getMonth() - 1);
+    const bookingDate = new Date(booking.booking.date);
+    return bookingDate.getMonth() === date.getMonth() && bookingDate.getFullYear() === date.getFullYear();
+  });
+
+  const lastYear = orders.filter(booking => {
+    const year = new Date();
+    year.setFullYear(year.getFullYear() - 1);
+    const bookingYear = new Date(booking.booking.date);
+    return bookingYear.getFullYear() === year.getFullYear();
+  });
+  return (
+    <StatCard
+      orders={orders}
+      thisMonthOrders={thisMonthOrders}
+      thisYearOrders={thisYearOrders}
+      lastMonthOrders={lastMonth}
+      lastYearOrders={lastYear}
+    />
+  );
 }
 
 export function StatCardLoading() {

@@ -37,7 +37,7 @@ export async function createBooking(formData: FormData, date: Date, features: st
     description: form?.description.toString()! || null,
     date: date!,
     type: form.shoot_type.toString(),
-    environment: true,
+    environment: form.environment.toString() === "inside",
     features
   };
   const booking = await prisma.bookings.create({ data });
