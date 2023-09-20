@@ -7,9 +7,8 @@ import { Badge } from "@aomdev/ui";
 import { formatNum } from "@/util/formatNum";
 
 const getOrder = async (id: number) => {
-  await prisma.$connect();
   const order = await prisma.orders.findUnique({ where: { id }, include: { booking: true } });
-  await prisma.$disconnect();
+
   if (!order) notFound();
   return {
     ...order,

@@ -9,23 +9,20 @@ import type { NextApiHandler } from "next";
 const development = process.env.NODE_ENV === "development";
 
 async function createProject(data: Projects) {
-  await prisma.$connect();
   const project = await prisma.projects.create({ data });
-  await prisma.$disconnect();
+
   return project;
 }
 
 async function editProject(data: Projects) {
-  await prisma.$connect();
   const project = await prisma.projects.update({ where: { id: data.id }, data });
-  await prisma.$disconnect();
+
   return project;
 }
 
 async function deleteProject(id: number) {
-  await prisma.$connect();
   const project = await prisma.projects.delete({ where: { id } });
-  await prisma.$disconnect();
+
   return project;
 }
 

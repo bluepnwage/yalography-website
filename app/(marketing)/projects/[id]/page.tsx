@@ -9,13 +9,11 @@ import { formatDate } from "@/util/formate-date";
 import { transformImage } from "@/lib/transform-image";
 
 const findProject = cache(async (id: number) => {
-  await prisma.$connect();
   const project = await prisma.projects.findUnique({ where: { id }, include: { images: true } });
   const otherProjects = await prisma.projects.findMany({
     where: { NOT: { id }, published: true },
     take: 5
   });
-  await prisma.$disconnect();
 
   return {
     project: {
@@ -50,9 +48,8 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
 }
 
 export async function generateStaticParams() {
-  await prisma.$connect();
   const ids = await prisma.projects.findMany({ where: { published: true }, select: { id: true } });
-  await prisma.$disconnect();
+
   return ids.map(id => ({ id: `${id.id}` }));
 }
 

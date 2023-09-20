@@ -4,9 +4,7 @@ import { cache } from "react";
 import { verifyToken } from "@/lib/firebase/admin/auth";
 
 const getProjects = cache(async () => {
-  await prisma.$connect();
   const projects = await prisma.projects.findMany();
-  await prisma.$disconnect();
 
   const drafted = [];
   const published = [];

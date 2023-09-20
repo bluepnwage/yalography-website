@@ -7,9 +7,8 @@ import { BookingButtons } from "@/components/admin/bookings/dynamic/booking-butt
 import { Badge } from "@aomdev/ui";
 
 const getBooking = async (id: number) => {
-  await prisma.$connect();
   const booking = await prisma.bookings.findUnique({ where: { id } });
-  await prisma.$disconnect();
+
   if (!booking) notFound();
   return { ...booking, date: formatDate(booking.date) };
 };

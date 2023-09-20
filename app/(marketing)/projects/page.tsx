@@ -8,9 +8,8 @@ import { transformImage } from "@/lib/transform-image";
 import { formatDate } from "@/util/formate-date";
 
 async function getProjects() {
-  await prisma.$connect();
   const projects = await prisma.projects.findMany({ where: { published: true } });
-  await prisma.$disconnect();
+
   return projects.map(project => ({
     ...project,
     thumbnail:

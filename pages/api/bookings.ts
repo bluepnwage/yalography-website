@@ -11,23 +11,20 @@ import { formatDate } from "@/util/formate-date";
 const resend = new Resend(process.env.RESEND_API_KEY!);
 
 async function createBooking(data: Bookings) {
-  await prisma.$connect();
   const booking = await prisma.bookings.create({ data });
-  await prisma.$disconnect();
+
   return booking;
 }
 
 async function updateBooking(data: Bookings) {
-  await prisma.$connect();
   const booking = await prisma.bookings.update({ where: { id: data.id }, data });
-  await prisma.$disconnect();
+
   return booking;
 }
 
 async function deleteBooking(data: Bookings) {
-  await prisma.$connect();
   const booking = await prisma.bookings.delete({ where: { id: data.id } });
-  await prisma.$disconnect();
+
   return booking;
 }
 

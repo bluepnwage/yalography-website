@@ -10,10 +10,7 @@ export const revalidate = 0;
 export const dynamic = "force-dynamic";
 
 const getTasks = cache(async () => {
-  await prisma.$connect();
   const tasks = await prisma.tasks.findMany();
-
-  await prisma.$disconnect();
 
   return tasks.map(task => {
     return {

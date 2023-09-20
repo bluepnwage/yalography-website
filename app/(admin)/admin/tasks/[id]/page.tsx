@@ -12,9 +12,8 @@ import { formatDate } from "@/util/formate-date";
 const KanbanBoard = dynamic(() => import("@/components/admin/tasks/kanban-board"), { ssr: false });
 
 const findTask = async (id: number): Promise<SerializedTask & { subTasks: SerializedSubTask[] }> => {
-  await prisma.$connect();
   const task = await prisma.tasks.findUnique({ where: { id }, include: { subTasks: true } });
-  await prisma.$disconnect();
+
   if (!task) notFound();
   return {
     ...task,

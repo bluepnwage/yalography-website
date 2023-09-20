@@ -6,9 +6,8 @@ import { Gallery } from "@/components/gallery/Gallery";
 import { transformImage } from "@/lib/transform-image";
 
 async function getImages() {
-  await prisma.$connect();
   const images = await prisma.images.findMany();
-  await prisma.$disconnect();
+
   return images.map(img => ({ ...img, url: transformImage("w_2000", img.publicId, img.type) }));
 }
 

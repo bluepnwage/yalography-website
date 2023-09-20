@@ -4,16 +4,14 @@ import type { SubTasks } from "@prisma/client";
 import { handlePromise } from "@/util/handle-promise";
 
 async function createSubTask(data: SubTasks) {
-  await prisma.$connect();
   const subTasks = await prisma.subTasks.create({ data });
-  await prisma.$disconnect();
+
   return subTasks;
 }
 
 async function updateSubTask(data: SubTasks) {
-  await prisma.$disconnect();
   const subTask = await prisma.subTasks.update({ where: { id: data.id }, data });
-  await prisma.$disconnect();
+
   return subTask;
 }
 

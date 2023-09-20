@@ -10,9 +10,8 @@ import { ProjectForm } from "@/components/admin/projects/project-form";
 import { transformImage } from "@/lib/transform-image";
 
 const getProject = cache(async (id: number) => {
-  await prisma.$connect();
   const project = await prisma.projects.findUnique({ where: { id }, include: { images: true } });
-  await prisma.$disconnect();
+
   if (!project) notFound();
   return {
     ...project,
@@ -25,9 +24,8 @@ const getProject = cache(async (id: number) => {
 });
 
 const getGalleryImages = cache(async () => {
-  await prisma.$connect();
   const images = await prisma.images.findMany();
-  await prisma.$disconnect();
+
   return images.map(image => ({ ...image, url: transformImage("w_1000", image.publicId, image.type) }));
 });
 

@@ -7,9 +7,7 @@ import { Title } from "@aomdev/ui";
 import { CreateResource } from "@/components/admin/create-resource";
 
 const getImages = cache(async () => {
-  await prisma.$connect();
   const images = await prisma.images.findMany({ where: { folderId: null } });
-  await prisma.$disconnect();
 
   return images.map(img => {
     return {

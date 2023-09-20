@@ -7,9 +7,8 @@ type PopularShoots = {
 };
 
 const popularTypes = async () => {
-  await prisma.$connect();
   const test = await prisma.orders.findMany({ include: { booking: { select: { type: true } } } });
-  await prisma.$disconnect();
+
   const obj: PopularShoots = {};
   for (let i = 0; i < test.length; i++) {
     const currentType = test[i].booking.type;

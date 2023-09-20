@@ -8,24 +8,21 @@ import type { Images } from "@prisma/client";
 import type { NextApiHandler } from "next";
 
 async function createImage(data: Images) {
-  await prisma.$connect();
   const image = await prisma.images.create({ data });
-  await prisma.$disconnect();
+
   return image;
 }
 
 async function editImage(data: Partial<Images>) {
-  await prisma.$connect();
   const image = await prisma.images.update({ where: { id: data.id }, data });
-  await prisma.$disconnect();
+
   return image;
 }
 
 async function deleteImage(id: number, publicId: string) {
-  await prisma.$connect();
   const image = await prisma.images.delete({ where: { id } });
   await deleteResource([publicId]);
-  await prisma.$disconnect();
+
   return image;
 }
 const apiURL = "/api/images";

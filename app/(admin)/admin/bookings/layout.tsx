@@ -12,9 +12,7 @@ type PropTypes = {
 };
 
 const getBookings = async () => {
-  await prisma.$connect();
   const bookings = await prisma.bookings.findMany({ where: { NOT: { status: "completed" } } });
-  await prisma.$disconnect();
 
   const pending = [];
   const approved = [];
@@ -33,12 +31,11 @@ const getBookings = async () => {
 };
 
 const getCompletedBookings = cache(async () => {
-  await prisma.$connect();
   const completed = await prisma.bookings.findMany({
     where: { status: "completed" },
     include: { orders: true }
   });
-  await prisma.$disconnect();
+
   return completed.map(booking => {
     return {
       ...booking,

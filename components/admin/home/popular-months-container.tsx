@@ -13,7 +13,6 @@ function createMonth(month: string) {
 }
 
 const groupMonths = async () => {
-  await prisma.$connect();
   const months = await prisma.orders.groupBy({
     by: ["month"],
     _count: true,
@@ -21,7 +20,7 @@ const groupMonths = async () => {
     _avg: { quote: true },
     _sum: { quote: true }
   });
-  await prisma.$disconnect();
+
   const month: Record<
     string,
     Partial<{
@@ -61,7 +60,6 @@ const groupMonths = async () => {
 };
 
 const groupYears = async () => {
-  await prisma.$connect();
   const data = await prisma.orders.groupBy({
     by: ["year"],
     _count: true,
@@ -69,7 +67,7 @@ const groupYears = async () => {
     _avg: { quote: true },
     _sum: { quote: true }
   });
-  await prisma.$disconnect();
+
   return data.map(stat => ({
     year: stat.year,
     avg: stat._avg.quote ? stat._avg.quote / 100 : 0,

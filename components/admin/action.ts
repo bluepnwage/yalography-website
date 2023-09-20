@@ -18,15 +18,14 @@ export async function createTask(form: FormData, deadline: Date | null) {
     deadline,
     priority: priority || "low"
   };
-  await prisma.$connect();
+
   await prisma.tasks.create({ data });
-  await prisma.$disconnect();
+
   revalidatePath("/admin/tasks");
   return { error: false, message: "Task created" };
 }
 
 export async function createBooking(formData: FormData, date: Date, features: string) {
-  await prisma.$connect();
   const form = Object.fromEntries(formData);
   const data = {
     firstName: form.first_name.toString(),
@@ -41,7 +40,7 @@ export async function createBooking(formData: FormData, date: Date, features: st
     features
   };
   const booking = await prisma.bookings.create({ data });
-  await prisma.$disconnect();
+
   redirect(`/admin/bookings/${booking.id}`);
 }
 
@@ -49,9 +48,9 @@ export async function createProject(formData: FormData) {
   const form = Object.fromEntries(formData);
   if (!form.project_name.toString()) return { error: true, message: "Must provide a name" };
   console.log(form);
-  await prisma.$connect();
+
   const data = { name: form.project_name.toString() };
   const project = await prisma.projects.create({ data });
-  await prisma.$disconnect();
+
   redirect(`/admin/projects/${project.id}`);
 }

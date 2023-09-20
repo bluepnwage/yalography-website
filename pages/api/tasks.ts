@@ -12,23 +12,19 @@ type Data = {
 };
 
 async function createTask(data: Data) {
-  await prisma.$connect();
   const task = await prisma.tasks.create({ data });
-  await prisma.$disconnect();
+
   return task;
 }
 
 async function updateTask(data: Tasks) {
-  await prisma.$connect();
   const task = await prisma.tasks.update({ where: { id: data.id }, data });
-  await prisma.$connect();
+
   return task;
 }
 
 async function deleteTask(id: number) {
-  await prisma.$connect();
   await prisma.tasks.delete({ where: { id } });
-  await prisma.$disconnect();
 }
 
 const apiURL = "/api/tasks";

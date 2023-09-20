@@ -151,9 +151,8 @@ function UpcomingBookingsLoading() {
 }
 
 const getRecentOrders = async () => {
-  await prisma.$connect();
   const orders = await prisma.orders.findMany({ take: 10, include: { booking: true } });
-  await prisma.$disconnect();
+
   return orders;
 };
 
