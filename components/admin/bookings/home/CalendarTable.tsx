@@ -3,9 +3,11 @@ import { usePagination } from "@/lib/hooks/usePagination";
 import { Pagination } from "@/components/shared/Pagination";
 import Link from "next/link";
 import { useEffect } from "react";
-import { Badge } from "@aomdev/ui";
+import { ActionIcon, Badge } from "@aomdev/ui";
 import { Table } from "@aomdev/ui";
 import type { SerializedBooking } from "@/lib/prisma";
+import { formatDate } from "@/util/formate-date";
+import { IconChevronLeft } from "@tabler/icons-react";
 
 type PropTypes = {
   todaysBookings: SerializedBooking[];
@@ -20,7 +22,7 @@ export function CalendarTable({ todaysBookings, date }: PropTypes) {
   }, [date]);
 
   return (
-    <div className="space-y-2 basis-3/4 grow w-full">
+    <div className="space-y-4 grow w-full">
       <Table style={{ flexGrow: 1, height: "75%" }} className="w-full">
         <Table.Header>
           <Table.Row>
@@ -32,7 +34,7 @@ export function CalendarTable({ todaysBookings, date }: PropTypes) {
         <Table.Body>
           {paginatedList.map((booking, key) => {
             return (
-              <Table.Row key={key}>
+              <Table.Row key={key} className="max-h-20">
                 <Table.Cell>
                   {booking.firstName} {booking.lastName}
                 </Table.Cell>
@@ -56,7 +58,33 @@ export function CalendarTable({ todaysBookings, date }: PropTypes) {
           })}
         </Table.Body>
       </Table>
-      <Pagination {...props} />
+      <div className="flex items-center justify-between mt-4">
+        <p className="text-gray-200">
+          <span className="font-semibold">{todaysBookings.length}</span> total bookings on {formatDate(date!)}
+        </p>
+        {props.totalPages > 1 && (
+          <>
+            <div className="flex gap-2">
+              <ActionIcon
+                onClick={props.prevPage}
+                disabled={props.currentPage === 1}
+                color="gray"
+                variant={"subtle"}
+              >
+                <IconChevronLeft />
+              </ActionIcon>
+              <ActionIcon
+                onClick={props.nextPage}
+                disabled={props.currentPage === props.totalPages}
+                color="gray"
+                variant={"subtle"}
+              >
+                <IconChevronLeft className="rotate-180" />
+              </ActionIcon>
+            </div>
+          </>
+        )}
+      </div>
     </div>
   );
 }

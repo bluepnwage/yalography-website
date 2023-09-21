@@ -1,20 +1,23 @@
-"use client";
 import { Card, ThemeIcon } from "@aomdev/ui";
-import { useBookings } from "../BookingsProvider";
+import { getBookings } from "@/lib/admin-data";
 
 type PropTypes = {
-  title: keyof ReturnType<typeof useBookings>;
+  title: string;
   icon: React.ReactNode;
 };
 
-export function BookingCard({ icon, title }: PropTypes) {
-  const bookings = useBookings()[title];
+export async function BookingCard({ icon, title }: PropTypes) {
+  const bookings = await getBookings();
   const today = new Date();
+  const filteredBookings =
+    title === "pending"
+      ? bookings.filter(booking => booking.status === "pending")
+      : bookings.filter(booking => booking.status === "approved");
   const thisMonth = {
     year: today.getFullYear(),
     month: today.getMonth()
   };
-  const sameMonth = bookings.filter(booking => {
+  const sameMonth = filteredBookings.filter(booking => {
     const bookingDate = new Date(booking.date);
     return bookingDate.getMonth() === thisMonth.month && bookingDate.getFullYear() === thisMonth.year;
   });
@@ -25,7 +28,7 @@ export function BookingCard({ icon, title }: PropTypes) {
         <ThemeIcon variant={"light"}>{icon}</ThemeIcon>
       </div>
       <div className="space-y-4">
-        <p className="text-5xl font-medium font-heading mt-auto mb-auto">{bookings.length}</p>
+        <p className="text-5xl font-medium font-heading mt-auto mb-auto">{filteredBookings.length}</p>
         <p className="dark:text-gray-200 text-gray-600">
           <span className="font-medium ">{sameMonth.length}</span> upcoming this month
         </p>

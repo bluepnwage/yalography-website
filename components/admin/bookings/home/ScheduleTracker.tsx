@@ -1,29 +1,36 @@
 "use client";
 import { useState } from "react";
-import { useBookings } from "../BookingsProvider";
 import { CalendarTable } from "./CalendarTable";
 import { cx } from "cva";
 import { Calendar as AomCalendar } from "@aomdev/ui";
 
 import { formatDate } from "@/util/formate-date";
+import { SerializedBooking } from "@/lib/prisma";
 
 type AllDates = {
   pending: { [date: string]: boolean };
   approved: { [date: string]: boolean };
 };
 
-export function Calendar() {
+type PropTypes = {
+  pending: SerializedBooking[];
+  approved: SerializedBooking[];
+};
+
+export function ScheduleTracker({ approved, pending }: PropTypes) {
   const [date, setDate] = useState<Date | undefined>(new Date());
-  const { approved, pending } = useBookings();
   const allDates: AllDates = { pending: {}, approved: {} };
 
   const todaysBookings = approved
     .filter(booking => {
-      return date?.toDateString() === booking.date;
+      if (!date) return false;
+      return formatDate(date) === booking.date;
     })
     .concat(
       pending.filter(booking => {
-        return date?.toDateString() === booking.date;
+        if (!date) return false;
+
+        return formatDate(date) === booking.date;
       })
     );
 
@@ -35,7 +42,6 @@ export function Calendar() {
   for (let i = 0; i < pending.length; i++) {
     allDates.pending[pending[i].date] = true;
   }
-
   return (
     <>
       <div className="basis-1/2 bg-neutral-50/60  dark:bg-neutral-900 rounded-md -ml-4 -my-4 px-4 py-4  ">
@@ -45,7 +51,7 @@ export function Calendar() {
           onSelect={setDate}
           formatters={{
             formatDay: d => {
-              const t = d.toDateString();
+              const t = formatDate(d);
               const styled =
                 allDates.approved[t] && allDates.pending[t]
                   ? "bg-indigo-600"
@@ -91,10 +97,6 @@ export function Calendar() {
           todaysBookings.length === 0 ? "justify-center" : ""
         )}
       >
-        <p className={cx("text-lg text-center mb-6", todaysBookings.length > 0 ? "" : "")}>
-          You have {todaysBookings.length} {todaysBookings.length === 1 ? "appointment" : "appointments"}{" "}
-          scheduled on {formatDate(date!)}.
-        </p>
         {todaysBookings.length > 0 && <CalendarTable date={date || null} todaysBookings={todaysBookings} />}
       </div>
     </>

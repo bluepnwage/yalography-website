@@ -1,13 +1,17 @@
 "use client";
 import { Table, Badge, Title, Select } from "@aomdev/ui";
-import { useBookings } from "../BookingsProvider";
 import { Anchor } from "@/components/shared";
 import { formatDate } from "@/util/formate-date";
 import { useState } from "react";
+import { SerializedBooking } from "@/lib/prisma";
 
-export function UpcomingBookings() {
+type PropTypes = {
+  approved: SerializedBooking[];
+  pending: SerializedBooking[];
+};
+
+export function UpcomingBookings({ approved, pending }: PropTypes) {
   const [filters, setFilter] = useState("all bookings");
-  const { pending, approved } = useBookings();
   const bookings = (
     filters === "pending" ? pending : filters === "approved" ? approved : [...pending, ...approved]
   ).slice(0, 10);

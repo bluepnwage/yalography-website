@@ -15,5 +15,14 @@ export function usePagination<T>(rowsPerPage: number, list: T[]) {
     });
   };
 
-  return { paginatedList, totalPages, onPageChange, currentPage };
+  const nextPage = () => {
+    if (currentPage >= totalPages) return;
+    setCurrentPage(prev => prev + 1);
+  };
+  const prevPage = () => {
+    if (currentPage <= 1) return;
+    setCurrentPage(prev => prev - 1);
+  };
+
+  return { paginatedList, totalPages, onPageChange, currentPage, prevPage, nextPage };
 }
