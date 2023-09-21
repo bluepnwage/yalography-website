@@ -258,7 +258,12 @@ function CommandBookings({ bookings }: { bookings: PropTypes["bookings"] }) {
         return (
           <Command.Item onSelect={() => onSelect(`bookings/${booking.id}`)} key={booking.id}>
             <div className="flex items-center justify-between">
-              {booking.type}
+              <div>
+                <span className="capitalize">{booking.type}</span>
+                <span className="block text-gray-200">
+                  {booking.firstName} {booking.lastName} - {booking.date}
+                </span>
+              </div>
               <Badge variant={"status"} color={booking.status === "approved" ? "success" : "warn"}>
                 {booking.status}
               </Badge>
