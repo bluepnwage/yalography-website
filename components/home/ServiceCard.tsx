@@ -1,6 +1,7 @@
 "use client";
 import { useCallback, useEffect, useState } from "react";
 import { AnimatePresence, Variants, motion } from "framer-motion";
+import { useMediaQuery } from "@mantine/hooks";
 
 import maternity1 from "@/public/services/DSC00283-Recovered-lg.webp";
 import maternity2 from "@/public/services/DSC08217 copy-lg.webp";
@@ -52,6 +53,7 @@ const variants: Variants = {
 
 export function Services({ children }: { children: React.ReactNode }) {
   const [active, setActive] = useState<keyof typeof allImages>("maternity");
+  const matches = useMediaQuery("(max-width: 768px)", false);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -81,13 +83,13 @@ export function Services({ children }: { children: React.ReactNode }) {
 
   return (
     <>
-      <div className="basis-2/3">
+      <div className="basis-full lg:basis-2/3">
         <AnimatePresence>
           <header className="space-y-2 mb-4 ">
             {children}
             <Title
               order={3}
-              className="font-heading font-medium text-5xl text-gray-900 dark:text-gray-50 pb-14 relative overflow-hidden"
+              className="font-heading font-medium text-3xl lg:text-5xl text-gray-900 dark:text-gray-50 pb-14 relative overflow-hidden"
             >
               I specialize in <br />{" "}
               <motion.span className="  absolute">
@@ -116,11 +118,11 @@ export function Services({ children }: { children: React.ReactNode }) {
           capture the essence of every occasion. From intimate maternity sessions to dynamic commercial
           projects and everything in between, I&apos;m here to bring your vision to life through the lens.
         </p>
-        <Link href={"/bookings"} className={buttonStyles({ className: "w-fit" })}>
+        <Link href={"/bookings"} className={buttonStyles({ className: "w-full lg:w-fit" })}>
           Book a session
         </Link>
       </div>
-      <div className="relative    gap-6 mt-10  container mx-auto grow ">
+      <div className="relative hidden lg:block gap-6 mt-10  container mx-auto grow ">
         <ServicesGallery photos={allImages[active]}>
           <Card className=" basis-1/4 grow flex flex-col gap-6 items-center justify-center text-lg  text-center">
             <p className="text-gray-600 dark:text-gray-200">Over</p>

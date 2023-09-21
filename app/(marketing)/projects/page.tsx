@@ -29,7 +29,7 @@ export default async function ProjectsPage() {
   return (
     <>
       <Section className="mt-20">
-        <header className="text-center mb-20">
+        <header className="text-center mb-20 w-11/12 mx-auto">
           <Title order={1} className="font-heading font-medium mb-4 text-5xl text-gray-50">
             Projects
           </Title>

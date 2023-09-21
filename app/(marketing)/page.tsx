@@ -32,7 +32,7 @@ export default function HomePage() {
         <header className="mb-10 relative z-[10]">
           <Title
             order={1}
-            className="font-bold text-8xl text-center font-heading leading-none text-white tracking-tight"
+            className="font-bold text-5xl lg:text-8xl text-center font-heading leading-none text-white tracking-tight"
           >
             Capturing your <br />
             <span
@@ -42,7 +42,7 @@ export default function HomePage() {
             </span>{" "}
           </Title>
         </header>
-        <p className="leading-loose z-[10] mb-10 text-xl text-gray-200 text-center mx-auto [width:clamp(36ch,90%,70ch)] relative">
+        <p className="leading-loose z-[10] mb-10 text-lg lg:text-xl text-gray-200 text-center mx-auto [width:clamp(36ch,90%,70ch)] relative">
           Are you looking for a photographer to capture your special moments? Look no further! With my years
           of professional experience and an eye for detail, I can ensure that your photos will be of the
           highest quality and truly capture the beauty of the moment.
@@ -60,7 +60,7 @@ export default function HomePage() {
           <figure className="col-span-full lg:col-span-4">
             <BlurImage src={photographer} alt={""} className="w-full h-full object-cover" />
           </figure>
-          <div className="col-span-full lg:col-span-7 p-5">
+          <div className="col-span-full lg:col-span-7 lg:p-5">
             <header className="mb-10 space-y-2">
               <Title
                 order={2}
@@ -83,14 +83,17 @@ export default function HomePage() {
               I&apos;m excited to see what the next 12 years will bring.
             </p>
             <Stats />
-            <Link href="/about" className={buttonStyles({ className: "w-fit", size: "lg" })}>
+            <Link
+              href="/about"
+              className={buttonStyles({ className: "w-fit mx-auto block lg:mx-0", size: "lg" })}
+            >
               Learn more
             </Link>
           </div>
         </Grid>
       </Section>
       {/* Services section */}
-      <div className="w-11/12 h-[726px]  flex gap-20 mb-64 mx-auto">
+      <div className="w-11/12 h-[500px] lg:h-[726px]  flex gap-20 mb-64 mx-auto">
         <Suspense fallback={null}>
           <Services>
             <Title
@@ -123,12 +126,12 @@ export default function HomePage() {
           </div>
           <div
             style={{ gridTemplateRows: "repeat(3, 400px)" }}
-            className="grid grid-cols-12 gap-4 container "
+            className="grid grid-cols-6 lg:grid-cols-12 gap-4 container mx-auto w-11/12 "
           >
             <Link
               aria-label="View projects"
               href={`/projects`}
-              className="col-span-8 rounded-md   relative group overflow-hidden"
+              className="col-span-full lg:col-span-8 rounded-md   relative group overflow-hidden"
             >
               <BlurImage
                 src={"/projects/adm-thumbnail.jpg"}
@@ -140,7 +143,7 @@ export default function HomePage() {
             <Link
               aria-label="View projects"
               href={"/projects"}
-              className="col-span-4 row-span-2 rounded-md relative group overflow-hidden"
+              className="col-span-full hidden lg:block lg:col-span-4 row-span-2 rounded-md relative group overflow-hidden"
             >
               <BlurImage
                 src={"/projects/fashion-thumbnail.jpg"}
@@ -152,7 +155,7 @@ export default function HomePage() {
             <Link
               aria-label="View projects"
               href={"/projects"}
-              className="col-span-4 row-span-2 rounded-md relative group overflow-hidden"
+              className="col-span-full hidden lg:block lg:col-span-4 row-span-2 rounded-md relative group overflow-hidden"
             >
               <BlurImage
                 src={"/projects/gastro-thumbnail.jpg"}
@@ -164,7 +167,7 @@ export default function HomePage() {
             <Link
               aria-label="View projects"
               href={"/projects"}
-              className="col-span-4 rounded-md relative  group overflow-hidden"
+              className="col-span-full lg:col-span-4 rounded-md relative  group overflow-hidden"
             >
               <BlurImage
                 src={"/projects/beacon-hill-thumbnail.jpg"}
@@ -176,7 +179,7 @@ export default function HomePage() {
             <Link
               aria-label="View projects"
               href={"/projects"}
-              className="col-span-8 rounded-md  relative group overflow-hidden"
+              className="col-span-full lg:col-span-8 rounded-md  relative group overflow-hidden"
             >
               <BlurImage
                 src={"/projects/class-boutique-thumbnail.jpg"}
@@ -190,7 +193,10 @@ export default function HomePage() {
       </Section>
       {/* Contact section */}
       <section className="   flex flex-col items-center mt-52  mb-36">
-        <Title order={2} className="font-heading font-medium text-5xl text-gray-900 dark:text-gray-50 mb-7">
+        <Title
+          order={2}
+          className="font-heading font-medium text-4xl lg:text-5xl text-gray-900 dark:text-gray-50 mb-7"
+        >
           Start your journey
         </Title>
         <p className="mb-8 text-xl [width:clamp(36ch,90%,65ch)] text-center text-gray-600 dark:text-gray-200">

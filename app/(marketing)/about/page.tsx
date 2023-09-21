@@ -1,9 +1,6 @@
 //Components
-import { PageIntro } from "@/components/PageIntro";
 import { Grid, Section } from "@/components/shared";
-import { SkillDetail, Company, Skill } from "@/components/about";
-import { MovieFilter, AutoFix, PhotoSelectLarge } from "@/lib/icons";
-import Image from "next/image";
+import { SkillDetail } from "@/components/about";
 import myFont from "@/lib/menlo-font";
 import { Title } from "@aomdev/ui";
 
@@ -15,8 +12,6 @@ import about from "@/public/about/about-md.jpg";
 import sxmOffice from "@/public/about/sxm-office-md.jpg";
 
 import type { Metadata } from "next";
-import Link from "next/link";
-import { buttonStyles } from "@aomdev/ui/src/button/styles";
 import { BlurImage } from "@/components/blur-image";
 import { ContactForm } from "@/components/bookings";
 
@@ -27,9 +22,9 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   return (
     <>
-      <section className="flex container justify-between  mx-auto mt-20 mb-48">
-        <div className="basis-1/2">
-          <header className="space-y-2 mb-5">
+      <section className="flex flex-col lg:flex-row w-11/12 lg:container justify-between  mx-auto mt-10 lg:mt-20  mb-20 lg:mb-48">
+        <div className="basis-1/2 grow">
+          <header className="space-y-2 mb-5 text-center lg:text-start">
             <Title
               order={1}
               className={`text-base ${myFont.className} text-primary-500 dark:text-primary-400`}
@@ -40,6 +35,9 @@ export default function AboutPage() {
               Capturing the Beauty of the World
             </Title>
           </header>
+          <figure className="overflow-hidden rounded-md lg:hidden my-10">
+            <BlurImage src={yasmino} alt="" placeholder="blur" />
+          </figure>
           <p className="[width:clamp(36ch,90%,65ch)] text-lg leading-loose text-gray-700 dark:text-gray-200">
             I am a self-taught photographer who has been taking photos since I was a teenager. Growing up, I
             was always drawn to the beauty of nature and the way that a camera could capture it. I quickly
@@ -56,7 +54,7 @@ export default function AboutPage() {
             <li>Photoshop</li>
           </ul>
         </div>
-        <div className="basis-2/5 ">
+        <div className="hidden lg:block lg:basis-2/5 ">
           <figure className="  overflow-hidden rounded-md  w-3/4">
             <BlurImage src={yasmino} alt="" placeholder="blur" />
           </figure>
@@ -67,7 +65,7 @@ export default function AboutPage() {
         margin={false}
         className={`svg-background py-24 border-t border-b border-zinc-200 dark:border-zinc-700`}
       >
-        <Grid lg={1} className={"gap-16 lg:gap-36"}>
+        <div className={"grid-cols-6 lg:grid-cols-2 w-11/12 lg:container lg:gap-36"}>
           <SkillDetail img={villa} title="Capturing" subTitle="Capturing the best possible photographs">
             This requires a combination of technical skills and creativity. It starts with understanding the
             basics of composition, lighting, and exposure, as well as knowing how to use your camera and
@@ -104,7 +102,7 @@ export default function AboutPage() {
             the best results, Nicky Hair Tech is the perfect partner for anyone seeking top-quality hair
             styling services for the perfect photoshoot.
           </SkillDetail>
-        </Grid>
+        </div>
       </Section>
       <ContactForm />
     </>

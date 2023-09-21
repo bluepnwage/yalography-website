@@ -5,7 +5,7 @@ import { ToastProvider } from "@/app/(admin)/toast-provider";
 export function ContactForm() {
   return (
     <section className="my-24" id="contact">
-      <div className="  max-w-xl mx-auto">
+      <div className=" w-11/12 max-w-xl mx-auto">
         <header className="mb-16 text-center">
           <Title className="mb-6 font-heading font-medium text-5xl" order={2}>
             Get in touch

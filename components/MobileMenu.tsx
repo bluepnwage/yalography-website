@@ -1,5 +1,5 @@
 "use client";
-import { MenuIcon, XClose } from "@/lib/icons";
+import { IconMenu, IconX } from "@tabler/icons-react";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
@@ -7,7 +7,7 @@ import Link from "next/link";
 export function MobileMenu() {
   const [menu, setMenu] = useState(false);
   const toggleMenu = () => {
-    setMenu((prev) => !prev);
+    setMenu(prev => !prev);
   };
   return (
     <>
@@ -16,7 +16,7 @@ export function MobileMenu() {
         className="md:hidden dark:text-gray-300 px-4 py-2"
         onClick={toggleMenu}
       >
-        {menu ? <XClose /> : <MenuIcon />}
+        {menu ? <IconX /> : <IconMenu />}
       </button>
       <AnimatePresence>
         {menu && (
@@ -39,7 +39,7 @@ export function MobileMenu() {
                 className="  block text-black dark:text-gray-300 px-4 py-2"
                 onClick={() => setMenu(false)}
               >
-                <XClose />
+                <IconX />
               </button>
             </div>
             <div className="flex flex-col gap-10 items-center">
