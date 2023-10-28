@@ -31,9 +31,12 @@ async function deleteBooking(data: Bookings) {
 type ApiResponse = {
   message: string;
   data?: Bookings;
+  cause?: any;
 };
 
 const apiURL = "/api/bookings";
+
+const url = process.env.VERCEL_URL || "http://localhost:3000";
 
 const handler: NextApiHandler<ApiResponse> = async (req, res) => {
   try {
@@ -55,13 +58,15 @@ const handler: NextApiHandler<ApiResponse> = async (req, res) => {
         }
         if (params?.email === "1") {
           await resend.emails.send({
-            from: "Yalography <onboarding@resend.dev>",
+            from: "Yalography <yalography@yalography.com>",
             subject: `${data.type} Booking request`,
-            to: "activeoutremer@gmail.com",
+            to: json.email,
             react: EmailTemplate({
               ...data,
               date: formatDate(data.date, { dateStyle: "long" }),
-              location: data.environment ? "Inside" : "Outside"
+              location: data.environment ? "Inside" : "Outside",
+              url,
+              bookingId: data.id
             })
           });
         }
@@ -104,7 +109,7 @@ const handler: NextApiHandler<ApiResponse> = async (req, res) => {
     }
   } catch (error) {
     if (error instanceof Error) {
-      res.status(500).json({ message: error.message });
+      res.status(500).json({ message: error.message, cause: error.cause });
     } else {
       res.status(500).json({
         message: serverError

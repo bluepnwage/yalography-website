@@ -6,6 +6,8 @@ import { Title, Button } from "@aomdev/ui";
 import myFont from "@/lib/menlo-font";
 import { BackgroundImage } from "@/components/home/hero-image";
 import { Suspense } from "react";
+import banner from "@/public/yalo-banner.jpg";
+import Image from "next/image";
 
 //Assets
 import photographer from "@/public/yasmino-lg.jpg";
@@ -27,6 +29,9 @@ export const metadata: Metadata = {
 export default function HomePage() {
   return (
     <main>
+      <div className="relative [height:720px]">
+        <Image src={banner} alt="" fill className="object-cover" />
+      </div>
       {/* Hero section */}
       <BackgroundImage>
         <header className="mb-10 relative z-[10]">

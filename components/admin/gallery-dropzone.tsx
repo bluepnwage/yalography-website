@@ -1,8 +1,8 @@
 "use client";
-import { XClose } from "@/lib/icons";
 import { Pagination } from "@/components/shared/Pagination";
 import { Button } from "@aomdev/ui";
 import { CustomDropzone } from "./custom-dropzone";
+import { IconX } from "@tabler/icons-react";
 
 import { useState } from "react";
 import { usePagination } from "@/lib/hooks/usePagination";
@@ -85,7 +85,7 @@ function UploadedFile({ file, onRemove }: FileProps) {
         {file.name}
       </p>
       <button onClick={onClick} aria-label="Remove file">
-        <XClose fill />
+        <IconX size={16} />
       </button>
     </li>
   );
