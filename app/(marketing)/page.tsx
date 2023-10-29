@@ -47,7 +47,7 @@ export default function HomePage() {
             </span>{" "}
           </Title>
         </header>
-        <p className="leading-loose z-[10] mb-10 text-lg lg:text-xl text-gray-200 text-center mx-auto [width:clamp(36ch,90%,70ch)] relative">
+        <p className="leading-loose w-11/12 z-[10] mb-10 text-lg lg:text-xl text-gray-200 text-center mx-auto lg:[width:clamp(36ch,90%,70ch)] relative">
           Are you looking for a photographer to capture your special moments? Look no further! With my years
           of professional experience and an eye for detail, I can ensure that your photos will be of the
           highest quality and truly capture the beauty of the moment.
@@ -98,7 +98,7 @@ export default function HomePage() {
         </Grid>
       </Section>
       {/* Services section */}
-      <div className="w-11/12 h-[500px] lg:h-[726px]  flex gap-20 mb-64 mx-auto">
+      <div className="w-11/12 h-[600px] lg:h-[726px]  flex gap-20 mb-64 mx-auto">
         <Suspense fallback={null}>
           <Services>
             <Title
@@ -204,7 +204,7 @@ export default function HomePage() {
         >
           Start your journey
         </Title>
-        <p className="mb-8 text-xl [width:clamp(36ch,90%,65ch)] text-center text-gray-600 dark:text-gray-200">
+        <p className="mb-8 text-xl w-11/12 lg:[width:clamp(36ch,90%,65ch)] text-center text-gray-600 dark:text-gray-200">
           Reprehenderit pariatur aliqua Lorem adipisicing excepteur sint officia nulla. Et sint sit id sit
           officia irure aliquip sit aliquip ad.
         </p>
