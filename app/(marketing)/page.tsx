@@ -29,7 +29,7 @@ export const metadata: Metadata = {
 export default function HomePage() {
   return (
     <main>
-      <div className="relative [height:720px]">
+      <div className="relative hidden lg:block lg:h-[720px]">
         <Image src={banner} alt="" fill className="object-cover" />
       </div>
       {/* Hero section */}
