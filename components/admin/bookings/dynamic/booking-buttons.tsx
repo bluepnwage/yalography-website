@@ -58,9 +58,11 @@ export function BookingButtons({ id, status, date }: PropTypes) {
   const onDelete = async () => {
     toggle.on();
     const { toast } = await import("react-hot-toast");
+    const endpoint = new URL("/api/bookings", location.origin);
+    endpoint.searchParams.set("send_email", "1");
 
     try {
-      const res = await fetch("/api/bookings", {
+      const res = await fetch(endpoint, {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id: id })

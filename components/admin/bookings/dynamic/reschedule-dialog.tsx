@@ -24,7 +24,9 @@ export function RescheduleDialog({ id, defaultDate, ...props }: PropTypes) {
     const formData = new FormData(e.currentTarget);
     e.preventDefault();
     try {
-      const res = await fetch("/api/bookings", {
+      const endpoint = new URL("/api/bookings", location.origin);
+      endpoint.searchParams.set("reschedule", "1");
+      const res = await fetch(endpoint, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ date, id, time: formData.get("time")?.toString() })

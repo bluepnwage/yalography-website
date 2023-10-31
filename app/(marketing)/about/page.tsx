@@ -9,7 +9,7 @@ import yasmino from "@/public/yalo-2.jpg";
 import villa from "@/public/about/villa-md.jpg";
 import tj from "@/public/about/tj-project-md.jpg";
 import about from "@/public/about/about-md.jpg";
-import sxmOffice from "@/public/about/sxm-office-md.jpg";
+import sxmOffice from "@/public/about/k.jpg";
 
 import type { Metadata } from "next";
 import { BlurImage } from "@/components/blur-image";

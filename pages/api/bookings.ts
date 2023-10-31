@@ -7,6 +7,8 @@ import { serverError } from "@/util/serverError";
 import { Resend } from "resend";
 import { EmailTemplate } from "@/components/email-template";
 import { formatDate } from "@/util/formate-date";
+import { photoshootTypes } from "@/lib/photoshoot";
+import { DeleteTemplate } from "@/components/delete-template";
 
 const resend = new Resend(process.env.RESEND_API_KEY!);
 
@@ -59,7 +61,7 @@ const handler: NextApiHandler<ApiResponse> = async (req, res) => {
         if (params?.email === "1") {
           await resend.emails.send({
             from: "Yalography <yalography@yalography.com>",
-            subject: `${data.type} Booking request`,
+            subject: `${photoshootTypes.get(data.type as any)?.label} Booking request`,
             to: json.email,
             react: EmailTemplate({
               ...data,
@@ -85,6 +87,12 @@ const handler: NextApiHandler<ApiResponse> = async (req, res) => {
           });
           throw new Error("There was an error updating your booking.", { cause: data });
         }
+        await resend.emails.send({
+          from: "Yalography <yalography@yalography.com>",
+          to: data.email,
+          subject: "Booking Rescheduled",
+          html: ``
+        });
         return res.status(200).json({ message: "Booking updated", data });
       }
       case "DELETE": {
@@ -100,7 +108,15 @@ const handler: NextApiHandler<ApiResponse> = async (req, res) => {
           // });
           throw new Error("There was an error deleting your booking.", { cause: data });
         }
-
+        const params = req.query;
+        if (params.send_email) {
+          await resend.emails.send({
+            to: data.email,
+            subject: " Booking Cancelled ",
+            from: "Yalography <yalography@yalography.com>",
+            react: DeleteTemplate({ firstName: data.firstName, lastName: data.lastName })
+          });
+        }
         return res.status(200).json({ message: "Booking deleted" });
       }
       default: {

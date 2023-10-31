@@ -2,6 +2,7 @@ import type { StaticImageData } from "next/image";
 import { Title } from "@aomdev/ui";
 import myFont from "@/lib/menlo-font";
 import { BlurImage } from "../blur-image";
+import styles from "./styles.module.css";
 
 type PropTypes = {
   title: string;
@@ -12,7 +13,9 @@ type PropTypes = {
 
 export function SkillDetail({ children, subTitle, title, img }: PropTypes) {
   return (
-    <article className="flex gap-10 flex-col col-span-full lg:col-span-1 lg:flex-row lg:even:flex-row-reverse mb-20 last-of-type:mb-0">
+    <article
+      className={`flex gap-10 flex-col col-span-full lg:col-span-1 lg:flex-row lg:even:flex-row-reverse mb-20 last-of-type:mb-0 group ${styles.container}`}
+    >
       <div className="basis-1/2 grow">
         <header className="mb-5 space-y-2 text-center lg:text-start">
           <Title order={2} className={`text-base ${myFont.className} text-primary-500 dark:text-primary-400`}>
@@ -29,8 +32,8 @@ export function SkillDetail({ children, subTitle, title, img }: PropTypes) {
           {children}
         </p>
       </div>
-      <figure className="basis-1/2 grow lg:block hidden">
-        <BlurImage src={img} className="w-full h-full object-cover" alt={""} />
+      <figure className="basis-1/2 grow lg:block hidden aspect-video ">
+        <BlurImage src={img} className={`w-full h-full object-cover ${styles.img}`} alt={""} />
       </figure>
     </article>
   );
