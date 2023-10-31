@@ -9,7 +9,7 @@ datasource db {
 }
 
 model Bookings {
-  id          Int             @id @default(autoincrement())
+  id          String             @id @default(uuid())
   email       String
   firstName   String
   lastName    String
@@ -85,7 +85,7 @@ model Tasks {
   updatedAt   DateTime     @default(now()) @updatedAt
   status      Boolean      @default(false)
   priority    TaskPriority @default(medium)
-  bookingId   Int?
+  bookingId   String?
   pinned      Boolean      @default(false)
   subTasks SubTasks[]
   booking     Bookings?    @relation(fields: [bookingId], references: [id])
@@ -95,10 +95,10 @@ model Tasks {
 }
 
 model Orders {
-  id        Int      @id @default(autoincrement())
+  id        String      @id @default(uuid())
   createdAt DateTime @default(now())
   quote     Int
-  bookingId Int      @unique
+  bookingId String      @unique
   month     String
   year      Int
   booking   Bookings @relation(fields: [bookingId], references: [id])

@@ -6,7 +6,7 @@ import { IconChevronRight, IconHome } from "@tabler/icons-react";
 import { BookingButtons } from "@/components/admin/bookings/dynamic/booking-buttons";
 import { Badge } from "@aomdev/ui";
 
-const getBooking = async (id: number) => {
+const getBooking = async (id: string) => {
   const booking = await prisma.bookings.findUnique({ where: { id } });
 
   if (!booking) notFound();
@@ -14,7 +14,7 @@ const getBooking = async (id: number) => {
 };
 
 type PropTypes = {
-  id: number;
+  id: string;
 };
 
 export async function Booking({ id }: PropTypes) {

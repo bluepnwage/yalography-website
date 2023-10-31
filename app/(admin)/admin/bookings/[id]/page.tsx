@@ -11,7 +11,7 @@ export default async function BookingPage({
   params: { id: string };
   searchParams: Search;
 }) {
-  const id = parseInt(params.id);
+  const id = params.id;
   const search = new URLSearchParams(searchParams);
   if (!id) notFound();
   const completed = search.get("completed");

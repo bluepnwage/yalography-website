@@ -6,7 +6,7 @@ import { IconChevronRight, IconHome } from "@tabler/icons-react";
 import { Badge } from "@aomdev/ui";
 import { formatNum } from "@/util/formatNum";
 
-const getOrder = async (id: number) => {
+const getOrder = async (id: string) => {
   const order = await prisma.orders.findUnique({ where: { id }, include: { booking: true } });
 
   if (!order) notFound();
@@ -18,7 +18,7 @@ const getOrder = async (id: number) => {
 };
 
 type PropTypes = {
-  id: number;
+  id: string;
 };
 
 export async function Order({ id }: PropTypes) {

@@ -10,7 +10,7 @@ import { toast } from "react-hot-toast";
 import { useToggle } from "@/lib/hooks/useToggle";
 
 type PropTypes = {
-  id: number;
+  id: string;
   defaultDate: string;
 } & DialogProps;
 

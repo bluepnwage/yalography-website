@@ -7,7 +7,7 @@ import { EmailTemplate } from "./cancel-email";
 
 const resend = new Resend(process.env.RESEND_API_KEY!);
 
-async function getBooking(id: number) {
+async function getBooking(id: string) {
   const booking = await prisma.bookings.findUnique({ where: { id } });
   if (!booking) notFound();
   return booking;
@@ -17,7 +17,7 @@ type Search = string | string[][] | Record<string, string> | URLSearchParams | u
 
 export default async function Page({ searchParams }: { searchParams: Search }) {
   const search = new URLSearchParams(searchParams);
-  const id = parseInt(search.get("id") || "");
+  const id = search.get("id") || "";
   if (!id) notFound();
   const booking = await getBooking(id);
   if (!booking) notFound();

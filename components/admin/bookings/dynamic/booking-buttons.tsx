@@ -18,7 +18,7 @@ import { TextInput } from "@aomdev/ui";
 const DeleteDialog = dynamic(() => import("./delete-dialog").then(mod => mod.DeleteDialog));
 
 type PropTypes = {
-  id: number;
+  id: string;
   status: string;
   date: string;
 };
@@ -116,7 +116,7 @@ export function BookingButtons({ id, status, date }: PropTypes) {
 
   //This function is called to create in order in the database after marking a
   //booking as complete
-  const createOrder = async (amount: number, bookingId: number) => {
+  const createOrder = async (amount: number, bookingId: string) => {
     const { default: dayjs } = await import("dayjs");
     //Get and format the month and year for db
     const year = dayjs().year();

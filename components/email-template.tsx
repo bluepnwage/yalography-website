@@ -8,7 +8,7 @@ type PropTypes = {
   location: string;
   time: string;
   email: string;
-  bookingId: number;
+  bookingId: string;
   url: string;
 };
 
