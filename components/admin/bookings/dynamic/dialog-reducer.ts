@@ -1,45 +1,33 @@
-export const initialState = {
-  reschedule: false,
-  delete: false,
-  load: false,
-  order: false
+type State = {
+  dialog: ActionTypes;
+  load: boolean;
 };
+
+export const initialState: State = {
+  dialog: "",
+  load: false
+};
+
+type ActionTypes = "reschedule" | "delete" | "order" | "rescheduleApprove" | "";
 
 type Actions =
   | {
-      type: "reschedule";
-      payload: boolean;
+      type: "load";
     }
-  | { type: "delete"; payload: boolean }
-  | { type: "load" }
-  | { type: "order"; payload: boolean };
-
-type State = typeof initialState;
+  | { type: "dialog"; payload: ActionTypes };
 
 export function reducer(state: typeof initialState, action: Actions): State {
   switch (action.type) {
-    case "reschedule": {
-      return {
-        ...state,
-        reschedule: action.payload
-      };
-    }
-    case "delete": {
-      return {
-        ...state,
-        delete: action.payload
-      };
-    }
     case "load": {
       return {
         ...state,
         load: true
       };
     }
-    case "order": {
+    case "dialog": {
       return {
         ...state,
-        order: action.payload
+        dialog: action.payload
       };
     }
 

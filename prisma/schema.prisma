@@ -122,6 +122,7 @@ enum BookingsStatus {
   completed
   pending
   approved
+  rescheduled
 }
 
 enum TaskPriority {

@@ -32,3 +32,8 @@ export const getOrders = cache(async () => {
     booking: { ...order.booking, date: formatDate(order.booking.date) }
   }));
 });
+
+export const getRescheduled = async () => {
+  const bookings = await prisma.bookings.findMany({ where: { status: "rescheduled" } });
+  return bookings.map(booking => ({ ...booking, date: formatDate(booking.date) }));
+};

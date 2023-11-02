@@ -11,11 +11,12 @@ import { useReducer, FormEvent } from "react";
 import { initialState, reducer } from "./dialog-reducer";
 import dynamic from "next/dynamic";
 
-import { RescheduleDialog } from "./reschedule-dialog";
-import { CreateOrderDialog } from "./create-order-dialog";
 import { TextInput } from "@aomdev/ui";
 
 const DeleteDialog = dynamic(() => import("./delete-dialog").then(mod => mod.DeleteDialog));
+const RescheduleDialog = dynamic(() => import("./reschedule-dialog").then(mod => mod.RescheduleDialog));
+const CreateOrderDialog = dynamic(() => import("./create-order-dialog").then(mod => mod.CreateOrderDialog));
+const RescheduleApprove = dynamic(() => import("./approve-reschedule").then(mod => mod.ApproveReschedule));
 
 type PropTypes = {
   id: string;
@@ -128,18 +129,25 @@ export function BookingButtons({ id, status, date }: PropTypes) {
       body: JSON.stringify({ year, month, bookingId, quote: amount })
     });
     if (res.ok) {
-      dispatch({ type: "order", payload: false });
+      dispatch({ type: "dialog", payload: "" });
     } else {
       throw new Error("Something happened");
     }
   };
 
+  const onRescheduleApprove = async () => {
+    const res = await fetch("/api/bookings");
+  };
+
   return (
     <div className="space-x-4">
       {state.load && (
-        <DeleteDialog open={state.delete} onOpenChange={payload => dispatch({ type: "delete", payload })}>
+        <DeleteDialog
+          open={state.dialog === "delete"}
+          onOpenChange={payload => dispatch({ type: "dialog", payload: !payload ? "" : "delete" })}
+        >
           <div className="flex gap-5 justify-end">
-            <Button onClick={() => dispatch({ type: "delete", payload: false })} variant={"neutral"}>
+            <Button onClick={() => dispatch({ type: "dialog", payload: "" })} variant={"neutral"}>
               Cancel
             </Button>
             <Button variant={"error"} disabled={isLoading || isRefreshing} onClick={onDelete}>
@@ -152,12 +160,15 @@ export function BookingButtons({ id, status, date }: PropTypes) {
         <RescheduleDialog
           defaultDate={date}
           id={id}
-          open={state.reschedule}
-          onOpenChange={payload => dispatch({ type: "reschedule", payload })}
+          open={state.dialog === "reschedule"}
+          onOpenChange={payload => dispatch({ type: "dialog", payload: !payload ? "" : "reschedule" })}
         />
       )}
       {state.load && (
-        <CreateOrderDialog open={state.order} onOpenChange={payload => dispatch({ type: "order", payload })}>
+        <CreateOrderDialog
+          open={state.dialog === "order"}
+          onOpenChange={payload => dispatch({ type: "dialog", payload: !payload ? "" : "order" })}
+        >
           <form onSubmit={onComplete}>
             <TextInput required step={"any"} label="Amount made" id="quote" name="quote" type="number" />
             <Button disabled={isLoading} className="mt-4 block ml-auto">
@@ -165,6 +176,13 @@ export function BookingButtons({ id, status, date }: PropTypes) {
             </Button>
           </form>
         </CreateOrderDialog>
+      )}
+      {state.load && (
+        <RescheduleApprove
+          id={id}
+          open={state.dialog === "rescheduleApprove"}
+          onOpenChange={payload => dispatch({ type: "dialog", payload: !payload ? "" : "rescheduleApprove" })}
+        />
       )}
 
       <Dropdown>
@@ -185,21 +203,31 @@ export function BookingButtons({ id, status, date }: PropTypes) {
           )}
           {status === "approved" && (
             <Dropdown.Item
-              onSelect={() => dispatch({ payload: true, type: "order" })}
+              onSelect={() => dispatch({ payload: "order", type: "dialog" })}
               icon={<IconCircleCheck size={16} />}
             >
               Mark as complete
             </Dropdown.Item>
           )}
-          <Dropdown.Item
-            onSelect={() => dispatch({ type: "reschedule", payload: true })}
-            icon={<IconCalendarEvent size={16} />}
-          >
-            Reschedule
-          </Dropdown.Item>
+
+          {status !== "rescheduled" ? (
+            <Dropdown.Item
+              onSelect={() => dispatch({ type: "dialog", payload: "reschedule" })}
+              icon={<IconCalendarEvent size={16} />}
+            >
+              Reschedule
+            </Dropdown.Item>
+          ) : (
+            <Dropdown.Item
+              onSelect={() => dispatch({ type: "dialog", payload: "rescheduleApprove" })}
+              icon={<IconCalendarEvent size={16} />}
+            >
+              Approve
+            </Dropdown.Item>
+          )}
           <Dropdown.Item
             color="error"
-            onSelect={() => dispatch({ type: "delete", payload: true })}
+            onSelect={() => dispatch({ type: "dialog", payload: "delete" })}
             icon={<IconTrash size={16} />}
           >
             Cancel

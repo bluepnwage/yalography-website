@@ -9,6 +9,8 @@ import { EmailTemplate } from "@/components/email-template";
 import { formatDate } from "@/util/formate-date";
 import { photoshootTypes } from "@/lib/photoshoot";
 import { DeleteTemplate } from "@/components/delete-template";
+import { RescheduleTemplate } from "@/components/reschedule-template";
+import { RescheduleApproveTemplate } from "@/components/reschedule-approve-template";
 
 const resend = new Resend(process.env.RESEND_API_KEY!);
 
@@ -75,7 +77,8 @@ const handler: NextApiHandler<ApiResponse> = async (req, res) => {
         return res.status(201).json({ message: "Booking created", data });
       }
       case "PUT": {
-        const promise = updateBooking(json);
+        const { dates, ...jsonData } = json;
+        const promise = updateBooking(jsonData);
         const [status, data] = await handlePromise(promise);
         if (status === "error") {
           logError({
@@ -87,12 +90,34 @@ const handler: NextApiHandler<ApiResponse> = async (req, res) => {
           });
           throw new Error("There was an error updating your booking.", { cause: data });
         }
-        await resend.emails.send({
-          from: "Yalography <yalography@yalography.com>",
-          to: data.email,
-          subject: "Booking Rescheduled",
-          html: ``
-        });
+        const query = req.query;
+        if (query.reschedule) {
+          await resend.emails.send({
+            from: "Yalography <yalography@yalography.com>",
+            to: data.email,
+            subject: "Booking Rescheduled",
+            react: RescheduleTemplate({
+              firstName: data.firstName,
+              lastName: data.lastName,
+              time: data.time,
+              date: formatDate(data.date),
+              dates
+            })
+          });
+        }
+        if (query.reschedule_approve) {
+          await resend.emails.send({
+            from: "Yalography <yalography@yalography.com>",
+            subject: "Booking Rescheduling Approved",
+            to: data.email,
+            react: RescheduleApproveTemplate({
+              firstName: data.firstName,
+              lastName: data.lastName,
+              date: formatDate(data.date),
+              time: data.time
+            })
+          });
+        }
         return res.status(200).json({ message: "Booking updated", data });
       }
       case "DELETE": {
