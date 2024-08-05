@@ -4,23 +4,23 @@ import { logError } from "@/lib/notion";
 import { handlePromise } from "@/util/handle-promise";
 import { deleteResource } from "@/lib/cloudinary";
 
-import type { Images } from "@prisma/client";
+import type { Resources } from "@prisma/client";
 import type { NextApiHandler } from "next";
 
-async function createImage(data: Images) {
-  const image = await prisma.images.create({ data });
+async function createImage(data: Resources) {
+  const image = await prisma.resources.create({ data });
 
   return image;
 }
 
-async function editImage(data: Partial<Images>) {
-  const image = await prisma.images.update({ where: { id: data.id }, data });
+async function editImage(data: Partial<Resources>) {
+  const image = await prisma.resources.update({ where: { id: data.id }, data });
 
   return image;
 }
 
 async function deleteImage(id: number, publicId: string) {
-  const image = await prisma.images.delete({ where: { id } });
+  const image = await prisma.resources.delete({ where: { id } });
   await deleteResource([publicId]);
 
   return image;
@@ -51,7 +51,7 @@ const handler: NextApiHandler = async (req, res) => {
         if (query) {
           const promises = json.ids.map((id: number) => {
             return editImage({ id, projectId: json.projectId });
-          }) as Promise<Images>[];
+          }) as Promise<Resources>[];
           const data = await Promise.all(promises);
           return res.status(200).json({ message: "Images updated", data });
         }

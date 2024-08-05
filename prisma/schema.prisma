@@ -41,14 +41,14 @@ model Projects {
   name         String   @unique
   type         String? @default("")
   pinned       Boolean  @default(false)
-  images       Images[]
+  images       Resources[]
   thumbnailPublicId String? @default("")
   thumbnailType String? @default("")
 
   @@map("projects")
 }
 
-model Images {
+model Resources {
   id        Int           @id @default(autoincrement())
   width     Int
   height    Int
@@ -62,18 +62,20 @@ model Images {
   type      String
   publicId  String
   project   Projects?     @relation(fields: [projectId], references: [id])
-  folder    ImageFolders? @relation(fields: [folderId], references: [id], onDelete: Cascade)
+  folder    ResourceFolders? @relation(fields: [folderId], references: [id], onDelete: Cascade)
+  resourceType String
 
   @@index([projectId])
   @@index([folderId])
-  @@map("images")
+  @@map("resources")
 }
 
-model ImageFolders {
+model ResourceFolders {
   id        Int      @id @default(autoincrement())
   name      String
   createdAt DateTime @default(now())
-  Images    Images[]
+  Images    Resources[]
+  @@map("resource_folders")
 }
 
 model Tasks {

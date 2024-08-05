@@ -1,25 +1,25 @@
-import type { Images } from "@prisma/client";
-import { transformImage } from "./transform-image";
+import type { Resources } from "@prisma/client";
 
 const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
 const presetName = process.env.NEXT_PUBLIC_CLOUDINARY_PRESET;
-export const endpoint = `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`;
+export const imgEndpoint = `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`;
+const videoEnpoint = `https://api.cloudinary.com/v1_1/${cloudName}/video/upload`;
 
-export async function uploadToDB(
-  data: Omit<Images, "id" | "published" | "projectId" | "folderId"> & {
-    folderId?: number;
-    projectId?: number;
-  }
-) {
-  const res = await fetch("/api/images", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data)
-  });
-  if (!res.ok) {
-    throw new Error("Failed to upload to database");
-  }
-}
+// export async function uploadToDB(
+//   data: Omit<Resources, "id" | "published" | "projectId" | "folderId"> & {
+//     folderId?: number;
+//     projectId?: number;
+//   }
+// ) {
+//   const res = await fetch("/api/images", {
+//     method: "POST",
+//     headers: { "Content-Type": "application/json" },
+//     body: JSON.stringify(data)
+//   });
+//   if (!res.ok) {
+//     throw new Error("Failed to upload to database");
+//   }
+// }
 
 type UploadOptions = { folderId?: number; projectId?: number };
 
@@ -27,28 +27,24 @@ export async function uploadToCloudinary(image: Blob, options?: UploadOptions) {
   const formData = new FormData();
   formData.append("file", image);
   formData.append("upload_preset", presetName);
-  const res = await fetch(endpoint, {
+  const res = await fetch(image.type.includes("video") ? videoEnpoint : imgEndpoint, {
     method: "POST",
     body: formData
   });
-
   if (res.ok) {
     const json = (await res.json()) as CloudinaryResponse;
 
-    await uploadToDB({
-      alt: "",
-      height: json.height,
-      width: json.width,
-      name: crypto.randomUUID(),
-      url: json.url,
-      type: json.format,
-      size: json.bytes,
-      publicId: json.public_id,
-      projectId: options?.projectId,
-      folderId: options?.folderId
-    });
+    return {
+      success: true,
+      data: json as CloudinaryResponse,
+      options
+    } as const;
   } else {
-    throw new Error("Failed to transform image");
+    return {
+      success: false,
+      data: null,
+      options
+    } as const;
   }
 }
 
@@ -56,7 +52,7 @@ export async function uploadThumbnail(image: File) {
   const formData = new FormData();
   formData.append("file", image);
   formData.append("upload_preset", presetName);
-  const res = await fetch(endpoint, {
+  const res = await fetch(imgEndpoint, {
     method: "POST",
     body: formData
   });
