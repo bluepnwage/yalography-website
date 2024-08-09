@@ -71,7 +71,12 @@ export default async function GalleryPage() {
           </header>
         </div>
         {videos.map((video) => {
-          return <UploadedVideo image={video} />;
+          return (
+            <UploadedVideo
+              key={video.id}
+              image={video}
+            />
+          );
         })}
       </Grid>
     </>

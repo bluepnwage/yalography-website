@@ -2,7 +2,7 @@ import { Dispatch, useReducer } from "react";
 
 type ActionType = "change" | "error";
 type Fields = "first_name" | "last_name" | "email" | "phone";
-type Payload<T> = { value: T; error: boolean };
+type Payload<T> = { value: T; error: string };
 
 function createObj<T extends {}, U>(state: T, dispatch: Dispatch<Actions<U>>) {
   return { state, dispatch };
@@ -84,7 +84,11 @@ export function useForm() {
       Object.entries(contactState).forEach(([key, value]) => {
         const newKey = key as unknown as Fields;
         if (!value.value) {
-          contactDispatch({ type: "error", payload: { value: "", error: true }, key: newKey });
+          contactDispatch({
+            type: "error",
+            payload: { value: "", error: "Field must be filled" },
+            key: newKey
+          });
           hasError = true;
         }
       });
@@ -92,7 +96,11 @@ export function useForm() {
       Object.entries(detailsState).forEach(([key, value]) => {
         const newKey = key;
         if (!value.value && newKey !== "description") {
-          detailsDispatch({ type: "error", payload: { value: "", error: true }, key: newKey });
+          detailsDispatch({
+            type: "error",
+            payload: { value: "", error: "Field must be filled" },
+            key: newKey
+          });
           hasError = true;
         }
       });

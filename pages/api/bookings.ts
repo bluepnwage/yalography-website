@@ -14,6 +14,8 @@ import { RescheduleApproveTemplate } from "@/components/reschedule-approve-templ
 
 const resend = new Resend(process.env.RESEND_API_KEY!);
 
+const emailRecipient = process.env.EMAIL_RECIPIENT!;
+
 async function createBooking(data: Bookings) {
   const booking = await prisma.bookings.create({ data });
 
@@ -62,7 +64,7 @@ const handler: NextApiHandler<ApiResponse> = async (req, res) => {
         }
         if (params?.email === "1") {
           await resend.emails.send({
-            from: "Yalography <yalography@yalography.com>",
+            from: emailRecipient,
             subject: `${photoshootTypes.get(data.type as any)?.label} Booking request`,
             to: json.email,
             react: EmailTemplate({
@@ -93,7 +95,7 @@ const handler: NextApiHandler<ApiResponse> = async (req, res) => {
         const query = req.query;
         if (query.reschedule) {
           await resend.emails.send({
-            from: "Yalography <yalography@yalography.com>",
+            from: emailRecipient,
             to: data.email,
             subject: "Booking Rescheduled",
             react: RescheduleTemplate({
@@ -107,7 +109,7 @@ const handler: NextApiHandler<ApiResponse> = async (req, res) => {
         }
         if (query.reschedule_approve) {
           await resend.emails.send({
-            from: "Yalography <yalography@yalography.com>",
+            from: emailRecipient,
             subject: "Booking Rescheduling Approved",
             to: data.email,
             react: RescheduleApproveTemplate({
@@ -138,7 +140,7 @@ const handler: NextApiHandler<ApiResponse> = async (req, res) => {
           await resend.emails.send({
             to: data.email,
             subject: " Booking Cancelled ",
-            from: "Yalography <yalography@yalography.com>",
+            from: emailRecipient,
             react: DeleteTemplate({ firstName: data.firstName, lastName: data.lastName })
           });
         }

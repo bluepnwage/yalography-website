@@ -35,6 +35,7 @@ export function useAction<State>(action: ActionFunction<State>, options?: Partia
   }, [formRef.current, options?.resetOnSuccess, state.status, state.submitId]);
 
   useEffect(() => {
+    console.log("effect ran");
     if (options?.onSuccess && state.status === "success") {
       console.log("is this running");
       options.onSuccess.call(null, state.message);

@@ -16,6 +16,7 @@ import { buttonStyles } from "@aomdev/ui/src/button/styles";
 //Types
 import type { Metadata } from "next";
 import { BlurImage } from "@/components/blur-image";
+import { BookSession } from "@/components/book-session/book-session";
 
 export const metadata: Metadata = {
   description: `Preserve the beauty and memories of St. Martin with the expertise of a professional photographer.
@@ -30,7 +31,12 @@ export default function HomePage() {
   return (
     <main>
       <div className="relative hidden lg:block lg:h-[720px]">
-        <Image src={banner} alt="" fill className="object-cover" />
+        <Image
+          src={banner}
+          alt=""
+          fill
+          className="object-cover"
+        />
       </div>
       {/* Hero section */}
       <BackgroundImage>
@@ -52,18 +58,19 @@ export default function HomePage() {
           of professional experience and an eye for detail, I can ensure that your photos will be of the
           highest quality and truly capture the beauty of the moment.
         </p>
-        <Link
-          href="/bookings"
-          className={buttonStyles({ className: "w-fit mx-auto relative z-[10]", size: "lg" })}
-        >
-          Book a session
-        </Link>
+        <div className="flex justify-center">
+          <BookSession buttonSize={"lg"} />
+        </div>
       </BackgroundImage>
       {/* About section */}
       <Section>
         <Grid className="mb-16">
           <figure className="col-span-full lg:col-span-4">
-            <BlurImage src={photographer} alt={""} className="w-full h-full object-cover" />
+            <BlurImage
+              src={photographer}
+              alt={""}
+              className="w-full h-full object-cover"
+            />
           </figure>
           <div className="col-span-full lg:col-span-7 lg:p-5">
             <header className="mb-10 space-y-2">
@@ -73,7 +80,10 @@ export default function HomePage() {
               >
                 About
               </Title>
-              <Title order={3} className="font-heading font-medium text-5xl text-gray-900 dark:text-gray-50">
+              <Title
+                order={3}
+                className="font-heading font-medium text-5xl text-gray-900 dark:text-gray-50"
+              >
                 Yalography
               </Title>
             </header>
@@ -121,11 +131,17 @@ export default function HomePage() {
               >
                 Projects
               </Title>
-              <Title order={3} className="font-heading font-medium text-5xl text-gray-900 dark:text-gray-50">
+              <Title
+                order={3}
+                className="font-heading font-medium text-5xl text-gray-900 dark:text-gray-50"
+              >
                 Check out some of our works
               </Title>
             </header>
-            <Link href={"/projects"} className={buttonStyles({})}>
+            <Link
+              href={"/projects"}
+              className={buttonStyles({})}
+            >
               View all projects
             </Link>
           </div>
@@ -208,7 +224,7 @@ export default function HomePage() {
           Reprehenderit pariatur aliqua Lorem adipisicing excepteur sint officia nulla. Et sint sit id sit
           officia irure aliquip sit aliquip ad.
         </p>
-        <Button>Book session</Button>
+        <BookSession buttonSize={"md"} />
       </section>
     </main>
   );

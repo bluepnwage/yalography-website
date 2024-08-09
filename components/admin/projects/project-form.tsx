@@ -7,13 +7,13 @@ import { FormEvent, useRef, useState, useTransition } from "react";
 import { NewImageDialog } from "./new-image-dialog";
 import { CustomDropzone } from "../custom-dropzone";
 import { ExistingImageDialog } from "./existing-image-dialog";
-import type { Images } from "@prisma/client";
+import type { Resources } from "@prisma/client";
 import type { ProjectData } from "@/app/(admin)/admin/projects/[id]/page";
 import { useRouteRefresh } from "@/lib/hooks/useRouteRefresh";
 import { useToggle } from "@/lib/hooks/useToggle";
 
 type PropTypes = {
-  galleryImages: Images[];
+  galleryImages: Resources[];
   project: ProjectData;
 };
 
@@ -42,12 +42,12 @@ export function ProjectForm({ galleryImages, project }: PropTypes) {
 
   const onImageDelete = async (id: number) => {
     const previous = uploadedImages;
-    setUploadedImages(prev => prev.filter(image => image.id !== id));
+    setUploadedImages((prev) => prev.filter((image) => image.id !== id));
     const error = await unlinkImage(id);
     if (error) setUploadedImages(previous);
   };
 
-  const onAddExistingImages = (images: Images[]) => {
+  const onAddExistingImages = (images: Resources[]) => {
     setUploadedImages(images);
     edited.current = true;
   };
@@ -83,7 +83,7 @@ export function ProjectForm({ galleryImages, project }: PropTypes) {
   };
 
   const onFileDelete = (file: File) => {
-    setImages(images => images.filter(image => image.name !== file.name));
+    setImages((images) => images.filter((image) => image.name !== file.name));
   };
 
   const onChange = (file: FileList | null) => {
@@ -144,7 +144,7 @@ export function ProjectForm({ galleryImages, project }: PropTypes) {
 
       if (images.length > 0) {
         const { uploadToCloudinary } = await import("@/lib/upload-image");
-        const promise = images.map(image => uploadToCloudinary(image, { projectId: project.id }));
+        const promise = images.map((image) => uploadToCloudinary(image, { projectId: project.id }));
         await Promise.all(promise);
       }
 
@@ -157,7 +157,7 @@ export function ProjectForm({ galleryImages, project }: PropTypes) {
 
       //Update the ids of the selected images to match the id of the project
       if (uploadedImages.length > 0) {
-        const ids = uploadedImages.map(image => image.id);
+        const ids = uploadedImages.map((image) => image.id);
         const imagesEndpoint = new URL("/api/images", location.origin);
         imagesEndpoint.searchParams.set("multiple", "1");
         const res = await fetch(imagesEndpoint, {
@@ -224,16 +224,22 @@ export function ProjectForm({ galleryImages, project }: PropTypes) {
         onAddExistingImages={onAddExistingImages}
         images={galleryImages}
         open={imageDialog === "existing"}
-        onOpenChange={val => setImageDialog(val ? "existing" : "")}
+        onOpenChange={(val) => setImageDialog(val ? "existing" : "")}
       />
       <NewImageDialog
         onImageAdd={onImageAdd}
         open={imageDialog === "new"}
-        onOpenChange={val => setImageDialog(val ? "new" : "")}
+        onOpenChange={(val) => setImageDialog(val ? "new" : "")}
       />
-      <form onSubmit={onSubmit} className="space w-2/4 mx-auto space-y-10">
+      <form
+        onSubmit={onSubmit}
+        className="space w-2/4 mx-auto space-y-10"
+      >
         <section className="space-y-4">
-          <Title order={2} className="mb-2 font-semibold text-2xl">
+          <Title
+            order={2}
+            className="mb-2 font-semibold text-2xl"
+          >
             Project information
           </Title>
           <TextInput
@@ -250,11 +256,19 @@ export function ProjectForm({ galleryImages, project }: PropTypes) {
           />
           <div className="space-y-2">
             <span className="text-gray-800 font-medium dark:text-gray-100 text-sm">Shoot type</span>
-            <Select value={shootType || undefined} onValueChange={setShootType} items={items} fullWidth />
+            <Select
+              value={shootType || undefined}
+              onValueChange={setShootType}
+              items={items}
+              fullWidth
+            />
           </div>
           <div className="space-y-2">
             <span className="text-gray-800 font-medium dark:text-gray-100 text-sm">Thumbnail</span>
-            <CustomDropzone onAccept={onChange} className="h-64 w-full " />
+            <CustomDropzone
+              onAccept={onChange}
+              className="h-64 w-full "
+            />
 
             <div className=" grid grid-cols-3">
               <img src={thumbnailURL} />
@@ -262,21 +276,42 @@ export function ProjectForm({ galleryImages, project }: PropTypes) {
           </div>
         </section>
         <section className="space-y-4">
-          <Title order={2} className="mb-2 font-semibold text-2xl">
+          <Title
+            order={2}
+            className="mb-2 font-semibold text-2xl"
+          >
             Customer details
           </Title>
-          <TextInput label="Customer name" name="customer_name" defaultValue={project.customerName || ""} />
-          <TextInput label="Customer company" name="company_name" defaultValue={project.companyName || ""} />
-          <Textarea label="Testimonial" name="testimonial" defaultValue={project.testimonial || ""} />
+          <TextInput
+            label="Customer name"
+            name="customer_name"
+            defaultValue={project.customerName || ""}
+          />
+          <TextInput
+            label="Customer company"
+            name="company_name"
+            defaultValue={project.companyName || ""}
+          />
+          <Textarea
+            label="Testimonial"
+            name="testimonial"
+            defaultValue={project.testimonial || ""}
+          />
         </section>
         <section className="space-y-4">
-          <Title order={2} className="mb-2 font-semibold text-2xl">
+          <Title
+            order={2}
+            className="mb-2 font-semibold text-2xl"
+          >
             Images
           </Title>
           <Dropdown>
             <Dropdown.Trigger asChild>
               <Button>
-                <IconPlus size={16} className="inline-block mr-2" />
+                <IconPlus
+                  size={16}
+                  className="inline-block mr-2"
+                />
                 Add images
               </Button>
             </Dropdown.Trigger>
@@ -285,30 +320,50 @@ export function ProjectForm({ galleryImages, project }: PropTypes) {
               <Dropdown.Item onClick={() => setImageDialog("new")}>Add new image</Dropdown.Item>
             </Dropdown.Content>
           </Dropdown>
-          {uploadedImages.map(image => {
+          {uploadedImages.map((image) => {
             return (
-              <Card key={image.id} className="flex justify-between">
+              <Card
+                key={image.id}
+                className="flex justify-between"
+              >
                 <span>{image.name}</span>
                 <div className="gap-2 flex items-center">
-                  <Badge variant={"status"} color={"success"}>
+                  <Badge
+                    variant={"status"}
+                    color={"success"}
+                  >
                     Published
                   </Badge>
-                  <ActionIcon type="button" aria-label="Delete image" onClick={() => onImageDelete(image.id)}>
+                  <ActionIcon
+                    type="button"
+                    aria-label="Delete image"
+                    onClick={() => onImageDelete(image.id)}
+                  >
                     <IconX size={"75%"} />
                   </ActionIcon>
                 </div>
               </Card>
             );
           })}
-          {images.map(image => {
+          {images.map((image) => {
             return (
-              <Card key={image.name} className="flex justify-between">
+              <Card
+                key={image.name}
+                className="flex justify-between"
+              >
                 <span>{image.name}</span>
                 <div className="gap-2 flex items-center">
-                  <Badge variant={"status"} color={"warn"}>
+                  <Badge
+                    variant={"status"}
+                    color={"warn"}
+                  >
                     Drafted
                   </Badge>
-                  <ActionIcon type="button" onClick={() => onFileDelete(image)} aria-label="Delete image">
+                  <ActionIcon
+                    type="button"
+                    onClick={() => onFileDelete(image)}
+                    aria-label="Delete image"
+                  >
                     <IconX size={"75%"} />
                   </ActionIcon>
                 </div>
@@ -316,7 +371,10 @@ export function ProjectForm({ galleryImages, project }: PropTypes) {
             );
           })}
         </section>
-        <Button fullWidth disabled={isPending || isLoading}>
+        <Button
+          fullWidth
+          disabled={isPending || isLoading}
+        >
           Save
         </Button>
       </form>

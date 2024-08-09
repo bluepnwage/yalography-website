@@ -40,7 +40,8 @@
     "react-hot-toast": "^2.4.1",
     "react-toastify": "^9.1.1",
     "recharts": "^2.8.0",
-    "resend": "^1.0.0",
+    "resend": "^3.5.0",
+    "sonner": "^1.5.0",
     "zod": "^3.23.8"
   },
   "devDependencies": {

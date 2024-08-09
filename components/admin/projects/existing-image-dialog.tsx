@@ -1,19 +1,19 @@
 "use client";
 import { Dialog, Button, DialogProps, ScrollArea } from "@aomdev/ui";
-import { Images } from "@prisma/client";
+import { Resources } from "@prisma/client";
 import { IconX } from "@tabler/icons-react";
 import { useState } from "react";
 
 type PropTypes = {
-  images: Images[];
-  onAddExistingImages: (images: Images[]) => void;
+  images: Resources[];
+  onAddExistingImages: (images: Resources[]) => void;
   projectId: number;
 } & DialogProps;
 
 export function ExistingImageDialog({ images, onAddExistingImages, projectId, ...props }: PropTypes) {
-  const [selected, setSelected] = useState(new Map<number, Images>());
+  const [selected, setSelected] = useState(new Map<number, Resources>());
 
-  const onSelect = (image: Images, isSelected: boolean) => {
+  const onSelect = (image: Resources, isSelected: boolean) => {
     const newState = new Map(selected);
     if (isSelected) {
       newState.delete(image.id);
@@ -38,15 +38,21 @@ export function ExistingImageDialog({ images, onAddExistingImages, projectId, ..
   return (
     <Dialog {...props}>
       <Dialog.Content className="w-2/4">
-        <ScrollArea style={{ height: 500 }} className="-mx-4 px-4">
+        <ScrollArea
+          style={{ height: 500 }}
+          className="-mx-4 px-4"
+        >
           <div className="flex justify-between mb-6">
             <Dialog.Title>Add existing images</Dialog.Title>
             <Dialog.Close>
               <IconX size={"75%"} />
             </Dialog.Close>
           </div>
-          <div style={{ gridRow: "repeat(auto, 1fr)" }} className="grid grid-cols-3  gap-4 mt-4 px-1">
-            {images.map(image => {
+          <div
+            style={{ gridRow: "repeat(auto, 1fr)" }}
+            className="grid grid-cols-3  gap-4 mt-4 px-1"
+          >
+            {images.map((image) => {
               const isSelected = selected.has(image.id) || image.projectId === projectId;
               return (
                 <figure
@@ -66,7 +72,10 @@ export function ExistingImageDialog({ images, onAddExistingImages, projectId, ..
         </ScrollArea>
         <div className="flex mt-4 justify-between border-t border-neutral-700 pt-4 items-center">
           <p>{selectCount} images selected</p>
-          <Button onClick={onClick} className="">
+          <Button
+            onClick={onClick}
+            className=""
+          >
             Upload
           </Button>
         </div>

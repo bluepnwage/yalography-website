@@ -5,6 +5,7 @@ import Image from "next/image";
 import { MobileMenu } from "./MobileMenu";
 import { Suspense } from "react";
 import { Admin } from "./Admin";
+import { BookSession } from "./book-session/book-session";
 
 interface NavLinkProps {
   href: string;
@@ -13,7 +14,6 @@ interface NavLinkProps {
 
 const navLinks: NavLinkProps[] = [
   { href: "/", text: "Home" },
-  { text: "Bookings", href: "/bookings" },
   { text: "About", href: "/about" },
   { text: "Gallery", href: "/gallery" }
 ];
@@ -49,6 +49,7 @@ export function Header() {
           </ul>
         </nav>
         <div className="flex gap-4 items-center">
+          <BookSession buttonSize={"sm"} />
           <Suspense fallback={null}>
             <MobileMenu />
           </Suspense>
