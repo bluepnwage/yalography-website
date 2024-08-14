@@ -13,7 +13,7 @@ import sxmOffice from "@/public/about/k.jpg";
 
 import type { Metadata } from "next";
 import { BlurImage } from "@/components/blur-image";
-import { ContactForm } from "@/components/bookings";
+import { ContactForm } from "@/components/contact-form";
 
 export const metadata: Metadata = {
   title: "About"
@@ -31,12 +31,19 @@ export default function AboutPage() {
             >
               About us
             </Title>
-            <Title order={2} className="font-heading font-medium text-4xl text-gray-900 dark:text-gray-50">
+            <Title
+              order={2}
+              className="font-heading font-medium text-4xl text-gray-900 dark:text-gray-50"
+            >
               Capturing the Beauty of the World
             </Title>
           </header>
           <figure className="overflow-hidden rounded-md lg:hidden my-10">
-            <BlurImage src={yasmino} alt="" placeholder="blur" />
+            <BlurImage
+              src={yasmino}
+              alt=""
+              placeholder="blur"
+            />
           </figure>
           <p className="[width:clamp(36ch,90%,65ch)] text-lg leading-loose text-gray-700 dark:text-gray-200">
             I am a self-taught photographer who has been taking photos since I was a teenager. Growing up, I
@@ -56,7 +63,11 @@ export default function AboutPage() {
         </div>
         <div className="hidden lg:block lg:basis-2/5 ">
           <figure className="  overflow-hidden rounded-md  w-3/4">
-            <BlurImage src={yasmino} alt="" placeholder="blur" />
+            <BlurImage
+              src={yasmino}
+              alt=""
+              placeholder="blur"
+            />
           </figure>
         </div>
       </section>
@@ -66,7 +77,11 @@ export default function AboutPage() {
         className={`svg-background py-24 border-t border-b border-zinc-200 dark:border-zinc-700`}
       >
         <div className={"grid-cols-6 lg:grid-cols-2 w-11/12 lg:container lg:gap-36"}>
-          <SkillDetail img={villa} title="Capturing" subTitle="Capturing the best possible photographs">
+          <SkillDetail
+            img={villa}
+            title="Capturing"
+            subTitle="Capturing the best possible photographs"
+          >
             This requires a combination of technical skills and creativity. It starts with understanding the
             basics of composition, lighting, and exposure, as well as knowing how to use your camera and
             lenses. But it also involves being able to anticipate and seize the right moment, and having a
@@ -75,7 +90,11 @@ export default function AboutPage() {
             importantly, always be in the right mindset, and be willing to put in the time and effort to get
             the perfect shot.
           </SkillDetail>
-          <SkillDetail img={tj} title="Editing" subTitle="Editing is an essential and timeless process">
+          <SkillDetail
+            img={tj}
+            title="Editing"
+            subTitle="Editing is an essential and timeless process"
+          >
             Editing is necessary to achieve the best possible result in photography. It allows you to refine
             your images, correct any imperfections and enhance the overall look and feel of the photograph.
             It&apos;s a process that requires attention to detail and a good understanding of color, contrast,
@@ -84,7 +103,11 @@ export default function AboutPage() {
             bring out the best in your images and make them truly stand out. It&apos;s an ongoing process that
             takes time and patience.
           </SkillDetail>
-          <SkillDetail img={about} title="Your brand" subTitle="Enhance your brand image">
+          <SkillDetail
+            img={about}
+            title="Your brand"
+            subTitle="Enhance your brand image"
+          >
             Yalography offers a range of services to enhance your brand image through professional
             photography. Our team is comprised of experienced photographers, MUAs and Hair dressers that can
             capture stunning images that showcase your products, services, and brand story. We understand the
@@ -94,7 +117,11 @@ export default function AboutPage() {
             Yalography&apos;s services, you can be sure that your brand image will be elevated to new heights
             and leave a lasting impression on your audience.
           </SkillDetail>
-          <SkillDetail img={sxmOffice} title="Our partner" subTitle="Your hair matters">
+          <SkillDetail
+            img={sxmOffice}
+            title="Our partner"
+            subTitle="Your hair matters"
+          >
             Nicky Hair Tech is our premier partner for all your hair styling needs. With a team of experienced
             and highly skilled hair stylists, Nicky Hair Tech is committed to providing exceptional services
             that help their clients look and feel their best. Nicky Hair Tech has the expertise and creativity

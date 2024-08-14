@@ -24,9 +24,9 @@ const getProject = cache(async (id: number) => {
 });
 
 const getGalleryImages = cache(async () => {
-  const images = await prisma.images.findMany();
+  const images = await prisma.resources.findMany();
 
-  return images.map(image => ({ ...image, url: transformImage("w_1000", image.publicId, image.type) }));
+  return images.map((image) => ({ ...image, url: transformImage("w_1000", image.publicId, image.type) }));
 });
 
 export type ProjectData = Awaited<ReturnType<typeof getProject>>;
@@ -46,23 +46,45 @@ export default async function Page({ params }: { params: { status: "drafted" | "
           <div className="border-b sticky bg-white dark:bg-neutral-900 top-0 mb-8 -mt-5 pt-5 z-[50]  border-gray-200 dark:border-gray-700 flex justify-between pb-4">
             <div className="flex text-sm gap-4 items-center text-gray-500 dark:text-gray-200">
               <Link href={"/admin"}>
-                <IconHome size={14} className="dark:text-gray-200 hover:stroke-primary-300" />
+                <IconHome
+                  size={14}
+                  className="dark:text-gray-200 hover:stroke-primary-300"
+                />
               </Link>
-              <IconChevronRight size={14} className="dark:text-gray-200" />
-              <Link href={"/admin/projects"} className=" dark:text-gray-200 hover:text-primary-300">
+              <IconChevronRight
+                size={14}
+                className="dark:text-gray-200"
+              />
+              <Link
+                href={"/admin/projects"}
+                className=" dark:text-gray-200 hover:text-primary-300"
+              >
                 Projects
               </Link>
-              <IconChevronRight size={14} className="dark:text-gray-200" />
+              <IconChevronRight
+                size={14}
+                className="dark:text-gray-200"
+              />
               <span>5</span>
             </div>
-            <ProjectDropdown name={project.name} id={project.id} published={project.published} />
+            <ProjectDropdown
+              name={project.name}
+              id={project.id}
+              published={project.published}
+            />
           </div>
           <header className="mx-auto w-2/4 mb-16">
-            <Title order={1} className="font-heading font-bold text-5xl text-gray-900 dark:text-gray-50">
+            <Title
+              order={1}
+              className="font-heading font-bold text-5xl text-gray-900 dark:text-gray-50"
+            >
               {project.name}
             </Title>
           </header>
-          <ProjectForm project={project} galleryImages={images} />
+          <ProjectForm
+            project={project}
+            galleryImages={images}
+          />
         </div>
         <Sidebar project={project} />
       </div>
@@ -82,7 +104,10 @@ function Sidebar({ project }: PropTypes) {
         <ul className="space-y-4 dark:text-gray-300 mb-8 capitalize">
           <li className="flex justify-between">
             <span className="font-medium dark:text-gray-100">Status</span>{" "}
-            <Badge variant={"status"} color={getStatusColor(project.published)}>
+            <Badge
+              variant={"status"}
+              color={getStatusColor(project.published)}
+            >
               {project.published ? "Published" : "Drafted"}
             </Badge>
           </li>

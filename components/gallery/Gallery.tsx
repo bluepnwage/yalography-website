@@ -1,14 +1,17 @@
-import type { Images } from "@prisma/client";
+import type { Resources } from "@prisma/client";
 import { Image } from "@/components/shared/Image";
 
 type PropTypes = {
-  images: Images[];
+  images: Resources[];
 };
 export function Gallery({ images }: PropTypes) {
   return (
     <>
-      <div style={{ gridAutoFlow: "dense" }} className="grid grid-cols-2 gap-2 w-[75%]">
-        {images.map(image => {
+      <div
+        style={{ gridAutoFlow: "dense" }}
+        className="grid grid-cols-2 gap-2 w-[75%]"
+      >
+        {images.map((image) => {
           return (
             <Image
               key={image.id}

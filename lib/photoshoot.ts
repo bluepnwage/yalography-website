@@ -12,10 +12,15 @@ export type ShootTypes =
   | "Regular shoot"
   | "Kids party shoot";
 
-type WeddingTypes = "Wedding Bronze" | "Wedding Silver" | "Wedding Gold" | "Wedding Signing" | "Destination Wedding";
+type WeddingTypes =
+  | "Wedding Bronze"
+  | "Wedding Silver"
+  | "Wedding Gold"
+  | "Wedding Signing"
+  | "Destination Wedding";
 type PhotoShootTime = number | "hourly" | "day";
 
-type PhotoShootType = {
+export type PhotoShootType = {
   label: ShootTypes;
   features: ReturnType<typeof getFeatures>;
   time: PhotoShootTime; //Time in seconds
@@ -72,7 +77,14 @@ photoshootTypes.set("kids party shoot", {
 });
 photoshootTypes.set("pregnancy", {
   label: "Pregnancy",
-  features: getFeatures("dress_rental", "headpiece", "wig_rental", "quick_hairstyles", "spouse", "soft_glam_makeup"),
+  features: getFeatures(
+    "dress_rental",
+    "headpiece",
+    "wig_rental",
+    "quick_hairstyles",
+    "spouse",
+    "soft_glam_makeup"
+  ),
   time: 60 * 60 * 1.5,
   environmentPrice: setEnvironmentPricing(200, 225)
 });

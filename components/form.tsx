@@ -34,10 +34,20 @@ export function Form() {
   };
 
   return (
-    <form onSubmit={onSubmit} className="space-y-8" key={`${toggle}`}>
+    <form
+      onSubmit={onSubmit}
+      className="space-y-8"
+      key={`${toggle}`}
+    >
       <div className="flex flex-col lg:flex-row w-full gap-4 grow basis-full">
         <div className="grow">
-          <TextInput required className="grow" label="First name" name="first_name" id="first_name" />
+          <TextInput
+            required
+            className="grow"
+            label="First name"
+            name="first_name"
+            id="first_name"
+          />
         </div>
         <div className="grow">
           <TextInput
@@ -51,21 +61,46 @@ export function Form() {
       </div>
       <div className="flex flex-col lg:flex-row w-full gap-4 grow basis-full">
         <div className="grow">
-          <TextInput required type={"email"} label={"Email"} name={"email"} id={"email"} />
+          <TextInput
+            required
+            type={"email"}
+            label={"Email"}
+            name={"email"}
+            id={"email"}
+          />
         </div>
         <div className="grow">
-          <TextInput required type={"tel"} label={"Phone"} name={"number"} id={"number"} />
+          <TextInput
+            required
+            type={"tel"}
+            label={"Phone"}
+            name={"number"}
+            id={"number"}
+          />
         </div>
       </div>
       <div className="flex w-full gap-4 grow ">
         <div className="grow">
-          <TextInput label="Subject" name={"subject"} id={"subject"} />
+          <TextInput
+            label="Subject"
+            name={"subject"}
+            id={"subject"}
+          />
         </div>
       </div>
       <div className="w-full">
-        <Textarea className="w-full" required name="message" rows={5} label="Message" />
+        <Textarea
+          className="w-full"
+          required
+          name="message"
+          rows={5}
+          label="Message"
+        />
       </div>
-      <Button disabled={toggle} fullWidth>
+      <Button
+        disabled={toggle}
+        fullWidth
+      >
         Let&apos;s talk
       </Button>
     </form>

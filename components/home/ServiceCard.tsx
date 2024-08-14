@@ -28,6 +28,7 @@ import { ServicesGallery } from "./services-gallery";
 import { Card, Title } from "@aomdev/ui";
 import Link from "next/link";
 import { buttonStyles } from "@aomdev/ui/src/button/styles";
+import { BookSession } from "../book-session/book-session";
 
 const maternity = [maternity1, maternity2, maternity3, maternity4, maternity5, maternity6];
 const portrait = [portrait1, portrait2, portrait3, portrait4, portrait5, portrait6];
@@ -63,7 +64,7 @@ export function Services({ children }: { children: React.ReactNode }) {
   }, []);
 
   const paginate = useCallback(() => {
-    setActive(prev => {
+    setActive((prev) => {
       switch (prev) {
         case "maternity": {
           return "portrait";
@@ -118,9 +119,7 @@ export function Services({ children }: { children: React.ReactNode }) {
           capture the essence of every occasion. From intimate maternity sessions to dynamic commercial
           projects and everything in between, I&apos;m here to bring your vision to life through the lens.
         </p>
-        <Link href={"/bookings"} className={buttonStyles({ className: "w-full lg:w-fit" })}>
-          Book a session
-        </Link>
+        <BookSession buttonSize={"md"} />
       </div>
       <div className="relative hidden lg:block gap-6 mt-10  container mx-auto grow ">
         <ServicesGallery photos={allImages[active]}>

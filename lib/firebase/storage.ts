@@ -8,7 +8,7 @@ import {
   updateMetadata,
   StorageReference
 } from "firebase/storage";
-import type { Images } from "@prisma/client";
+import type { Resources } from "@prisma/client";
 // import { transformImage } from "@/lib/cloudinary";
 import { app } from "./config";
 
@@ -26,7 +26,7 @@ const meta = {
 };
 
 export async function uploadToDB(
-  data: Omit<Images, "id" | "published" | "projectId" | "folderId"> & { folderId?: number }
+  data: Omit<Resources, "id" | "published" | "projectId" | "folderId"> & { folderId?: number }
 ) {
   const res = await fetch("/api/images", {
     method: "POST",
@@ -48,7 +48,7 @@ export async function listImages() {
   do {
     const images = await list(folder, { maxResults: 10, pageToken: token });
     token = images.nextPageToken;
-    const promise = images.items.map(image => {
+    const promise = images.items.map((image) => {
       return update(image);
     });
     await Promise.all(promise);

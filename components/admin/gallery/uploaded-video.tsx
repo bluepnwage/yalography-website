@@ -21,10 +21,10 @@ import type { FormEvent } from "react";
 import { initialState, reducer } from "./image-reducer";
 
 type PropTypes = {
-  image: Resources & { original_url: string };
+  image: Resources;
 };
 
-export function UploadedImage({ image: imageData }: PropTypes) {
+export function UploadedVideo({ image: imageData }: PropTypes) {
   const [loading, toggle] = useToggle();
   const [isPending, refresh] = useRouteRefresh();
   const [lazyLoad, lazyLoadToggle] = useToggle();
@@ -90,34 +90,7 @@ export function UploadedImage({ image: imageData }: PropTypes) {
   };
 
   const onDownload = async () => {
-    const endpoint = image.original_url;
-    try {
-      const res = await fetch(endpoint);
-
-      if (res.ok) {
-        const blob = await res.blob();
-        const anchor = document.createElement("a");
-        const href = URL.createObjectURL(blob);
-        anchor.download = image.name;
-        anchor.href = href;
-        anchor.dispatchEvent(
-          new MouseEvent("click", {
-            bubbles: true,
-            cancelable: true,
-            view: window
-          })
-        );
-        setTimeout(() => URL.revokeObjectURL(href), 100);
-      } else {
-        const json = await res.json();
-        throw new Error(json.message);
-      }
-    } catch (error) {
-      const { toast } = await import("react-toastify");
-      if (error instanceof Error) {
-        toast.error(error.message);
-      }
-    }
+    return;
   };
 
   const onEditCaption = async (e: FormEvent<HTMLFormElement>) => {
@@ -289,22 +262,14 @@ export function UploadedImage({ image: imageData }: PropTypes) {
               </Dropdown.Item>
             </Dropdown.Content>
           </Dropdown>
-          <Image
-            alt={""}
-            containerClass="w-full blur-sm h-full absolute top-0 left-0"
-            src={image.url}
-            width={image.width}
-            height={image.height}
-            className="blur-sm object-cover  w-full h-full"
-          />
-          <Image
-            containerClass="w-full h-full z-10"
-            width={image.width}
-            height={image.height}
-            alt={""}
-            src={image.url}
-            className="h-full w-full object-contain z-10"
-          />
+          <div className="relative">
+            <video
+              width={image.width}
+              height={image.height}
+              src={image.url}
+              className="h-full w-full relative object-contain z-50"
+            />
+          </div>
         </div>
         <div className="grow text-gray-600 dark:text-gray-200">
           <div className="flex justify-between mb-4">

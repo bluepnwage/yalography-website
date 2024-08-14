@@ -53,18 +53,22 @@ export function CustomDropzone({ className, multiple, onAccept }: PropTypes) {
         } ${className}`
       })}
     >
-      <IconPhoto size={48} className="pointer-events-none" />
+      <IconPhoto
+        size={48}
+        className="pointer-events-none"
+      />
       <div className="pointer-events-none">
-        <p className="font-semibold text-xl mb-1">Drag and drop images here</p>
-        <p className="text-gray-200">Images must not exceed 5mb</p>
+        <p className="font-semibold text-xl mb-1">Drag and drop media here</p>
+        {/* <p className="text-gray-200">Media must not exceed 5mb</p> */}
       </div>
       <input
         onChange={_onChange}
         type="file"
         className="hidden"
-        accept=".jpg,.png"
+        accept=".jpg,.png,.mp4"
         ref={fileRef}
         multiple={multiple}
+        name="files"
       />
     </div>
   );
