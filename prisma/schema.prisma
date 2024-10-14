@@ -62,7 +62,6 @@ model Resources {
   type      String
   publicId  String
   project   Projects?     @relation(fields: [projectId], references: [id])
-  folder    ResourceFolders? @relation(fields: [folderId], references: [id], onDelete: Cascade)
   resourceType String
 
   @@index([projectId])
@@ -70,13 +69,6 @@ model Resources {
   @@map("resources")
 }
 
-model ResourceFolders {
-  id        Int      @id @default(autoincrement())
-  name      String
-  createdAt DateTime @default(now())
-  Images    Resources[]
-  @@map("resource_folders")
-}
 
 model Tasks {
   id          Int          @id @default(autoincrement())
