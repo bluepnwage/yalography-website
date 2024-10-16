@@ -1,7 +1,6 @@
 "use client";
 
-import { ActionIcon } from "@aomdev/ui";
-import { IconPencil, IconTrash, IconUpload } from "@tabler/icons-react";
+import { IconUpload } from "@tabler/icons-react";
 import { useCommand } from "@/components/admin/command-provider";
 
 export function GalleryMenu() {

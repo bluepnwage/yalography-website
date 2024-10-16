@@ -7,7 +7,7 @@ import { IconX } from "@tabler/icons-react";
 import { useActionState, useRef, useState } from "react";
 import { usePagination } from "@/lib/hooks/usePagination";
 import { uploadImageAction } from "@/app/(admin)/admin/gallery/actions";
-import { toast } from "react-hot-toast";
+import { toast } from "sonner";
 import { uploadToCloudinary } from "@/lib/upload-image";
 
 type PropTypes = {
@@ -17,10 +17,10 @@ type PropTypes = {
 export function Dropzone({ onDialogClose }: PropTypes) {
   const [files, setFiles] = useState<File[]>([]);
 
-  const id = useRef("");
+  const id = useRef<string | number>("");
   const { paginatedList, ...paginationProps } = usePagination(5, files);
   const [, formAction, pending] = useActionState(async () => {
-    id.current = toast.loading("Uploading media");
+    id.current = toast.loading("Uploading files");
     const uploadedFiles = [];
     for (const file of files) {
       const status = await uploadToCloudinary(file as Blob, {});
@@ -39,10 +39,13 @@ export function Dropzone({ onDialogClose }: PropTypes) {
           folderId: options?.folderId,
           resourceType: file.type.includes("video") ? "video" : "image"
         });
+        toast.loading(`Uploaded ${uploadedFiles.length}/${files.length} files`, { id: id.current });
+      } else {
+        toast.error("Failed to upload image", { description: `${file.name}`, duration: 5000 });
       }
     }
     await uploadImageAction(null, uploadedFiles);
-    toast.success("Media uploaded successfully", { id: id.current });
+    toast.success("Files uploaded successfully", { id: id.current });
     onDialogClose();
   }, null);
 
@@ -56,13 +59,17 @@ export function Dropzone({ onDialogClose }: PropTypes) {
   };
 
   return (
-    <form action={formAction}>
+    <form
+      action={formAction}
+      className="space-y-8"
+    >
       <CustomDropzone
         multiple
         onAccept={onDrop}
         className="h-64"
       />
-      <ul className="space-y-2 mb-10">
+
+      <ul className="space-y-2 ">
         {paginatedList.map((file, key) => (
           <UploadedFile
             file={file}
@@ -75,7 +82,7 @@ export function Dropzone({ onDialogClose }: PropTypes) {
 
       <Button
         disabled={pending || files.length === 0}
-        className="block ml-auto"
+        className="block ml-auto mt-4"
       >
         Submit
       </Button>
@@ -91,7 +98,7 @@ type FileProps = {
 function UploadedFile({ file, onRemove }: FileProps) {
   const onClick = () => onRemove(file);
   return (
-    <li className="flex justify-between border-b pb-2 dark:border-zinc-700 border-zinc-300 last-of-type:border-b-0">
+    <li className="flex justify-between border-b pb-4 dark:border-zinc-700 border-zinc-300 last-of-type:border-b-0">
       <p
         style={{ width: "clamp(15ch, 25ch, 75%)" }}
         className="line-clamp-1"

@@ -47,8 +47,9 @@ export function CustomDropzone({ className, multiple, onAccept }: PropTypes) {
       onDragOverCapture={_onDragOver}
       onDropCapture={_onDrop}
       onClick={_onDropzone}
+      style={{ background: "#070c17" }}
       className={cardStyles({
-        className: `gap-4 cursor-pointer flex items-center justify-center ${
+        className: `gap-4 cursor-pointer flex items-center   justify-center ${
           dragged ? "opacity-50" : "opacity-100"
         } ${className}`
       })}
