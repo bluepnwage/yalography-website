@@ -1,17 +1,18 @@
 "use client";
-import { useTheme } from "next-themes";
-import { Toaster } from "react-hot-toast";
+import { Toaster } from "sonner";
 
 export function ToastProvider() {
-  const theme = useTheme();
   return (
     <Toaster
-      position="top-right"
-      containerStyle={{ zIndex: 10000 }}
       toastOptions={{
-        style: {
-          backgroundColor: `${theme.resolvedTheme === "dark" ? "#1f1d2f" : "#fff"}`,
-          color: `${theme.resolvedTheme === "dark" ? "#d0d9e0" : "#1d262b"}`
+        unstyled: true,
+        classNames: {
+          toast:
+            "bg-white dark:bg-neutral-900 p-4 w-[356px] flex gap-[6px] items-center ring-1 ring-neutral-100 dark:ring-neutral-800 rounded",
+          success: "text-success-600 dark:text-success-500",
+          title: "text-gray-800 dark:text-gray-100",
+          description: "text-gray-700 dark:text-gray-200",
+          error: "text-error-600 dark:text-error-500"
         }
       }}
     />
