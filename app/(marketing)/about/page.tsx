@@ -1,5 +1,5 @@
 //Components
-import { Grid, Section } from '@/components/shared';
+import { Section } from '@/components/shared';
 import { SkillDetail } from '@/components/about';
 import myFont from '@/lib/menlo-font';
 import { Title } from '@aomdev/ui';
@@ -27,13 +27,13 @@ export default function AboutPage() {
           <header className="space-y-2 mb-5 text-center lg:text-start">
             <Title
               order={1}
-              className={`text-base ${myFont.className} text-primary-500 dark:text-primary-400`}
+              className={`text-base ${myFont.className} uppercase text-primary-500 dark:text-primary-400`}
             >
               About us
             </Title>
             <Title
               order={2}
-              className="font-heading font-medium text-4xl text-gray-900 dark:text-gray-50"
+              className="font-heading font-medium text-4xl text-gray-900 dark:text-white"
             >
               Capturing the Beauty of the World
             </Title>
@@ -61,8 +61,8 @@ export default function AboutPage() {
             <li>Photoshop</li>
           </ul>
         </div>
-        <div className="hidden lg:block lg:basis-2/5 ">
-          <figure className="  overflow-hidden rounded-md  w-3/4">
+        <div className="hidden lg:block lg:basis-2/5">
+          <figure className="  overflow-hidden rounded-md ml-auto  w-3/4">
             <BlurImage
               src={yasmino}
               alt=""

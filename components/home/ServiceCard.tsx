@@ -1,34 +1,32 @@
-"use client";
-import { useCallback, useEffect, useState } from "react";
-import { AnimatePresence, Variants, motion } from "framer-motion";
-import { useMediaQuery } from "@mantine/hooks";
+'use client';
+import { useCallback, useEffect, useState } from 'react';
+import { AnimatePresence, Variants, motion } from 'framer-motion';
+import { useMediaQuery } from '@mantine/hooks';
 
-import maternity1 from "@/public/services/DSC00283-Recovered-lg.webp";
-import maternity2 from "@/public/services/DSC08217 copy-lg.webp";
-import maternity3 from "@/public/services/thumb-lg.webp";
-import maternity4 from "@/public/services/DSC00315-Recovered-Recovered copy-lg.webp";
-import maternity5 from "@/public/services/DSC08341 copy-lg.webp";
-import maternity6 from "@/public/services/DSC00283-Recovered-lg.webp";
+import maternity1 from '@/public/services/DSC00283-Recovered-lg.webp';
+import maternity2 from '@/public/services/DSC08217 copy-lg.webp';
+import maternity3 from '@/public/services/thumb-lg.webp';
+import maternity4 from '@/public/services/DSC00315-Recovered-Recovered copy-lg.webp';
+import maternity5 from '@/public/services/DSC08341 copy-lg.webp';
+import maternity6 from '@/public/services/DSC00283-Recovered-lg.webp';
 
-import portrait1 from "@/public/services/portrait/gsigxzfi3kcm4l4p4gul-lg.webp";
-import portrait2 from "@/public/services/portrait/lqpu4gdtydig8zokc3if-lg.webp";
-import portrait3 from "@/public/services/portrait/qvdgwwtziuqlxakxinz7-lg.webp";
-import portrait4 from "@/public/services/portrait/w63huqak6ywi6nm8fo30-lg.webp";
-import portrait5 from "@/public/services/portrait/of8hydqvsi7zhmvnchi9-lg.webp";
-import portrait6 from "@/public/services/portrait/rrtno8lakqedpdwyltof-lg.webp";
+import portrait1 from '@/public/services/portrait/gsigxzfi3kcm4l4p4gul-lg.webp';
+import portrait2 from '@/public/services/portrait/lqpu4gdtydig8zokc3if-lg.webp';
+import portrait3 from '@/public/services/portrait/qvdgwwtziuqlxakxinz7-lg.webp';
+import portrait4 from '@/public/services/portrait/w63huqak6ywi6nm8fo30-lg.webp';
+import portrait5 from '@/public/services/portrait/of8hydqvsi7zhmvnchi9-lg.webp';
+import portrait6 from '@/public/services/portrait/rrtno8lakqedpdwyltof-lg.webp';
 
-import commercial1 from "@/public/services/commercial/fdt6bplxqsbwsf8k5g4k-lg.webp";
-import commercial2 from "@/public/services/commercial/Photo (23)-lg.webp";
-import commercial3 from "@/public/services/commercial/Photo (20)-lg.webp";
-import commercial4 from "@/public/services/commercial/DSC01911-lg.webp";
-import commercial5 from "@/public/services/commercial/DSC00804-lg.webp";
-import commercial6 from "@/public/services/commercial/wc9zt3ivqr0c1pengjfl-lg.webp";
+import commercial1 from '@/public/services/commercial/fdt6bplxqsbwsf8k5g4k-lg.webp';
+import commercial2 from '@/public/services/commercial/Photo (23)-lg.webp';
+import commercial3 from '@/public/services/commercial/Photo (20)-lg.webp';
+import commercial4 from '@/public/services/commercial/DSC01911-lg.webp';
+import commercial5 from '@/public/services/commercial/DSC00804-lg.webp';
+import commercial6 from '@/public/services/commercial/wc9zt3ivqr0c1pengjfl-lg.webp';
 
-import { ServicesGallery } from "./services-gallery";
-import { Card, Title } from "@aomdev/ui";
-import Link from "next/link";
-import { buttonStyles } from "@aomdev/ui/src/button/styles";
-import { BookSession } from "../book-session/book-session";
+import { ServicesGallery } from './services-gallery';
+import { Card, Title } from '@aomdev/ui';
+import { BookSession } from '../book-session/book-session';
 
 const maternity = [maternity1, maternity2, maternity3, maternity4, maternity5, maternity6];
 const portrait = [portrait1, portrait2, portrait3, portrait4, portrait5, portrait6];
@@ -53,8 +51,7 @@ const variants: Variants = {
 };
 
 export function Services({ children }: { children: React.ReactNode }) {
-  const [active, setActive] = useState<keyof typeof allImages>("maternity");
-  const matches = useMediaQuery("(max-width: 768px)", false);
+  const [active, setActive] = useState<keyof typeof allImages>('maternity');
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -66,17 +63,17 @@ export function Services({ children }: { children: React.ReactNode }) {
   const paginate = useCallback(() => {
     setActive((prev) => {
       switch (prev) {
-        case "maternity": {
-          return "portrait";
+        case 'maternity': {
+          return 'portrait';
         }
-        case "portrait": {
-          return "commercial";
+        case 'portrait': {
+          return 'commercial';
         }
-        case "commercial": {
-          return "maternity";
+        case 'commercial': {
+          return 'maternity';
         }
         default: {
-          return "maternity";
+          return 'maternity';
         }
       }
     });
@@ -92,19 +89,19 @@ export function Services({ children }: { children: React.ReactNode }) {
               order={3}
               className="font-heading font-medium text-3xl lg:text-5xl text-gray-900 dark:text-gray-50 pb-14 relative overflow-hidden"
             >
-              I specialize in <br />{" "}
+              I specialize in <br />{' '}
               <motion.span className="  absolute">
                 <motion.span
                   key={active}
                   transition={{ duration: 1 }}
-                  exit={"exit"}
+                  exit={'exit'}
                   variants={variants}
                   initial="enter"
                   animate="visible"
-                  className="capitalize text-primary-500 dark:text-primary-300"
+                  className="capitalize bg-gradient-to-tr from-tertiary-400 to-primary-500 bg-clip-text text-transparent"
                 >
                   {active}
-                </motion.span>{" "}
+                </motion.span>{' '}
                 shoots
               </motion.span>
             </Title>
@@ -119,7 +116,7 @@ export function Services({ children }: { children: React.ReactNode }) {
           capture the essence of every occasion. From intimate maternity sessions to dynamic commercial
           projects and everything in between, I&apos;m here to bring your vision to life through the lens.
         </p>
-        <BookSession buttonSize={"md"} />
+        <BookSession buttonSize={'md'} />
       </div>
       <div className="relative hidden lg:block gap-6 mt-10  container mx-auto grow ">
         <ServicesGallery photos={allImages[active]}>
