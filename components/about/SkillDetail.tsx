@@ -14,19 +14,19 @@ type PropTypes = {
 export function SkillDetail({ children, subTitle, title, img }: PropTypes) {
   return (
     <article
-      className={`flex gap-10 flex-col col-span-full lg:col-span-1 lg:flex-row lg:even:flex-row-reverse mb-20 last-of-type:mb-0 group ${styles.container}`}
+      className={`flex gap-10 flex-col col-span-full lg:col-span-1 lg:flex-row lg:even:flex-row-reverse mb-24 lg:mb-56 last-of-type:mb-0 group ${styles.container}`}
     >
       <div className="basis-1/2 grow">
         <header className="mb-5 space-y-2 text-center lg:text-start">
           <Title
             order={2}
-            className={`text-base ${myFont.className} text-primary-500 dark:text-primary-400`}
+            className={`text-base ${myFont.className} uppercase text-primary-500 dark:text-primary-400`}
           >
             {title}
           </Title>
           <Title
             order={3}
-            className="font-heading font-medium text-3xl"
+            className="font-heading font-medium text-3xl text-gray-900 dark:text-white"
           >
             {subTitle}
           </Title>

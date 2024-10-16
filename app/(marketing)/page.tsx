@@ -1,22 +1,22 @@
 //Components
-import { Grid, Section } from "@/components/shared";
-import { Stats, Services } from "@/components/home";
-import Link from "next/link";
-import { Title, Button } from "@aomdev/ui";
-import myFont from "@/lib/menlo-font";
-import { BackgroundImage } from "@/components/home/hero-image";
-import { Suspense } from "react";
-import banner from "@/public/yalo-banner.jpg";
-import Image from "next/image";
+import { Grid, Section } from '@/components/shared';
+import { Stats, Services } from '@/components/home';
+import Link from 'next/link';
+import { Title, Button } from '@aomdev/ui';
+import myFont from '@/lib/menlo-font';
+import { BackgroundImage } from '@/components/home/hero-image';
+import { Suspense } from 'react';
+import banner from '@/public/yalo-banner.jpg';
+import Image from 'next/image';
 
 //Assets
-import photographer from "@/public/yasmino-lg.jpg";
-import { buttonStyles } from "@aomdev/ui/src/button/styles";
+import photographer from '@/public/yasmino-lg.jpg';
+import { buttonStyles } from '@aomdev/ui/src/button/styles';
 
 //Types
-import type { Metadata } from "next";
-import { BlurImage } from "@/components/blur-image";
-import { BookSession } from "@/components/book-session/book-session";
+import type { Metadata } from 'next';
+import { BlurImage } from '@/components/blur-image';
+import { BookSession } from '@/components/book-session/book-session';
 
 export const metadata: Metadata = {
   description: `Preserve the beauty and memories of St. Martin with the expertise of a professional photographer.
@@ -50,7 +50,7 @@ export default function HomePage() {
               className={`bg-gradient-to-tr from-tertiary-400 to-primary-500 bg-clip-text text-transparent`}
             >
               special moments
-            </span>{" "}
+            </span>{' '}
           </Title>
         </header>
         <p className="leading-loose w-11/12 z-[10] mb-10 text-lg lg:text-xl text-gray-200 text-center mx-auto lg:[width:clamp(36ch,90%,70ch)] relative">
@@ -59,7 +59,7 @@ export default function HomePage() {
           highest quality and truly capture the beauty of the moment.
         </p>
         <div className="flex justify-center">
-          <BookSession buttonSize={"lg"} />
+          <BookSession buttonSize={'lg'} />
         </div>
       </BackgroundImage>
       {/* About section */}
@@ -68,7 +68,7 @@ export default function HomePage() {
           <figure className="col-span-full lg:col-span-4">
             <BlurImage
               src={photographer}
-              alt={""}
+              alt={''}
               className="w-full h-full object-cover"
             />
           </figure>
@@ -76,7 +76,7 @@ export default function HomePage() {
             <header className="mb-10 space-y-2">
               <Title
                 order={2}
-                className={`text-base ${myFont.className} text-primary-500 dark:text-primary-400`}
+                className={`text-base ${myFont.className} uppercase text-primary-500 dark:text-primary-400`}
               >
                 About
               </Title>
@@ -100,7 +100,7 @@ export default function HomePage() {
             <Stats />
             <Link
               href="/about"
-              className={buttonStyles({ className: "w-fit mx-auto block lg:mx-0", size: "lg" })}
+              className={buttonStyles({ className: 'w-fit mx-auto block lg:mx-0', size: 'lg' })}
             >
               Learn more
             </Link>
@@ -113,7 +113,7 @@ export default function HomePage() {
           <Services>
             <Title
               order={2}
-              className={`text-base ${myFont.className} text-primary-500  dark:text-primary-400`}
+              className={`text-base ${myFont.className} uppercase text-primary-500  dark:text-primary-400`}
             >
               Services
             </Title>
@@ -127,7 +127,7 @@ export default function HomePage() {
             <header className="text-center space-y-2">
               <Title
                 order={2}
-                className={`text-base ${myFont.className} text-primary-500 dark:text-primary-400`}
+                className={`text-base ${myFont.className} uppercase text-primary-500 dark:text-primary-400`}
               >
                 Projects
               </Title>
@@ -139,14 +139,14 @@ export default function HomePage() {
               </Title>
             </header>
             <Link
-              href={"/projects"}
+              href={'/projects'}
               className={buttonStyles({})}
             >
               View all projects
             </Link>
           </div>
           <div
-            style={{ gridTemplateRows: "repeat(3, 400px)" }}
+            style={{ gridTemplateRows: 'repeat(3, 400px)' }}
             className="grid grid-cols-6 lg:grid-cols-12 gap-4 container mx-auto w-11/12 "
           >
             <Link
@@ -155,7 +155,7 @@ export default function HomePage() {
               className="col-span-full lg:col-span-8 rounded-md   relative group overflow-hidden"
             >
               <BlurImage
-                src={"/projects/adm-thumbnail.jpg"}
+                src={'/projects/adm-thumbnail.jpg'}
                 alt=""
                 fill
                 className=" object-cover group-hover:scale-105 duration-700 ease-out"
@@ -163,11 +163,11 @@ export default function HomePage() {
             </Link>
             <Link
               aria-label="View projects"
-              href={"/projects"}
+              href={'/projects'}
               className="col-span-full hidden lg:block lg:col-span-4 row-span-2 rounded-md relative group overflow-hidden"
             >
               <BlurImage
-                src={"/projects/fashion-thumbnail.jpg"}
+                src={'/projects/fashion-thumbnail.jpg'}
                 alt=""
                 fill
                 className="object-cover group-hover:scale-105 duration-700 ease-out"
@@ -175,11 +175,11 @@ export default function HomePage() {
             </Link>
             <Link
               aria-label="View projects"
-              href={"/projects"}
+              href={'/projects'}
               className="col-span-full hidden lg:block lg:col-span-4 row-span-2 rounded-md relative group overflow-hidden"
             >
               <BlurImage
-                src={"/projects/gastro-thumbnail.jpg"}
+                src={'/projects/gastro-thumbnail.jpg'}
                 alt=""
                 fill
                 className="group-hover:scale-105 duration-700 ease-out"
@@ -187,11 +187,11 @@ export default function HomePage() {
             </Link>
             <Link
               aria-label="View projects"
-              href={"/projects"}
+              href={'/projects'}
               className="col-span-full lg:col-span-4 rounded-md relative  group overflow-hidden"
             >
               <BlurImage
-                src={"/projects/beacon-hill-thumbnail.jpg"}
+                src={'/projects/beacon-hill-thumbnail.jpg'}
                 alt=""
                 fill
                 className="group-hover:scale-105 duration-700 ease-out"
@@ -199,11 +199,11 @@ export default function HomePage() {
             </Link>
             <Link
               aria-label="View projects"
-              href={"/projects"}
+              href={'/projects'}
               className="col-span-full lg:col-span-8 rounded-md  relative group overflow-hidden"
             >
               <BlurImage
-                src={"/projects/class-boutique-thumbnail.jpg"}
+                src={'/projects/class-boutique-thumbnail.jpg'}
                 alt=""
                 fill
                 className="object-cover  [object-position:0%15%] group-hover:scale-105 duration-700 ease-out"
@@ -224,7 +224,7 @@ export default function HomePage() {
           Reprehenderit pariatur aliqua Lorem adipisicing excepteur sint officia nulla. Et sint sit id sit
           officia irure aliquip sit aliquip ad.
         </p>
-        <BookSession buttonSize={"md"} />
+        <BookSession buttonSize={'md'} />
       </section>
     </main>
   );
