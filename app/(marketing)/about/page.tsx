@@ -1,22 +1,22 @@
 //Components
-import { Grid, Section } from "@/components/shared";
-import { SkillDetail } from "@/components/about";
-import myFont from "@/lib/menlo-font";
-import { Title } from "@aomdev/ui";
+import { Grid, Section } from '@/components/shared';
+import { SkillDetail } from '@/components/about';
+import myFont from '@/lib/menlo-font';
+import { Title } from '@aomdev/ui';
 
 //Assets
-import yasmino from "@/public/yalo-2.jpg";
-import villa from "@/public/about/villa-md.jpg";
-import tj from "@/public/about/tj-project-md.jpg";
-import about from "@/public/about/about-md.jpg";
-import sxmOffice from "@/public/about/k.jpg";
+import yasmino from '@/public/yalo-2.jpg';
+import villa from '@/public/about/villa-md.jpg';
+import tj from '@/public/about/tj-project-md.jpg';
+import about from '@/public/about/about-md.jpg';
+import sxmOffice from '@/public/about/k.jpg';
 
-import type { Metadata } from "next";
-import { BlurImage } from "@/components/blur-image";
-import { ContactForm } from "@/components/contact-form";
+import type { Metadata } from 'next';
+import { BlurImage } from '@/components/blur-image';
+import { ContactForm } from '@/components/contact-form';
 
 export const metadata: Metadata = {
-  title: "About"
+  title: 'About'
 };
 
 export default function AboutPage() {
@@ -45,7 +45,7 @@ export default function AboutPage() {
               placeholder="blur"
             />
           </figure>
-          <p className="[width:clamp(36ch,90%,65ch)] text-lg leading-loose text-gray-700 dark:text-gray-200">
+          <p className="[lg:width:clamp(36ch,90%,65ch)] text-lg leading-loose text-gray-700 dark:text-gray-200">
             I am a self-taught photographer who has been taking photos since I was a teenager. Growing up, I
             was always drawn to the beauty of nature and the way that a camera could capture it. I quickly
             became obsessed with taking photos and learning as much as I could about photography. I have been
@@ -76,7 +76,7 @@ export default function AboutPage() {
         margin={false}
         className={`svg-background py-24 border-t border-b border-zinc-200 dark:border-zinc-700`}
       >
-        <div className={"grid-cols-6 lg:grid-cols-2 w-11/12 lg:container lg:gap-36"}>
+        <div className={'grid-cols-6 lg:grid-cols-2 w-11/12 lg:container lg:gap-36'}>
           <SkillDetail
             img={villa}
             title="Capturing"
