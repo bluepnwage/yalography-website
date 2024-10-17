@@ -11,7 +11,10 @@ export function Image({ containerClass, refMargin, ...props }: PropTypes) {
   const ref = useRef<HTMLElement | null>(null);
   const inView = useInView(ref, { once: true, margin: refMargin || "-100px" });
   return (
-    <figure ref={ref} className={containerClass}>
+    <figure
+      ref={ref}
+      className={containerClass}
+    >
       {inView && <BlurImage {...props} />}
     </figure>
   );

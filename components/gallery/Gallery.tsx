@@ -8,22 +8,19 @@ export function Gallery({ images }: PropTypes) {
   return (
     <>
       <div
-        style={{ gridAutoFlow: "dense" }}
-        className="grid grid-cols-2 gap-2 w-[75%]"
+        style={{ gridAutoFlow: "row" }}
+        className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-4 w-11/12 lg:w-[75%]"
       >
         {images.map((image) => {
           return (
             <Image
               key={image.id}
+              src={image.url}
+              alt=""
               width={image.width}
               height={image.height}
-              src={image.url}
-              alt={image.alt || ""}
-              refMargin={"100px"}
-              containerClass={`${
-                image.width - image.height > 1 ? "col-span-2" : "lg:col-span-1 col-span-2 row-span-2"
-              }`}
-              className={`w-full h-full `}
+              className="w-full rounded"
+              containerClass="mb-4 break-inside-avoid"
             />
           );
         })}
