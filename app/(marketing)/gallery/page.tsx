@@ -7,8 +7,11 @@ import { transformImage } from "@/lib/transform-image";
 
 async function getImages() {
   const images = await prisma.resources.findMany();
-
-  return images.map(img => ({ ...img, url: transformImage("w_2000", img.publicId, img.type) }));
+  const imagePromise = images.map(async (img) => ({
+    ...img,
+    url: transformImage("w_1500", img.publicId, img.type)
+  }));
+  return await Promise.all(imagePromise);
 }
 
 export const metadata: Metadata = {
