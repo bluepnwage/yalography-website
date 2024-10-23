@@ -1,8 +1,8 @@
 "use client";
-import { ButtonProps, Calendar, Popover, Radio, Select, Textarea, TextInput } from "@aomdev/ui";
+import { ButtonProps, Calendar, Popover, Radio, ScrollArea, Select, Textarea, TextInput } from "@aomdev/ui";
 import { Dialog } from "@aomdev/ui";
 import { IconX } from "@tabler/icons-react";
-import { FormEvent, useState } from "react";
+import { FormEvent, useRef, useState } from "react";
 import { useForm } from "./use-booking-form";
 import { photoshootTypes, ShootTypes, PhotoShootType } from "@/lib/photoshoot";
 import { inputStyles } from "@aomdev/ui/src/input-wrapper/styles";
@@ -16,6 +16,7 @@ import { useAction } from "@/lib/hooks/useAction";
 import { toast } from "sonner";
 import { useMeasure } from "@/lib/hooks/use-measure";
 import { useBookingSession } from "./book-session-provider";
+import { useMediaQuery } from "@mantine/hooks";
 
 const selectData = Array.from(photoshootTypes).map(([key, value]) => ({ label: value.label, value: key }));
 
@@ -29,6 +30,8 @@ export function BookSession({ buttonSize }: Props) {
   const [selectedFeatures, setFeatures] = useState<string[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const [ref, height] = useMeasure();
+  const scrollAreaRef = useRef<HTMLDivElement>(null);
+  const matches = useMediaQuery("(max-width:768px)");
   const {
     formAction,
     isPending,
@@ -101,7 +104,7 @@ export function BookSession({ buttonSize }: Props) {
           Book Session
         </Dialog.Trigger>
         <Dialog.Content
-          className="w-1/4 overflow-hidden"
+          className="w-11/12 lg:w-1/4 overflow-hidden"
           asChild
         >
           <motion.div
@@ -112,121 +115,209 @@ export function BookSession({ buttonSize }: Props) {
               ref={ref}
               className="p-4"
             >
-              <div className="bg-neutral-900 -m-4 p-4  mb-4 border-b border-b-neutral-700 ">
+              <div className="bg-*-50 dark:bg-neutral-900 -m-4 p-4  mb-4 border-b border-b-neutral-200 dark:border-b-neutral-700 ">
                 <div className="flex justify-between  items-center mb-4">
                   <Dialog.Title>Book session</Dialog.Title>
                   <Dialog.Close>
                     <IconX />
                   </Dialog.Close>
                 </div>
-                <div className="flex gap-6 justify-between">
-                  <Step
-                    label="Contact"
-                    completed={currentStep > 1}
-                    active={currentStep === 1}
-                  >
-                    1
-                  </Step>
-                  <Step
-                    label="Details"
-                    completed={currentStep > 2}
-                    active={currentStep === 2}
-                  >
-                    2
-                  </Step>
-                  <Step
-                    label="Add-ons"
-                    completed={currentStep > 3}
-                    active={currentStep === 3}
-                  >
-                    3
-                  </Step>
-                  <Step
-                    label="Summary"
-                    completed={currentStep > 4}
-                    active={currentStep === 4}
-                  >
-                    4
-                  </Step>
-                </div>
+                <ScrollArea>
+                  <div className="flex gap-6 p-1 justify-between">
+                    <Step
+                      label="Contact"
+                      completed={currentStep > 1}
+                      active={currentStep === 1}
+                    >
+                      1
+                    </Step>
+                    <Step
+                      label="Details"
+                      completed={currentStep > 2}
+                      active={currentStep === 2}
+                    >
+                      2
+                    </Step>
+                    <Step
+                      label="Add-ons"
+                      completed={currentStep > 3}
+                      active={currentStep === 3}
+                    >
+                      3
+                    </Step>
+                    <Step
+                      label="Summary"
+                      completed={currentStep > 4}
+                      active={currentStep === 4}
+                    >
+                      4
+                    </Step>
+                  </div>
+                </ScrollArea>
               </div>
-              <form
-                ref={formRef}
-                action={formAction}
-                className="space-y-8"
-              >
-                <HiddenInputs
-                  contact={contact}
-                  details={details}
-                />
-                {currentStep === 1 && (
-                  <ContactStep
-                    contact={contact}
-                    onChange={handleChange}
-                  />
-                )}
-                {currentStep === 2 && (
-                  <DetailsStep
-                    details={details}
-                    onChange={handleChange}
-                  />
-                )}
-                {currentStep === 3 && (
-                  <AddOnsStep
-                    shootDetails={shootDetails}
-                    isSelected={featureIsSelected}
-                    onFeatureChange={handleFeatureChange}
-                  />
-                )}
-                {currentStep === 4 && (
-                  <SummaryStep
-                    contact={contact}
-                    details={details}
-                    label={shootDetails.label}
-                    selectedFeatures={selectedFeatures}
+              {matches && (
+                <ScrollArea
+                  ref={scrollAreaRef}
+                  type="always"
+                  className="-mx-2 overflow-x-hidden"
+                  style={{ height: window.innerHeight / 1.75 }}
+                >
+                  <form
+                    ref={formRef}
+                    action={formAction}
+                    className="space-y-8 p-2"
                   >
-                    <button
-                      onClick={() => setCurrentStep(2)}
-                      className="block mx-auto underline text-gray-600 dark:text-gray-400"
-                    >
-                      Change
-                    </button>
-                  </SummaryStep>
-                )}
-                {currentStep === 5 && <Success onClick={() => {}} />}
-                <div className="flex justify-between">
-                  <motion.button
-                    layoutId="prev-button"
-                    type="button"
-                    onClick={prevStep}
-                    className={buttonStyles({ variant: "neutral" })}
-                  >
-                    Prev
-                  </motion.button>
-
-                  {currentStep < 4 && (
-                    <motion.button
-                      layoutId="next-button"
-                      type={"button"}
-                      onClick={nextStep}
-                      className={buttonStyles({})}
-                    >
-                      {"Next"}
-                    </motion.button>
+                    <HiddenInputs
+                      contact={contact}
+                      details={details}
+                    />
+                    {currentStep === 1 && (
+                      <ContactStep
+                        contact={contact}
+                        onChange={handleChange}
+                      />
+                    )}
+                    {currentStep === 2 && (
+                      <DetailsStep
+                        details={details}
+                        onChange={handleChange}
+                      />
+                    )}
+                    {currentStep === 3 && (
+                      <AddOnsStep
+                        shootDetails={shootDetails}
+                        isSelected={featureIsSelected}
+                        onFeatureChange={handleFeatureChange}
+                      />
+                    )}
+                    {currentStep === 4 && (
+                      <SummaryStep
+                        contact={contact}
+                        details={details}
+                        label={shootDetails.label}
+                        selectedFeatures={selectedFeatures}
+                      >
+                        <button
+                          onClick={() => setCurrentStep(2)}
+                          className="block mx-auto underline text-gray-600 dark:text-gray-400"
+                        >
+                          Change
+                        </button>
+                      </SummaryStep>
+                    )}
+                    {currentStep === 5 && <Success onClick={() => {}} />}
+                    <div className="flex justify-between">
+                      <motion.button
+                        layoutId="prev-button"
+                        type="button"
+                        onClick={prevStep}
+                        className={buttonStyles({ variant: "neutral" })}
+                      >
+                        Prev
+                      </motion.button>
+                      {currentStep < 4 && (
+                        <motion.button
+                          layoutId="next-button"
+                          type={"button"}
+                          onClick={nextStep}
+                          className={buttonStyles({})}
+                        >
+                          {"Next"}
+                        </motion.button>
+                      )}
+                      {currentStep === 4 && (
+                        <motion.button
+                          disabled={isPending}
+                          layoutId="next-button"
+                          type={"submit"}
+                          onClick={nextStep}
+                          className={buttonStyles({})}
+                        >
+                          {"Submit"}
+                        </motion.button>
+                      )}
+                    </div>
+                  </form>
+                </ScrollArea>
+              )}
+              {!matches && (
+                <form
+                  ref={formRef}
+                  action={formAction}
+                  className="space-y-8 p-2"
+                >
+                  <HiddenInputs
+                    contact={contact}
+                    details={details}
+                  />
+                  {currentStep === 1 && (
+                    <ContactStep
+                      contact={contact}
+                      onChange={handleChange}
+                    />
+                  )}
+                  {currentStep === 2 && (
+                    <DetailsStep
+                      details={details}
+                      onChange={handleChange}
+                    />
+                  )}
+                  {currentStep === 3 && (
+                    <AddOnsStep
+                      shootDetails={shootDetails}
+                      isSelected={featureIsSelected}
+                      onFeatureChange={handleFeatureChange}
+                    />
                   )}
                   {currentStep === 4 && (
-                    <motion.button
-                      disabled={isPending}
-                      layoutId="next-button"
-                      type={"submit"}
-                      onClick={nextStep}
-                      className={buttonStyles({})}
+                    <SummaryStep
+                      contact={contact}
+                      details={details}
+                      label={shootDetails.label}
+                      selectedFeatures={selectedFeatures}
                     >
-                      {"Submit"}
-                    </motion.button>
+                      <button
+                        onClick={() => setCurrentStep(2)}
+                        className="block mx-auto underline text-gray-600 dark:text-gray-400"
+                      >
+                        Change
+                      </button>
+                    </SummaryStep>
                   )}
-                </div>
-              </form>
+                  {currentStep === 5 && <Success onClick={() => {}} />}
+                  <div className="flex justify-between">
+                    <motion.button
+                      layoutId="prev-button"
+                      type="button"
+                      onClick={prevStep}
+                      className={buttonStyles({ variant: "neutral" })}
+                    >
+                      Prev
+                    </motion.button>
+                    {currentStep < 4 && (
+                      <motion.button
+                        layoutId="next-button"
+                        type={"button"}
+                        onClick={nextStep}
+                        className={buttonStyles({})}
+                      >
+                        {"Next"}
+                      </motion.button>
+                    )}
+                    {currentStep === 4 && (
+                      <motion.button
+                        disabled={isPending}
+                        layoutId="next-button"
+                        type={"submit"}
+                        onClick={nextStep}
+                        className={buttonStyles({})}
+                      >
+                        {"Submit"}
+                      </motion.button>
+                    )}
+                  </div>
+                </form>
+              )}
             </div>
           </motion.div>
         </Dialog.Content>
@@ -319,13 +410,13 @@ function Step({
       <span
         data-active={active}
         data-completed={completed}
-        className="rounded-full ring-1 ring-neutral-700 h-10 w-10 flex items-center justify-center data-[active=true]:ring-error-500 data-[completed=true]:bg-error-500 duration-150 ease"
+        className="rounded-full ring-1 ring-neutral-200 dark:ring-neutral-700 h-10 w-10 flex items-center justify-center data-[active=true]:ring-error-500 data-[completed=true]:text-white data-[completed=true]:bg-error-500 duration-150 ease"
       >
         {children}
       </span>
       <span
         data-active={active}
-        className="text-gray-300 font-medium data-[active=true]:text-gray-50"
+        className="text-gray-700 dark:text-gray-300 font-medium data-[active=true]:text-gray-900 data-[active=true]:dark:text-gray-50"
       >
         {label}
       </span>
@@ -518,31 +609,36 @@ function AddOnsStep({ shootDetails, onFeatureChange, isSelected }: AddonProps) {
   return (
     <section>
       <h2 className="text-marine-blue font-bold text-2xl mb-14">Pick add-ons</h2>
-      {shootDetails && (
-        <div className="space-y-4">
-          {shootDetails.features.length > 0 &&
-            shootDetails.features.map((feature) => {
-              const value = feature.label.toLowerCase();
-              const checked = isSelected(value);
-              return (
-                <Addon
-                  key={feature.label}
-                  checked={checked}
-                  onChange={onFeatureChange}
-                  feature={feature}
-                  value={value}
-                />
-              );
-            })}
-          {shootDetails.features.length === 0 && (
-            <div className="flex h-full justify-center">
-              <p className="text-xl">
-                There are no add-ons for <strong>{shootDetails.label}</strong>
-              </p>
-            </div>
-          )}
-        </div>
-      )}
+      <ScrollArea
+        style={{ height: window.innerHeight / 2 }}
+        className="-mx-4"
+      >
+        {shootDetails && (
+          <div className="space-y-4 px-4">
+            {shootDetails.features.length > 0 &&
+              shootDetails.features.map((feature) => {
+                const value = feature.label.toLowerCase();
+                const checked = isSelected(value);
+                return (
+                  <Addon
+                    key={feature.label}
+                    checked={checked}
+                    onChange={onFeatureChange}
+                    feature={feature}
+                    value={value}
+                  />
+                );
+              })}
+            {shootDetails.features.length === 0 && (
+              <div className="flex h-full justify-center">
+                <p className="text-xl">
+                  There are no add-ons for <strong>{shootDetails.label}</strong>
+                </p>
+              </div>
+            )}
+          </div>
+        )}
+      </ScrollArea>
     </section>
   );
 }

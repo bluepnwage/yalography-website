@@ -10,7 +10,10 @@ export function PageIntro({ children }: PropTypes) {
       margin={false}
       className={`svg-background py-20 leading-none border-b border-zinc-200 dark:border-zinc-700`}
     >
-      <Title order={1} className="text-center font-bold font-heading text-gray-900 dark:text-gray-50 ">
+      <Title
+        order={1}
+        className="text-center max-sm:text-4xl font-bold font-heading text-gray-900 dark:text-gray-50 "
+      >
         {children}
       </Title>
     </Section>
