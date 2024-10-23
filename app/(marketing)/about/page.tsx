@@ -1,28 +1,28 @@
 //Components
-import { Section } from '@/components/shared';
-import { SkillDetail } from '@/components/about';
-import myFont from '@/lib/menlo-font';
-import { Title } from '@aomdev/ui';
+import { Section } from "@/components/shared";
+import { SkillDetail } from "@/components/about";
+import myFont from "@/lib/menlo-font";
+import { Title } from "@aomdev/ui";
 
 //Assets
-import yasmino from '@/public/yalo-2.jpg';
-import villa from '@/public/about/villa-md.jpg';
-import tj from '@/public/about/tj-project-md.jpg';
-import about from '@/public/about/about-md.jpg';
-import sxmOffice from '@/public/about/k.jpg';
+import yasmino from "@/public/yalo-2.jpg";
+import villa from "@/public/about/villa-md.jpg";
+import tj from "@/public/about/tj-project-md.jpg";
+import about from "@/public/about/about-md.jpg";
+import sxmOffice from "@/public/about/k.jpg";
 
-import type { Metadata } from 'next';
-import { BlurImage } from '@/components/blur-image';
-import { ContactForm } from '@/components/contact-form';
+import type { Metadata } from "next";
+import { BlurImage } from "@/components/blur-image";
+import { ContactForm } from "@/components/contact-form";
 
 export const metadata: Metadata = {
-  title: 'About'
+  title: "About"
 };
 
 export default function AboutPage() {
   return (
     <>
-      <section className="flex flex-col lg:flex-row w-11/12 lg:container justify-between  mx-auto mt-10 lg:mt-20  mb-20 lg:mb-48">
+      <section className="flex flex-col lg:flex-row w-11/12  md:w-11/12 lg:container justify-between  mx-auto mt-10 lg:mt-20  mb-20 lg:mb-48">
         <div className="basis-1/2 grow">
           <header className="space-y-2 mb-5 text-center lg:text-start">
             <Title
@@ -76,7 +76,7 @@ export default function AboutPage() {
         margin={false}
         className={`svg-background py-24 border-t border-b border-zinc-200 dark:border-zinc-700`}
       >
-        <div className={'grid-cols-6 lg:grid-cols-2 w-11/12 lg:container lg:gap-36'}>
+        <div className={"grid-cols-6 lg:grid-cols-2 w-11/12 lg:container lg:gap-36"}>
           <SkillDetail
             img={villa}
             title="Capturing"
