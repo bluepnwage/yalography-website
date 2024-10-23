@@ -4,17 +4,28 @@ import { Skeleton, Table } from "@aomdev/ui";
 
 export async function UpcomingBookingsContainer() {
   const bookings = await getBookings();
-  const pending = bookings.filter(booking => booking.status === "pending");
-  const approved = bookings.filter(booking => booking.status === "completed");
-  return <UpcomingBookings pending={pending} approved={approved} />;
+  const pending = bookings.filter((booking) => booking.status === "pending");
+  const approved = bookings.filter((booking) => booking.status === "approved");
+  return (
+    <UpcomingBookings
+      pending={pending}
+      approved={approved}
+    />
+  );
 }
 
 export function UpcomingBookingsLoading() {
   const bookings = Array(10).fill(null);
   return (
     <>
-      <Skeleton animate className="rounded-md h-10 w-40" />
-      <Table style={{ marginTop: "2rem" }} className="w-full">
+      <Skeleton
+        animate
+        className="rounded-md h-10 w-40"
+      />
+      <Table
+        style={{ marginTop: "2rem" }}
+        className="w-full"
+      >
         <Table.Header>
           <Table.Row>
             <Table.Head>Client</Table.Head>
@@ -30,25 +41,53 @@ export function UpcomingBookingsLoading() {
             return (
               <Table.Row key={key}>
                 <Table.Cell>
-                  <Skeleton rounded animate className="h-3 ww-full" />
+                  <Skeleton
+                    rounded
+                    animate
+                    className="h-3 ww-full"
+                  />
                 </Table.Cell>
                 <Table.Cell className="capitalize">
-                  <Skeleton rounded animate className="h-3 ww-full" />{" "}
+                  <Skeleton
+                    rounded
+                    animate
+                    className="h-3 ww-full"
+                  />{" "}
                 </Table.Cell>
                 <Table.Cell>
-                  <Skeleton rounded animate className="h-3 ww-full" />{" "}
+                  <Skeleton
+                    rounded
+                    animate
+                    className="h-3 ww-full"
+                  />{" "}
                 </Table.Cell>
                 <Table.Cell>
-                  <Skeleton rounded animate className="h-3 ww-full" />
+                  <Skeleton
+                    rounded
+                    animate
+                    className="h-3 ww-full"
+                  />
                 </Table.Cell>
                 <Table.Cell>
-                  <Skeleton rounded animate className="h-3 ww-full" />
+                  <Skeleton
+                    rounded
+                    animate
+                    className="h-3 ww-full"
+                  />
                 </Table.Cell>
                 <Table.Cell>
-                  <Skeleton rounded animate className="h-3 ww-full" />
+                  <Skeleton
+                    rounded
+                    animate
+                    className="h-3 ww-full"
+                  />
                 </Table.Cell>
                 <Table.Cell>
-                  <Skeleton rounded animate className="h-3 ww-full" />
+                  <Skeleton
+                    rounded
+                    animate
+                    className="h-3 ww-full"
+                  />
                 </Table.Cell>
               </Table.Row>
             );
