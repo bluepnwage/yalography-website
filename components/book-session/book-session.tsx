@@ -2,7 +2,7 @@
 import { ButtonProps, Calendar, Popover, Radio, ScrollArea, Select, Textarea, TextInput } from "@aomdev/ui";
 import { Dialog } from "@aomdev/ui";
 import { IconX } from "@tabler/icons-react";
-import { FormEvent, useRef, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import { useForm } from "./use-booking-form";
 import { photoshootTypes, ShootTypes, PhotoShootType } from "@/lib/photoshoot";
 import { inputStyles } from "@aomdev/ui/src/input-wrapper/styles";
@@ -46,6 +46,10 @@ export function BookSession({ buttonSize }: Props) {
       toast.success(message);
     }
   });
+
+  useEffect(() => {
+    setFeatures([]);
+  }, [details.state.shootType?.value]);
 
   const prevStep = () => {
     if (currentStep === 1) return;
@@ -374,7 +378,7 @@ function HiddenInputs({ contact, details }: HiddenInputsProps) {
       />
       <input
         id="date"
-        value={details.state.date?.value?.toDateString()}
+        value={details.state?.date?.value ? details.state.date.value?.toDateString() : undefined}
         name={"date"}
         hidden
       />
