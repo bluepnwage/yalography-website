@@ -11,7 +11,8 @@
     "check": "next lint && tsc",
     "generate": "prisma generate",
     "db:pull": "prisma db pull",
-    "db:push": "prisma db push"
+    "db:push": "prisma db push",
+    "db:format": "prisma format"
   },
   "prisma": {
     "seed": "node prisma/seed.js"

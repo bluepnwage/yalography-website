@@ -10,7 +10,11 @@ const getBooking = async (id: string) => {
   const booking = await prisma.bookings.findUnique({ where: { id } });
 
   if (!booking) notFound();
-  return { ...booking, date: formatDate(booking.date) };
+  return {
+    ...booking,
+    date: formatDate(booking.date),
+    createdAt: booking.createdAt ? formatDate(booking.createdAt) : "N/A"
+  };
 };
 
 type PropTypes = {
@@ -19,22 +23,40 @@ type PropTypes = {
 
 export async function Booking({ id }: PropTypes) {
   const booking = await getBooking(id);
+  const isPast = Date.parse(booking.date) < Date.parse(new Date().toString());
+
   return (
     <div className="flex gap-5">
       <div className="basis-4/5">
         <div className="border-b border-gray-200 dark:border-gray-700 flex justify-between pb-4">
           <div className="flex text-sm gap-4 items-center text-gray-500 dark:text-gray-200">
             <Link href={"/admin/"}>
-              <IconHome size={14} className="dark:text-gray-200 hover:stroke-primary-300" />
+              <IconHome
+                size={14}
+                className="dark:text-gray-200 hover:stroke-primary-300"
+              />
             </Link>
-            <IconChevronRight size={14} className="dark:text-gray-200" />
-            <Link href={"/admin/bookings"} className=" dark:text-gray-200 hover:text-primary-300">
+            <IconChevronRight
+              size={14}
+              className="dark:text-gray-200"
+            />
+            <Link
+              href={"/admin/bookings"}
+              className=" dark:text-gray-200 hover:text-primary-300"
+            >
               Bookings
             </Link>
-            <IconChevronRight size={14} className="dark:text-gray-200" />
+            <IconChevronRight
+              size={14}
+              className="dark:text-gray-200"
+            />
             <span>{booking.id}</span>
           </div>
-          <BookingButtons date={booking.date} status={booking.status || ""} id={booking.id} />
+          <BookingButtons
+            date={booking.date}
+            status={booking.status || ""}
+            id={booking.id}
+          />
         </div>
         <section className=" mt-10">
           <header className="col-span-full ">
@@ -42,7 +64,7 @@ export async function Booking({ id }: PropTypes) {
               {booking.type}
             </h1>
             <p className="mt-4 text-gray-600 dark:text-gray-300">
-              Booking is{" "}
+              Booking {isPast ? "was" : "is"}{" "}
               <span className="font-semibold">{relativeTime(new Date(booking.date).toString())}</span>
             </p>
           </header>
@@ -65,6 +87,7 @@ export async function Booking({ id }: PropTypes) {
         </section>
       </div>
       <Sidebar
+        createdAt={booking.createdAt}
         time={booking.time}
         date={booking.date}
         environment={booking.environment}
@@ -81,18 +104,25 @@ type SidebarProps = {
   environment: boolean;
   features: string[];
   time: string;
+  createdAt: string;
 };
 
-function Sidebar({ date, environment, features, status, time }: SidebarProps) {
+function Sidebar({ date, environment, features, status, time, createdAt }: SidebarProps) {
   return (
     <div className="basis-1/5 border-l border-l-gray-200 dark:border-l-gray-700  pt-14 px-4">
       <p className="font-medium text-lg mb-8 text-gray-900 dark:text-gray-50">Details</p>
       <ul className="space-y-4 dark:text-gray-300 mb-8 capitalize">
         <li className="flex justify-between">
           <span className="font-medium dark:text-gray-100">Status</span>{" "}
-          <Badge variant={"status"} color={getStatusColor(status)}>
+          <Badge
+            variant={"status"}
+            color={getStatusColor(status)}
+          >
             {status}
           </Badge>
+        </li>
+        <li className="flex justify-between">
+          <span className="font-medium dark:text-gray-100">Created</span> {createdAt}
         </li>
         <li className="flex justify-between">
           <span className="font-medium dark:text-gray-100">Date</span> {date}
@@ -109,7 +139,10 @@ function Sidebar({ date, environment, features, status, time }: SidebarProps) {
       <ul className="space-y-4 text-gray-600 dark:text-gray-300 mb-8">
         {features.map((feature, index) => {
           return (
-            <li key={index} className="flex justify-between capitalize">
+            <li
+              key={index}
+              className="flex justify-between capitalize"
+            >
               {feature}
             </li>
           );

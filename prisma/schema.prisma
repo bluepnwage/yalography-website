@@ -9,11 +9,12 @@ datasource db {
 }
 
 model Bookings {
-  id          String             @id @default(uuid())
+  id          String          @id @default(uuid())
   email       String
   firstName   String
   lastName    String
   date        DateTime
+  createdAt   DateTime?        @default(now())
   time        String
   phone       String          @db.VarChar(40)
   type        String
@@ -29,46 +30,45 @@ model Bookings {
 }
 
 model Projects {
-  id           Int      @id @default(autoincrement())
-  title        String? @default("")
-  description  String?  @db.Text
-  thumbnail    String? @default("")
-  createdAt    DateTime @default(now())
-  testimonial  String?  @db.Text 
-  companyName  String? @default("")
-  customerName String? @default("")
-  published    Boolean  @default(false)
-  name         String   @unique
-  type         String? @default("")
-  pinned       Boolean  @default(false)
-  images       Resources[]
-  thumbnailPublicId String? @default("")
-  thumbnailType String? @default("")
+  id                Int         @id @default(autoincrement())
+  title             String?     @default("")
+  description       String?     @db.Text
+  thumbnail         String?     @default("")
+  createdAt         DateTime    @default(now())
+  testimonial       String?     @db.Text
+  companyName       String?     @default("")
+  customerName      String?     @default("")
+  published         Boolean     @default(false)
+  name              String      @unique
+  type              String?     @default("")
+  pinned            Boolean     @default(false)
+  images            Resources[]
+  thumbnailPublicId String?     @default("")
+  thumbnailType     String?     @default("")
 
   @@map("projects")
 }
 
 model Resources {
-  id        Int           @id @default(autoincrement())
-  width     Int
-  height    Int
-  url       String
-  alt       String?       @db.Text
-  published Boolean       @default(false)
-  projectId Int?
-  folderId  Int?
-  name      String
-  size      Int
-  type      String
-  publicId  String
-  project   Projects?     @relation(fields: [projectId], references: [id])
+  id           Int       @id @default(autoincrement())
+  width        Int
+  height       Int
+  url          String
+  alt          String?   @db.Text
+  published    Boolean   @default(false)
+  projectId    Int?
+  folderId     Int?
+  name         String
+  size         Int
+  type         String
+  publicId     String
+  project      Projects? @relation(fields: [projectId], references: [id])
   resourceType String
 
   @@index([projectId])
   @@index([folderId])
   @@map("resources")
 }
-
 
 model Tasks {
   id          Int          @id @default(autoincrement())
@@ -81,7 +81,7 @@ model Tasks {
   priority    TaskPriority @default(medium)
   bookingId   String?
   pinned      Boolean      @default(false)
-  subTasks SubTasks[]
+  subTasks    SubTasks[]
   booking     Bookings?    @relation(fields: [bookingId], references: [id])
 
   @@index([bookingId])
@@ -89,10 +89,10 @@ model Tasks {
 }
 
 model Orders {
-  id        String      @id @default(uuid())
+  id        String   @id @default(uuid())
   createdAt DateTime @default(now())
   quote     Int
-  bookingId String      @unique
+  bookingId String   @unique
   month     String
   year      Int
   booking   Bookings @relation(fields: [bookingId], references: [id])
@@ -106,7 +106,7 @@ model SubTasks {
   priority    sub_tasks_priority @default(low)
   status      sub_tasks_status   @default(todo)
   description String?            @db.Text
-  task Tasks  @relation(fields: [taskId],references: [id], onDelete: Cascade)
+  task        Tasks              @relation(fields: [taskId], references: [id], onDelete: Cascade)
 
   @@index([taskId])
   @@map("sub_tasks")
