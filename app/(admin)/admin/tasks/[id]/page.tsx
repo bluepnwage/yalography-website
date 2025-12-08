@@ -9,7 +9,7 @@ import { Badge } from "@aomdev/ui";
 import type { SerializedSubTask, SerializedTask } from "@/lib/prisma";
 import { formatDate } from "@/util/formate-date";
 
-const KanbanBoard = dynamic(() => import("@/components/admin/tasks/kanban-board"), { ssr: false });
+const KanbanBoard = dynamic(() => import("@/components/admin/tasks/kanban-board"));
 
 const findTask = async (id: number): Promise<SerializedTask & { subTasks: SerializedSubTask[] }> => {
   const task = await prisma.tasks.findUnique({ where: { id }, include: { subTasks: true } });
@@ -20,7 +20,7 @@ const findTask = async (id: number): Promise<SerializedTask & { subTasks: Serial
     createdAt: formatDate(task.createdAt),
     deadline: task.deadline ? formatDate(task.deadline) : "N/A",
     updatedAt: formatDate(task.updatedAt),
-    subTasks: task.subTasks.map(subTask => ({ ...subTask, createdAt: formatDate(subTask.createdAt) }))
+    subTasks: task.subTasks.map((subTask) => ({ ...subTask, createdAt: formatDate(subTask.createdAt) }))
   };
 };
 
@@ -37,27 +37,49 @@ export default async function TaskListPage({ params }: { params: { id: string } 
           <div className="border-b border-gray-200 dark:border-gray-700 flex justify-between pb-4">
             <div className="flex text-sm gap-4 items-center text-gray-500 dark:text-gray-200">
               <Link href={"/admin/"}>
-                <IconHome2 size={14} className="dark:text-gray-200 hover:stroke-primary-300" />
+                <IconHome2
+                  size={14}
+                  className="dark:text-gray-200 hover:stroke-primary-300"
+                />
               </Link>
-              <IconChevronRight size={14} className="text-gray-500 dark:text-gray-200" />
-              <Link href={"/admin/tasks"} className="text-gray-500 dark:text-gray-200 hover:text-primary-300">
+              <IconChevronRight
+                size={14}
+                className="text-gray-500 dark:text-gray-200"
+              />
+              <Link
+                href={"/admin/tasks"}
+                className="text-gray-500 dark:text-gray-200 hover:text-primary-300"
+              >
                 Tasks
               </Link>
-              <IconChevronRight size={14} className="text-gray-500 dark:text-gray-200" />
+              <IconChevronRight
+                size={14}
+                className="text-gray-500 dark:text-gray-200"
+              />
               <span>{task.id}</span>
             </div>
-            <TaskMenu defaultPinned={task.pinned} name={task.name} id={task.id} />
+            <TaskMenu
+              defaultPinned={task.pinned}
+              name={task.name}
+              id={task.id}
+            />
           </div>
           <div className="flex gap-4 items-center mb-6 mt-6">
             <header>
-              <Title order={1} className=" font-heading font-medium text-4xl leading-none">
+              <Title
+                order={1}
+                className=" font-heading font-medium text-4xl leading-none"
+              >
                 {task.name}
               </Title>
               <span className="text-gray-200 text-lg mt-2 block">{task.description}</span>
             </header>
             {overdue && <Badge color="error">Overdue</Badge>}
           </div>
-          <KanbanBoard subTasks={task.subTasks} taskId={task.id} />
+          <KanbanBoard
+            subTasks={task.subTasks}
+            taskId={task.id}
+          />
         </div>
         <Sidebar task={task} />
       </div>
@@ -76,7 +98,10 @@ function Sidebar({ task }: PropTypes) {
       <ul className="space-y-4 dark:text-gray-300 mb-8 capitalize">
         <li className="flex justify-between">
           <span className="font-medium dark:text-gray-100">Status</span>{" "}
-          <Badge variant={"status"} color={task.status ? "success" : "warn"}>
+          <Badge
+            variant={"status"}
+            color={task.status ? "success" : "warn"}
+          >
             {task.status ? "Completed" : "Incomplete"}
           </Badge>
         </li>

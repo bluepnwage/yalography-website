@@ -27,20 +27,32 @@ export default function BookingsPage() {
   return (
     <>
       <header className="flex items-center justify-between mb-16 gap-4">
-        <Title order={1} className="font-heading font-medium text-4xl leading-none">
+        <Title
+          order={1}
+          className="font-heading font-medium text-4xl leading-none"
+        >
           Bookings
         </Title>
         <CreateResource payload="bookings">Create booking</CreateResource>
       </header>
 
-      <Grid fullWidth className="mb-36">
+      <Grid
+        fullWidth
+        className="mb-36"
+      >
         <div className="w-full col-span-full flex gap-4">
           <Card className="w-full basis-2/3 flex">
             <CalendarContainer />
           </Card>
           <div className="flex flex-col gap-4 grow justify-stretch">
-            <BookingCard title="pending" icon={<IconClockHour11 size={"75%"} />} />
-            <BookingCard title="approved" icon={<IconCheck size={"75%"} />} />
+            <BookingCard
+              title="pending"
+              icon={<IconClockHour11 size={"75%"} />}
+            />
+            <BookingCard
+              title="approved"
+              icon={<IconCheck size={"75%"} />}
+            />
           </div>
         </div>
         <Suspense fallback={<UpcomingBookingsLoading />}>
@@ -50,9 +62,15 @@ export default function BookingsPage() {
       <Suspense fallback={<UpcomingRescheduledLoading />}>
         <UpcomingRescheduled />
       </Suspense>
-      <Grid fullWidth className="mb-20">
+      <Grid
+        fullWidth
+        className="mb-20"
+      >
         <div className="col-span-full pt-6 ">
-          <Title order={2} className="font-heading font-medium mb-6">
+          <Title
+            order={2}
+            className="font-heading font-medium mb-6"
+          >
             Completed bookings
           </Title>
           <Suspense fallback={<OrdersTableLoading />}>
@@ -73,12 +91,15 @@ async function UpcomingRescheduled() {
     .slice(0, 3);
   return (
     <>
-      <Title order={2} className="col-span-full font-heading font-medium mb-6">
+      <Title
+        order={2}
+        className="col-span-full font-heading font-medium mb-6"
+      >
         Rescheduled bookings
       </Title>
       <div className="grid grid-cols-3 gap-20 mb-20">
         {bookings.length === 0 && <p>You don&apos;t have any bookings.</p>}
-        {orderedBookings.map(booking => {
+        {orderedBookings.map((booking) => {
           const features = booking.features ? booking.features.split(",") : [];
           return (
             <Link
@@ -98,7 +119,10 @@ async function UpcomingRescheduled() {
                   {booking.status}
                 </Badge>
               </div>
-              <Title order={3} className="font-heading font-medium capitalize mt-6 text-3xl">
+              <Title
+                order={3}
+                className="font-heading font-medium capitalize mt-6 text-3xl"
+              >
                 {booking.type}
               </Title>
               <div className="flex justify-between items-center mt-4">
@@ -131,12 +155,28 @@ function UpcomingRescheduledLoading() {
             key={index}
           >
             <div className="flex justify-between items-center">
-              <Skeleton className="h-3 w-16 block mb-2 " rounded animate />
-              <Skeleton className="w-16 h-3" rounded animate />
+              <Skeleton
+                className="h-3 w-16 block mb-2 "
+                rounded
+                animate
+              />
+              <Skeleton
+                className="w-16 h-3"
+                rounded
+                animate
+              />
             </div>
-            <Skeleton className="h-8 w-48 mt-6" rounded animate />
+            <Skeleton
+              className="h-8 w-48 mt-6"
+              rounded
+              animate
+            />
             <div className="flex justify-between items-center mt-4">
-              <Skeleton className="h-2 w-28" rounded animate />
+              <Skeleton
+                className="h-2 w-28"
+                rounded
+                animate
+              />
               <IconChevronRight
                 size={16}
                 className="text-gray-700 group-hover:translate-x-1 duration-300 ease-out dark:text-gray-200"

@@ -6,7 +6,7 @@ import admin from "./config";
 //Use to verify tokens for admin dashboard
 
 export async function verifyToken() {
-  const nextCookies = cookies();
+  const nextCookies = await cookies();
   const token = nextCookies.get("fb-token")!;
   try {
     await admin.auth().verifyIdToken(token.value);
