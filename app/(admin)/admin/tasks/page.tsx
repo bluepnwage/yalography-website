@@ -12,7 +12,7 @@ export const dynamic = "force-dynamic";
 const getTasks = cache(async () => {
   const tasks = await prisma.tasks.findMany();
 
-  return tasks.map(task => {
+  return tasks.map((task) => {
     return {
       ...task,
       createdAt: formatDate(task.createdAt),
@@ -39,7 +39,10 @@ export default async function TasksPage() {
   return (
     <>
       <header className="flex justify-between items-center mb-6">
-        <Title order={1} className="font-heading font-medium text-4xl leading-none">
+        <Title
+          order={1}
+          className="font-heading font-medium text-4xl leading-none"
+        >
           Tasks
         </Title>
         <CreateResource payload="task">Create task</CreateResource>
@@ -54,9 +57,12 @@ export default async function TasksPage() {
           </Table.Row>
         </Table.Header>
         <Table.Body>
-          {tasks.map(task => {
+          {tasks.map((task) => {
             return (
-              <Table.Row key={task.id} className="group">
+              <Table.Row
+                key={task.id}
+                className="group"
+              >
                 <Table.Cell className="relative group flex gap-4 items-center">
                   {task.name}
                   <Link

@@ -29,7 +29,10 @@ export default function AdminPage() {
   const greeting = greetingMessage(time);
   return (
     <div>
-      <Title order={1} className="font-heading font-medium mb-4 text-4xl">
+      <Title
+        order={1}
+        className="font-heading font-medium mb-4 text-4xl"
+      >
         {greeting}
       </Title>
       <div className="mb-36">
@@ -38,7 +41,10 @@ export default function AdminPage() {
         </Suspense>
       </div>
       <div className="mb-36">
-        <Title order={2} className="font-heading font-medium mb-8 text-3xl">
+        <Title
+          order={2}
+          className="font-heading font-medium mb-8 text-3xl"
+        >
           Upcoming bookings
         </Title>
         <Suspense fallback={<UpcomingBookingsLoading />}>
@@ -46,7 +52,10 @@ export default function AdminPage() {
         </Suspense>
       </div>
       <div className="mb-36">
-        <Title order={2} className="font-heading font-medium mb-8 text-3xl">
+        <Title
+          order={2}
+          className="font-heading font-medium mb-8 text-3xl"
+        >
           Recent orders
         </Title>
         <Suspense fallback={<RecentOrdersLoading />}>
@@ -83,7 +92,7 @@ async function UpcomingBookings() {
   return (
     <div className="grid grid-cols-3 gap-20 mb-20">
       {bookings.length === 0 && <p>You don&apos;t have any bookings.</p>}
-      {orderedBookings.map(booking => {
+      {orderedBookings.map((booking) => {
         const features = booking.features ? booking.features.split(",") : [];
         return (
           <Link
@@ -103,7 +112,10 @@ async function UpcomingBookings() {
                 {booking.status}
               </Badge>
             </div>
-            <Title order={3} className="font-heading font-medium capitalize mt-6 text-3xl">
+            <Title
+              order={3}
+              className="font-heading font-medium capitalize mt-6 text-3xl"
+            >
               {booking.type}
             </Title>
             <div className="flex justify-between items-center mt-4">
@@ -135,12 +147,28 @@ function UpcomingBookingsLoading() {
             key={index}
           >
             <div className="flex justify-between items-center">
-              <Skeleton className="h-3 w-16 block mb-2 " rounded animate />
-              <Skeleton className="w-16 h-3" rounded animate />
+              <Skeleton
+                className="h-3 w-16 block mb-2 "
+                rounded
+                animate
+              />
+              <Skeleton
+                className="w-16 h-3"
+                rounded
+                animate
+              />
             </div>
-            <Skeleton className="h-8 w-48 mt-6" rounded animate />
+            <Skeleton
+              className="h-8 w-48 mt-6"
+              rounded
+              animate
+            />
             <div className="flex justify-between items-center mt-4">
-              <Skeleton className="h-2 w-28" rounded animate />
+              <Skeleton
+                className="h-2 w-28"
+                rounded
+                animate
+              />
               <IconChevronRight
                 size={16}
                 className="text-gray-700 group-hover:translate-x-1 duration-300 ease-out dark:text-gray-200"
@@ -166,7 +194,7 @@ async function RecentOrders() {
         </Table.Row>
       </Table.Header>
       <Table.Body>
-        {orders.slice(0, 9).map(order => {
+        {orders.slice(0, 9).map((order) => {
           return (
             <Table.Row key={order.id}>
               <Table.Cell>Order #{order.booking.id}</Table.Cell>
@@ -198,19 +226,35 @@ function RecentOrdersLoading() {
           return (
             <Table.Row key={index}>
               <Table.Cell>
-                <Skeleton className="h-2 w-full" rounded animate />
+                <Skeleton
+                  className="h-2 w-full"
+                  rounded
+                  animate
+                />
               </Table.Cell>
               <Table.Cell>
                 {" "}
-                <Skeleton className="h-2 w-full" rounded animate />
+                <Skeleton
+                  className="h-2 w-full"
+                  rounded
+                  animate
+                />
               </Table.Cell>
               <Table.Cell className="capitalize">
                 {" "}
-                <Skeleton className="h-2 w-full" rounded animate />
+                <Skeleton
+                  className="h-2 w-full"
+                  rounded
+                  animate
+                />
               </Table.Cell>
               <Table.Cell>
                 {" "}
-                <Skeleton className="h-2 w-full" rounded animate />
+                <Skeleton
+                  className="h-2 w-full"
+                  rounded
+                  animate
+                />
               </Table.Cell>
             </Table.Row>
           );

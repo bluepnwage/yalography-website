@@ -8,7 +8,7 @@ export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 async function verifyToken() {
-  const nextCookies = cookies();
+  const nextCookies = await cookies();
   const token = nextCookies.get("fb-token");
   let shouldRedirect = false;
   try {
