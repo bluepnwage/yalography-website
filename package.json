@@ -12,7 +12,8 @@
     "generate": "prisma generate",
     "db:pull": "prisma db pull",
     "db:push": "prisma db push",
-    "db:format": "prisma format"
+    "db:format": "prisma format",
+    "typegen": "next typegen"
   },
   "prisma": {
     "seed": "node prisma/seed.js"
@@ -35,7 +36,7 @@
     "framer-motion": "^8.1.5",
     "imagemin": "^9.0.0",
     "imagemin-jpegtran": "^8.0.0",
-    "next": "16.0.7",
+    "next": "16.0.9",
     "next-themes": "^0.2.1",
     "popmotion": "^11.0.5",
     "react": "19.2.1",

@@ -31,8 +31,9 @@ const getGalleryImages = cache(async () => {
 
 export type ProjectData = Awaited<ReturnType<typeof getProject>>;
 
-export default async function Page({ params }: { params: { status: "drafted" | "published"; id: string } }) {
-  const id = parseInt(params.id);
+export default async function Page({ params }: PageProps<"/admin/projects/[id]">) {
+  const _params = await params;
+  const id = parseInt(_params.id);
   if (!id) notFound();
   const imagesPromise = getGalleryImages();
   const projectPromise = getProject(id);
